@@ -1,0 +1,172 @@
+﻿@model Candidaturas.Models.Inquerito
+
+@{
+    Layout = null;
+}
+
+@using (Html.BeginForm("AddOrEdit", "Inquerito", FormMethod.Post, new { @id = "formInquerito" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal" style="margin-top: 20px;">
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.SituacaoPai, "Situação do Pai", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.SituacaoPai, ViewBag.SituacaoPai as SelectList, "Escolha uma opção...", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.SituacaoPai, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.OutraPai, "Outra", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.OutraPai, new { htmlAttributes = new { @class = "form-control", @Value = (ViewBag.Inquerito == null ? "" : ViewBag.Inquerito.OutraPai) } })
+                @Html.ValidationMessageFor(model => model.OutraPai, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.SituacaoMae, "Situação da Mãe", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.SituacaoMae, ViewBag.SituacaoMae as SelectList, "Escolha uma opção...", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.SituacaoMae, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.OutraMae, "Outra", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.OutraMae, new { htmlAttributes = new { @class = "form-control", @Value = (ViewBag.Inquerito == null ? "" : ViewBag.Inquerito.OutraMae) } })
+                @Html.ValidationMessageFor(model => model.OutraMae, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ConhecimentoEscola, "Conhecimento da Escola", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.ConhecimentoEscola, ViewBag.ConhecimentoEscola as SelectList, "Escolha uma opção...", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ConhecimentoEscola, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Outro, "Outro", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Outro, new { htmlAttributes = new { @class = "form-control", @Value = (ViewBag.Inquerito == null ? "" : ViewBag.Inquerito.Outro) } })
+                @Html.ValidationMessageFor(model => model.Outro, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CandidatarOutros, "Candidatou-se a outros Estabelecimentos de Ensino?", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <label class="switch">
+                    @Html.CheckBoxFor(model => model.CandidatarOutros, new { @class = "form-control" })
+                    <div class="slider"></div>
+                </label>
+                <span id="switchLabel"></span>
+                @Html.ValidationMessageFor(model => model.CandidatarOutros, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Salvar" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<link rel="stylesheet" type="text/css" href="~/Content/Candidaturas.css">
+
+@if (ViewBag.Inquerito != null)
+{
+    <script type="text/javascript">
+    $(document).ready(function () {
+
+        var candidatarOutros = '@ViewBag.Inquerito.CandidatarOutros';
+
+        if (candidatarOutros == 'True') {
+            $("#CandidatarOutros").prop('checked', true);
+            $("#switchLabel").text("Sim");
+        }
+        else {
+            $("#CandidatarOutros").prop('checked', false);
+            $("#switchLabel").text("Não");
+        }
+
+    });
+    </script>
+}
+
+<script type="text/javascript">
+    var warningMessage = "Voçê efectuou alterações na tab Dados Pessoais e não guardou as alterações. Tem a certeza que deseja sair?";
+
+    var warningMessage2 = "Voçê efectuou alterações na tab Inquerito e não guardou as alterações. Tem a certeza que deseja sair?";
+
+    //verifica se houve alterações na tab Inquérito
+    var inqueritoChanged = false;
+
+    $('#formInquerito input').change(function () {
+        inqueritoChanged = true;
+    });
+    $('#formInquerito select').change(function () {
+        inqueritoChanged = true;
+    });
+
+    //avisa quando o utilizador abandona a tab Dados Pessoais ou Inquerito com alterações por gravar
+    $(function () {
+        $("#tabs").tabs({
+            beforeActivate: function (event, ui) {
+                var selectedTab = $("#tabs").tabs('option', 'active');
+
+                if (selectedTab == 0) {
+                    if (dadosPessoaisChanged && !confirm(warningMessage)) {
+                        return false;
+                        //can ignore else as they said ok to change
+                    }
+                }
+
+                if (selectedTab == 1) {
+                    if (inqueritoChanged && !confirm(warningMessage2)) {
+                        return false;
+                        //can ignore else as they said ok to change
+                    }
+                }
+            }
+        });
+    });
+
+    //muda a label do switch
+    $('#CandidatarOutros').click(function () {
+        changeLabel();
+    });
+
+    $(document).ready(function () {
+        changeLabel();
+    });
+
+    function changeLabel() {
+        if (!$("#CandidatarOutros").is(':checked')) {
+            $("#switchLabel").text("Não");
+        }
+        else {
+            $("#switchLabel").text("Sim");
+        }
+    }
+</script>
+<style>
+    #switchLabel {
+        position: absolute;
+        margin-left: 10px;
+        margin-top: 7px;
+        font-weight: bold;
+    }
+    
+</style>

@@ -1,0 +1,184 @@
+﻿@using Candidaturas.Models;
+
+@model dynamic
+
+@{ 
+    Layout = null;
+}
+
+@Html.AntiForgeryToken()
+
+<div class="row">
+    <div class="column">
+        <h2>Exames</h2>
+        <div class="column">
+            @Html.DropDownList("Exame", ViewBag.Exame as SelectList, "Escolha uma opção...", new { @class = "form-control", @name = "ExameARegistar" })
+        </div>
+
+        <input id="SelectedExame" name="SelectedExame" type="hidden" runat="server" />
+
+        <div class="column">
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input id="AddExame" type="submit" value="Adicionar Exame" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+
+        <!--<br /><br /><br />
+
+            <div class="form-group">
+            <div class="col-md-offset-2 col-md-2">
+                <label id="errorLabelExame" class="label-danger" style="display:none">Este exame já foi seleccionado. Por favor seleccione outro.</label>
+            </div>
+        </div>-->
+
+        <br /><br /><br />
+        <table class="table">
+            @foreach (Exame exame in Model.ExamesEscolhidos)
+            {
+                <tr>
+                    <td>@exame.Nome</td>
+                    <td>
+                        <a class="glyphicon glyphicon-remove-circle" onclick="location.href='@Url.Action("RemoverExame", "Candidaturas", new { id = (int)@exame.ID})'"><span style="font-family:Arial,Helvetica,sans-serif;padding-left: 5px;">Remover</span></a>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+
+
+    <div class="column2">
+        <h2>Cursos</h2>
+        <div class="column">
+            @Html.DropDownList("Curso", ViewBag.Curso as SelectList, "Escolha uma opção...", new { @class = "form-control", @name = "CursoARegistar" })
+        </div>
+
+        <input id="SelectedCurso" name="SelectedCurso" type="hidden" runat="server" />
+
+        <div class="column">
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input id="AddCurso" type="submit" value="Adicionar Curso" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+
+        <!--<br /><br /><br />
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-2">
+                <label id="errorLabelCurso" class="label-danger" style="display:none">Este curso já foi seleccionado. Por favor seleccione outro.</label>
+            </div>
+        </div>-->
+
+        <br /><br /><br />
+        <table class="table" id="mytable">
+            @foreach (Curso curso in Model.CursosEscolhidos)
+            {
+                <tr>
+                    <td>@curso.Nome</td>
+                    <td>
+                        <a class="glyphicon glyphicon-remove-circle" onclick="location.href='@Url.Action("RemoverCurso", "Candidaturas", new { id = (int)@curso.ID})'"><span class="customSpan">Remover</span></a>
+                    </td>
+                    <td>
+                        <a class="glyphicon glyphicon-arrow-up" onclick="location.href='@Url.Action("MoverParaCima", "Candidaturas", new { id = (int)@curso.ID})'"><span class="customSpan">Mais Prioritário</span></a>
+                    </td>
+                    <td>
+                        <a class="glyphicon glyphicon-arrow-down" onclick="location.href='@Url.Action("MoverParaBaixo", "Candidaturas", new { id = (int)@curso.ID})'"><span class="customSpan">Menos Prioritário</span></a>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+
+<script>
+    $('#Exame').bind('change', function () {
+        $('#SelectedExame').val($(this).val());
+    });
+
+    $('#Curso').bind('change', function () {
+        $('#SelectedCurso').val($(this).val());
+    });
+
+    $(document).ready(function () {
+
+        //ErrorExame();
+        //ErrorCurso();
+
+        $("#AddExame").click(function () {
+            var hidValue = $("#SelectedExame").val();
+            $.ajax({
+                url: '@Url.Action("AdicionarExame", "Candidaturas")',
+                type: "post",
+                data: {ExameSeleccionado:hidValue},
+                dataType: "application/json", //type of response
+                success: window.location.href = '',
+                error: window.location.href = '',
+            })
+        });
+
+        $("#AddCurso").click(function () {
+            var hidValue = $("#SelectedCurso").val();
+            $.ajax({
+                url: '@Url.Action("AdicionarCurso", "Candidaturas")',
+                type: "post",
+                data: {CursoSeleccionado:hidValue},
+                dataType: "application/json", //type of response
+                success: window.location.href = '',
+                error: window.location.href = '',
+            })
+        });
+    });
+
+/*function ErrorCurso(){
+    var errorCurso = @@Session["ErrorCurso"];
+
+    if (errorCurso == 1) {
+        $("#errorLabelCurso").show();
+    }
+    else {
+        $("#errorLabelCurso").hide();
+    }
+}
+
+function ErrorExame(){
+    var errorExame = @@Session["ErrorExame"];
+
+    if (errorExame == 1) {
+        $("#errorLabelExame").show();
+    }
+    else {
+        $("#errorLabelExame").hide();
+    }
+}*/
+
+</script>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<link rel="stylesheet" type="text/css" href="~/Content/Candidaturas.css">
+<style>
+    .column2 {
+        float: left;
+        padding-left: 70px;
+    }
+
+    .table {
+        width: 50% !important;
+    }
+
+    .customSpan {
+        font-family: Arial,Helvetica,sans-serif;
+        padding-left: 5px;
+    }
+
+    @@media only screen and (max-width: 600px), (min-width: 800px) {
+        .column2 {
+            width: 50%;
+            padding-left: 0px;
+        }
+    }
+</style>

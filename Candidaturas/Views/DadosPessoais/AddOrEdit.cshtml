@@ -1,0 +1,352 @@
+﻿@using Candidaturas.Models;
+
+@model Candidaturas.Models.DadosPessoai
+
+@{
+    Layout = null;
+}
+
+@using (Html.BeginForm("AddOrEdit", "DadosPessoais", FormMethod.Post, new { @id="formDadosPessoais", onsubmit = "finalValidation()" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal" style="margin-top: 20px;">
+
+        <div class="column">
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.NomeColoquial, "Nome Coloquial", htmlAttributes: new { @class = "control-label col-md-2 required" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.NomeColoquial, new { htmlAttributes = new { @class = "form-control", @Value = (ViewBag.DadosPessoais == null ? ViewBag.NomeCompleto : ViewBag.DadosPessoais.NomeColoquial) } })
+                    @Html.ValidationMessageFor(model => model.NomeColoquial, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Nomes, "Nomes", htmlAttributes: new { @class = "control-label col-md-2 required" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Nomes, new { htmlAttributes = new { @class = "form-control", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.Nomes) } })
+                    @Html.ValidationMessageFor(model => model.Nomes, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Apelidos, "Apelidos", htmlAttributes: new { @class = "control-label col-md-2 required" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Apelidos, new { htmlAttributes = new { @class = "form-control", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.Apelidos) } })
+                    @Html.ValidationMessageFor(model => model.Apelidos, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.NomePai, "Nome do Pai", htmlAttributes: new { @class = "control-label col-md-2 required" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.NomePai, new { htmlAttributes = new { @class = "form-control", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.NomePai) } })
+                    @Html.ValidationMessageFor(model => model.NomePai, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.NomeMae, "Nome da Mãe", htmlAttributes: new { @class = "control-label col-md-2 required" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.NomeMae, new { htmlAttributes = new { @class = "form-control", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.NomeMae) } })
+                    @Html.ValidationMessageFor(model => model.NomeMae, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.TipoDocID, "Tipo de Documento de Identificação", htmlAttributes: new { @class = "control-label col-md-2 required" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.TipoDocID, ViewBag.TipoDocID as SelectList, "Escolha uma opção...", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.TipoDocID, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.NDI, "Nº de Documento de Identificação", htmlAttributes: new { @class = "control-label col-md-2 required" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.NDI, new { htmlAttributes = new { @class = "form-control", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.NDI) } })
+                    @Html.ValidationMessageFor(model => model.NDI, "", new { @class = "text-danger" })
+                    <span id="NDIWarning" for="NDI" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.RepFinNIF, "Repartição de Finanças do NIF", htmlAttributes: new { @class = "control-label col-md-2 required" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.RepFinNIF, new { htmlAttributes = new { @class = "form-control", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.RepFinNIF) } })
+                    @Html.ValidationMessageFor(model => model.RepFinNIF, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.CCDigitosControlo, "Dígitos de Controlo do Cartão de Cidadão", htmlAttributes: new { @class = "control-label col-md-2 required" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.CCDigitosControlo, new { htmlAttributes = new { @class = "form-control", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.CCDigitosControlo) } })
+                    @Html.ValidationMessageFor(model => model.CCDigitosControlo, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="column">
+            <div class="form-group">
+                @Html.LabelFor(model => model.NSegSoc, "Nº de Segurança Social", htmlAttributes: new { @class = "control-label col-md-2 required" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.NSegSoc, new { htmlAttributes = new { @class = "form-control", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.NSegSoc) } })
+                    @Html.ValidationMessageFor(model => model.NSegSoc, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Genero, "Género", htmlAttributes: new { @class = "control-label col-md-2 required" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.Genero, ViewBag.Genero as SelectList, "Escolha uma opção...", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Genero, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.EstadoCivil, "Estado Civil", htmlAttributes: new { @class = "control-label col-md-2 required" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.EstadoCivil, ViewBag.EstadoCivil as SelectList, "Escolha uma opção...", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.EstadoCivil, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Nacionalidade, "Nacionalidade", htmlAttributes: new { @class = "control-label col-md-2 required" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.Nacionalidade, ViewBag.Nacionalidade as SelectList, "Escolha uma opção...", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Nacionalidade, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Localidade, "Localidade", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.Localidade, ViewBag.Localidade as SelectList, "Escolha uma opção...", new { @class = "form-control", @disabled = "disabled" })
+                    @Html.ValidationMessageFor(model => model.Localidade, "", new { @class = "text-danger" })
+                    <span id="LocWarning" for="NIF" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.DistritoNatural, "Distrito Natural", htmlAttributes: new {@class = "control-label col-md-2 required" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.DistritoNatural, ViewBag.DistritoNatural as SelectList, "Escolha uma opção...", new { @class = "form-control", @onchange = "changeConcelhos()" })
+                    @Html.ValidationMessageFor(model => model.DistritoNatural, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Concelho, "Concelho", htmlAttributes: new { @id = "conc", @class = "control-label col-md-2 required" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.Concelho, ViewBag.Concelho as SelectList, "Escolha uma opção...", new { @class = "form-control", @onchange = "changeFreguesias()" })
+                    @Html.ValidationMessageFor(model => model.Concelho, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Freguesia, "Freguesia", htmlAttributes: new { @class = "control-label col-md-2 required" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.Freguesia, ViewBag.Freguesia as SelectList, "Escolha uma opção...", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Freguesia, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Morada, "Morada", htmlAttributes: new { @class = "control-label col-md-2 required" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Morada, new { htmlAttributes = new { @class = "form-control", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.Morada) } })
+                    @Html.ValidationMessageFor(model => model.Morada, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Salvar" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<link rel="stylesheet" type="text/css" href="~/Content/Candidaturas.css">
+<script type="text/javascript">
+    //validar nº de identificação
+    $("#NDI").blur(function () {
+        validarCCouBI();
+    });
+
+    $("#TipoDocID").change(function () {
+        validarCCouBI();
+    });
+
+    function validarCCouBI() {
+        var chosenValue = $("#TipoDocID").val();
+
+        if (chosenValue == 2 || chosenValue == 4) {
+            var term = $("#NDI").val();
+
+            if (term != "") {
+                var validation = regexCC();
+                if (!validation) {
+                    return false;
+                }
+                else {
+                    return true;
+                }
+            }
+        }
+        else {
+            return true;
+        }
+    }
+
+    function regexCC() {
+        var term = $("#NDI").val();
+        var re = new RegExp("^[0-9]{8}[ -]*[0-9][A-Z]{2}[0-9]$");
+
+        if (re.test(term)) {
+            $("#NDIWarning").hide();
+            return true;
+        } else {
+            $("#NDIWarning").text("Cartão de cidadão ou bilhete de identidade inválido.");
+            $("#NDIWarning").show();
+            return false;
+        }
+    }
+
+    //activa localidade se nacionalidade = "Portugal"
+    $(document).ready(function () {
+        activateLocalidade();
+    });
+
+    $("#Nacionalidade").change(function (event) {
+        activateLocalidade();
+        validateLocalidade();
+    });
+
+    $("#Localidade").change(function (event) {
+        validateLocalidade();
+    });
+
+    function activateLocalidade() {
+        var selectedNationality = $("#Nacionalidade").val();
+
+        if (selectedNationality == 179) {
+            $('#Localidade').removeAttr("disabled");
+            $("label[for='Localidade']").last().addClass("required");
+        }
+        else {
+            $('#Localidade').attr("disabled", true);
+            $('#Localidade').val("");
+            $("label[for='Localidade']").removeClass("required");
+        }
+    }
+
+    function validateLocalidade() {
+        var loc = $('#Localidade').val();
+        var nac = $('#Nacionalidade').val();
+
+        if (nac == 179) {
+            if (loc != "") {
+                $("#LocWarning").hide();
+                return true;
+            } else {
+                $("#LocWarning").text("Campo Obrigatório");
+                $("#LocWarning").show();
+                return false;
+            }
+        }
+        else {
+            return true;
+        }
+    }
+
+    function finalValidation() {
+        var valid = true;
+
+        if (!validateLocalidade()) {
+            valid = false;
+        }
+
+        if (!validarCCouBI()) {
+            valid = false;
+        }
+
+        if (!valid) {
+            event.preventDefault();
+            return false;
+        }
+    }
+
+    //verifica se houve alterações na tab Dados Pessoais
+    var dadosPessoaisChanged = false;
+
+    var warningMessage = "Voçê efectuou alterações na tab Dados Pessoais e não guardou as alterações. Tem a certeza que deseja sair?";
+
+    $('#formDadosPessoais input').change(function () {
+        dadosPessoaisChanged = true;
+    });
+    $('#formDadosPessoais select').change(function () {
+        dadosPessoaisChanged = true;
+    });
+
+    //altera os concelhos consoante o distrito escolhido
+    function changeConcelhos() {
+        var distritoEscolhido = $('#DistritoNatural').val();
+
+            $.ajax({
+                url: '@Url.Action("UpdateConcelhos", "DadosPessoais")',
+                data: {
+                    distrito: distritoEscolhido
+                },
+                type: "POST",
+                success: function (concelhos) {
+                    var $select = $('#Concelho');
+                    $select.empty();
+                    $select.append('<option value="">Escolha uma opção...</option>');
+
+                    var $select2 = $('#Freguesia');
+                    $select2.empty();
+                    $select2.append('<option value="">Escolha uma opção...</option>');
+
+                    $.each(concelhos, function (i, concelho) {
+                        $('<option>', {
+                            value: concelho.ID
+                        }).html(concelho.Name).appendTo($select);
+                    });
+                },
+                error: function (e) { console.log(e);}
+            })
+    }
+
+    //altera as freguesias consoante o concelho escolhido
+    function changeFreguesias() {
+        var concelhoEscolhido = $('#Concelho').val();
+
+            $.ajax({
+                url: '@Url.Action("UpdateFreguesias", "DadosPessoais")',
+                data: {
+                    concelho: concelhoEscolhido
+                },
+                type: "POST",
+                success: function (freguesias) {
+                    var $select = $('#Freguesia');
+                    $select.empty();
+                    $select.append('<option value="">Escolha uma opção...</option>');
+                    $.each(freguesias, function (i, freguesia) {
+                        $('<option>', {
+                            value: freguesia.ID
+                        }).html(freguesia.Name).appendTo($select);
+                    });
+                },
+                error: function (e) { console.log(e);}
+            })
+    }
+</script>

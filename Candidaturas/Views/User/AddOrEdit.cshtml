@@ -1,0 +1,171 @@
+﻿@using Candidaturas.Models;
+
+
+@model Candidaturas.Models.User
+
+@{
+    ViewBag.Title = "Novo Utilizador";
+}
+
+<h2>Registo Utilizador</h2>
+
+
+@using (Html.BeginForm("AddOrEdit", "User", FormMethod.Post, new { onsubmit = "callBlock()" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <br />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.NomeCompleto, "Nome Completo", htmlAttributes: new { @class = "control-label col-md-2 required" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.NomeCompleto, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.NomeCompleto, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Email, "Email", htmlAttributes: new { @class = "control-label col-md-2 required" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.TipoDocID, "Tipo de Documento de Identificação", htmlAttributes: new {@class = "control-label col-md-2 required" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.TipoDocID, ViewBag.TipoDocID as SelectList, "Escolha uma opção...", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.TipoDocID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.NIF, "Nº de Documento de Identificação", htmlAttributes: new {@class = "control-label col-md-2 required" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.NIF, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.NIF, "", new { @class = "text-danger" })
+                <span id="NIFWarning" for="NIF" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Militar, "Militar?", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <label class="switch">
+                    @Html.CheckBoxFor(model => model.Militar, new { htmlAttributes = new { @class = "form-control", @type = "checkbox" } })
+                    <div class="slider"></div>
+                </label>
+                <span id="switchLabel"></span>
+                @Html.ValidationMessageFor(model => model.Militar, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DataNascimento, "Data de Nascimento", htmlAttributes: new { @class = "control-label col-md-2 required" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.DataNascimento, new { htmlAttributes = new { @class = "form-control", type = "date" } })
+                @Html.ValidationMessageFor(model => model.DataNascimento, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10"><div class="g-recaptcha" data-sitekey="6LfpKGgUAAAAAMuDiV5SegpE0PS9mYnptSW2zUN_"></div></div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Submit" class="btn btn-default" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-2">
+                <label class="label-danger">@ViewBag.ErrorMessage</label>
+            </div>
+        </div>
+    </div>
+}
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<link rel="stylesheet" type="text/css" href="~/Content/Candidaturas.css">
+<style>
+    #switchLabel {
+        position: absolute;
+        margin-left: 10px;
+        margin-top: 7px;
+        font-weight: bold;
+    }
+
+    @@media only screen and (min-width: 1000px) {
+        div.g-recaptcha {
+            margin: 10px 195px;
+            width: 304px;
+        }
+    }
+
+    @@media only screen and (max-width: 900px) {
+        div.g-recaptcha {
+            margin: 10px 15px;
+        }
+    }
+</style>
+<script type="text/javascript">
+    $("#NIF").blur(function () {
+        callBlock();
+    });
+
+    $("#TipoDocID").change(function () {
+        callBlock();
+    });
+
+    function callBlock() {
+        var chosenValue = $("#TipoDocID").val();
+
+        if (chosenValue == 2 || chosenValue == 4) {
+            var term = $("#NIF").val();
+
+            if (term != "") {
+                validarCC();
+            }
+            else {
+                return;
+            }
+        }
+    }
+
+    function validarCC() {
+        var term = $("#NIF").val();
+        var re = new RegExp("^[0-9]{8}[ -]*[0-9][A-Z]{2}[0-9]$");
+
+        if (re.test(term)) {
+            $("#NIFWarning").hide();
+        } else {
+            $("#NIFWarning").text("Cartão de cidadão ou bilhete de identidade inválido.");
+            $("#NIFWarning").show();
+            event.preventDefault();
+            return false;
+        }
+    }
+
+    //muda a label do switch
+    $('#Militar').click(function () {
+        changeLabel();
+    });
+
+    $(document).ready(function () {
+        changeLabel();
+    });
+
+    function changeLabel() {
+        if (!$("#Militar").is(':checked')) {
+            $("#switchLabel").text("Não");
+        }
+        else {
+            $("#switchLabel").text("Sim");
+        }
+    }
+</script>
