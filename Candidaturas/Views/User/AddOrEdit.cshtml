@@ -135,6 +135,12 @@
                 return;
             }
         }
+        else {
+            if ($("#NIFWarning").is(":visible")) {
+                $("#NIFWarning").hide();
+                return;
+            }
+        }
     }
 
     function validarCC() {

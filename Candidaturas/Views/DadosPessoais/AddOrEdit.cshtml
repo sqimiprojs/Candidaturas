@@ -203,6 +203,9 @@
             }
         }
         else {
+            if ($("#NDIWarning").is(":visible")) {
+                $("#NDIWarning").hide();
+            }
             return true;
         }
     }
