@@ -97,6 +97,21 @@ namespace Candidaturas.Controllers
 
                     inqueritoModel.UserId = userId;
 
+                    if (inqueritoModel.SituacaoMae == null)
+                    {
+                        inqueritoModel.SituacaoMae = String.Empty;
+                    }
+
+                    if (inqueritoModel.SituacaoPai == null)
+                    {
+                        inqueritoModel.SituacaoPai = String.Empty;
+                    }
+
+                    if (inqueritoModel.ConhecimentoEscola == null)
+                    {
+                        inqueritoModel.ConhecimentoEscola = String.Empty;
+                    }
+
                     if (inqueritoUser == null)
                     {
                         dbModel.Inqueritoes.Add(inqueritoModel);
