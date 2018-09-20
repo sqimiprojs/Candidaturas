@@ -249,6 +249,10 @@
             $('#Localidade').attr("disabled", true);
             $('#Localidade').val("");
             $("label[for='Localidade']").removeClass("required");
+
+            if ($("#LocWarning").is(":visible")) {
+                $("#LocWarning").hide();
+            }
         }
     }
 
