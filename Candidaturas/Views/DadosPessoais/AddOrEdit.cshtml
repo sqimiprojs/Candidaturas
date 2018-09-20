@@ -6,7 +6,7 @@
     Layout = null;
 }
 
-@using (Html.BeginForm("AddOrEdit", "DadosPessoais", FormMethod.Post, new { @id="formDadosPessoais", onsubmit = "finalValidation()" }))
+@using (Html.BeginForm("AddOrEdit", "DadosPessoais", FormMethod.Post, new { @id = "formDadosPessoais", onsubmit = "finalValidation()" }))
 {
     @Html.AntiForgeryToken()
 
@@ -132,7 +132,7 @@
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.DistritoNatural, "Distrito Natural", htmlAttributes: new {@class = "control-label col-md-2 required" })
+                @Html.LabelFor(model => model.DistritoNatural, "Distrito Natural", htmlAttributes: new { @class = "control-label col-md-2 required" })
                 <div class="col-md-10">
                     @Html.DropDownListFor(model => model.DistritoNatural, ViewBag.DistritoNatural as SelectList, "Escolha uma opção...", new { @class = "form-control", @onchange = "changeConcelhos()" })
                     @Html.ValidationMessageFor(model => model.DistritoNatural, "", new { @class = "text-danger" })
@@ -172,7 +172,7 @@
     </div>
 }
 
-<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<!--<script src="~/Scripts/jquery-1.10.2.min.js"></script>-->
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 <link rel="stylesheet" type="text/css" href="~/Content/Candidaturas.css">
