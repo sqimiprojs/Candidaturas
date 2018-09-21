@@ -25,14 +25,6 @@
             </div>
         </div>
 
-        <!--<br /><br /><br />
-
-            <div class="form-group">
-            <div class="col-md-offset-2 col-md-2">
-                <label id="errorLabelExame" class="label-danger" style="display:none">Este exame já foi seleccionado. Por favor seleccione outro.</label>
-            </div>
-        </div>-->
-
         <br /><br /><br />
         <table class="table">
             @foreach (Exame exame in Model.ExamesEscolhidos)
@@ -63,14 +55,6 @@
                 </div>
             </div>
         </div>
-
-        <!--<br /><br /><br />
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-2">
-                <label id="errorLabelCurso" class="label-danger" style="display:none">Este curso já foi seleccionado. Por favor seleccione outro.</label>
-            </div>
-        </div>-->
 
         <br /><br /><br />
         <table class="table" id="mytable">
@@ -104,9 +88,6 @@
 
     $(document).ready(function () {
 
-        //ErrorExame();
-        //ErrorCurso();
-
         $("#AddExame").click(function () {
             var hidValue = $("#SelectedExame").val();
             $.ajax({
@@ -132,31 +113,18 @@
         });
     });
 
-/*function ErrorCurso(){
-    var errorCurso = @@Session["ErrorCurso"];
+    //verifica se houve alterações na tab Candidatura
+    var candidaturaChanged = false;
 
-    if (errorCurso == 1) {
-        $("#errorLabelCurso").show();
-    }
-    else {
-        $("#errorLabelCurso").hide();
-    }
-}
-
-function ErrorExame(){
-    var errorExame = @@Session["ErrorExame"];
-
-    if (errorExame == 1) {
-        $("#errorLabelExame").show();
-    }
-    else {
-        $("#errorLabelExame").hide();
-    }
-}*/
+    $('#Exame').change(function () {
+        candidaturaChanged = true;
+    });
+    $('#Curso').change(function () {
+        candidaturaChanged = true;
+    });
 
 </script>
 
-<!--<script src="~/Scripts/jquery-1.10.2.min.js"></script>-->
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 <link rel="stylesheet" type="text/css" href="~/Content/Candidaturas.css">

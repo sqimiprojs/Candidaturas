@@ -23,7 +23,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Ficheiro, "Ficheiro PDF/JPEG", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <input type="file" name="file" />
+                <input type="file" name="file" id="FicheiroInput" />
             </div>
         </div>
 
@@ -83,3 +83,56 @@
         width: 310px;
     }
 </style>
+<script type="text/javascript">
+    //verifica se houve alterações na tab Documentos
+    var documentoChanged = false;
+
+    $('#Descricao').change(function () {
+        documentoChanged = true;
+    });
+    $('#FicheiroInput').change(function () {
+        documentoChanged = true;
+    });
+
+    var warningMessage = "Voçê efectuou alterações na tab Dados Pessoais e não guardou as alterações. Tem a certeza que deseja sair?";
+
+    var warningMessage2 = "Voçê efectuou alterações na tab Inquerito e não guardou as alterações. Tem a certeza que deseja sair?";
+
+    var warningMessage3 = "Voçê efectuou alterações na tab Candidaturas e não guardou as alterações. Tem a certeza que deseja sair?";
+
+    var warningMessage4 = "Voçê efectuou alterações na tab Documentos e não guardou as alterações. Tem a certeza que deseja sair?";
+
+
+    //avisa quando o utilizador abandona a tab Dados Pessoais ou Inquerito com alterações por gravar
+    $(function () {
+        $("#tabs").tabs({
+            beforeActivate: function (event, ui) {
+                var selectedTab = $("#tabs").tabs('option', 'active');
+
+                if (selectedTab == 0) {
+                    if (dadosPessoaisChanged && !confirm(warningMessage)) {
+                        return false;
+                    }
+                }
+
+                if (selectedTab == 1) {
+                    if (inqueritoChanged && !confirm(warningMessage2)) {
+                        return false;
+                    }
+                }
+
+                if (selectedTab == 2) {
+                    if (candidaturaChanged && !confirm(warningMessage3)) {
+                        return false;
+                    }
+                }
+
+                if (selectedTab == 3) {
+                    if (documentoChanged && !confirm(warningMessage4)) {
+                        return false;
+                    }
+                }
+            }
+        });
+    });
+</script>

@@ -15,15 +15,6 @@
             Session["ErrorDoc"] = 0;
         }
     }
-
-    /*if(Session["SelectedTab"] != null && (Session["ErrorCurso"] != null || Session["ErrorExame"] != null))
-    {
-        if (Int32.Parse(Session["SelectedTab"].ToString()) != 3 && (Int32.Parse(Session["ErrorExame"].ToString()) == 1 || Int32.Parse(Session["ErrorCurso"].ToString()) == 1))
-        {
-            Session["ErrorCurso"] = 0;
-            Session["ErrorExame"] = 0;
-        }
-    }*/
 }
 
 <!DOCTYPE html>
@@ -33,7 +24,6 @@
     <meta name="viewport" content="width=device-width" />
     <title>Formulário de Candidatura</title>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <!--<link rel="stylesheet" href="/resources/demos/style.css">-->
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script type="text/javascript">

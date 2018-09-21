@@ -80,7 +80,6 @@
     </div>
 }
 
-<!--<script src="~/Scripts/jquery-1.10.2.min.js"></script>-->
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 <link rel="stylesheet" type="text/css" href="~/Content/Candidaturas.css">
@@ -106,9 +105,6 @@
 }
 
 <script type="text/javascript">
-    var warningMessage = "Voçê efectuou alterações na tab Dados Pessoais e não guardou as alterações. Tem a certeza que deseja sair?";
-
-    var warningMessage2 = "Voçê efectuou alterações na tab Inquerito e não guardou as alterações. Tem a certeza que deseja sair?";
 
     //verifica se houve alterações na tab Inquérito
     var inqueritoChanged = false;
@@ -118,29 +114,6 @@
     });
     $('#formInquerito select').change(function () {
         inqueritoChanged = true;
-    });
-
-    //avisa quando o utilizador abandona a tab Dados Pessoais ou Inquerito com alterações por gravar
-    $(function () {
-        $("#tabs").tabs({
-            beforeActivate: function (event, ui) {
-                var selectedTab = $("#tabs").tabs('option', 'active');
-
-                if (selectedTab == 0) {
-                    if (dadosPessoaisChanged && !confirm(warningMessage)) {
-                        return false;
-                        //can ignore else as they said ok to change
-                    }
-                }
-
-                if (selectedTab == 1) {
-                    if (inqueritoChanged && !confirm(warningMessage2)) {
-                        return false;
-                        //can ignore else as they said ok to change
-                    }
-                }
-            }
-        });
     });
 
     //muda a label do switch
