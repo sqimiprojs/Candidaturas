@@ -48,18 +48,26 @@ namespace Candidaturas.Controllers
                 ViewBag.DadosPessoais = dadosPessoaisUser;
 
                 generoEscolhido = dadosPessoaisUser.Genero;
-                tipoDocIdEscolhido = dadosPessoaisUser.TipoDocID;
                 distritoNaturalEscolhido = dadosPessoaisUser.DistritoNatural;
                 concelhoEscolhido = dadosPessoaisUser.Concelho;
                 freguesiaEscolhida = dadosPessoaisUser.Freguesia;
                 estadoCivilEscolhido = dadosPessoaisUser.EstadoCivil;
                 nacionalidadeEscolhida = dadosPessoaisUser.Nacionalidade;
                 localidadeEscolhida = dadosPessoaisUser.Localidade;
+                tipoDocIdEscolhido = dadosPessoaisUser.TipoDocID;
+            }
+            else
+            {
+                string tipoDocId = db.Users.Where(dp => dp.ID == userId).Select(dp => dp.TipoDocID).FirstOrDefault();
+
+                tipoDocIdEscolhido = tipoDocId;
             }
 
             string nomeCompleto = db.Users.Where(dp => dp.ID == userId).Select(dp => dp.NomeCompleto).FirstOrDefault();
+            string nif = db.Users.Where(dp => dp.ID == userId).Select(dp => dp.NIF).FirstOrDefault();
 
             ViewBag.NomeCompleto = nomeCompleto;
+            ViewBag.NIF = nif;
         }
 
         //obtém os dados a serem preenchidos nas drops
