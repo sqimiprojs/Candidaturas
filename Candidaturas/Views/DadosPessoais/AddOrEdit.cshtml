@@ -177,6 +177,18 @@
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 <link rel="stylesheet" type="text/css" href="~/Content/Candidaturas.css">
 <script type="text/javascript">
+    //mostrar formato do CC caso seleccionar esse
+    function mostrarPlaceholderFormatoCC() {
+        var chosenValue = $("#TipoDocID").val();
+
+        if (chosenValue == 2 || chosenValue == 4) {
+            $("#NDI").attr("placeholder", "Formato: DDDDDDDD-CAAT");
+        }
+        else {
+            $('#NDI').removeAttr('placeholder');
+        }
+    }
+
     //validar nº de identificação
     $("#NDI").blur(function () {
         validarCCouBI();
@@ -184,6 +196,7 @@
 
     $("#TipoDocID").change(function () {
         validarCCouBI();
+        mostrarPlaceholderFormatoCC();
     });
 
     function validarCCouBI() {
