@@ -57,6 +57,7 @@ namespace Candidaturas.Models
         [Required(ErrorMessage = "Campo Obrigatório")]
         public string Morada { get; set; }
 
+        [Required(ErrorMessage = "Campo Obrigatório")]
         public string Localidade { get; set; }
 
         public int UserId { get; set; }

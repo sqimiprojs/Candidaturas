@@ -123,9 +123,9 @@
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.Localidade, "Localidade", htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.Localidade, "Localidade", htmlAttributes: new { @class = "control-label col-md-2 required" })
                 <div class="col-md-10">
-                    @Html.DropDownListFor(model => model.Localidade, ViewBag.Localidade as SelectList, "Escolha uma opção...", new { @class = "form-control", @disabled = "disabled" })
+                    @Html.DropDownListFor(model => model.Localidade, ViewBag.Localidade as SelectList, "Escolha uma opção...", new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.Localidade, "", new { @class = "text-danger" })
                     <span id="LocWarning" for="NIF" class="text-danger"></span>
                 </div>
@@ -237,63 +237,8 @@
         }
     }
 
-    //activa localidade se nacionalidade = "Portugal"
-    $(document).ready(function () {
-        activateLocalidade();
-    });
-
-    $("#Nacionalidade").change(function (event) {
-        activateLocalidade();
-        validateLocalidade();
-    });
-
-    $("#Localidade").change(function (event) {
-        validateLocalidade();
-    });
-
-    function activateLocalidade() {
-        var selectedNationality = $("#Nacionalidade").val();
-
-        if (selectedNationality == 179) {
-            $('#Localidade').removeAttr("disabled");
-            $("label[for='Localidade']").last().addClass("required");
-        }
-        else {
-            $('#Localidade').attr("disabled", true);
-            $('#Localidade').val("");
-            $("label[for='Localidade']").removeClass("required");
-
-            if ($("#LocWarning").is(":visible")) {
-                $("#LocWarning").hide();
-            }
-        }
-    }
-
-    function validateLocalidade() {
-        var loc = $('#Localidade').val();
-        var nac = $('#Nacionalidade').val();
-
-        if (nac == 179) {
-            if (loc != "") {
-                $("#LocWarning").hide();
-                return true;
-            } else {
-                $("#LocWarning").text("Campo Obrigatório");
-                $("#LocWarning").show();
-                return false;
-            }
-        }
-        else {
-            return true;
-        }
-    }
-
     function finalValidation() {
         var valid = true;
-
-        if (!validateLocalidade()) {
-            valid = false;
-        }
 
         if (!validarCCouBI()) {
             valid = false;
