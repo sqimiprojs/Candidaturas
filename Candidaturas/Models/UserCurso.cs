@@ -20,6 +20,5 @@ namespace Candidaturas.Models
         public int Prioridade { get; set; }
     
         public virtual Curso Curso { get; set; }
-        public virtual User User { get; set; }
     }
 }

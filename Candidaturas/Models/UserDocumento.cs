@@ -19,6 +19,5 @@ namespace Candidaturas.Models
         public int DocumentoId { get; set; }
     
         public virtual Documento Documento { get; set; }
-        public virtual User User { get; set; }
     }
 }

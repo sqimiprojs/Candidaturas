@@ -64,10 +64,10 @@ namespace Candidaturas.Controllers
             }
 
             string nomeCompleto = db.Users.Where(dp => dp.ID == userId).Select(dp => dp.NomeCompleto).FirstOrDefault();
-            string nif = db.Users.Where(dp => dp.ID == userId).Select(dp => dp.NIF).FirstOrDefault();
+            string ndi = db.Users.Where(dp => dp.ID == userId).Select(dp => dp.NDI).FirstOrDefault();
 
             ViewBag.NomeCompleto = nomeCompleto;
-            ViewBag.NIF = nif;
+            ViewBag.NDI = ndi;
         }
 
         //obtém os dados a serem preenchidos nas drops
@@ -230,7 +230,7 @@ namespace Candidaturas.Controllers
                     User userData = dbModel.Users.Where(dp => dp.ID == userId).FirstOrDefault();
                     userData.NomeCompleto = dadosPessoaisModel.NomeColoquial;
                     userData.TipoDocID = dadosPessoaisModel.TipoDocID;
-                    userData.NIF = dadosPessoaisModel.NDI;
+                    userData.NDI = dadosPessoaisModel.NDI;
 
                     dbModel.SaveChanges();
 

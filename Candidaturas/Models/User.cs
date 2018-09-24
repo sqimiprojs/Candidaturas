@@ -19,22 +19,19 @@ namespace Candidaturas.Models
         public User()
         {
             this.Inqueritoes = new HashSet<Inquerito>();
-            this.UserDocumentoes = new HashSet<UserDocumento>();
-            this.UserCursoes = new HashSet<UserCurso>();
             this.UserExames = new HashSet<UserExame>();
         }
-
+    
         public int ID { get; set; }
 
         [Required(ErrorMessage = "Campo Obrigatório")]
         public string NomeCompleto { get; set; }
-
+        
         public string Password { get; set; }
 
         [Required(ErrorMessage = "Campo Obrigatório")]
-        public string NIF { get; set; }
-
-        [Required(ErrorMessage = "Campo Obrigatório")]
+        public string NDI { get; set; }
+        
         public bool Militar { get; set; }
 
         [Required(ErrorMessage = "Campo Obrigatório")]
@@ -46,13 +43,9 @@ namespace Candidaturas.Models
 
         [Required(ErrorMessage = "Campo Obrigatório")]
         public string TipoDocID { get; set; }
-
+    
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Inquerito> Inqueritoes { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<UserDocumento> UserDocumentoes { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<UserCurso> UserCursoes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserExame> UserExames { get; set; }
     }
