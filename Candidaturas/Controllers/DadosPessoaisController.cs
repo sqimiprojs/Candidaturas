@@ -77,65 +77,65 @@ namespace Candidaturas.Controllers
 
             IEnumerable<SelectListItem> generos = db.Generoes.OrderBy(dp => dp.Nome).Select(c => new SelectListItem
             {
-                Value = c.ID.ToString(),
+                Value = c.Nome,
                 Text = c.Nome,
-                Selected = c.ID.ToString() == generoEscolhido
+                Selected = c.Nome == generoEscolhido
 
             });
 
             IEnumerable<SelectListItem> distritos = db.Distritoes.OrderBy(dp => dp.Nome).Select(c => new SelectListItem
             {
-                Value = c.ID.ToString(),
+                Value = c.Nome,
                 Text = c.Nome,
-                Selected = c.ID.ToString() == distritoNaturalEscolhido
+                Selected = c.Nome == distritoNaturalEscolhido
 
             });
 
             IEnumerable<SelectListItem> concelhos = db.Concelhoes.Where(dp => dp.Distrito == distrito).OrderBy(dp => dp.Nome).Select(c => new SelectListItem
             {
-                Value = c.ID.ToString(),
+                Value = c.Nome,
                 Text = c.Nome,
-                Selected = c.ID.ToString() == concelhoEscolhido
+                Selected = c.Nome == concelhoEscolhido
 
             });
 
             IEnumerable<SelectListItem> freguesias = db.Freguesias.Where(dp => dp.Concelho == concelho).OrderBy(dp => dp.Nome).Select(c => new SelectListItem
             {
-                Value = c.ID.ToString(),
+                Value = c.Nome,
                 Text = c.Nome,
-                Selected = c.ID.ToString() == freguesiaEscolhida
+                Selected = c.Nome == freguesiaEscolhida
 
             });
 
             IEnumerable<SelectListItem> tiposDocumentosId = db.TipoDocumentoIDs.OrderBy(dp => dp.Nome).Select(c => new SelectListItem
             {
-                Value = c.ID.ToString(),
+                Value = c.Nome,
                 Text = c.Nome,
-                Selected = c.ID.ToString() == tipoDocIdEscolhido
+                Selected = c.Nome == tipoDocIdEscolhido
 
             });
 
             IEnumerable<SelectListItem> estadosCivis = db.EstadoCivils.OrderBy(dp => dp.Nome).Select(c => new SelectListItem
             {
-                Value = c.ID.ToString(),
+                Value = c.Nome,
                 Text = c.Nome,
-                Selected = c.ID.ToString() == estadoCivilEscolhido
+                Selected = c.Nome == estadoCivilEscolhido
 
             });
 
             IEnumerable<SelectListItem> nacionalidades = db.Nacionalidades.OrderBy(dp => dp.Nome).Select(c => new SelectListItem
             {
-                Value = c.ID.ToString(),
+                Value = c.Nome,
                 Text = c.Nome,
-                Selected = c.ID.ToString() == nacionalidadeEscolhida
+                Selected = c.Nome == nacionalidadeEscolhida
 
             });
 
             IEnumerable<SelectListItem> localidades = db.Localidades.OrderBy(dp => dp.Nome).Select(c => new SelectListItem
             {
-                Value = c.ID.ToString(),
+                Value = c.Nome,
                 Text = c.Nome,
-                Selected = c.ID.ToString() == localidadeEscolhida
+                Selected = c.Nome == localidadeEscolhida
 
             });
 
@@ -157,7 +157,7 @@ namespace Candidaturas.Controllers
 
             var concelhos = db.Concelhoes.Where(dp => dp.Distrito == distrito).OrderBy(dp => dp.Nome).Select(c => new
             {
-                ID = c.ID.ToString(),
+                ID = c.Nome,
                 Name = c.Nome
             }).ToList();
 
@@ -178,7 +178,7 @@ namespace Candidaturas.Controllers
 
             var freguesias = db.Freguesias.Where(dp => dp.Concelho == concelho).OrderBy(dp => dp.Nome).Select(c => new
             {
-                ID = c.ID.ToString(),
+                ID = c.Nome,
                 Name = c.Nome
             }).ToList();
 

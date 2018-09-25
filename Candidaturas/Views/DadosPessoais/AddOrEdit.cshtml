@@ -230,7 +230,7 @@
     function mostrarPlaceholderFormatoCC() {
         var chosenValue = $("#TipoDocID").val();
 
-        if (chosenValue == 2 || chosenValue == 4) {
+        if (chosenValue == "Cartão do Cidadão" || chosenValue == "Bilhete de Identidade") {
             $("#NDI").attr("placeholder", "Formato: DDDDDDDD-CAAT");
         }
         else {
@@ -251,7 +251,7 @@
     function validarCCouBI() {
         var chosenValue = $("#TipoDocID").val();
 
-        if (chosenValue == 2 || chosenValue == 4) {
+        if (chosenValue == "Cartão do Cidadão" || chosenValue == "Bilhete de Identidade") {
             var term = $("#NDI").val();
 
             if (term != "") {

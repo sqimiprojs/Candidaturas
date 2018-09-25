@@ -18,7 +18,7 @@ namespace Candidaturas.Controllers
 
             IEnumerable<SelectListItem> tiposDocumentosId = db.TipoDocumentoIDs.Select(c => new SelectListItem
             {
-                Value = c.ID.ToString(),
+                Value = c.Nome,
                 Text = c.Nome
             });
 

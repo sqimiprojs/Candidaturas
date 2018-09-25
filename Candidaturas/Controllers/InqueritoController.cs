@@ -50,23 +50,23 @@ namespace Candidaturas.Controllers
 
             IEnumerable<SelectListItem> situacoesPai = db.Situacaos.Select(c => new SelectListItem
             {
-                Value = c.ID.ToString(),
+                Value = c.Nome,
                 Text = c.Nome,
-                Selected = c.ID.ToString() == situacaoPaiEscolhido
+                Selected = c.Nome == situacaoPaiEscolhido
             });
 
             IEnumerable<SelectListItem> situacoesMae = db.Situacaos.Select(c => new SelectListItem
             {
-                Value = c.ID.ToString(),
+                Value = c.Nome,
                 Text = c.Nome,
-                Selected = c.ID.ToString() == situacaoMaeEscolhido
+                Selected = c.Nome == situacaoMaeEscolhido
             });
 
             IEnumerable<SelectListItem> conhecimentosEscola = db.ConhecimentoEscolas.Select(c => new SelectListItem
             {
-                Value = c.ID.ToString(),
+                Value = c.Nome,
                 Text = c.Nome,
-                Selected = c.ID.ToString() == conhecimentoEscolaEscolhido
+                Selected = c.Nome == conhecimentoEscolaEscolhido
             });
 
             ViewBag.SituacaoPai = situacoesPai.ToList();
