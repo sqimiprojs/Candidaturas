@@ -194,6 +194,11 @@
     function validarNIF() {
         var nif = $("#NIF").val();
 
+        if (nif == "") {
+            $("#NIFWarning").hide();
+            return true;
+        }
+
         if (!['1', '2', '3', '5', '6', '8'].includes(nif.substr(0, 1)) &&
             !['45', '70', '71', '72', '77', '79', '90', '91', '98', '99'].includes(nif.substr(0, 2))) {
             $("#NIFWarning").text("Nº de identificação fiscal inválido.");
