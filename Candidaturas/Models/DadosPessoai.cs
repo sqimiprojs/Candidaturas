@@ -72,7 +72,6 @@ namespace Candidaturas.Models
         [Required(ErrorMessage = "Campo Obrigatório")]
         public string NSegSoc { get; set; }
 
-        [Required(ErrorMessage = "Campo Obrigatório")]
         public string NIF { get; set; }
     }
 }
