@@ -242,6 +242,17 @@
     }
 
     //validar nacionalidade se fôr Portugal
+    $(document).ready(function () {
+        var nacionalidade = $("#Nacionalidade").val();
+
+        if (nacionalidade == "Portugal") {
+            $("label[for='NIF']").last().addClass("required");
+        }
+        else {
+            $("label[for='NIF']").removeClass("required");
+        }
+    });
+
     function validarNacionalidade() {
         var nacionalidade = $("#Nacionalidade").val();
 
@@ -249,6 +260,8 @@
             var tipoDocID = $("#TipoDocID").val();
 
             var NIF = $("#NIF").val();
+
+            $("label[for='NIF']").last().addClass("required");
 
             if (validarDocumentoEscolhido(tipoDocID) && NIFNaoVazio(NIF)) {
                 $("#NacWarning").hide();
@@ -264,6 +277,7 @@
             if ($("#NacWarning").is(":visible")) {
                 $("#NacWarning").hide();
             }
+            $("label[for='NIF']").removeClass("required");
             return true;
         }
     }
