@@ -1,6 +1,4 @@
-﻿@using Candidaturas.Models;
-
-@model Candidaturas.Models.DadosPessoai
+﻿@model Candidaturas.Models.DadosPessoai
 
 @{
     Layout = null;
@@ -15,6 +13,10 @@
         <div class="column">
 
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <h4>Informações Pessoais</h4>
+            <hr class="dadosPessoaisHr" />
+
             <div class="form-group">
                 @Html.LabelFor(model => model.NomeColoquial, "Nome Coloquial", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
@@ -54,6 +56,34 @@
                     @Html.ValidationMessageFor(model => model.NomeMae, "", new { @class = "text-danger" })
                 </div>
             </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Genero, "Género", htmlAttributes: new { @class = "control-label col-md-2 required" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.Genero, ViewBag.Genero as SelectList, "Escolha uma opção...", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Genero, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.EstadoCivil, "Estado Civil", htmlAttributes: new { @class = "control-label col-md-2 required" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.EstadoCivil, ViewBag.EstadoCivil as SelectList, "Escolha uma opção...", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.EstadoCivil, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Telefone, "Telefone", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Telefone, new { htmlAttributes = new { @class = "form-control", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.Telefone) } })
+                    @Html.ValidationMessageFor(model => model.Telefone, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <br />
+            <h4>Documentação Pessoal</h4>
+            <hr class="dadosPessoaisHr" />
 
             <div class="form-group">
                 @Html.LabelFor(model => model.TipoDocID, "Tipo de Documento de Identificação", htmlAttributes: new { @class = "control-label col-md-2 required" })
@@ -104,33 +134,12 @@
                     @Html.ValidationMessageFor(model => model.NSegSoc, "", new { @class = "text-danger" })
                 </div>
             </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Genero, "Género", htmlAttributes: new { @class = "control-label col-md-2 required" })
-                <div class="col-md-10">
-                    @Html.DropDownListFor(model => model.Genero, ViewBag.Genero as SelectList, "Escolha uma opção...", new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.Genero, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.EstadoCivil, "Estado Civil", htmlAttributes: new { @class = "control-label col-md-2 required" })
-                <div class="col-md-10">
-                    @Html.DropDownListFor(model => model.EstadoCivil, ViewBag.EstadoCivil as SelectList, "Escolha uma opção...", new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.EstadoCivil, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Telefone, "Telefone", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Telefone, new { htmlAttributes = new { @class = "form-control", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.Telefone) } })
-                    @Html.ValidationMessageFor(model => model.Telefone, "", new { @class = "text-danger" })
-                </div>
-            </div>
         </div>
 
         <div class="column">
+            <h4>Naturalidade</h4>
+            <hr class="dadosPessoaisHr" />
+
             <div class="form-group">
                 @Html.LabelFor(model => model.Nacionalidade, "Natural de", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
@@ -164,6 +173,10 @@
                 </div>
             </div>
 
+            <br />
+            <h4>Morada</h4>
+            <hr class="dadosPessoaisHr" />
+
             <div class="form-group">
                 @Html.LabelFor(model => model.Morada, "Morada", htmlAttributes: new { @class = "control-label col-md-2 required" })
                 <div class="col-md-10">
@@ -173,17 +186,13 @@
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.CodigoPostal4Dig, "Código Postal (4 Dígitos)", htmlAttributes: new { @class = "control-label col-md-2 required" })
+                @Html.LabelFor(model => model.CodigoPostal4Dig, "Código Postal", htmlAttributes: new { @class = "control-label col-md-2 required" })
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.CodigoPostal4Dig, new { htmlAttributes = new { @class = "form-control", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.CodigoPostal4Dig) } })
+                    <div class="form-inline">
+                        @Html.EditorFor(model => model.CodigoPostal4Dig, new { htmlAttributes = new { @class = "form-control", @style = "width:40%", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.CodigoPostal4Dig) } })
+                        @Html.EditorFor(model => model.CodigoPostal3Dig, new { htmlAttributes = new { @class = "form-control", @style = "width:20%", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.CodigoPostal3Dig) } })
+                    </div>
                     @Html.ValidationMessageFor(model => model.CodigoPostal4Dig, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.CodigoPostal3Dig, "(3 dígitos)", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.CodigoPostal3Dig, new { htmlAttributes = new { @class = "form-control", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.CodigoPostal3Dig) } })
                     @Html.ValidationMessageFor(model => model.CodigoPostal3Dig, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -197,7 +206,7 @@
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.DistritoMorada, "Distrito Morada", htmlAttributes: new { @class = "control-label col-md-2 required" })
+                @Html.LabelFor(model => model.DistritoMorada, "Distrito da Morada", htmlAttributes: new { @class = "control-label col-md-2 required" })
                 <div class="col-md-10">
                     @Html.DropDownListFor(model => model.DistritoMorada, ViewBag.DistritoMorada as SelectList, "Escolha uma opção...", new { @class = "form-control", @onchange = "changeConcelhos(false)" })
                     @Html.ValidationMessageFor(model => model.DistritoMorada, "", new { @class = "text-danger" })
@@ -205,7 +214,7 @@
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.ConcelhoMorada, "Concelho Morada", htmlAttributes: new { @class = "control-label col-md-2 required" })
+                @Html.LabelFor(model => model.ConcelhoMorada, "Concelho da Morada", htmlAttributes: new { @class = "control-label col-md-2 required" })
                 <div class="col-md-10">
                     @Html.DropDownListFor(model => model.ConcelhoMorada, ViewBag.ConcelhoMorada as SelectList, "Escolha uma opção...", new { @class = "form-control", @onchange = "changeFreguesias(false)" })
                     @Html.ValidationMessageFor(model => model.ConcelhoMorada, "", new { @class = "text-danger" })
@@ -213,7 +222,7 @@
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.FreguesiaMorada, "Freguesia Morada", htmlAttributes: new { @class = "control-label col-md-2 required" })
+                @Html.LabelFor(model => model.FreguesiaMorada, "Freguesia da Morada", htmlAttributes: new { @class = "control-label col-md-2 required" })
                 <div class="col-md-10">
                     @Html.DropDownListFor(model => model.FreguesiaMorada, ViewBag.FreguesiaMorada as SelectList, "Escolha uma opção...", new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.FreguesiaMorada, "", new { @class = "text-danger" })
@@ -532,3 +541,8 @@
         }
     }
 </script>
+<style>
+    .dadosPessoaisHr {
+        width: 85%;
+    }
+</style>
