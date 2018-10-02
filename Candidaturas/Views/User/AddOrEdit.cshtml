@@ -115,16 +115,18 @@
 <script type="text/javascript">
     $("#NDI").blur(function () {
         callBlock();
+        mostrarPlaceholderFormatoCC();
     });
 
     $("#TipoDocID").change(function () {
         callBlock();
+        mostrarPlaceholderFormatoCC();
     });
 
     function callBlock() {
         var chosenValue = $("#TipoDocID").val();
 
-        if (chosenValue == "Cartão do Cidadão" || chosenValue == "Bilhete de Identidade") {
+        if (validarDocumentoEscolhido(chosenValue)) {
             var term = $("#NDI").val();
 
             if (term != "") {
@@ -153,6 +155,22 @@
             $("#NIFWarning").show();
             event.preventDefault();
             return false;
+        }
+    }
+
+    function validarDocumentoEscolhido(tipoDocID) {
+        return tipoDocID == "Cartão do Cidadão" || tipoDocID == "Bilhete de Identidade";
+    }
+
+    //mostrar formato do CC caso seleccionar esse
+    function mostrarPlaceholderFormatoCC() {
+        var chosenValue = $("#TipoDocID").val();
+
+        if (validarDocumentoEscolhido(chosenValue)) {
+            $("#NDI").attr("placeholder", "DDDDDDDD-CAAT");
+        }
+        else {
+            $('#NDI').removeAttr('placeholder');
         }
     }
 

@@ -193,6 +193,8 @@
 
     $("#NDI").blur(function () {
         validarCCouBI();
+        mostrarPlaceholderFormatoCC();
+
     });
 
     $("#TipoDocID").change(function () {
@@ -295,7 +297,7 @@
         var chosenValue = $("#TipoDocID").val();
 
         if (validarDocumentoEscolhido(chosenValue)) {
-            $("#NDI").attr("placeholder", "Formato: DDDDDDDD-CAAT");
+            $("#NDI").attr("placeholder", "DDDDDDDD-CAAT");
         }
         else {
             $('#NDI').removeAttr('placeholder');
