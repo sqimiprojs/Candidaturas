@@ -15,7 +15,6 @@ namespace Candidaturas.Models
 
     public partial class DadosPessoai
     {
-        [Required(ErrorMessage = "Campo Obrigatório")]
         public string NomeColoquial { get; set; }
 
         [Required(ErrorMessage = "Campo Obrigatório")]
@@ -23,11 +22,7 @@ namespace Candidaturas.Models
 
         [Required(ErrorMessage = "Campo Obrigatório")]
         public string Apelidos { get; set; }
-
-        [Required(ErrorMessage = "Campo Obrigatório")]
         public string NomePai { get; set; }
-
-        [Required(ErrorMessage = "Campo Obrigatório")]
         public string NomeMae { get; set; }
 
         [Required(ErrorMessage = "Campo Obrigatório")]
@@ -41,37 +36,33 @@ namespace Candidaturas.Models
 
         [Required(ErrorMessage = "Campo Obrigatório")]
         public string EstadoCivil { get; set; }
-
-        [Required(ErrorMessage = "Campo Obrigatório")]
         public string Nacionalidade { get; set; }
-
-        [Required(ErrorMessage = "Campo Obrigatório")]
         public string DistritoNatural { get; set; }
-
-        [Required(ErrorMessage = "Campo Obrigatório")]
-        public string Concelho { get; set; }
-
-        [Required(ErrorMessage = "Campo Obrigatório")]
-        public string Freguesia { get; set; }
+        public string ConcelhoNatural { get; set; }
+        public string FreguesiaNatural { get; set; }
 
         [Required(ErrorMessage = "Campo Obrigatório")]
         public string Morada { get; set; }
-
-        [Required(ErrorMessage = "Campo Obrigatório")]
         public string Localidade { get; set; }
-
         public int UserId { get; set; }
         public int ID { get; set; }
-
-        [Required(ErrorMessage = "Campo Obrigatório")]
         public string RepFinNIF { get; set; }
-
-        [Required(ErrorMessage = "Campo Obrigatório")]
         public string CCDigitosControlo { get; set; }
+        public string NSegSoc { get; set; }
+        public string NIF { get; set; }
 
         [Required(ErrorMessage = "Campo Obrigatório")]
-        public string NSegSoc { get; set; }
+        public string DistritoMorada { get; set; }
 
-        public string NIF { get; set; }
+        [Required(ErrorMessage = "Campo Obrigatório")]
+        public string ConcelhoMorada { get; set; }
+
+        [Required(ErrorMessage = "Campo Obrigatório")]
+        public string FreguesiaMorada { get; set; }
+        public string Telefone { get; set; }
+
+        [Required(ErrorMessage = "Campo Obrigatório")]
+        public string CodigoPostal4Dig { get; set; }
+        public string CodigoPostal3Dig { get; set; }
     }
 }
