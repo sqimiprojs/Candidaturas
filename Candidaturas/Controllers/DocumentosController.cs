@@ -55,13 +55,11 @@ namespace Candidaturas.Controllers
         //verifica se o ficheiro tem cabeçalho JPEG
         public bool HasJpegHeader(HttpPostedFileBase file)
         {
-            using (BinaryReader br = new BinaryReader(file.InputStream))
-            {
-                UInt16 soi = br.ReadUInt16();  // Start of Image (SOI) marker (FFD8)
-                UInt16 marker = br.ReadUInt16(); // JFIF marker (FFE0) or EXIF marker(FF01)
+            BinaryReader br = new BinaryReader(file.InputStream);
+            UInt16 soi = br.ReadUInt16();  // Start of Image (SOI) marker (FFD8)
+            UInt16 marker = br.ReadUInt16(); // JFIF marker (FFE0) or EXIF marker(FF01)
 
-                return soi == 0xd8ff && (marker & 0xe0ff) == 0xe0ff;
-            }
+            return soi == 0xd8ff && (marker & 0xe0ff) == 0xe0ff;
         }
 
         //verifica se o ficheiro tem cabeçalho PDF
@@ -73,21 +71,22 @@ namespace Candidaturas.Controllers
             var buf = new byte[len];
             var remaining = len;
             var pos = 0;
-            using (var f = file.InputStream)
+            var f = file.InputStream;
+
+            while (remaining > 0)
             {
-                while (remaining > 0)
-                {
-                    var amtRead = f.Read(buf, pos, remaining);
-                    if (amtRead == 0) return false;
-                    remaining -= amtRead;
-                    pos += amtRead;
-                }
+                var amtRead = f.Read(buf, pos, remaining);
+                if (amtRead == 0) return false;
+                remaining -= amtRead;
+                pos += amtRead;
             }
+
             return pdfBytes.SequenceEqual(buf);
         }
 
         //verifica se o ficheiro é do tipo JPEG
-        public bool IsJpeg (HttpPostedFileBase file) {
+        public bool IsJpeg(HttpPostedFileBase file)
+        {
             return (this.HasJpegExtension(file) && this.HasJpegHeader(file));
         }
 
@@ -95,12 +94,6 @@ namespace Candidaturas.Controllers
         public bool IsPdf(HttpPostedFileBase file)
         {
             return (this.HasPdfExtension(file) && this.HasPdfHeader(file));
-        }
-
-        [HttpGet]
-        public ActionResult Upload()
-        {
-            return View();
         }
 
         [HttpPost]
@@ -114,8 +107,10 @@ namespace Candidaturas.Controllers
                 {
                     if (file != null && file.ContentLength > 0)
                     {
-                        if (this.IsJpeg(file) || this.IsPdf(file))
+                        if (IsJpeg(file) || IsPdf(file))
                         {
+                            file.InputStream.Seek(0, SeekOrigin.Begin);
+
                             var fileName = Path.GetFileName(file.FileName);
 
                             MemoryStream target = new MemoryStream();
@@ -148,7 +143,7 @@ namespace Candidaturas.Controllers
                             return RedirectToAction("Index", "Home");
                         }
                     }
-                    
+
                 }
                 catch (System.Data.Entity.Validation.DbEntityValidationException dbEx)
                 {
