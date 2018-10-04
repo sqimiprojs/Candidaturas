@@ -39,6 +39,7 @@
             </div>
         </div>
 
+        @if(ViewBag.DocumentosEscolhidos != null) { 
         <table class="table" style="margin-top: 30px;">
             <tr>
                 <th>Nome</th>
@@ -60,6 +61,7 @@
                 </tr>
             }
         </table>
+        }
     </div>
 }
 @if (Session["ErrorDoc"] != null)

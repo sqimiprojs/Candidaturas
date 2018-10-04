@@ -14,18 +14,10 @@ namespace Candidaturas.Models
     
     public partial class Documento
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Documento()
-        {
-            this.UserDocumentoes = new HashSet<UserDocumento>();
-        }
-    
         public int ID { get; set; }
         public string Nome { get; set; }
         public string Descricao { get; set; }
         public byte[] Ficheiro { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<UserDocumento> UserDocumentoes { get; set; }
+        public string Tipo { get; set; }
     }
 }

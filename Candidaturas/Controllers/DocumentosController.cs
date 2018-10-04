@@ -112,26 +112,30 @@ namespace Candidaturas.Controllers
                             file.InputStream.Seek(0, SeekOrigin.Begin);
 
                             var fileName = Path.GetFileName(file.FileName);
+                            var fileType = file.ContentType;
 
                             MemoryStream target = new MemoryStream();
                             file.InputStream.CopyTo(target);
                             byte[] data = target.ToArray();
 
+                            //criar documento
                             Documento doc = new Documento();
 
                             doc.Descricao = documento.Descricao;
                             doc.Nome = fileName;
                             doc.Ficheiro = data;
+                            doc.Tipo = fileType;
 
                             dbModel.Documentoes.Add(doc);
+                            dbModel.SaveChanges();
 
+                            //criar userDocumento (relação entre user e documento)
                             UserDocumento userDocumento = new UserDocumento();
 
                             userDocumento.UserId = userId;
                             userDocumento.DocumentoId = doc.ID;
 
                             dbModel.UserDocumentoes.Add(userDocumento);
-
                             dbModel.SaveChanges();
                         }
                         else
@@ -218,7 +222,7 @@ namespace Candidaturas.Controllers
                     Response.Buffer = true;
                     Response.Charset = "";
                     Response.Cache.SetCacheability(HttpCacheability.NoCache);
-                    Response.ContentType = Path.GetExtension(doc.Nome);
+                    Response.ContentType = doc.Tipo;
                     Response.AppendHeader("Content-Disposition", "attachment; filename=" + doc.Nome);
                     Response.BinaryWrite(doc.Ficheiro);
                     Response.Flush();

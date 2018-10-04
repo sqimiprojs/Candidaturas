@@ -76,6 +76,7 @@
           <Property Name="Nome" Type="varchar" MaxLength="50" />
           <Property Name="Descricao" Type="varchar" MaxLength="50" />
           <Property Name="Ficheiro" Type="varbinary(max)" />
+          <Property Name="Tipo" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="EstadoCivil">
           <Key>
@@ -265,7 +266,6 @@
           <EntitySet Name="ConhecimentoEscolas" EntityType="LoginDataBaseModel.ConhecimentoEscola" />
           <EntitySet Name="Cursoes" EntityType="LoginDataBaseModel.Curso" />
           <EntitySet Name="Distritoes" EntityType="LoginDataBaseModel.Distrito" />
-          <EntitySet Name="Documentoes" EntityType="LoginDataBaseModel.Documento" />
           <EntitySet Name="EstadoCivils" EntityType="LoginDataBaseModel.EstadoCivil" />
           <EntitySet Name="Exames" EntityType="LoginDataBaseModel.Exame" />
           <EntitySet Name="Freguesias" EntityType="LoginDataBaseModel.Freguesia" />
@@ -279,10 +279,6 @@
           <AssociationSet Name="FK_CursoIdUC" Association="LoginDataBaseModel.FK_CursoIdUC">
             <End Role="Curso" EntitySet="Cursoes" />
             <End Role="UserCurso" EntitySet="UserCursoes" />
-          </AssociationSet>
-          <AssociationSet Name="FK_UDDocumentoId" Association="LoginDataBaseModel.FK_UDDocumentoId">
-            <End Role="Documento" EntitySet="Documentoes" />
-            <End Role="UserDocumento" EntitySet="UserDocumentoes" />
           </AssociationSet>
           <AssociationSet Name="FK_ExameUE" Association="LoginDataBaseModel.FK_ExameUE">
             <End Role="Exame" EntitySet="Exames" />
@@ -300,6 +296,7 @@
             <End Role="UserExame" EntitySet="UserExames" />
           </AssociationSet>
           <EntitySet Name="DadosPessoais" EntityType="LoginDataBaseModel.DadosPessoai" />
+          <EntitySet Name="Documentoes" EntityType="LoginDataBaseModel.Documento" />
         </EntityContainer>
         <EntityType Name="Concelho">
           <Key>
@@ -332,16 +329,6 @@
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Nome" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="Documento">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Nome" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Descricao" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Ficheiro" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <NavigationProperty Name="UserDocumentoes" Relationship="LoginDataBaseModel.FK_UDDocumentoId" FromRole="Documento" ToRole="UserDocumento" />
         </EntityType>
         <EntityType Name="EstadoCivil">
           <Key>
@@ -419,7 +406,6 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="UserId" Type="Int32" Nullable="false" />
           <Property Name="DocumentoId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Documento" Relationship="LoginDataBaseModel.FK_UDDocumentoId" FromRole="UserDocumento" ToRole="Documento" />
         </EntityType>
         <EntityType Name="UserExame">
           <Key>
@@ -440,18 +426,6 @@
             </Principal>
             <Dependent Role="UserCurso">
               <PropertyRef Name="CursoId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_UDDocumentoId">
-          <End Type="LoginDataBaseModel.Documento" Role="Documento" Multiplicity="1" />
-          <End Type="LoginDataBaseModel.UserDocumento" Role="UserDocumento" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Documento">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="UserDocumento">
-              <PropertyRef Name="DocumentoId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -553,6 +527,16 @@
           <Property Name="CodigoPostal4Dig" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Name="CodigoPostal3Dig" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
         </EntityType>
+        <EntityType Name="Documento">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nome" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Descricao" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Ficheiro" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="Tipo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -589,16 +573,6 @@
           <EntitySetMapping Name="Distritoes">
             <EntityTypeMapping TypeName="LoginDataBaseModel.Distrito">
               <MappingFragment StoreEntitySet="Distrito">
-                <ScalarProperty Name="Nome" ColumnName="Nome" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Documentoes">
-            <EntityTypeMapping TypeName="LoginDataBaseModel.Documento">
-              <MappingFragment StoreEntitySet="Documento">
-                <ScalarProperty Name="Ficheiro" ColumnName="Ficheiro" />
-                <ScalarProperty Name="Descricao" ColumnName="Descricao" />
                 <ScalarProperty Name="Nome" ColumnName="Nome" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
@@ -757,6 +731,17 @@
                 <ScalarProperty Name="Apelidos" ColumnName="Apelidos" />
                 <ScalarProperty Name="Nomes" ColumnName="Nomes" />
                 <ScalarProperty Name="NomeColoquial" ColumnName="NomeColoquial" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Documentoes">
+            <EntityTypeMapping TypeName="LoginDataBaseModel.Documento">
+              <MappingFragment StoreEntitySet="Documento">
+                <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+                <ScalarProperty Name="Ficheiro" ColumnName="Ficheiro" />
+                <ScalarProperty Name="Descricao" ColumnName="Descricao" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
