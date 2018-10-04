@@ -16,6 +16,8 @@ namespace Candidaturas.Models
     {
         public int ID { get; set; }
         public string Nome { get; set; }
-        public string Concelho { get; set; }
+        public string Codigo { get; set; }
+        public string CodigoConcelho { get; set; }
+        public string CodigoDistrito { get; set; }
     }
 }

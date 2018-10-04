@@ -11,7 +11,8 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Nome" Type="varchar" MaxLength="50" />
-          <Property Name="Distrito" Type="varchar" MaxLength="50" />
+          <Property Name="Codigo" Type="varchar" MaxLength="50" />
+          <Property Name="CodigoDistrito" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="ConhecimentoEscola">
           <Key>
@@ -67,6 +68,7 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Nome" Type="varchar" MaxLength="50" />
+          <Property Name="Codigo" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Documento">
           <Key>
@@ -98,7 +100,9 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Nome" Type="varchar" MaxLength="100" Nullable="false" />
-          <Property Name="Concelho" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Codigo" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CodigoConcelho" Type="varchar" MaxLength="50" />
+          <Property Name="CodigoDistrito" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Genero">
           <Key>
@@ -262,13 +266,10 @@
     <edmx:ConceptualModels>
       <Schema Namespace="LoginDataBaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="LoginDataBaseEntities1" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Concelhoes" EntityType="LoginDataBaseModel.Concelho" />
           <EntitySet Name="ConhecimentoEscolas" EntityType="LoginDataBaseModel.ConhecimentoEscola" />
           <EntitySet Name="Cursoes" EntityType="LoginDataBaseModel.Curso" />
-          <EntitySet Name="Distritoes" EntityType="LoginDataBaseModel.Distrito" />
           <EntitySet Name="EstadoCivils" EntityType="LoginDataBaseModel.EstadoCivil" />
           <EntitySet Name="Exames" EntityType="LoginDataBaseModel.Exame" />
-          <EntitySet Name="Freguesias" EntityType="LoginDataBaseModel.Freguesia" />
           <EntitySet Name="Generoes" EntityType="LoginDataBaseModel.Genero" />
           <EntitySet Name="Inqueritoes" EntityType="LoginDataBaseModel.Inquerito" />
           <EntitySet Name="Situacaos" EntityType="LoginDataBaseModel.Situacao" />
@@ -297,15 +298,10 @@
           </AssociationSet>
           <EntitySet Name="DadosPessoais" EntityType="LoginDataBaseModel.DadosPessoai" />
           <EntitySet Name="Documentoes" EntityType="LoginDataBaseModel.Documento" />
+          <EntitySet Name="Concelhoes" EntityType="LoginDataBaseModel.Concelho" />
+          <EntitySet Name="Distritoes" EntityType="LoginDataBaseModel.Distrito" />
+          <EntitySet Name="Freguesias" EntityType="LoginDataBaseModel.Freguesia" />
         </EntityContainer>
-        <EntityType Name="Concelho">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Nome" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Distrito" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-        </EntityType>
         <EntityType Name="ConhecimentoEscola">
           <Key>
             <PropertyRef Name="ID" />
@@ -323,13 +319,6 @@
           <Property Name="CodigoCurso" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="CodigoRamo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
-        <EntityType Name="Distrito">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Nome" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-        </EntityType>
         <EntityType Name="EstadoCivil">
           <Key>
             <PropertyRef Name="ID" />
@@ -344,14 +333,6 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Nome" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="UserExames" Relationship="LoginDataBaseModel.FK_ExameUE" FromRole="Exame" ToRole="UserExame" />
-        </EntityType>
-        <EntityType Name="Freguesia">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Nome" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Concelho" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Genero">
           <Key>
@@ -537,21 +518,39 @@
           <Property Name="Ficheiro" Type="Binary" MaxLength="Max" FixedLength="false" />
           <Property Name="Tipo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="Concelho">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nome" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Codigo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CodigoDistrito" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Distrito">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nome" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Codigo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Freguesia">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nome" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Codigo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CodigoConcelho" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CodigoDistrito" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="LoginDataBaseModelStoreContainer" CdmEntityContainer="LoginDataBaseEntities1">
-          <EntitySetMapping Name="Concelhoes">
-            <EntityTypeMapping TypeName="LoginDataBaseModel.Concelho">
-              <MappingFragment StoreEntitySet="Concelho">
-                <ScalarProperty Name="Distrito" ColumnName="Distrito" />
-                <ScalarProperty Name="Nome" ColumnName="Nome" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="ConhecimentoEscolas">
             <EntityTypeMapping TypeName="LoginDataBaseModel.ConhecimentoEscola">
               <MappingFragment StoreEntitySet="ConhecimentoEscola">
@@ -570,14 +569,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Distritoes">
-            <EntityTypeMapping TypeName="LoginDataBaseModel.Distrito">
-              <MappingFragment StoreEntitySet="Distrito">
-                <ScalarProperty Name="Nome" ColumnName="Nome" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="EstadoCivils">
             <EntityTypeMapping TypeName="LoginDataBaseModel.EstadoCivil">
               <MappingFragment StoreEntitySet="EstadoCivil">
@@ -589,15 +580,6 @@
           <EntitySetMapping Name="Exames">
             <EntityTypeMapping TypeName="LoginDataBaseModel.Exame">
               <MappingFragment StoreEntitySet="Exame">
-                <ScalarProperty Name="Nome" ColumnName="Nome" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Freguesias">
-            <EntityTypeMapping TypeName="LoginDataBaseModel.Freguesia">
-              <MappingFragment StoreEntitySet="Freguesia">
-                <ScalarProperty Name="Concelho" ColumnName="Concelho" />
                 <ScalarProperty Name="Nome" ColumnName="Nome" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
@@ -745,7 +727,37 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-        </EntityContainerMapping>
+          <EntitySetMapping Name="Concelhoes">
+            <EntityTypeMapping TypeName="LoginDataBaseModel.Concelho">
+              <MappingFragment StoreEntitySet="Concelho">
+                <ScalarProperty Name="CodigoDistrito" ColumnName="CodigoDistrito" />
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Distritoes">
+            <EntityTypeMapping TypeName="LoginDataBaseModel.Distrito">
+              <MappingFragment StoreEntitySet="Distrito">
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Freguesias">
+            <EntityTypeMapping TypeName="LoginDataBaseModel.Freguesia">
+              <MappingFragment StoreEntitySet="Freguesia">
+                <ScalarProperty Name="CodigoDistrito" ColumnName="CodigoDistrito" />
+                <ScalarProperty Name="CodigoConcelho" ColumnName="CodigoConcelho" />
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>
