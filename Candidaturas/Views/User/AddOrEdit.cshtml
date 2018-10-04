@@ -10,7 +10,7 @@
 <h2>Registo Utilizador</h2>
 
 
-@using (Html.BeginForm("AddOrEdit", "User", FormMethod.Post, new { onsubmit = "callBlock()" }))
+@using (Html.BeginForm("AddOrEdit", "User", FormMethod.Post, new { onsubmit = "validacaoFinal()" }))
 {
     @Html.AntiForgeryToken()
 
@@ -30,6 +30,7 @@
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                <span id="EmailWarning" for="Email" class="text-danger"></span>
             </div>
         </div>
 
@@ -114,34 +115,47 @@
 </style>
 <script type="text/javascript">
     $("#NDI").blur(function () {
-        callBlock();
+        validarTipoDocId();
         mostrarPlaceholderFormatoCC();
     });
 
     $("#TipoDocID").change(function () {
-        callBlock();
+        validarTipoDocId();
         mostrarPlaceholderFormatoCC();
     });
 
-    function callBlock() {
+    $("#Email").blur(function () {
+        validarEmail();
+    });
+
+    function validarTipoDocId() {
         var chosenValue = $("#TipoDocID").val();
 
         if (validarDocumentoEscolhido(chosenValue)) {
             var term = $("#NDI").val();
 
             if (term != "") {
-                validarCC();
+                if (validarCC()) {
+                    $("#NIFWarning").hide();
+                    return true;
+                }
+                else {
+                    $("#NIFWarning").text("Cartão de cidadão ou bilhete de identidade inválido.");
+                    $("#NIFWarning").show();
+                    event.preventDefault();
+                    return false;
+                }
             }
             else {
                 $("#NIFWarning").hide();
-                return;
+                return true;
             }
         }
         else {
             if ($("#NIFWarning").is(":visible")) {
                 $("#NIFWarning").hide();
-                return;
             }
+            return true;
         }
     }
 
@@ -149,14 +163,7 @@
         var term = $("#NDI").val();
         var re = new RegExp("^[0-9]{8}[ -]*[0-9][A-Z]{2}[0-9]$");
 
-        if (re.test(term)) {
-            $("#NIFWarning").hide();
-        } else {
-            $("#NIFWarning").text("Cartão de cidadão ou bilhete de identidade inválido.");
-            $("#NIFWarning").show();
-            event.preventDefault();
-            return false;
-        }
+        return re.test(term);
     }
 
     function validarDocumentoEscolhido(tipoDocID) {
@@ -172,6 +179,23 @@
         }
         else {
             $('#NDI').removeAttr('placeholder');
+        }
+    }
+
+    function validacaoFinal() {
+        var valid = true;
+
+        if (!validarTipoDocId()) {
+            valid = false;
+        }
+
+        if (!validarEmail()) {
+            valid = false;
+        }
+
+        if (!valid) {
+            event.preventDefault();
+            return false;
         }
     }
 
@@ -191,5 +215,34 @@
         else {
             $("#switchLabel").text("Sim");
         }
+    }
+
+    //validar email
+    function regexEmail(email) {
+        var re = /^(([^<>()\[\]\\.,;:\s@@"]+(\.[^<>()\[\]\\.,;:\s@@"]+)*)|(".+"))@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+        return re.test(String(email).toLowerCase());
+    }
+
+    function validarEmail() {
+        var email = $("#Email").val();
+
+        if (email != "") {
+            if (regexEmail(email)) {
+                $("#EmailWarning").hide();
+                return true;
+            }
+            else {
+                $("#EmailWarning").text("Email com formato inválido.");
+                $("#EmailWarning").show();
+                return false;
+            }
+        }
+        else {
+            if ($("#EmailWarning").is(":visible")) {
+                $("#EmailWarning").hide();
+            }
+            return true;
+        }      
     }
 </script>
