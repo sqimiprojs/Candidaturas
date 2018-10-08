@@ -97,7 +97,7 @@ namespace Candidaturas.Controllers
 
             });
 
-            int? codigoDistritoNatural = db.Distritoes.Where(d => d.Nome == distritoNatural).Select(d => d.Codigo).FirstOrDefault();
+            int codigoDistritoNatural = db.Distritoes.Where(d => d.Nome == distritoNatural).Select(d => d.Codigo).FirstOrDefault();
 
             IEnumerable<SelectListItem> concelhosNaturais = db.Concelhoes.Where(dp => dp.CodigoDistrito == codigoDistritoNatural).OrderBy(dp => dp.Nome).Select(c => new SelectListItem
             {
@@ -107,7 +107,7 @@ namespace Candidaturas.Controllers
 
             });
 
-            int? codigoConcelhoNatural = db.Concelhoes.Where(c => c.Nome == concelhoNatural).Select(c => c.Codigo).FirstOrDefault();
+            int codigoConcelhoNatural = db.Concelhoes.Where(c => c.Nome == concelhoNatural).Select(c => c.Codigo).FirstOrDefault();
 
             IEnumerable<SelectListItem> freguesiasNaturais = db.Freguesias.Where(dp => dp.CodigoConcelho == codigoConcelhoNatural && dp.CodigoDistrito == codigoDistritoNatural).OrderBy(dp => dp.Nome).Select(c => new SelectListItem
             {
@@ -125,7 +125,7 @@ namespace Candidaturas.Controllers
 
             });
 
-            int? codigoDistritoMorada = db.Distritoes.Where(d => d.Nome == distritoMorada).Select(d => d.Codigo).FirstOrDefault();
+            int codigoDistritoMorada = db.Distritoes.Where(d => d.Nome == distritoMorada).Select(d => d.Codigo).FirstOrDefault();
 
             IEnumerable<SelectListItem> concelhosMoradas = db.Concelhoes.Where(dp => dp.CodigoDistrito == codigoDistritoMorada).OrderBy(dp => dp.Nome).Select(c => new SelectListItem
             {
@@ -135,7 +135,7 @@ namespace Candidaturas.Controllers
 
             });
 
-            int? codigoConcelhoMorada = db.Concelhoes.Where(c => c.Nome == concelhoMorada).Select(c => c.Codigo).FirstOrDefault();
+            int codigoConcelhoMorada = db.Concelhoes.Where(c => c.Nome == concelhoMorada).Select(c => c.Codigo).FirstOrDefault();
 
             IEnumerable<SelectListItem> freguesiasMoradas = db.Freguesias.Where(dp => dp.CodigoConcelho == codigoConcelhoMorada && dp.CodigoDistrito == codigoDistritoMorada).OrderBy(dp => dp.Nome).Select(c => new SelectListItem
             {
@@ -196,7 +196,7 @@ namespace Candidaturas.Controllers
         {
             LoginDataBaseEntities1 db = new LoginDataBaseEntities1();
 
-            int? codigoDistrito = db.Distritoes.Where(d => d.Nome == distrito).Select(d => d.Codigo).FirstOrDefault();
+            int codigoDistrito = db.Distritoes.Where(d => d.Nome == distrito).Select(d => d.Codigo).FirstOrDefault();
 
             var concelhos = db.Concelhoes.Where(dp => dp.CodigoDistrito == codigoDistrito).OrderBy(dp => dp.Nome).Select(c => new
             {
@@ -219,9 +219,9 @@ namespace Candidaturas.Controllers
         {
             LoginDataBaseEntities1 db = new LoginDataBaseEntities1();
 
-            int? codigoConcelho = db.Concelhoes.Where(c => c.Nome == concelho).Select(c => c.Codigo).FirstOrDefault();
+            int codigoConcelho = db.Concelhoes.Where(c => c.Nome == concelho).Select(c => c.Codigo).FirstOrDefault();
 
-            int? codigoDistrito = db.Concelhoes.Where(c => c.Nome == concelho).Select(c => c.CodigoDistrito).FirstOrDefault();
+            int codigoDistrito = db.Concelhoes.Where(c => c.Nome == concelho).Select(c => c.CodigoDistrito).FirstOrDefault();
 
             var freguesias = db.Freguesias.Where(dp => dp.CodigoConcelho == codigoConcelho && dp.CodigoDistrito == codigoDistrito).OrderBy(dp => dp.Nome).Select(c => new
             {
