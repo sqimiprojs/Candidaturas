@@ -11,8 +11,8 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Nome" Type="varchar" MaxLength="50" />
-          <Property Name="Codigo" Type="varchar" MaxLength="50" />
-          <Property Name="CodigoDistrito" Type="varchar" MaxLength="50" />
+          <Property Name="Codigo" Type="int" />
+          <Property Name="CodigoDistrito" Type="int" />
         </EntityType>
         <EntityType Name="ConhecimentoEscola">
           <Key>
@@ -68,7 +68,7 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Nome" Type="varchar" MaxLength="50" />
-          <Property Name="Codigo" Type="varchar" MaxLength="50" />
+          <Property Name="Codigo" Type="int" />
         </EntityType>
         <EntityType Name="Documento">
           <Key>
@@ -100,9 +100,9 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Nome" Type="varchar" MaxLength="100" Nullable="false" />
-          <Property Name="Codigo" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="CodigoConcelho" Type="varchar" MaxLength="50" />
-          <Property Name="CodigoDistrito" Type="varchar" MaxLength="50" />
+          <Property Name="Codigo" Type="int" Nullable="false" />
+          <Property Name="CodigoConcelho" Type="int" />
+          <Property Name="CodigoDistrito" Type="int" />
         </EntityType>
         <EntityType Name="Genero">
           <Key>
@@ -524,8 +524,8 @@
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Nome" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Codigo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="CodigoDistrito" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Codigo" Type="Int32" />
+          <Property Name="CodigoDistrito" Type="Int32" />
         </EntityType>
         <EntityType Name="Distrito">
           <Key>
@@ -533,7 +533,7 @@
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Nome" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Codigo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Codigo" Type="Int32" />
         </EntityType>
         <EntityType Name="Freguesia">
           <Key>
@@ -541,9 +541,9 @@
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Nome" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Codigo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="CodigoConcelho" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="CodigoDistrito" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Codigo" Type="Int32" Nullable="false" />
+          <Property Name="CodigoConcelho" Type="Int32" />
+          <Property Name="CodigoDistrito" Type="Int32" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
