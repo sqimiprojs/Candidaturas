@@ -104,6 +104,15 @@
         </div>
 
         <div class="form-group">
+            @Html.LabelFor(model => model.CCDigitosControlo, "Dígitos de Controlo do Cartão de Cidadão", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CCDigitosControlo, new { htmlAttributes = new { @class = "form-control", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.CCDigitosControlo) } })
+                @Html.ValidationMessageFor(model => model.CCDigitosControlo, "", new { @class = "text-danger" })
+                <span id="DigConWarning" for="CCDigitosControlo" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
             @Html.LabelFor(model => model.NIF, "Nº de Identificação Fiscal", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.NIF, new { htmlAttributes = new { @class = "form-control", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.NIF) } })
@@ -117,15 +126,7 @@
             <div class="col-md-10">
                 @Html.EditorFor(model => model.RepFinNIF, new { htmlAttributes = new { @class = "form-control", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.RepFinNIF) } })
                 @Html.ValidationMessageFor(model => model.RepFinNIF, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.CCDigitosControlo, "Dígitos de Controlo do Cartão de Cidadão", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.CCDigitosControlo, new { htmlAttributes = new { @class = "form-control", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.CCDigitosControlo) } })
-                @Html.ValidationMessageFor(model => model.CCDigitosControlo, "", new { @class = "text-danger" })
-                <span id="DigConWarning" for="CCDigitosControlo" class="text-danger"></span>
+                <span id="RepFinWarning" for="RepFinNIF" class="text-danger"></span>
             </div>
         </div>
 
@@ -247,6 +248,11 @@
     $("#NIF").blur(function () {
         validarNIF();
         validarNacionalidade();
+        validarRepFinancasNIF();
+    });
+
+    $("#RepFinNIF").blur(function () {
+        validarRepFinancasNIF();
     });
 
     $("#NDI").blur(function () {
@@ -268,6 +274,31 @@
     $("#CCDigitosControlo").blur(function () {
         validarDigitosControlo();
     });
+
+    //validar repartição de finanças do NIF RepFinWarning
+    function validarRepFinancasNIF() {
+        var valorNIF = $("#NIF").val();
+
+        if (valorNIF != "") {
+            var valorRepFinNIF = $("#RepFinNIF").val();
+
+            if (valorRepFinNIF == "") {
+                $("#RepFinWarning").text("Necessário preencher repartição de finanças do NIF.");
+                $("#RepFinWarning").show();
+                return false;
+            }
+            else {
+                $("#RepFinWarning").hide();
+                return true;
+            }
+        }
+        else {
+            if ($("#RepFinWarning").is(":visible")) {
+                $("#RepFinWarning").hide();
+            }
+            return true;
+        }
+    }
 
     //validar NIF
     function validarNIF() {
@@ -359,7 +390,7 @@
         var chosenValue = $("#TipoDocID").val();
 
         if (validarDocumentoEscolhido(chosenValue)) {
-            $("#NDI").attr("placeholder", "DDDDDDDD-CAAT");
+            $("#NDI").attr("placeholder", "LLLLLLLL-NLLN");
         }
         else {
             $('#NDI').removeAttr('placeholder');
@@ -449,6 +480,10 @@
         }
 
         if (!validarDigitosControlo()) {
+            valid = false;
+        }
+
+        if (!validarRepFinancasNIF()) {
             valid = false;
         }
 
