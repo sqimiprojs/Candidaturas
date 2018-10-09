@@ -125,6 +125,7 @@
             <div class="col-md-10">
                 @Html.EditorFor(model => model.CCDigitosControlo, new { htmlAttributes = new { @class = "form-control", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.CCDigitosControlo) } })
                 @Html.ValidationMessageFor(model => model.CCDigitosControlo, "", new { @class = "text-danger" })
+                <span id="DigConWarning" for="CCDigitosControlo" class="text-danger"></span>
             </div>
         </div>
 
@@ -251,17 +252,21 @@
     $("#NDI").blur(function () {
         validarCCouBI();
         mostrarPlaceholderFormatoCC();
-
     });
 
     $("#TipoDocID").change(function () {
         validarCCouBI();
         mostrarPlaceholderFormatoCC();
         validarNacionalidade();
+        validarDigitosControlo();
     });
 
     $("#Nacionalidade").change(function () {
         validarNacionalidade();
+    });
+
+    $("#CCDigitosControlo").blur(function () {
+        validarDigitosControlo();
     });
 
     //validar NIF
@@ -386,6 +391,30 @@
         }
     }
 
+    function validarDigitosControlo() {
+        var chosenValue = $("#TipoDocID").val();
+
+        if (validarDocumentoEscolhido(chosenValue)) {
+            var digitosControlo = $("#CCDigitosControlo").val();
+
+            if (digitosControlo == "") {
+                $("#DigConWarning").text("Necessário preencher dígitos de controlo do cartão de cidadão.");
+                $("#DigConWarning").show();
+                return false;
+            }
+            else {
+                $("#DigConWarning").hide();
+                return true;
+            }
+        }
+        else {
+            if ($("#DigConWarning").is(":visible")) {
+                $("#DigConWarning").hide();
+            }
+            return true;
+        }
+    }
+
     function regexCC() {
         var term = $("#NDI").val();
         var re = new RegExp("^[0-9]{8}[ -]*[0-9][A-Z]{2}[0-9]$");
@@ -416,6 +445,10 @@
         }
 
         if (!validarTelefone()) {
+            valid = false;
+        }
+
+        if (!validarDigitosControlo()) {
             valid = false;
         }
 
