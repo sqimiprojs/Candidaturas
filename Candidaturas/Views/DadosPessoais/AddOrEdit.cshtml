@@ -78,6 +78,7 @@
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Telefone, new { htmlAttributes = new { @class = "form-control", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.Telefone) } })
                 @Html.ValidationMessageFor(model => model.Telefone, "", new { @class = "text-danger" })
+                <span id="TelefoneWarning" for="Telefone" class="text-danger"></span>
             </div>
         </div>
 
@@ -414,6 +415,10 @@
             valid = false;
         }
 
+        if (!validarTelefone()) {
+            valid = false;
+        }
+
         if (!valid) {
             event.preventDefault();
             return false;
@@ -431,6 +436,39 @@
     $('#formDadosPessoais select').change(function () {
         dadosPessoaisChanged = true;
     });
+
+    //validar telefone
+    $("#Telefone").blur(function () {
+        validarTelefone()
+    });
+
+    function regexTelefone(telefone) {
+        var re = /^(9[1236]\d{7}|2[1]\d{7})$/;
+
+        return re.test(String(telefone));
+    }
+
+    function validarTelefone() {
+        var telefone = $("#Telefone").val();
+
+        if (telefone != "") {
+            if (regexTelefone(telefone)) {
+                $("#TelefoneWarning").hide();
+                return true;
+            }
+            else {
+                $("#TelefoneWarning").text("Telefone com formato inválido.");
+                $("#TelefoneWarning").show();
+                return false;
+            }
+        }
+        else {
+            if ($("#TelefoneWarning").is(":visible")) {
+                $("#TelefoneWarning").hide();
+            }
+            return true;
+        }
+    }
 
     //altera os concelhos consoante o distrito escolhido
     function changeConcelhos(isNatural) {
