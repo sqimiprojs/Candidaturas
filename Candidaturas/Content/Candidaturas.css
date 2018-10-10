@@ -107,3 +107,9 @@ input[type="checkbox"]:checked + .slider.round .off {
 .candidaturasHeader {
     padding-bottom: 20px;
 }
+
+*, h1, h2, h3, h4 {
+    font-family: 'Open Sans', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+}
