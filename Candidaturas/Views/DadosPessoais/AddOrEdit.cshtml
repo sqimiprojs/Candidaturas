@@ -342,9 +342,13 @@
 
         if (nacionalidade == "Portugal") {
             $("label[for='NIF']").last().addClass("required");
+            $("label[for='RepFinNIF']").last().addClass("required");
+            $("label[for='CCDigitosControlo']").last().addClass("required");
         }
         else {
             $("label[for='NIF']").removeClass("required");
+            $("label[for='RepFinNIF']").removeClass("required");
+            $("label[for='CCDigitosControlo']").removeClass("required");
         }
     });
 
@@ -357,6 +361,8 @@
             var NIF = $("#NIF").val();
 
             $("label[for='NIF']").last().addClass("required");
+            $("label[for='RepFinNIF']").last().addClass("required");
+            $("label[for='CCDigitosControlo']").last().addClass("required");
 
             if (validarDocumentoEscolhido(tipoDocID) && NIFNaoVazio(NIF)) {
                 $("#NacWarning").hide();
@@ -373,6 +379,9 @@
                 $("#NacWarning").hide();
             }
             $("label[for='NIF']").removeClass("required");
+            $("label[for='RepFinNIF']").removeClass("required");
+            $("label[for='CCDigitosControlo']").removeClass("required");
+
             return true;
         }
     }
