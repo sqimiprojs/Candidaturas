@@ -101,3 +101,9 @@ input[type="checkbox"]:checked + .slider.round .off {
     font-weight: bold;
     color: red;
 }
+
+/******************** OUTROS ********************************/
+
+.candidaturasHeader {
+    padding-bottom: 20px;
+}

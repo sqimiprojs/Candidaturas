@@ -14,8 +14,7 @@
 
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-        <h4>Informações Pessoais</h4>
-        <hr class="dadosPessoaisHr" />
+        <h4 class="candidaturasHeader">Informações Pessoais</h4>
 
         <div class="form-group">
             @Html.LabelFor(model => model.NomeColoquial, "Nome Coloquial", htmlAttributes: new { @class = "control-label col-md-2" })
@@ -82,9 +81,9 @@
             </div>
         </div>
 
-        <br />
-        <h4>Documentação Pessoal</h4>
         <hr class="dadosPessoaisHr" />
+
+        <h4 class="candidaturasHeader">Documentação Pessoal</h4>
 
         <div class="form-group">
             @Html.LabelFor(model => model.TipoDocID, "Tipo de Documento de Identificação", htmlAttributes: new { @class = "control-label col-md-2 required" })
@@ -140,8 +139,7 @@
     </div>
 
     <div class="column">
-        <h4>Naturalidade</h4>
-        <hr class="dadosPessoaisHr" />
+        <h4 class="candidaturasHeader">Naturalidade</h4>
 
         <div class="form-group">
             @Html.LabelFor(model => model.Nacionalidade, "Natural de", htmlAttributes: new { @class = "control-label col-md-2" })
@@ -176,9 +174,9 @@
             </div>
         </div>
 
-        <br />
-        <h4>Morada</h4>
         <hr class="dadosPessoaisHr" />
+
+        <h4 class="candidaturasHeader">Morada</h4>
 
         <div class="form-group">
             @Html.LabelFor(model => model.Morada, "Morada", htmlAttributes: new { @class = "control-label col-md-2 required" })
