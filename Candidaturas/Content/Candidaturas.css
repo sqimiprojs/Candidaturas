@@ -113,3 +113,12 @@ input[type="checkbox"]:checked + .slider.round .off {
     font-style: normal;
     font-weight: 400;
 }
+
+.ui-widget input,
+.ui-widget select,
+.ui-widget textarea,
+.ui-widget button {
+    font-family: 'Open Sans', sans-serif !important;
+    font-style: normal !important;
+    font-weight: 400 !important;
+}
