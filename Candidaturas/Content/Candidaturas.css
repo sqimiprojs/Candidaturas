@@ -131,6 +131,6 @@ input[type="checkbox"]:checked + .slider.round .off {
 
 .header h1 {
     position: relative;
-    top: 18px;
-    left: 10px;
+    top: 15px;
+    left: 20px;
 }

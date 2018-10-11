@@ -267,6 +267,7 @@
 
     $("#Nacionalidade").change(function () {
         validarNacionalidade();
+        validarRepFinancasNIF();
     });
 
     $("#CCDigitosControlo").blur(function () {
@@ -276,8 +277,9 @@
     //validar repartição de finanças do NIF RepFinWarning
     function validarRepFinancasNIF() {
         var valorNIF = $("#NIF").val();
+        var nacionalidade = $("#Nacionalidade").val();
 
-        if (valorNIF != "") {
+        if (valorNIF != "" && nacionalidade == "Portugal") {
             var valorRepFinNIF = $("#RepFinNIF").val();
 
             if (valorRepFinNIF == "") {

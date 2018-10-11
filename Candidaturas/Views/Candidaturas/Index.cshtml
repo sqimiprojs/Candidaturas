@@ -25,8 +25,7 @@
             </div>
         </div>
 
-        <br /><br /><br />
-        <table class="table">
+        <table class="table" style="margin-top: 90px;">
             @foreach (Exame exame in Model.ExamesEscolhidos)
             {
                 <tr>
@@ -56,8 +55,7 @@
             </div>
         </div>
 
-        <br /><br /><br />
-        <table class="table" id="mytable">
+        <table class="table" id="mytable" style="margin-top: 90px;">
             @foreach (Curso curso in Model.CursosEscolhidos)
             {
                 <tr>
@@ -66,10 +64,10 @@
                         <a class="glyphicon glyphicon-remove-circle" onclick="location.href='@Url.Action("RemoverCurso", "Candidaturas", new { id = (int)@curso.ID})'"><span class="customSpan">Remover</span></a>
                     </td>
                     <td>
-                        <a class="glyphicon glyphicon-arrow-up" onclick="location.href='@Url.Action("MoverParaCima", "Candidaturas", new { id = (int)@curso.ID})'"><span class="customSpan">Mais Prioritário</span></a>
+                        <a class="glyphicon glyphicon-chevron-up" onclick="location.href='@Url.Action("MoverParaCima", "Candidaturas", new { id = (int)@curso.ID})'"><span class="customSpan">Mais Prioritário</span></a>
                     </td>
                     <td>
-                        <a class="glyphicon glyphicon-arrow-down" onclick="location.href='@Url.Action("MoverParaBaixo", "Candidaturas", new { id = (int)@curso.ID})'"><span class="customSpan">Menos Prioritário</span></a>
+                        <a class="glyphicon glyphicon-chevron-down" onclick="location.href='@Url.Action("MoverParaBaixo", "Candidaturas", new { id = (int)@curso.ID})'"><span class="customSpan">Menos Prioritário</span></a>
                     </td>
                 </tr>
             }
