@@ -24,10 +24,16 @@
         .field-validation-error {
             color: red;
         }
+
+        img{
+            width: 75px;
+            height: 75px;
+        }
     </style>
 </head>
 <body>
     <div id="login-div" class="form-group">
+        <img src="~/Content/marinha.png" />
         @using (Html.BeginForm("Authorize", "Login", FormMethod.Post))
         {
             <table>
@@ -56,8 +62,8 @@
                 <tr>
                     <td></td>
                     <td>
-                        <input type="submit" name="name" value="Login" class="btn btn-default" />                        
-                        <div style = "margin-top:15px; font-size: 15px;">
+                        <input type="submit" name="name" value="Login" class="btn btn-default" />
+                        <div style="margin-top:15px; font-size: 15px;">
                             @Html.ActionLink("Criar Nova Conta", "AddOrEdit", "User", null, new { @class = "register-link" })
                         </div>
                     </td>
