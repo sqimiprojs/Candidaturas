@@ -53,10 +53,10 @@
                     <td>@documento.Nome</td>
                     <td>@documento.Descricao</td>
                     <td>
-                        <a class="glyphicon glyphicon-download" onclick="location.href='@Url.Action("DescarregarDocumento", "Documentos", new { id = (int)documento.ID})'"><span style="font-family:Arial,Helvetica,sans-serif;padding-left: 5px;">Download</span></a>
+                        <a class="glyphicon glyphicon-download" onclick="location.href='@Url.Action("DescarregarDocumento", "Documentos", new { id = (int)documento.ID})'"><span style="padding-left: 5px;">Download</span></a>
                     </td>
                     <td>
-                        <a class="glyphicon glyphicon-remove-circle" onclick="location.href='@Url.Action("RemoverDocumento", "Documentos", new { id = (int)documento.ID})'"><span style="font-family:Arial,Helvetica,sans-serif;padding-left: 5px;">Remover</span></a>
+                        <a class="glyphicon glyphicon-remove-circle" onclick="location.href='@Url.Action("RemoverDocumento", "Documentos", new { id = (int)documento.ID})'"><span style="padding-left: 5px;">Remover</span></a>
                     </td>
                 </tr>
             }
