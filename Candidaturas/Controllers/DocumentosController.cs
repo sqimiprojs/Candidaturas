@@ -19,11 +19,15 @@ namespace Candidaturas.Controllers
             documentos = new List<Documento>();
 
             LoginDataBaseEntities1 db = new LoginDataBaseEntities1();
-            int userId = (int)Session["userID"];
 
-            this.getSelectedDocumentos(db, userId);
+            if(Session["userID"] != null)
+            {
+                int userId = (int)Session["userID"];
 
-            ViewBag.DocumentosEscolhidos = documentos;
+                getSelectedDocumentos(db, userId);
+
+                ViewBag.DocumentosEscolhidos = documentos;
+            }
 
             return View("~/Views/Documentos/Index.cshtml");
         }
@@ -99,153 +103,174 @@ namespace Candidaturas.Controllers
         [HttpPost]
         public ActionResult Upload(Documento documento, HttpPostedFileBase file)
         {
-            int userId = (int)Session["userID"];
-
-            using (LoginDataBaseEntities1 dbModel = new LoginDataBaseEntities1())
+            if (Session["userID"] != null)
             {
-                try
+                int userId = (int)Session["userID"];
+
+                using (LoginDataBaseEntities1 dbModel = new LoginDataBaseEntities1())
                 {
-                    if (file != null && file.ContentLength > 0)
+                    try
                     {
-                        if (IsJpeg(file) || IsPdf(file))
+                        if (file != null && file.ContentLength > 0)
                         {
-                            file.InputStream.Seek(0, SeekOrigin.Begin);
+                            if (IsJpeg(file) || IsPdf(file))
+                            {
+                                file.InputStream.Seek(0, SeekOrigin.Begin);
 
-                            var fileName = Path.GetFileName(file.FileName);
-                            var fileType = file.ContentType;
+                                var fileName = Path.GetFileName(file.FileName);
+                                var fileType = file.ContentType;
 
-                            MemoryStream target = new MemoryStream();
-                            file.InputStream.CopyTo(target);
-                            byte[] data = target.ToArray();
+                                MemoryStream target = new MemoryStream();
+                                file.InputStream.CopyTo(target);
+                                byte[] data = target.ToArray();
 
-                            //criar documento
-                            Documento doc = new Documento();
+                                //criar documento
+                                Documento doc = new Documento();
 
-                            doc.Descricao = documento.Descricao;
-                            doc.Nome = fileName;
-                            doc.Ficheiro = data;
-                            doc.Tipo = fileType;
+                                doc.Descricao = documento.Descricao;
+                                doc.Nome = fileName;
+                                doc.Ficheiro = data;
+                                doc.Tipo = fileType;
 
-                            dbModel.Documentoes.Add(doc);
-                            dbModel.SaveChanges();
+                                dbModel.Documentoes.Add(doc);
+                                dbModel.SaveChanges();
 
-                            //criar userDocumento (relação entre user e documento)
-                            UserDocumento userDocumento = new UserDocumento();
+                                //criar userDocumento (relação entre user e documento)
+                                UserDocumento userDocumento = new UserDocumento();
 
-                            userDocumento.UserId = userId;
-                            userDocumento.DocumentoId = doc.ID;
+                                userDocumento.UserId = userId;
+                                userDocumento.DocumentoId = doc.ID;
 
-                            dbModel.UserDocumentoes.Add(userDocumento);
-                            dbModel.SaveChanges();
+                                dbModel.UserDocumentoes.Add(userDocumento);
+                                dbModel.SaveChanges();
+                            }
+                            else
+                            {
+                                Session["ErrorDoc"] = 1;
+
+                                Session["SelectedTab"] = 4;
+
+                                return RedirectToAction("Index", "Home");
+                            }
                         }
-                        else
-                        {
-                            Session["ErrorDoc"] = 1;
 
-                            Session["SelectedTab"] = 4;
-
-                            return RedirectToAction("Index", "Home");
-                        }
                     }
-
-                }
-                catch (System.Data.Entity.Validation.DbEntityValidationException dbEx)
-                {
-                    Exception raise = dbEx;
-                    foreach (var validationErrors in dbEx.EntityValidationErrors)
+                    catch (System.Data.Entity.Validation.DbEntityValidationException dbEx)
                     {
-                        foreach (var validationError in validationErrors.ValidationErrors)
+                        Exception raise = dbEx;
+                        foreach (var validationErrors in dbEx.EntityValidationErrors)
                         {
-                            string message = string.Format("{0}:{1}", validationErrors.Entry.Entity.ToString(), validationError.ErrorMessage);
-                            raise = new InvalidOperationException(message, raise);
+                            foreach (var validationError in validationErrors.ValidationErrors)
+                            {
+                                string message = string.Format("{0}:{1}", validationErrors.Entry.Entity.ToString(), validationError.ErrorMessage);
+                                raise = new InvalidOperationException(message, raise);
+                            }
                         }
+                        throw raise;
                     }
-                    throw raise;
                 }
+                ModelState.Clear();
+
+                Session["ErrorDoc"] = 0;
+
+                Session["SelectedTab"] = 4;
+
+                return RedirectToAction("Index", "Home");
             }
-            ModelState.Clear();
-
-            Session["ErrorDoc"] = 0;
-
-            Session["SelectedTab"] = 4;
-
-            return RedirectToAction("Index", "Home");
+            else
+            {
+                return RedirectToAction("LogOut", "Login");
+            }
         }
 
         //remove um documento adicionado pelo utilizador
         public ActionResult removerDocumento(int id)
         {
-            int userId = (int)Session["userID"];
-
-            using (LoginDataBaseEntities1 dbModel = new LoginDataBaseEntities1())
+            if(Session["userID"] != null)
             {
-                try
-                {
-                    UserDocumento ud = dbModel.UserDocumentoes.Where(dp => dp.DocumentoId == id).Where(dp => dp.UserId == userId).FirstOrDefault();
-                    dbModel.UserDocumentoes.Remove(ud);
+                int userId = (int)Session["userID"];
 
-                    Documento doc = dbModel.Documentoes.Where(dp => dp.ID == id).FirstOrDefault();
-                    dbModel.Documentoes.Remove(doc);
-
-                    dbModel.SaveChanges();
-                }
-                catch (System.Data.Entity.Validation.DbEntityValidationException dbEx)
+                using (LoginDataBaseEntities1 dbModel = new LoginDataBaseEntities1())
                 {
-                    Exception raise = dbEx;
-                    foreach (var validationErrors in dbEx.EntityValidationErrors)
+                    try
                     {
-                        foreach (var validationError in validationErrors.ValidationErrors)
-                        {
-                            string message = string.Format("{0}:{1}", validationErrors.Entry.Entity.ToString(), validationError.ErrorMessage);
-                            raise = new InvalidOperationException(message, raise);
-                        }
+                        UserDocumento ud = dbModel.UserDocumentoes.Where(dp => dp.DocumentoId == id).Where(dp => dp.UserId == userId).FirstOrDefault();
+                        dbModel.UserDocumentoes.Remove(ud);
+
+                        Documento doc = dbModel.Documentoes.Where(dp => dp.ID == id).FirstOrDefault();
+                        dbModel.Documentoes.Remove(doc);
+
+                        dbModel.SaveChanges();
                     }
-                    throw raise;
+                    catch (System.Data.Entity.Validation.DbEntityValidationException dbEx)
+                    {
+                        Exception raise = dbEx;
+                        foreach (var validationErrors in dbEx.EntityValidationErrors)
+                        {
+                            foreach (var validationError in validationErrors.ValidationErrors)
+                            {
+                                string message = string.Format("{0}:{1}", validationErrors.Entry.Entity.ToString(), validationError.ErrorMessage);
+                                raise = new InvalidOperationException(message, raise);
+                            }
+                        }
+                        throw raise;
+                    }
                 }
+
+                Session["SelectedTab"] = 4;
+
+                return RedirectToAction("Index", "Home");
             }
-
-            Session["SelectedTab"] = 4;
-
-            return RedirectToAction("Index", "Home");
+            else
+            {
+                return RedirectToAction("LogOut", "Login");
+            }
         }
 
         //descarrega um documento adicionado pelo utilizador
         public ActionResult DescarregarDocumento(int id)
         {
-            using (LoginDataBaseEntities1 dbModel = new LoginDataBaseEntities1())
+            if (Session["userID"] != null)
             {
-                try
+                using (LoginDataBaseEntities1 dbModel = new LoginDataBaseEntities1())
                 {
-                    Documento doc = dbModel.Documentoes.Where(dp => dp.ID == id).FirstOrDefault();
-
-                    Response.Clear();
-                    Response.Buffer = true;
-                    Response.Charset = "";
-                    Response.Cache.SetCacheability(HttpCacheability.NoCache);
-                    Response.ContentType = doc.Tipo;
-                    Response.AppendHeader("Content-Disposition", "attachment; filename=" + doc.Nome);
-                    Response.BinaryWrite(doc.Ficheiro);
-                    Response.Flush();
-                    Response.End();
-                }
-                catch (System.Data.Entity.Validation.DbEntityValidationException dbEx)
-                {
-                    Exception raise = dbEx;
-                    foreach (var validationErrors in dbEx.EntityValidationErrors)
+                    try
                     {
-                        foreach (var validationError in validationErrors.ValidationErrors)
-                        {
-                            string message = string.Format("{0}:{1}", validationErrors.Entry.Entity.ToString(), validationError.ErrorMessage);
-                            raise = new InvalidOperationException(message, raise);
-                        }
+                        Documento doc = dbModel.Documentoes.Where(dp => dp.ID == id).FirstOrDefault();
+
+                        Response.Clear();
+                        Response.Buffer = true;
+                        Response.Charset = "";
+                        Response.Cache.SetCacheability(HttpCacheability.NoCache);
+                        Response.ContentType = doc.Tipo;
+                        Response.AppendHeader("Content-Disposition", "attachment; filename=" + doc.Nome);
+                        Response.BinaryWrite(doc.Ficheiro);
+                        Response.Flush();
+                        Response.End();
                     }
-                    throw raise;
+                    catch (System.Data.Entity.Validation.DbEntityValidationException dbEx)
+                    {
+                        Exception raise = dbEx;
+                        foreach (var validationErrors in dbEx.EntityValidationErrors)
+                        {
+                            foreach (var validationError in validationErrors.ValidationErrors)
+                            {
+                                string message = string.Format("{0}:{1}", validationErrors.Entry.Entity.ToString(), validationError.ErrorMessage);
+                                raise = new InvalidOperationException(message, raise);
+                            }
+                        }
+                        throw raise;
+                    }
                 }
+
+                Session["SelectedTab"] = 4;
+
+                return RedirectToAction("Index", "Home");
             }
-
-            Session["SelectedTab"] = 4;
-
-            return RedirectToAction("Index", "Home");
+            else
+            {
+                return RedirectToAction("LogOut", "Login");
+            }
         }
     }
 }

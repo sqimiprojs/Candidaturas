@@ -238,70 +238,69 @@ namespace Candidaturas.Controllers
             return jsonFreguesias;
         }
 
-        [HttpGet]
-        // GET: User
-        public ActionResult AddOrEdit(int id = 0)
-        {
-            DadosPessoai dadosPessoaisModel = new DadosPessoai();
-            return View(dadosPessoaisModel);
-        }
-
         [HttpPost]
         public ActionResult AddOrEdit(DadosPessoai dadosPessoaisModel)
         {
-            int userId = (int)Session["userID"];
-
-            using (LoginDataBaseEntities1 dbModel = new LoginDataBaseEntities1())
+            if(Session["userID"] != null)
             {
+                int userId = (int)Session["userID"];
 
-                try
+                using (LoginDataBaseEntities1 dbModel = new LoginDataBaseEntities1())
                 {
 
-                    DadosPessoai dadosPessoaisUser = dbModel.DadosPessoais.Where(dp => dp.UserId == userId).FirstOrDefault();
-
-                    dadosPessoaisModel.UserId = userId;
-
-                    //adicionar ou atualizar
-                    if (dadosPessoaisUser == null)
+                    try
                     {
-                        dbModel.DadosPessoais.Add(dadosPessoaisModel);
-                    }
-                    else
-                    {
-                        dbModel.DadosPessoais.Remove(dadosPessoaisUser);
-                        dadosPessoaisUser = dadosPessoaisModel;
-                        dbModel.DadosPessoais.Add(dadosPessoaisUser);
-                    }
 
-                    //actualiza nome completo
-                    User userData = dbModel.Users.Where(dp => dp.ID == userId).FirstOrDefault();
-                    userData.NomeCompleto = dadosPessoaisModel.NomeColoquial;
-                    userData.TipoDocID = dadosPessoaisModel.TipoDocID;
-                    userData.NDI = dadosPessoaisModel.NDI;
+                        DadosPessoai dadosPessoaisUser = dbModel.DadosPessoais.Where(dp => dp.UserId == userId).FirstOrDefault();
 
-                    dbModel.SaveChanges();
+                        dadosPessoaisModel.UserId = userId;
 
-                }
-                catch (System.Data.Entity.Validation.DbEntityValidationException e)
-                {
-                    foreach (var eve in e.EntityValidationErrors)
-                    {
-                        System.Diagnostics.Debug.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-                            eve.Entry.Entity.GetType().Name, eve.Entry.State);
-                        foreach (var ve in eve.ValidationErrors)
+                        //adicionar ou atualizar
+                        if (dadosPessoaisUser == null)
                         {
-                            System.Diagnostics.Debug.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
-                                ve.PropertyName, ve.ErrorMessage);
+                            dbModel.DadosPessoais.Add(dadosPessoaisModel);
                         }
+                        else
+                        {
+                            dbModel.DadosPessoais.Remove(dadosPessoaisUser);
+                            dadosPessoaisUser = dadosPessoaisModel;
+                            dbModel.DadosPessoais.Add(dadosPessoaisUser);
+                        }
+
+                        //actualiza nome completo
+                        User userData = dbModel.Users.Where(dp => dp.ID == userId).FirstOrDefault();
+                        userData.NomeCompleto = dadosPessoaisModel.NomeColoquial;
+                        userData.TipoDocID = dadosPessoaisModel.TipoDocID;
+                        userData.NDI = dadosPessoaisModel.NDI;
+
+                        dbModel.SaveChanges();
+
                     }
-                    throw;
+                    catch (System.Data.Entity.Validation.DbEntityValidationException e)
+                    {
+                        foreach (var eve in e.EntityValidationErrors)
+                        {
+                            System.Diagnostics.Debug.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                                eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                            foreach (var ve in eve.ValidationErrors)
+                            {
+                                System.Diagnostics.Debug.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                                    ve.PropertyName, ve.ErrorMessage);
+                            }
+                        }
+                        throw;
+                    }
                 }
+                ModelState.Clear();
+
+                Session["SelectedTab"] = 1;
+
+                return RedirectToAction("Index", "Home");
             }
-            ModelState.Clear();
-
-            Session["SelectedTab"] = 1;
-
-            return RedirectToAction("Index", "Home");
+            else
+            {
+                return RedirectToAction("LogOut", "Login");
+            }          
         }
     }
 }

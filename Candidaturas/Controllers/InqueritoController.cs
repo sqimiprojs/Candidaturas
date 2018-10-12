@@ -15,10 +15,10 @@ namespace Candidaturas.Controllers
         // GET: Inquerito
         public ActionResult Index()
         {
-            int userId = (int)Session["userID"];
-
-            if (userId != 0)
+            if (Session["userID"] != null)
             {
+                int userId = (int)Session["userID"];
+
                 this.getDadosPessoais(userId);
             }
 
@@ -74,78 +74,77 @@ namespace Candidaturas.Controllers
             ViewBag.ConhecimentoEscola = conhecimentosEscola.ToList();
         }
 
-        [HttpGet]
-        // GET: User
-        public ActionResult AddOrEdit(int id = 0)
-        {
-            Inquerito inqueritoModel = new Inquerito();
-            return View(inqueritoModel);
-        }
-
         [HttpPost]
         public ActionResult AddOrEdit(Inquerito inqueritoModel)
         {
-            int userId = (int)Session["userID"];
-
-            using (LoginDataBaseEntities1 dbModel = new LoginDataBaseEntities1())
+            if(Session["userID"] != null)
             {
+                int userId = (int)Session["userID"];
 
-                try
+                using (LoginDataBaseEntities1 dbModel = new LoginDataBaseEntities1())
                 {
 
-                    Inquerito inqueritoUser = dbModel.Inqueritoes.Where(dp => dp.UserId == userId).FirstOrDefault();
-
-                    inqueritoModel.UserId = userId;
-
-                    if (inqueritoModel.SituacaoMae == null)
+                    try
                     {
-                        inqueritoModel.SituacaoMae = String.Empty;
-                    }
 
-                    if (inqueritoModel.SituacaoPai == null)
-                    {
-                        inqueritoModel.SituacaoPai = String.Empty;
-                    }
+                        Inquerito inqueritoUser = dbModel.Inqueritoes.Where(dp => dp.UserId == userId).FirstOrDefault();
 
-                    if (inqueritoModel.ConhecimentoEscola == null)
-                    {
-                        inqueritoModel.ConhecimentoEscola = String.Empty;
-                    }
+                        inqueritoModel.UserId = userId;
 
-                    if (inqueritoUser == null)
-                    {
-                        dbModel.Inqueritoes.Add(inqueritoModel);
-                    }
-                    else
-                    {
-                        dbModel.Inqueritoes.Remove(inqueritoUser);
-                        inqueritoUser = inqueritoModel;
-                        dbModel.Inqueritoes.Add(inqueritoUser);
-                    }
-
-                    dbModel.SaveChanges();
-
-                }
-                catch (System.Data.Entity.Validation.DbEntityValidationException e)
-                {
-                    foreach (var eve in e.EntityValidationErrors)
-                    {
-                        System.Diagnostics.Debug.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-                            eve.Entry.Entity.GetType().Name, eve.Entry.State);
-                        foreach (var ve in eve.ValidationErrors)
+                        if (inqueritoModel.SituacaoMae == null)
                         {
-                            System.Diagnostics.Debug.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
-                                ve.PropertyName, ve.ErrorMessage);
+                            inqueritoModel.SituacaoMae = String.Empty;
                         }
+
+                        if (inqueritoModel.SituacaoPai == null)
+                        {
+                            inqueritoModel.SituacaoPai = String.Empty;
+                        }
+
+                        if (inqueritoModel.ConhecimentoEscola == null)
+                        {
+                            inqueritoModel.ConhecimentoEscola = String.Empty;
+                        }
+
+                        if (inqueritoUser == null)
+                        {
+                            dbModel.Inqueritoes.Add(inqueritoModel);
+                        }
+                        else
+                        {
+                            dbModel.Inqueritoes.Remove(inqueritoUser);
+                            inqueritoUser = inqueritoModel;
+                            dbModel.Inqueritoes.Add(inqueritoUser);
+                        }
+
+                        dbModel.SaveChanges();
+
                     }
-                    throw;
+                    catch (System.Data.Entity.Validation.DbEntityValidationException e)
+                    {
+                        foreach (var eve in e.EntityValidationErrors)
+                        {
+                            System.Diagnostics.Debug.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                                eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                            foreach (var ve in eve.ValidationErrors)
+                            {
+                                System.Diagnostics.Debug.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                                    ve.PropertyName, ve.ErrorMessage);
+                            }
+                        }
+                        throw;
+                    }
                 }
+                ModelState.Clear();
+
+                Session["SelectedTab"] = 2;
+
+                return RedirectToAction("Index", "Home");
             }
-            ModelState.Clear();
-
-            Session["SelectedTab"] = 2;
-
-            return RedirectToAction("Index", "Home");
+            else
+            {
+                return RedirectToAction("LogOut", "Login");
+            }
         }
     }
 }
