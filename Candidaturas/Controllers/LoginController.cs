@@ -27,7 +27,6 @@ namespace Candidaturas.Controllers
                 else
                 {
                     Session["userID"] = userDetails.ID;
-                    Session["userName"] = userDetails.NomeCompleto;
                     return RedirectToAction("Index", "Home");
                 }
             }
