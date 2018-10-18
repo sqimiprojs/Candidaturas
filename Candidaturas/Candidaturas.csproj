@@ -181,6 +181,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CandidaturasModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\CursoDisplay.cs" />
     <Compile Include="Models\Concelho.cs">
       <DependentUpon>CandidaturasModel.tt</DependentUpon>
     </Compile>

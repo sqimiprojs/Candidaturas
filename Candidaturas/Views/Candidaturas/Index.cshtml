@@ -56,10 +56,11 @@
         </div>
 
         <table class="table" id="mytable" style="margin-top: 90px;">
-            @foreach (Curso curso in Model.CursosEscolhidos)
+            @foreach (CursoDisplay curso in Model.CursosEscolhidos)
             {
                 <tr>
-                    <td>@curso.Nome</td>
+                    <td>@curso.prioridade.</td>
+                    <td>@curso.nome</td>
                     <td>
                         <a class="glyphicon glyphicon-remove-circle" onclick="location.href='@Url.Action("RemoverCurso", "Candidaturas", new { id = (int)@curso.ID})'"><span class="customSpan">Remover</span></a>
                     </td>

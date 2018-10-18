@@ -45,22 +45,27 @@ namespace Candidaturas
 
         public void MailPassword(String email, String pwd)
         {
-            MailMessage msg = new MailMessage();
-            msg.From = new MailAddress("admin@candidaturas.com");
+            MailMessage msg = new MailMessage
+            {
+                From = new MailAddress("admin@candidaturas.com")
+            };
+
             msg.To.Add(email);
             msg.Subject = "Random Password for your Account";
             msg.Body = "Your Random password is: " + pwd;
             msg.IsBodyHtml = true;
 
-            //SmtpClient smt = new SmtpClient();
+            SmtpClient smt = new SmtpClient
+            {
+                Host = Constants.Host,
+                Port = Constants.Port
+            };
 
-            SmtpClient smt = new SmtpClient();
-            smt.Host = Constants.Host;
-            smt.Port = Constants.Port;
-
-            System.Net.NetworkCredential ntwd = new NetworkCredential();
-            ntwd.UserName = Constants.Email; //Your Email ID  
-            ntwd.Password = Constants.Password; // Your Password  
+            System.Net.NetworkCredential ntwd = new NetworkCredential
+            {
+                UserName = Constants.Email,  
+                Password = Constants.Password  
+            };
 
             smt.UseDefaultCredentials = false;
             smt.Credentials = ntwd;

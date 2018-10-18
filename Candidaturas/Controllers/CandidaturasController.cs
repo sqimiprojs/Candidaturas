@@ -10,14 +10,14 @@ namespace Candidaturas.Controllers
     public class CandidaturasController : Controller
     {
         List<Exame> exames;
-        List<Curso> cursos;
+        List<CursoDisplay> cursos;
 
         // GET: Candidaturas
         public ActionResult Index()
         {
 
             exames = new List<Exame>();
-            cursos = new List<Curso>();
+            cursos = new List<CursoDisplay>();
 
             if(Session["userID"] != null)
             {
@@ -55,8 +55,12 @@ namespace Candidaturas.Controllers
 
             foreach (int curso in cursosEscolhidos)
             {
-                Curso cu = db.Cursoes.Where(dp => dp.ID == curso).FirstOrDefault();
-                cursos.Add(cu);
+                CursoDisplay cd = new CursoDisplay();
+
+                cd.nome = db.Cursoes.Where(dp => dp.ID == curso).Select(dp => dp.Nome).First();
+                cd.prioridade = db.UserCursoes.Where(dp => dp.CursoId == curso && dp.UserId == userId).Select(dp => dp.Prioridade).FirstOrDefault();
+                cd.ID = db.Cursoes.Where(dp => dp.ID == curso).Select(dp => dp.ID).First();
+                cursos.Add(cd);
             }
         }
 
