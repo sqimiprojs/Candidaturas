@@ -39,9 +39,19 @@ namespace Candidaturas
 
                 return true;
             }
-            catch(SmtpException smtpe)
+            catch(SmtpFailedRecipientsException smtpe)
             {
                 Console.WriteLine("Error: {0}", smtpe.StatusCode);
+                return false;
+            }
+            catch (SmtpException smtpe)
+            {
+                Console.WriteLine("Error: {0}", smtpe.StatusCode);
+                return false;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Exception caught in RetryIfBusy(): {0}", e.ToString());
                 return false;
             }
         }
