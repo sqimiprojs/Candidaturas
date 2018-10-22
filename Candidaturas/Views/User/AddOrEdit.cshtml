@@ -219,9 +219,9 @@
 
     //validar email
     function regexEmail(email) {
-        var re = "\b[A-Z0-9._%+-]+@@[A-Z0-9.-]+\.[A-Z]{2,}\b.";
+        var re = /[A-Z0-9._%+-]+@@[A-Z0-9.-]+.[A-Z]{2,4}/igm;
 
-        return re.test(String(email).toLowerCase());
+        return re.test(email);
     }
 
     function validarEmail() {
