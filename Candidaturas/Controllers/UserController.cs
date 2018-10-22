@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Net.Mail;
 using System.Web.Mvc;
 using Candidaturas.Models;
 using Newtonsoft.Json;
@@ -50,8 +49,7 @@ namespace Candidaturas.Controllers
         [HttpPost]
         public ActionResult AddOrEdit(User userModel)
         {
-            Password pwd = new Password();
-            string newPassword = pwd.GeneratePassword().ToString();
+            string newPassword = Password.GeneratePassword().ToString();
 
             CaptchaResponse response = ValidateCaptcha(Request["g-recaptcha-response"]);
 
@@ -82,7 +80,7 @@ namespace Candidaturas.Controllers
                 }
                 ModelState.Clear();
 
-                pwd.MailPassword(userModel.Email, newPassword);
+                Email.MailPassword(userModel.Email, newPassword);
 
                 return View("Success");
             }

@@ -1,16 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Mail;
-using System.Web;
 
 namespace Candidaturas
 {
     public class Password
     {
 
-        public string GeneratePassword()
+        public static string GeneratePassword()
         {
             string PasswordLength = "8";
             string NewPassword = "";
@@ -41,36 +36,6 @@ namespace Candidaturas
 
             }
             return NewPassword;
-        }
-
-        public void MailPassword(String email, String pwd)
-        {
-            MailMessage msg = new MailMessage
-            {
-                From = new MailAddress("admin@candidaturas.com")
-            };
-
-            msg.To.Add(email);
-            msg.Subject = "Random Password for your Account";
-            msg.Body = "Your Random password is: " + pwd;
-            msg.IsBodyHtml = true;
-
-            SmtpClient smt = new SmtpClient
-            {
-                Host = Constants.Host,
-                Port = Constants.Port
-            };
-
-            System.Net.NetworkCredential ntwd = new NetworkCredential
-            {
-                UserName = Constants.Email,  
-                Password = Constants.Password  
-            };
-
-            smt.UseDefaultCredentials = false;
-            smt.Credentials = ntwd;
-            smt.EnableSsl = true;
-            smt.Send(msg);
         }
     }
 }
