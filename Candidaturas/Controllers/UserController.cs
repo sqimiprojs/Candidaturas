@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Mail;
 using System.Web.Mvc;
 using Candidaturas.Models;
 using Newtonsoft.Json;
@@ -80,9 +81,18 @@ namespace Candidaturas.Controllers
                 }
                 ModelState.Clear();
 
-                Email.MailPassword(userModel.Email, newPassword);
+                bool emailStatus = Email.MailPassword(userModel.Email, newPassword);
 
-                return View("Success");
+                if (!emailStatus)
+                {
+                    ViewBag.ErrorMessage = "Email inválido.";
+
+                    return View();
+                }
+                else
+                {
+                    return View("Success");
+                }
             }
             else
             {
