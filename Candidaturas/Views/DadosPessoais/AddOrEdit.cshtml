@@ -102,15 +102,6 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.CCDigitosControlo, "Dígitos de Controlo do Cartão de Cidadão", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.CCDigitosControlo, new { htmlAttributes = new { @class = "form-control", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.CCDigitosControlo) } })
-                @Html.ValidationMessageFor(model => model.CCDigitosControlo, "", new { @class = "text-danger" })
-                <span id="DigConWarning" for="CCDigitosControlo" class="text-danger"></span>
-            </div>
-        </div>
-
-        <div class="form-group">
             @Html.LabelFor(model => model.NIF, "Nº de Identificação Fiscal", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.NIF, new { htmlAttributes = new { @class = "form-control", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.NIF) } })
@@ -254,15 +245,10 @@
         validarCCouBI();
         mostrarPlaceholderFormatoCC();
         validarNacionalidade();
-        validarDigitosControlo();
     });
 
     $("#Nacionalidade").change(function () {
         validarNacionalidade();
-    });
-
-    $("#CCDigitosControlo").blur(function () {
-        validarDigitosControlo();
     });
 
     //validar NIF
@@ -307,13 +293,9 @@
 
         if (nacionalidade == "Portugal") {
             $("label[for='NIF']").last().addClass("required");
-            $("label[for='RepFinNIF']").last().addClass("required");
-            $("label[for='CCDigitosControlo']").last().addClass("required");
         }
         else {
             $("label[for='NIF']").removeClass("required");
-            $("label[for='RepFinNIF']").removeClass("required");
-            $("label[for='CCDigitosControlo']").removeClass("required");
         }
     });
 
@@ -326,8 +308,6 @@
             var NIF = $("#NIF").val();
 
             $("label[for='NIF']").last().addClass("required");
-            $("label[for='RepFinNIF']").last().addClass("required");
-            $("label[for='CCDigitosControlo']").last().addClass("required");
 
             if (validarDocumentoEscolhido(tipoDocID) && NIFNaoVazio(NIF)) {
                 $("#NacWarning").hide();
@@ -344,8 +324,6 @@
                 $("#NacWarning").hide();
             }
             $("label[for='NIF']").removeClass("required");
-            $("label[for='RepFinNIF']").removeClass("required");
-            $("label[for='CCDigitosControlo']").removeClass("required");
 
             return true;
         }
@@ -396,33 +374,9 @@
         }
     }
 
-    function validarDigitosControlo() {
-        var chosenValue = $("#TipoDocID").val();
-
-        if (validarDocumentoEscolhido(chosenValue)) {
-            var digitosControlo = $("#CCDigitosControlo").val();
-
-            if (digitosControlo == "") {
-                $("#DigConWarning").text("Necessário preencher dígitos de controlo do cartão de cidadão.");
-                $("#DigConWarning").show();
-                return false;
-            }
-            else {
-                $("#DigConWarning").hide();
-                return true;
-            }
-        }
-        else {
-            if ($("#DigConWarning").is(":visible")) {
-                $("#DigConWarning").hide();
-            }
-            return true;
-        }
-    }
-
     function regexCC() {
         var term = $("#NDI").val();
-        var re = new RegExp("^[0-9]{8}[ -]*[0-9][A-Z]{2}[0-9]$");
+        var re = new RegExp("^[0-9]{8}[ -]*[0-9][A-Za-z]{2}[0-9]$");
 
         if (re.test(term)) {
             $("#NDIWarning").hide();
@@ -446,10 +400,6 @@
         }
 
         if (!validarNacionalidade()) {
-            valid = false;
-        }
-
-        if (!validarDigitosControlo()) {
             valid = false;
         }
 

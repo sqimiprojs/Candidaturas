@@ -255,6 +255,19 @@ namespace Candidaturas.Controllers
 
                         dadosPessoaisModel.UserId = userId;
 
+                        //obter dígitos de controlo do cartão de cidadão
+                        if(dadosPessoaisModel.TipoDocID == "Cartão do Cidadão" || dadosPessoaisModel.TipoDocID == "Bilhete de Identidade")
+                        {
+                            int idx = dadosPessoaisModel.NDI.IndexOf("-")+1;
+                            int length = dadosPessoaisModel.NDI.Length;
+                            string digitosControlo = dadosPessoaisModel.NDI.Substring(idx, length - idx);
+                            dadosPessoaisModel.CCDigitosControlo = digitosControlo;
+                        }
+                        else
+                        {
+                            dadosPessoaisModel.CCDigitosControlo = String.Empty;
+                        }
+
                         //adicionar ou atualizar
                         if (dadosPessoaisUser == null)
                         {

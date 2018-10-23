@@ -161,7 +161,7 @@
 
     function validarCC() {
         var term = $("#NDI").val();
-        var re = new RegExp("^[0-9]{8}[ -]*[0-9][A-Z]{2}[0-9]$");
+        var re = new RegExp("^[0-9]{8}[ -]*[0-9][A-Za-z]{2}[0-9]$");
 
         return re.test(term);
     }
