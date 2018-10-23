@@ -238,12 +238,12 @@
 
     $("#NDI").blur(function () {
         validarCCouBI();
-        mostrarPlaceholderFormatoCC();
+        mostrarPlaceholderFormatoCCouBI();
     });
 
     $("#TipoDocID").change(function () {
         validarCCouBI();
-        mostrarPlaceholderFormatoCC();
+        mostrarPlaceholderFormatoCCouBI();
         validarNacionalidade();
     });
 
@@ -338,11 +338,14 @@
     }
 
     //mostrar formato do CC caso seleccionar esse
-    function mostrarPlaceholderFormatoCC() {
+    function mostrarPlaceholderFormatoCCouBI() {
         var chosenValue = $("#TipoDocID").val();
 
-        if (validarDocumentoEscolhido(chosenValue)) {
+        if (chosenValue == "Cartão do Cidadão") {
             $("#NDI").attr("placeholder", "DDDDDDDD-CAAT");
+        }
+        else if (chosenValue == "Bilhete de Identidade") {
+            $("#NDI").attr("placeholder", "DDDDDDDD-C");
         }
         else {
             $('#NDI').removeAttr('placeholder');
@@ -353,11 +356,24 @@
     function validarCCouBI() {
         var chosenValue = $("#TipoDocID").val();
 
-        if (validarDocumentoEscolhido(chosenValue)) {
+        if (chosenValue == "Cartão do Cidadão") {
             var term = $("#NDI").val();
 
             if (term != "") {
                 var validation = regexCC();
+                if (!validation) {
+                    return false;
+                }
+                else {
+                    return true;
+                }
+            }
+        }
+        if (chosenValue == "Bilhete de Identidade") {
+            var term = $("#NDI").val();
+
+            if (term != "") {
+                var validation = regexBI();
                 if (!validation) {
                     return false;
                 }
@@ -377,6 +393,20 @@
     function regexCC() {
         var term = $("#NDI").val();
         var re = new RegExp("^[0-9]{8}[ -]*[0-9][A-Za-z]{2}[0-9]$");
+
+        if (re.test(term)) {
+            $("#NDIWarning").hide();
+            return true;
+        } else {
+            $("#NDIWarning").text("Cartão de cidadão ou bilhete de identidade inválido.");
+            $("#NDIWarning").show();
+            return false;
+        }
+    }
+
+    function regexBI() {
+        var term = $("#NDI").val();
+        var re = new RegExp("^[0-9]{8}[ -]*[0-9]$");
 
         if (re.test(term)) {
             $("#NDIWarning").hide();

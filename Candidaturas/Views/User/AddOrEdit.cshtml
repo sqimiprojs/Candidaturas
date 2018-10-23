@@ -116,12 +116,12 @@
 <script type="text/javascript">
     $("#NDI").blur(function () {
         validarTipoDocId();
-        mostrarPlaceholderFormatoCC();
+        mostrarPlaceholderFormatoCCouBI();
     });
 
     $("#TipoDocID").change(function () {
         validarTipoDocId();
-        mostrarPlaceholderFormatoCC();
+        mostrarPlaceholderFormatoCCouBI();
     });
 
     $("#Email").blur(function () {
@@ -135,7 +135,11 @@
             var term = $("#NDI").val();
 
             if (term != "") {
-                if (validarCC()) {
+                if (validarCC() && chosenValue == "Cartão do Cidadão") {
+                    $("#NIFWarning").hide();
+                    return true;
+                }
+                if (validarBI() && chosenValue == "Bilhete de Identidade") {
                     $("#NIFWarning").hide();
                     return true;
                 }
@@ -166,16 +170,26 @@
         return re.test(term);
     }
 
+    function validarBI() {
+        var term = $("#NDI").val();
+        var re = new RegExp("^[0-9]{8}[ -]*[0-9]$");
+
+        return re.test(term);
+    }
+
     function validarDocumentoEscolhido(tipoDocID) {
         return tipoDocID == "Cartão do Cidadão" || tipoDocID == "Bilhete de Identidade";
     }
 
     //mostrar formato do CC caso seleccionar esse
-    function mostrarPlaceholderFormatoCC() {
+    function mostrarPlaceholderFormatoCCouBI() {
         var chosenValue = $("#TipoDocID").val();
 
-        if (validarDocumentoEscolhido(chosenValue)) {
+        if (chosenValue == "Cartão do Cidadão") {
             $("#NDI").attr("placeholder", "DDDDDDDD-CAAT");
+        }
+        else if (chosenValue == "Bilhete de Identidade") {
+            $("#NDI").attr("placeholder", "DDDDDDDD-C");
         }
         else {
             $('#NDI').removeAttr('placeholder');
