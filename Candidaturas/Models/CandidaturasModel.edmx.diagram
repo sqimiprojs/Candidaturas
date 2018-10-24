@@ -19,7 +19,6 @@
         <AssociationConnector Association="LoginDataBaseModel.FK_CursoIdUC" />
         <AssociationConnector Association="LoginDataBaseModel.FK_ExameUE" />
         <EntityTypeShape EntityType="LoginDataBaseModel.Localidade" Width="1.5" PointX="8.375" PointY="9.75" />
-        <EntityTypeShape EntityType="LoginDataBaseModel.Nacionalidade" Width="1.5" PointX="10.375" PointY="6.75" />
         <EntityTypeShape EntityType="LoginDataBaseModel.User" Width="1.5" PointX="0.75" PointY="9.75" />
         <AssociationConnector Association="LoginDataBaseModel.FK_UserId" />
         <AssociationConnector Association="LoginDataBaseModel.FK_UserUE" />
@@ -28,6 +27,7 @@
         <EntityTypeShape EntityType="LoginDataBaseModel.Concelho" Width="1.5" PointX="5.375" PointY="6.75" />
         <EntityTypeShape EntityType="LoginDataBaseModel.Distrito" Width="1.5" PointX="7.375" PointY="6.75" />
         <EntityTypeShape EntityType="LoginDataBaseModel.Freguesia" Width="1.5" PointX="12.375" PointY="3.75" />
+        <EntityTypeShape EntityType="LoginDataBaseModel.Pai" Width="1.5" PointX="9.375" PointY="6.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

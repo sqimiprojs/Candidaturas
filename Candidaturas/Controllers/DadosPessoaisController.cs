@@ -161,7 +161,7 @@ namespace Candidaturas.Controllers
 
             });
 
-            IEnumerable<SelectListItem> nacionalidades = db.Nacionalidades.OrderBy(dp => dp.Nome).Select(c => new SelectListItem
+            IEnumerable<SelectListItem> nacionalidades = db.Pais.OrderBy(dp => dp.Nome).Select(c => new SelectListItem
             {
                 Value = c.Nome,
                 Text = c.Nome,

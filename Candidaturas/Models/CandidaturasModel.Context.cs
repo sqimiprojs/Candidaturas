@@ -37,12 +37,12 @@ namespace Candidaturas.Models
         public virtual DbSet<UserDocumento> UserDocumentoes { get; set; }
         public virtual DbSet<UserExame> UserExames { get; set; }
         public virtual DbSet<Localidade> Localidades { get; set; }
-        public virtual DbSet<Nacionalidade> Nacionalidades { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<DadosPessoai> DadosPessoais { get; set; }
         public virtual DbSet<Documento> Documentoes { get; set; }
         public virtual DbSet<Concelho> Concelhoes { get; set; }
         public virtual DbSet<Distrito> Distritoes { get; set; }
         public virtual DbSet<Freguesia> Freguesias { get; set; }
+        public virtual DbSet<Pai> Pais { get; set; }
     }
 }

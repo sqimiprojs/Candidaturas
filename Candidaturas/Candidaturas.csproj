@@ -219,7 +219,7 @@
     <Compile Include="Models\Localidade.cs">
       <DependentUpon>CandidaturasModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Nacionalidade.cs">
+    <Compile Include="Models\Pai.cs">
       <DependentUpon>CandidaturasModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Situacao.cs">

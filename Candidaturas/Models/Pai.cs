@@ -12,9 +12,10 @@ namespace Candidaturas.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Nacionalidade
+    public partial class Pai
     {
         public int ID { get; set; }
         public string Nome { get; set; }
+        public string Sigla { get; set; }
     }
 }

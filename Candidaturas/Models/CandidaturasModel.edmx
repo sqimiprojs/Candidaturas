@@ -132,12 +132,13 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Nome" Type="varchar" MaxLength="50" />
         </EntityType>
-        <EntityType Name="Nacionalidade">
+        <EntityType Name="Pais">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Nome" Type="varchar" MaxLength="50" />
+          <Property Name="Sigla" Type="varchar" MaxLength="10" Nullable="false" />
         </EntityType>
         <EntityType Name="Situacao">
           <Key>
@@ -241,7 +242,7 @@
           <EntitySet Name="Genero" EntityType="Self.Genero" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Inquerito" EntityType="Self.Inquerito" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Localidade" EntityType="Self.Localidade" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Nacionalidade" EntityType="Self.Nacionalidade" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Pais" EntityType="Self.Pais" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Situacao" EntityType="Self.Situacao" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TipoDocumentoID" EntityType="Self.TipoDocumentoID" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
@@ -286,7 +287,6 @@
             <End Role="UserExame" EntitySet="UserExames" />
           </AssociationSet>
           <EntitySet Name="Localidades" EntityType="LoginDataBaseModel.Localidade" />
-          <EntitySet Name="Nacionalidades" EntityType="LoginDataBaseModel.Nacionalidade" />
           <EntitySet Name="Users" EntityType="LoginDataBaseModel.User" />
           <AssociationSet Name="FK_UserId" Association="LoginDataBaseModel.FK_UserId">
             <End Role="User" EntitySet="Users" />
@@ -301,6 +301,7 @@
           <EntitySet Name="Concelhoes" EntityType="LoginDataBaseModel.Concelho" />
           <EntitySet Name="Distritoes" EntityType="LoginDataBaseModel.Distrito" />
           <EntitySet Name="Freguesias" EntityType="LoginDataBaseModel.Freguesia" />
+          <EntitySet Name="Pais" EntityType="LoginDataBaseModel.Pai" />
         </EntityContainer>
         <EntityType Name="ConhecimentoEscola">
           <Key>
@@ -429,13 +430,6 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Nome" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
-        <EntityType Name="Nacionalidade">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Nome" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-        </EntityType>
         <EntityType Name="User">
           <Key>
             <PropertyRef Name="ID" />
@@ -544,6 +538,14 @@
           <Property Name="Codigo" Type="Int32" Nullable="false" />
           <Property Name="CodigoConcelho" Type="Int32" Nullable="false" />
           <Property Name="CodigoDistrito" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Pai">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nome" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Sigla" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -660,14 +662,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Nacionalidades">
-            <EntityTypeMapping TypeName="LoginDataBaseModel.Nacionalidade">
-              <MappingFragment StoreEntitySet="Nacionalidade">
-                <ScalarProperty Name="Nome" ColumnName="Nome" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="LoginDataBaseModel.User">
               <MappingFragment StoreEntitySet="User">
@@ -752,6 +746,15 @@
                 <ScalarProperty Name="CodigoDistrito" ColumnName="CodigoDistrito" />
                 <ScalarProperty Name="CodigoConcelho" ColumnName="CodigoConcelho" />
                 <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Pais">
+            <EntityTypeMapping TypeName="LoginDataBaseModel.Pai">
+              <MappingFragment StoreEntitySet="Pais">
+                <ScalarProperty Name="Sigla" ColumnName="Sigla" />
                 <ScalarProperty Name="Nome" ColumnName="Nome" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
