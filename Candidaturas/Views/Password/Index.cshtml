@@ -12,29 +12,14 @@
     <script src="~/Scripts/jquery-3.3.1.min.js"></script>
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
-    <style>
-        .field-validation-error {
-            color: red;
-        }
-
-        .header2 img {
-            float: left;
-        }
-
-        .header2 h2 {
-            position: relative;
-            top: 15px;
-            left: 20px;
-        }
-    </style>
 </head>
 <body>
-    <div class="header2">
+    <div class="header">
         <img src="~/Content/marinha.png" alt="Logo Marinha" />
-        <h2>Recuperação de Password</h2>
+        <h1>Recuperação de Password</h1>
     </div>
 
-    <div id="form-horizontal" class="form-group">
+    <div id="form-horizontal" class="form-group" style="margin-top: 20px;">
         @using (Html.BeginForm("RequestNewPassword", "Password", FormMethod.Post))
         {
             <table>
