@@ -7,7 +7,7 @@ namespace Candidaturas
 
         public static string GeneratePassword()
         {
-            string PasswordLength = "8";
+            string PasswordLength = "14";
             string NewPassword = "";
 
             string allowedChars = "";

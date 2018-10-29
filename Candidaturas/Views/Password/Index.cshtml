@@ -1,0 +1,65 @@
+﻿@model Candidaturas.Models.User
+
+@{
+    ViewBag.Title = "Recuperação de Password";
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Recuperação de Password</title>
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <style>
+        .field-validation-error {
+            color: red;
+        }
+
+        .header2 img {
+            float: left;
+        }
+
+        .header2 h2 {
+            position: relative;
+            top: 15px;
+            left: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header2">
+        <img src="~/Content/marinha.png" alt="Logo Marinha" />
+        <h2>Recuperação de Password</h2>
+    </div>
+
+    <div id="form-horizontal" class="form-group">
+        @using (Html.BeginForm("RequestNewPassword", "Password", FormMethod.Post))
+        {
+            <table>
+                <br />
+                <tr>
+                    <td>@Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })</td>
+                    <td>@Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @required = true } })</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>@Html.ValidationMessageFor(model => model.Email)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><span class="text-danger">@ViewBag.PasswordError</span></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <input type="submit" name="name" value="Submeter" class="btn btn-default" />
+                    </td>
+                </tr>
+            </table>
+        }
+
+    </div>
+</body>
+</html>

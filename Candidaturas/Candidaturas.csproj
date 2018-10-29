@@ -162,6 +162,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InqueritoController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\PasswordController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Email.cs" />
     <Compile Include="Global.asax.cs">
@@ -255,6 +256,8 @@
     <Content Include="Views\User\Success.cshtml" />
     <Content Include="Views\Declaracao\Index.cshtml" />
     <Content Include="Views\Documentos\Index.cshtml" />
+    <Content Include="Views\Password\Index.cshtml" />
+    <Content Include="Views\Password\Success.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -264,7 +267,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Password\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

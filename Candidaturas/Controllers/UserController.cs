@@ -81,18 +81,12 @@ namespace Candidaturas.Controllers
                 }
                 ModelState.Clear();
 
-                bool emailStatus = Email.MailPassword(userModel.Email, newPassword);
+                string subject = "Password de Acesso";
+                string body = "A password de acesso para a sua conta é a seguinte: " + newPassword;
 
-                if (!emailStatus)
-                {
-                    ViewBag.ErrorMessage = "Email inválido.";
+                Email.SendEmail(userModel.Email, subject, body);
 
-                    return View();
-                }
-                else
-                {
-                    return View("Success");
-                }
+                return View("Success");
             }
             else
             {
