@@ -8,9 +8,10 @@ namespace Candidaturas
     {
         public static void SendEmail(String email, String subject, String body)
         {
+            //criar mensagem
             MailMessage msg = new MailMessage
             {
-                From = new MailAddress("admin@candidaturas.com")
+                From = new MailAddress(Constants.Email)
             };
 
             msg.To.Add(email);
@@ -18,6 +19,8 @@ namespace Candidaturas
             msg.Body = body;
             msg.IsBodyHtml = true;
 
+
+            //enviar mensagem
             SmtpClient smt = new SmtpClient
             {
                 Host = Constants.Host,
