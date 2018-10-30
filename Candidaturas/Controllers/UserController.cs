@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Mail;
 using System.Web.Mvc;
 using Candidaturas.Models;
-using Newtonsoft.Json;
 
 namespace Candidaturas.Controllers
 {
@@ -25,19 +22,6 @@ namespace Candidaturas.Controllers
             ViewBag.TipoDocID = tiposDocumentosId.ToList();
         }
 
-        /// <summary>  
-        /// Validate Captcha  
-        /// </summary>  
-        /// <param name="response"></param>  
-        /// <returns></returns>  
-        public static CaptchaResponse ValidateCaptcha(string response)
-        {
-            string secret = System.Web.Configuration.WebConfigurationManager.AppSettings["recaptchaPrivateKey"];
-            var client = new WebClient();
-            var jsonResult = client.DownloadString(string.Format("https://www.google.com/recaptcha/api/siteverify?secret={0}&response={1}", secret, response));
-            return JsonConvert.DeserializeObject<CaptchaResponse>(jsonResult.ToString());
-        }
-
         [HttpGet]
         // GET: User
         public ActionResult AddOrEdit(int id=0)
@@ -52,7 +36,7 @@ namespace Candidaturas.Controllers
         {
             string newPassword = Password.GeneratePassword().ToString();
 
-            CaptchaResponse response = ValidateCaptcha(Request["g-recaptcha-response"]);
+            CaptchaResponse response = CaptchaValidator.ValidateCaptcha(Request["g-recaptcha-response"]);
 
             if (response.Success)
             {
@@ -85,6 +69,8 @@ namespace Candidaturas.Controllers
                 string body = "A password de acesso para a sua conta é a seguinte: " + newPassword;
 
                 Email.SendEmail(userModel.Email, subject, body);
+
+                ViewBag.Subtitle = "Criação de Conta";
 
                 ViewBag.ConfirmationMessage = "Registo de utilizador efetuado com sucesso. A sua password de acesso foi enviada para o seu email.";
 

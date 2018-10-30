@@ -21,7 +21,7 @@ namespace Candidaturas
 
 
             //enviar mensagem
-            SmtpClient smt = new SmtpClient
+            SmtpClient smtp = new SmtpClient
             {
                 Host = Constants.Host,
                 Port = Constants.Port
@@ -33,10 +33,10 @@ namespace Candidaturas
                 Password = Constants.Password
             };
 
-            smt.UseDefaultCredentials = false;
-            smt.Credentials = ntwd;
-            smt.EnableSsl = true;
-            smt.Send(msg);
+            smtp.UseDefaultCredentials = false;
+            smtp.Credentials = ntwd;
+            smtp.EnableSsl = true;
+            smtp.Send(msg);
         }
     }
 }

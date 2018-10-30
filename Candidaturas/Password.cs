@@ -8,7 +8,9 @@ namespace Candidaturas
         public static string GeneratePassword()
         {
             //comprimento da password
-            string PasswordLength = "14";
+            int PasswordLength = 14;
+
+            //nova password
             string NewPassword = "";
 
             //caracteres permitidos para gerar a password
@@ -24,20 +26,19 @@ namespace Candidaturas
 
             string[] arr = allowedChars.Split(sep);
 
-
             string IDString = "";
             string temp = "";
 
             Random rand = new Random();
 
             //gera password aleatoriamente
-            for (int i = 0; i < Convert.ToInt32(PasswordLength); i++)
+            for (int i = 0; i < PasswordLength; i++)
             {
                 temp = arr[rand.Next(0, arr.Length)];
                 IDString += temp;
                 NewPassword = IDString;
-
             }
+
             return NewPassword;
         }
     }

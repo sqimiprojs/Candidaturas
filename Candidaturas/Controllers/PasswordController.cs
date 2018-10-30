@@ -42,6 +42,8 @@ namespace Candidaturas.Controllers
 
                 Email.SendEmail(email, subject, body);
 
+                ViewBag.Subtitle = "Recuperação de Password";
+
                 ViewBag.ConfirmationMessage = "Pedido de recuperação de password efetuado com sucesso. Por favor verifique a sua caixa de email.";
 
                 return View("~/Views/Shared/Success.cshtml");

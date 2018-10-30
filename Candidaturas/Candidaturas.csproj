@@ -154,6 +154,7 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="CaptchaResponse.cs" />
+    <Compile Include="CaptchaValidator.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Controllers\CandidaturasController.cs" />
     <Compile Include="Controllers\DadosPessoaisController.cs" />
