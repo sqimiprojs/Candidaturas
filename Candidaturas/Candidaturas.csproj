@@ -165,6 +165,7 @@
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\PasswordController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="DocumentValidator.cs" />
     <Compile Include="Email.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

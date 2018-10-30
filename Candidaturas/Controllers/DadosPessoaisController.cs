@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using System.Web.Script.Serialization;
 using Candidaturas.Models;
-using Newtonsoft.Json;
 
 namespace Candidaturas.Controllers
 {
@@ -204,11 +202,12 @@ namespace Candidaturas.Controllers
                 Name = c.Nome
             }).ToList();
 
-            JsonResult jsonConcelhos = new JsonResult();
+            JsonResult jsonConcelhos = new JsonResult
+            {
+                Data = concelhos.ToList(),
 
-            jsonConcelhos.Data = concelhos.ToList();
-
-            jsonConcelhos.ContentType = "application / json";
+                ContentType = "application / json"
+            };
 
             return jsonConcelhos;
         }
@@ -229,11 +228,12 @@ namespace Candidaturas.Controllers
                 Name = c.Nome
             }).ToList();
 
-            JsonResult jsonFreguesias = new JsonResult();
+            JsonResult jsonFreguesias = new JsonResult
+            {
+                Data = freguesias.ToList(),
 
-            jsonFreguesias.Data = freguesias.ToList();
-
-            jsonFreguesias.ContentType = "application / json";
+                ContentType = "application / json"
+            };
 
             return jsonFreguesias;
         }
