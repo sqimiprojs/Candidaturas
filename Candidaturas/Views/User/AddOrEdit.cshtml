@@ -15,79 +15,80 @@
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal" style="margin-top: 40px;">
-        <br />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.NomeCompleto, "Nome Completo", htmlAttributes: new { @class = "control-label col-md-2 required" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.NomeCompleto, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.NomeCompleto, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Email, "Email", htmlAttributes: new { @class = "control-label col-md-2 required" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
-                <span id="EmailWarning" for="Email" class="text-danger"></span>
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.TipoDocID, "Tipo de Documento de Identificação", htmlAttributes: new { @class = "control-label col-md-2 required" })
-            <div class="col-md-10">
-                @Html.DropDownListFor(model => model.TipoDocID, ViewBag.TipoDocID as SelectList, "Escolha uma opção...", new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.TipoDocID, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.NDI, "Nº de Documento de Identificação", htmlAttributes: new { @class = "control-label col-md-2 required" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.NDI, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.NDI, "", new { @class = "text-danger" })
-                <span id="NIFWarning" for="NIF" class="text-danger"></span>
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Militar, "Militar?", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <label class="switch">
-                    @Html.CheckBoxFor(model => model.Militar, new { htmlAttributes = new { @class = "form-control", @type = "checkbox" } })
-                    <div class="slider"></div>
-                </label>
-                <span id="switchLabel"></span>
-                @Html.ValidationMessageFor(model => model.Militar, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.DataNascimento, "Data de Nascimento", htmlAttributes: new { @class = "control-label col-md-2 required" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.DataNascimento, new { htmlAttributes = new { @class = "form-control", type = "date" } })
-                @Html.ValidationMessageFor(model => model.DataNascimento, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-10"><div class="g-recaptcha" data-sitekey="6LfpKGgUAAAAAMuDiV5SegpE0PS9mYnptSW2zUN_"></div></div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Criar" class="btn btn-default" />
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-2">
-                <label class="label-danger">@ViewBag.ErrorMessage</label>
-            </div>
+<div class="form-horizontal" style="margin-top: 40px;">
+    <br />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(model => model.NomeCompleto, "Nome Completo", htmlAttributes: new { @class = "control-label col-md-2 required" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.NomeCompleto, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.NomeCompleto, "", new { @class = "text-danger" })
         </div>
     </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Email, "Email", htmlAttributes: new { @class = "control-label col-md-2 required" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+            <span id="EmailWarning" for="Email" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.TipoDocID, "Tipo de Documento de Identificação", htmlAttributes: new { @class = "control-label col-md-2 required" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.TipoDocID, ViewBag.TipoDocID as SelectList, "Escolha uma opção...", new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.TipoDocID, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.NDI, "Nº de Documento de Identificação", htmlAttributes: new { @class = "control-label col-md-2 required" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.NDI, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.NDI, "", new { @class = "text-danger" })
+            <span id="NIFWarning" for="NIF" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Militar, "Militar?", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <label class="switch">
+                @Html.CheckBoxFor(model => model.Militar, new { htmlAttributes = new { @class = "form-control", @type = "checkbox" } })
+                <div class="slider"></div>
+            </label>
+            <span id="switchLabel"></span>
+            @Html.ValidationMessageFor(model => model.Militar, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.DataNascimento, "Data de Nascimento", htmlAttributes: new { @class = "control-label col-md-2 required" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.DataNascimento, new { htmlAttributes = new { @class = "form-control", type = "date" } })
+            @Html.ValidationMessageFor(model => model.DataNascimento, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-10"><div class="g-recaptcha" data-sitekey="6LfpKGgUAAAAAMuDiV5SegpE0PS9mYnptSW2zUN_"></div></div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-2">
+            <label class="text-danger" style="width: 115%;">@ViewBag.ErrorMessage</label>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Criar" class="btn btn-default" />
+        </div>
+    </div>
+
+</div>
 }
 <script src='https://www.google.com/recaptcha/api.js'></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>

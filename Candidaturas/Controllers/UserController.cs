@@ -80,6 +80,8 @@ namespace Candidaturas.Controllers
             {
                 ViewBag.ErrorMessage = "Por favor valide o Recaptcha.";
 
+                getDataForDropdownLists();
+
                 return View();
             }
         }
