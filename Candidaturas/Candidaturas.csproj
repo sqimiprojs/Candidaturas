@@ -253,11 +253,10 @@
     <Content Include="Views\DadosPessoais\AddOrEdit.cshtml" />
     <Content Include="Views\Inquerito\AddOrEdit.cshtml" />
     <Content Include="Views\Candidaturas\Index.cshtml" />
-    <Content Include="Views\User\Success.cshtml" />
     <Content Include="Views\Declaracao\Index.cshtml" />
     <Content Include="Views\Documentos\Index.cshtml" />
     <Content Include="Views\Password\Index.cshtml" />
-    <Content Include="Views\Password\Success.cshtml" />
+    <Content Include="Views\Shared\Success.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

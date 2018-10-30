@@ -41,8 +41,10 @@ namespace Candidaturas.Controllers
                 string body = "A sua nova password é a seguinte: " + newPassword;
 
                 Email.SendEmail(email, subject, body);
-                
-                return View("Success");
+
+                ViewBag.ConfirmationMessage = "Pedido de recuperação de password efetuado com sucesso. Por favor verifique a sua caixa de email.";
+
+                return View("~/Views/Shared/Success.cshtml");
             }
         }
     }

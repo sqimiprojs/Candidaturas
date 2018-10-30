@@ -86,7 +86,9 @@ namespace Candidaturas.Controllers
 
                 Email.SendEmail(userModel.Email, subject, body);
 
-                return View("Success");
+                ViewBag.ConfirmationMessage = "Registo de utilizador efetuado com sucesso. A sua password de acesso foi enviada para o seu email.";
+
+                return View("~/Views/Shared/Success.cshtml");
             }
             else
             {
