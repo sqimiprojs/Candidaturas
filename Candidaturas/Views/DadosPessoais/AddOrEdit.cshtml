@@ -396,25 +396,20 @@
 
     function validarDigitosBI() {
         var bi = $("#NDI").val();
-        var firstEight = bi.substring(0, 8);
-        var lastDigit = bi[bi.length - 1];
+        var aux = bi.replace('-', '');
         var sum = 0;
         var i;
 
-        for (i = 0; i < firstEight.length; i++) {
-            sum += firstEight[firstEight.length - (i + 1)] * (i + 2);
+        for (i = 0; i < aux.length; i++) {
+            sum += aux[aux.length - i] * (i + 1);
         }
 
-        var res = sum % 11;
-
-        if (res == 0 || res == 1) {
-            res = 0;
+        if ((sum % 11) == 0) {
+            return false;
         }
         else {
-            res = 11 - res;
+            return true;
         }
-
-        return res == lastDigit;
     }
 
     function validarDigitosCC() {
