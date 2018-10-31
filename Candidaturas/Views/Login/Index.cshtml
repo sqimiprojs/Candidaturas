@@ -19,10 +19,6 @@
             top: 40%;
             padding: 10px 10px;
         }
-
-        .field-validation-error {
-            color: red;
-        }
     </style>
 </head>
 <body>
@@ -50,7 +46,7 @@
                 </tr>
                 <tr>
                     <td colspan="2">
-                        <label class="field-validation-error">@Html.DisplayFor(model => model.LoginErrorMessage)</label>
+                        <span class="text-danger" style="margin-left: 100px;">@Html.DisplayFor(model => model.LoginErrorMessage)</span>
                     </td>
                 </tr>
                 <tr>
