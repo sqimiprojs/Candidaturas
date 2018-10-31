@@ -136,11 +136,11 @@
             var term = $("#NDI").val();
 
             if (term != "") {
-                if (validarCC() && chosenValue == "Cartão do Cidadão") {
+                if (validarCC() && chosenValue == "Cartão do Cidadão" && validarDigitosCC()) {
                     $("#NIFWarning").hide();
                     return true;
                 }
-                if (validarBI() && chosenValue == "Bilhete de Identidade") {
+                if (validarBI() && chosenValue == "Bilhete de Identidade" && validarDigitosBI()) {
                     $("#NIFWarning").hide();
                     return true;
                 }
@@ -169,6 +169,92 @@
         var re = new RegExp("^[0-9]{8}[ -]*[0-9][A-Za-z]{2}[0-9]$");
 
         return re.test(term);
+    }
+
+    function validarDigitosBI() {
+        var bi = $("#NDI").val();
+        var firstEight = bi.substring(0, 8);
+        var lastDigit = bi[bi.length - 1];
+        var sum = 0;
+        var i;
+
+        for (i = 0; i < firstEight.length; i++) {
+            sum += firstEight[firstEight.length - (i + 1)] * (i + 2);
+        }
+
+        var res = sum % 11;
+
+        if (res == 0 || res == 1) {
+            res = 0;
+        }
+        else {
+            res = 11 - res;
+        }
+
+        return res == lastDigit;
+    }
+
+    function validarDigitosCC() {
+        var cc = $("#NDI").val();
+        var aux = cc.replace('-', '');
+        var sum = 0;
+        var secondDigit = false;
+        var i = 0;
+
+        for (i = aux.length - 1; i >= 0; i--) {
+            var digit = aux[i];
+            var valor = getNumberFromChar(digit);
+
+            if (secondDigit) {
+                valor *= 2;
+                if (valor > 9) {
+                    valor -= 9;
+                }
+            }
+            sum += valor;
+            secondDigit = !secondDigit;
+        }
+        return (sum % 10) == 0;
+    }
+
+    function getNumberFromChar(char) {
+        var res = 0;
+
+        if (isNaN(char)) {
+            switch (char) {
+                case 'A': res = 10;
+                case 'B': res = 11;
+                case 'C': res = 12;
+                case 'D': res = 13;
+                case 'E': res = 14;
+                case 'F': res = 15;
+                case 'G': res = 16;
+                case 'H': res = 17;
+                case 'I': res = 18;
+                case 'J': res = 19;
+                case 'K': res = 20;
+                case 'L': res = 21;
+                case 'M': res = 22;
+                case 'N': res = 23;
+                case 'O': res = 24;
+                case 'P': res = 25;
+                case 'Q': res = 26;
+                case 'R': res = 27;
+                case 'S': res = 28;
+                case 'T': res = 29;
+                case 'U': res = 30;
+                case 'V': res = 31;
+                case 'W': res = 32;
+                case 'X': res = 33;
+                case 'Y': res = 34;
+                case 'Z': res = 35;
+            }
+        }
+        else {
+            res = parseInt(char);
+        }
+
+        return res;
     }
 
     function validarBI() {
