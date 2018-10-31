@@ -6,7 +6,7 @@ namespace Candidaturas
 {
     public class Email
     {
-        public static void SendEmail(String email, String subject, String body)
+        public static void SendEmail(string email, string subject, string body)
         {
             //criar mensagem
             MailMessage msg = new MailMessage

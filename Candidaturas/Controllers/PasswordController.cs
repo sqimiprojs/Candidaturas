@@ -1,8 +1,5 @@
 ﻿using Candidaturas.Models;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace Candidaturas.Controllers
@@ -18,7 +15,7 @@ namespace Candidaturas.Controllers
         }
 
         [HttpPost]
-        public ActionResult requestNewPassword(User userModel)
+        public ActionResult RequestNewPassword(User userModel)
         {
             string email = userModel.Email;
 
