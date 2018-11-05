@@ -404,11 +404,14 @@
             sum += aux[aux.length - i] * (i + 1);
         }
 
-        if ((sum % 11) == 0) {
-            return false;
+        if (sum % 11 === 0) {
+            return true;
+        }
+        else if (aux[8] === 0 && (sum + 10) % 11 === 0) {
+            return true;
         }
         else {
-            return true;
+            return false;
         }
     }
 
