@@ -397,12 +397,7 @@
     function validarDigitosBI() {
         var bi = $("#NDI").val();
         var aux = bi.replace('-', '');
-        var sum = 0;
-        var i;
-
-        for (i = 0; i < aux.length; i++) {
-            sum += aux[aux.length - i] * (i + 1);
-        }
+        var sum = (9 * aux[0]) + (8 * aux[1]) + (7 * aux[2]) + (6 * aux[3]) + (5 * aux[4]) + (4 * aux[5]) + (3 * aux[6]) + (2 * aux[7]) + aux[8];
 
         if (sum % 11 === 0) {
             return true;
