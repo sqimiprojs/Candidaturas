@@ -173,18 +173,25 @@
 
     function validarDigitosBI() {
         var bi = $("#NDI").val();
-        var aux = bi.replace('-', '');
-        var sum = (9 * aux[0]) + (8 * aux[1]) + (7 * aux[2]) + (6 * aux[3]) + (5 * aux[4]) + (4 * aux[5]) + (3 * aux[6]) + (2 * aux[7]) + aux[8];
+        var firstEight = bi.substring(0, 8);
+        var lastDigit = bi[bi.length - 1];
+        var sum = 0;
+        var i;
 
-        if (sum % 11 === 0) {
-            return true;
+        for (i = 0; i < firstEight.length; i++) {
+            sum += firstEight[firstEight.length - (i + 1)] * (i + 2);
         }
-        else if (aux[8] === 0 && (sum + 10) % 11 === 0) {
-            return true;
+
+        var res = sum % 11;
+
+        if (res == 0 || res == 1) {
+            res = 0;
         }
         else {
-            return false;
+            res = 11 - res;
         }
+
+        return res == lastDigit;
     }
 
     function validarDigitosCC() {
