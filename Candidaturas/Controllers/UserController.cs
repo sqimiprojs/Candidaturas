@@ -46,6 +46,7 @@ namespace Candidaturas.Controllers
                     try
                     {
                         userModel.Password = newPassword;
+                        userModel.DataCriacao = System.DateTime.Now;
                         dbModel.Users.Add(userModel);
                         dbModel.SaveChanges();
                     }

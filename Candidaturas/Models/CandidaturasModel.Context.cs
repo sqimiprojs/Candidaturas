@@ -25,24 +25,24 @@ namespace Candidaturas.Models
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<Concelho> Concelhoes { get; set; }
         public virtual DbSet<ConhecimentoEscola> ConhecimentoEscolas { get; set; }
         public virtual DbSet<Curso> Cursoes { get; set; }
+        public virtual DbSet<DadosPessoai> DadosPessoais { get; set; }
+        public virtual DbSet<Distrito> Distritoes { get; set; }
+        public virtual DbSet<Documento> Documentoes { get; set; }
         public virtual DbSet<EstadoCivil> EstadoCivils { get; set; }
         public virtual DbSet<Exame> Exames { get; set; }
+        public virtual DbSet<Freguesia> Freguesias { get; set; }
         public virtual DbSet<Genero> Generoes { get; set; }
         public virtual DbSet<Inquerito> Inqueritoes { get; set; }
+        public virtual DbSet<Localidade> Localidades { get; set; }
+        public virtual DbSet<Pai> Pais { get; set; }
         public virtual DbSet<Situacao> Situacaos { get; set; }
         public virtual DbSet<TipoDocumentoID> TipoDocumentoIDs { get; set; }
+        public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<UserCurso> UserCursoes { get; set; }
         public virtual DbSet<UserDocumento> UserDocumentoes { get; set; }
         public virtual DbSet<UserExame> UserExames { get; set; }
-        public virtual DbSet<Localidade> Localidades { get; set; }
-        public virtual DbSet<User> Users { get; set; }
-        public virtual DbSet<DadosPessoai> DadosPessoais { get; set; }
-        public virtual DbSet<Documento> Documentoes { get; set; }
-        public virtual DbSet<Concelho> Concelhoes { get; set; }
-        public virtual DbSet<Distrito> Distritoes { get; set; }
-        public virtual DbSet<Freguesia> Freguesias { get; set; }
-        public virtual DbSet<Pai> Pais { get; set; }
     }
 }

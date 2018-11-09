@@ -64,5 +64,7 @@ namespace Candidaturas.Models
         [Required(ErrorMessage = "Campo Obrigatório")]
         public string CodigoPostal4Dig { get; set; }
         public string CodigoPostal3Dig { get; set; }
+        public Nullable<System.DateTime> DataCriacao { get; set; }
+        public Nullable<System.DateTime> DataUltimaAtualizacao { get; set; }
     }
 }
