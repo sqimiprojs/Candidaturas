@@ -7,7 +7,8 @@
     <Schema Namespace="LoginDataBaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Concelho">
           <Key>
-            <PropertyRef Name="ID" />
+            <PropertyRef Name="Codigo" />
+            <PropertyRef Name="CodigoDistrito" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Nome" Type="varchar" MaxLength="50" Nullable="false" />
@@ -64,7 +65,7 @@
         </EntityType>
         <EntityType Name="Distrito">
           <Key>
-            <PropertyRef Name="ID" />
+            <PropertyRef Name="Codigo" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Nome" Type="varchar" MaxLength="50" Nullable="false" />
@@ -96,7 +97,9 @@
         </EntityType>
         <EntityType Name="Freguesia">
           <Key>
-            <PropertyRef Name="ID" />
+            <PropertyRef Name="Codigo" />
+            <PropertyRef Name="CodigoConcelho" />
+            <PropertyRef Name="CodigoDistrito" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Nome" Type="varchar" MaxLength="100" Nullable="false" />
@@ -134,7 +137,7 @@
         </EntityType>
         <EntityType Name="Pais">
           <Key>
-            <PropertyRef Name="ID" />
+            <PropertyRef Name="Sigla" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Nome" Type="varchar" MaxLength="50" />
@@ -167,6 +170,7 @@
           <Property Name="Email" Type="varchar" MaxLength="50" />
           <Property Name="LoginErrorMessage" Type="varchar" MaxLength="50" />
           <Property Name="TipoDocID" Type="varchar" MaxLength="50" />
+          <Property Name="DataCriacao" Type="datetime" />
         </EntityType>
         <EntityType Name="UserCurso">
           <Key>
@@ -445,6 +449,7 @@
           <Property Name="TipoDocID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Inqueritoes" Relationship="LoginDataBaseModel.FK_UserId" FromRole="User" ToRole="Inquerito" />
           <NavigationProperty Name="UserExames" Relationship="LoginDataBaseModel.FK_UserUE" FromRole="User" ToRole="UserExame" />
+          <Property Name="DataCriacao" Type="DateTime" Precision="3" />
         </EntityType>
         <Association Name="FK_UserId">
           <End Type="LoginDataBaseModel.User" Role="User" Multiplicity="1" />
@@ -665,6 +670,7 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="LoginDataBaseModel.User">
               <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="DataCriacao" ColumnName="DataCriacao" />
                 <ScalarProperty Name="TipoDocID" ColumnName="TipoDocID" />
                 <ScalarProperty Name="LoginErrorMessage" ColumnName="LoginErrorMessage" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
