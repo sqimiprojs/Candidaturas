@@ -271,12 +271,17 @@ namespace Candidaturas.Controllers
                         //adicionar ou atualizar
                         if (dadosPessoaisUser == null)
                         {
+                            dadosPessoaisModel.DataCriacao = System.DateTime.Now;
+                            dadosPessoaisModel.DataUltimaAtualizacao = System.DateTime.Now;
                             dbModel.DadosPessoais.Add(dadosPessoaisModel);
                         }
                         else
                         {
+                            DateTime? dataCriacao = dadosPessoaisUser.DataCriacao;
                             dbModel.DadosPessoais.Remove(dadosPessoaisUser);
                             dadosPessoaisUser = dadosPessoaisModel;
+                            dadosPessoaisUser.DataCriacao = dataCriacao;
+                            dadosPessoaisUser.DataUltimaAtualizacao = System.DateTime.Now;
                             dbModel.DadosPessoais.Add(dadosPessoaisUser);
                         }
 

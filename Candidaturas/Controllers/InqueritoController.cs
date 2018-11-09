@@ -108,12 +108,17 @@ namespace Candidaturas.Controllers
 
                         if (inqueritoUser == null)
                         {
+                            inqueritoModel.DataCriacao = System.DateTime.Now;
+                            inqueritoModel.DataAtualizacao = System.DateTime.Now;
                             dbModel.Inqueritoes.Add(inqueritoModel);
                         }
                         else
                         {
+                            DateTime? dataCriacao = inqueritoUser.DataCriacao;
                             dbModel.Inqueritoes.Remove(inqueritoUser);
                             inqueritoUser = inqueritoModel;
+                            inqueritoUser.DataCriacao = dataCriacao;
+                            inqueritoUser.DataAtualizacao = System.DateTime.Now;
                             dbModel.Inqueritoes.Add(inqueritoUser);
                         }
 
