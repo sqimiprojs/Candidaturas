@@ -48,6 +48,7 @@ namespace Candidaturas.Controllers
                         userModel.Password = newPassword;
                         userModel.DataCriacao = System.DateTime.Now;
                         dbModel.Users.Add(userModel);
+                        /**/
                         dbModel.SaveChanges();
                     }
                     catch (System.Data.Entity.Validation.DbEntityValidationException dbEx)
