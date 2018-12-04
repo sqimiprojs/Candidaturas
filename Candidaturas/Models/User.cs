@@ -11,8 +11,7 @@ namespace Candidaturas.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class User
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -21,25 +20,16 @@ namespace Candidaturas.Models
             this.Inqueritoes = new HashSet<Inquerito>();
             this.UserExames = new HashSet<UserExame>();
         }
-
+    
         public int ID { get; set; }
-
-        [Required(ErrorMessage = "Campo Obrigatório")]
         public string NomeCompleto { get; set; }
         public string Password { get; set; }
-
-        [Required(ErrorMessage = "Campo Obrigatório")]
         public string NDI { get; set; }
         public bool Militar { get; set; }
-
-        [Required(ErrorMessage = "Campo Obrigatório")]
         public Nullable<System.DateTime> DataNascimento { get; set; }
-
-        [Required(ErrorMessage = "Campo Obrigatório")]
         public string Email { get; set; }
         public string LoginErrorMessage { get; set; }
         public string TipoDocID { get; set; }
-        
         public Nullable<System.DateTime> DataCriacao { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

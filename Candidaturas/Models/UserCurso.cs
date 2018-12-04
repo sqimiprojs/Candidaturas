@@ -18,7 +18,5 @@ namespace Candidaturas.Models
         public int UserId { get; set; }
         public int CursoId { get; set; }
         public int Prioridade { get; set; }
-    
-        public virtual Curso Curso { get; set; }
     }
 }

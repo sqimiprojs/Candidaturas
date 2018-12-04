@@ -67,8 +67,8 @@ namespace Candidaturas.Controllers
                 }
                 ModelState.Clear();
 
-                string subject = "Password de Acesso";
-                string body = "A password de acesso para a sua conta é a seguinte: " + newPassword;
+                string subject = "Portal de Candidaturas à Base Naval - Password de Acesso";
+                string body = "A sua password de acesso ao portal de candidaturas é a seguinte: " + newPassword;
 
                 Email.SendEmail(userModel.Email, subject, body);
 

@@ -11,37 +11,22 @@ namespace Candidaturas.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class DadosPessoai
     {
         public string NomeColoquial { get; set; }
-
-        [Required(ErrorMessage = "Campo Obrigatório")]
         public string Nomes { get; set; }
-
-        [Required(ErrorMessage = "Campo Obrigatório")]
         public string Apelidos { get; set; }
         public string NomePai { get; set; }
         public string NomeMae { get; set; }
-
-        [Required(ErrorMessage = "Campo Obrigatório")]
         public string NDI { get; set; }
-
-        [Required(ErrorMessage = "Campo Obrigatório")]
         public string TipoDocID { get; set; }
-
-        [Required(ErrorMessage = "Campo Obrigatório")]
         public string Genero { get; set; }
-
-        [Required(ErrorMessage = "Campo Obrigatório")]
         public string EstadoCivil { get; set; }
         public string Nacionalidade { get; set; }
         public string DistritoNatural { get; set; }
         public string ConcelhoNatural { get; set; }
         public string FreguesiaNatural { get; set; }
-
-        [Required(ErrorMessage = "Campo Obrigatório")]
         public string Morada { get; set; }
         public string Localidade { get; set; }
         public int UserId { get; set; }
@@ -50,18 +35,10 @@ namespace Candidaturas.Models
         public string CCDigitosControlo { get; set; }
         public string NSegSoc { get; set; }
         public string NIF { get; set; }
-
-        [Required(ErrorMessage = "Campo Obrigatório")]
         public string DistritoMorada { get; set; }
-
-        [Required(ErrorMessage = "Campo Obrigatório")]
         public string ConcelhoMorada { get; set; }
-
-        [Required(ErrorMessage = "Campo Obrigatório")]
         public string FreguesiaMorada { get; set; }
         public string Telefone { get; set; }
-
-        [Required(ErrorMessage = "Campo Obrigatório")]
         public string CodigoPostal4Dig { get; set; }
         public string CodigoPostal3Dig { get; set; }
         public Nullable<System.DateTime> DataCriacao { get; set; }
