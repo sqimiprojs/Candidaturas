@@ -14,9 +14,10 @@ namespace Candidaturas.Models
     
     public partial class Concelho
     {
-        public int ID { get; set; }
         public string Nome { get; set; }
         public int Codigo { get; set; }
         public int CodigoDistrito { get; set; }
+    
+        public virtual Distrito Distrito { get; set; }
     }
 }

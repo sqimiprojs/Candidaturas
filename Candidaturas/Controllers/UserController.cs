@@ -11,7 +11,7 @@ namespace Candidaturas.Controllers
 
         public void getDataForDropdownLists()
         {
-            LoginDataBaseEntities1 db = new LoginDataBaseEntities1();
+            LoginDataBaseEntities db = new LoginDataBaseEntities();
 
             IEnumerable<SelectListItem> tiposDocumentosId = db.TipoDocumentoIDs.Select(c => new SelectListItem
             {
@@ -40,7 +40,7 @@ namespace Candidaturas.Controllers
 
             if (response.Success)
             {
-                using (LoginDataBaseEntities1 dbModel = new LoginDataBaseEntities1())
+                using (LoginDataBaseEntities dbModel = new LoginDataBaseEntities())
                 {
 
                     try

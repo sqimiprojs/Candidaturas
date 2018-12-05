@@ -41,7 +41,7 @@ namespace Candidaturas.Controllers
         //obtém os dados preenchdios pelo utilizador para mostrar no ecrã
         public void getDadosPessoais(int userId)
         {
-            LoginDataBaseEntities1 db = new LoginDataBaseEntities1();
+            LoginDataBaseEntities db = new LoginDataBaseEntities();
             DadosPessoai dadosPessoaisUser = db.DadosPessoais.Where(dp => dp.UserId == userId).FirstOrDefault();
 
             if(dadosPessoaisUser != null)
@@ -77,7 +77,7 @@ namespace Candidaturas.Controllers
         //obtém os dados a serem preenchidos nas drops
         public void getDataForDropdownLists(string distritoNatural, string concelhoNatural, string distritoMorada, string concelhoMorada)
         {
-            LoginDataBaseEntities1 db = new LoginDataBaseEntities1();
+            LoginDataBaseEntities db = new LoginDataBaseEntities();
 
             IEnumerable<SelectListItem> generos = db.Generoes.OrderBy(dp => dp.Nome).Select(c => new SelectListItem
             {
@@ -192,7 +192,7 @@ namespace Candidaturas.Controllers
         //actualiza lista de concelhos consoante o distrito seleccionado
         public JsonResult updateConcelhos(string distrito)
         {
-            LoginDataBaseEntities1 db = new LoginDataBaseEntities1();
+            LoginDataBaseEntities db = new LoginDataBaseEntities();
 
             int codigoDistrito = db.Distritoes.Where(d => d.Nome == distrito).Select(d => d.Codigo).FirstOrDefault();
 
@@ -216,7 +216,7 @@ namespace Candidaturas.Controllers
         //actualiza lista de freguesias consoante o concelho seleccionado
         public JsonResult updateFreguesias(string concelho)
         {
-            LoginDataBaseEntities1 db = new LoginDataBaseEntities1();
+            LoginDataBaseEntities db = new LoginDataBaseEntities();
 
             int codigoConcelho = db.Concelhoes.Where(c => c.Nome == concelho).Select(c => c.Codigo).FirstOrDefault();
 
@@ -245,7 +245,7 @@ namespace Candidaturas.Controllers
             {
                 int userId = (int)Session["userID"];
 
-                using (LoginDataBaseEntities1 dbModel = new LoginDataBaseEntities1())
+                using (LoginDataBaseEntities dbModel = new LoginDataBaseEntities())
                 {
 
                     try
