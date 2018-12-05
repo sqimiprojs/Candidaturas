@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="CandidaturasModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="CandidaturasModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Concelho">
           <Key>
             <PropertyRef Name="Codigo" />
@@ -132,10 +132,14 @@
         </EntityType>
         <EntityType Name="Localidade">
           <Key>
-            <PropertyRef Name="ID" />
+            <PropertyRef Name="CodigoDistrito" />
+            <PropertyRef Name="CodigoConcelho" />
+            <PropertyRef Name="Codigo" />
           </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Nome" Type="varchar" MaxLength="50" />
+          <Property Name="CodigoDistrito" Type="int" Nullable="false" />
+          <Property Name="CodigoConcelho" Type="int" Nullable="false" />
+          <Property Name="Codigo" Type="int" Nullable="false" />
+          <Property Name="Nome" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Pais">
           <Key>
@@ -223,6 +227,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Localidade_Distrito">
+          <End Role="Distrito" Type="Self.Distrito" Multiplicity="1" />
+          <End Role="Localidade" Type="Self.Localidade" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Distrito">
+              <PropertyRef Name="Codigo" />
+            </Principal>
+            <Dependent Role="Localidade">
+              <PropertyRef Name="CodigoDistrito" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_UserId">
           <End Role="User" Type="Self.User" Multiplicity="1" />
           <End Role="Inquerito" Type="Self.Inquerito" Multiplicity="*" />
@@ -275,6 +291,10 @@
             <End Role="Exame" EntitySet="Exame" />
             <End Role="UserExame" EntitySet="UserExame" />
           </AssociationSet>
+          <AssociationSet Name="FK_Localidade_Distrito" Association="Self.FK_Localidade_Distrito">
+            <End Role="Distrito" EntitySet="Distrito" />
+            <End Role="Localidade" EntitySet="Localidade" />
+          </AssociationSet>
           <AssociationSet Name="FK_UserId" Association="Self.FK_UserId">
             <End Role="User" EntitySet="User" />
             <End Role="Inquerito" EntitySet="Inquerito" />
@@ -284,8 +304,7 @@
             <End Role="UserExame" EntitySet="UserExame" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="CandidaturasModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -356,6 +375,7 @@
           <Property Name="Nome" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Codigo" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Concelhoes" Relationship="Self.FK_Concelho_Distrito" FromRole="Distrito" ToRole="Concelho" />
+          <NavigationProperty Name="Localidades" Relationship="CandidaturasModel.FK_Localidade_Distrito" FromRole="Distrito" ToRole="Localidade" />
         </EntityType>
         <EntityType Name="Documento">
           <Key>
@@ -417,13 +437,6 @@
           <Property Name="DataCriacao" Type="DateTime" Precision="3" />
           <Property Name="DataAtualizacao" Type="DateTime" Precision="3" />
           <NavigationProperty Name="User" Relationship="Self.FK_UserId" FromRole="Inquerito" ToRole="User" />
-        </EntityType>
-        <EntityType Name="Localidade">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Nome" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Pai">
           <Key>
@@ -551,7 +564,6 @@
           <EntitySet Name="Freguesias" EntityType="Self.Freguesia" />
           <EntitySet Name="Generoes" EntityType="Self.Genero" />
           <EntitySet Name="Inqueritoes" EntityType="Self.Inquerito" />
-          <EntitySet Name="Localidades" EntityType="Self.Localidade" />
           <EntitySet Name="Pais" EntityType="Self.Pai" />
           <EntitySet Name="Situacaos" EntityType="Self.Situacao" />
           <EntitySet Name="TipoDocumentoIDs" EntityType="Self.TipoDocumentoID" />
@@ -575,7 +587,36 @@
             <End Role="User" EntitySet="Users" />
             <End Role="UserExame" EntitySet="UserExames" />
           </AssociationSet>
+          <EntitySet Name="Localidades" EntityType="CandidaturasModel.Localidade" />
+          <AssociationSet Name="FK_Localidade_Distrito" Association="CandidaturasModel.FK_Localidade_Distrito">
+            <End Role="Distrito" EntitySet="Distritoes" />
+            <End Role="Localidade" EntitySet="Localidades" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="Localidade">
+          <Key>
+            <PropertyRef Name="CodigoDistrito" />
+            <PropertyRef Name="CodigoConcelho" />
+            <PropertyRef Name="Codigo" />
+          </Key>
+          <Property Name="CodigoDistrito" Type="Int32" Nullable="false" />
+          <Property Name="CodigoConcelho" Type="Int32" Nullable="false" />
+          <Property Name="Codigo" Type="Int32" Nullable="false" />
+          <Property Name="Nome" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Distrito" Relationship="CandidaturasModel.FK_Localidade_Distrito" FromRole="Localidade" ToRole="Distrito" />
+        </EntityType>
+        <Association Name="FK_Localidade_Distrito">
+          <End Type="CandidaturasModel.Distrito" Role="Distrito" Multiplicity="1" />
+          <End Type="CandidaturasModel.Localidade" Role="Localidade" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Distrito">
+              <PropertyRef Name="Codigo" />
+            </Principal>
+            <Dependent Role="Localidade">
+              <PropertyRef Name="CodigoDistrito" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -715,14 +756,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Localidades">
-            <EntityTypeMapping TypeName="CandidaturasModel.Localidade">
-              <MappingFragment StoreEntitySet="Localidade">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Nome" ColumnName="Nome" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Pais">
             <EntityTypeMapping TypeName="CandidaturasModel.Pai">
               <MappingFragment StoreEntitySet="Pais">
@@ -789,6 +822,16 @@
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="ExameId" ColumnName="ExameId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Localidades">
+            <EntityTypeMapping TypeName="CandidaturasModel.Localidade">
+              <MappingFragment StoreEntitySet="Localidade">
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="CodigoConcelho" ColumnName="CodigoConcelho" />
+                <ScalarProperty Name="CodigoDistrito" ColumnName="CodigoDistrito" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
