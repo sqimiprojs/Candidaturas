@@ -167,7 +167,7 @@ namespace Candidaturas.Controllers
 
             });
 
-            IEnumerable<SelectListItem> localidades = db.Localidades.Where(dp => dp.CodigoDistrito == codigoDistritoMorada).OrderBy(dp => dp.Nome).Select(c => new SelectListItem
+            IEnumerable<SelectListItem> localidades = db.Localidades.Where(dp => dp.CodigoConcelho == codigoConcelhoMorada && dp.CodigoDistrito == codigoDistritoMorada).OrderBy(dp => dp.Nome).Select(c => new SelectListItem
             {
                 Value = c.Nome,
                 Text = c.Nome,

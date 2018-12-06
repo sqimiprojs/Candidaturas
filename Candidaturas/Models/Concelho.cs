@@ -18,6 +18,7 @@ namespace Candidaturas.Models
         public Concelho()
         {
             this.Localidades = new HashSet<Localidade>();
+            this.Freguesias = new HashSet<Freguesia>();
         }
     
         public string Nome { get; set; }
@@ -27,5 +28,7 @@ namespace Candidaturas.Models
         public virtual Distrito Distrito { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Localidade> Localidades { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Freguesia> Freguesias { get; set; }
     }
 }

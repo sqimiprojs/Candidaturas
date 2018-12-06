@@ -101,7 +101,6 @@
             <PropertyRef Name="CodigoConcelho" />
             <PropertyRef Name="CodigoDistrito" />
           </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Nome" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="Codigo" Type="int" Nullable="false" />
           <Property Name="CodigoConcelho" Type="int" Nullable="false" />
@@ -227,6 +226,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Freguesia_Distrito_Concelho">
+          <End Role="Concelho" Type="Self.Concelho" Multiplicity="1" />
+          <End Role="Freguesia" Type="Self.Freguesia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Concelho">
+              <PropertyRef Name="Codigo" />
+              <PropertyRef Name="CodigoDistrito" />
+            </Principal>
+            <Dependent Role="Freguesia">
+              <PropertyRef Name="CodigoConcelho" />
+              <PropertyRef Name="CodigoDistrito" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Localidade_Distrito_Concelho">
           <End Role="Concelho" Type="Self.Concelho" Multiplicity="1" />
           <End Role="Localidade" Type="Self.Localidade" Multiplicity="*" />
@@ -293,6 +306,10 @@
             <End Role="Exame" EntitySet="Exame" />
             <End Role="UserExame" EntitySet="UserExame" />
           </AssociationSet>
+          <AssociationSet Name="FK_Freguesia_Distrito_Concelho" Association="Self.FK_Freguesia_Distrito_Concelho">
+            <End Role="Concelho" EntitySet="Concelho" />
+            <End Role="Freguesia" EntitySet="Freguesia" />
+          </AssociationSet>
           <AssociationSet Name="FK_Localidade_Distrito_Concelho" Association="Self.FK_Localidade_Distrito_Concelho">
             <End Role="Concelho" EntitySet="Concelho" />
             <End Role="Localidade" EntitySet="Localidade" />
@@ -320,6 +337,7 @@
           <Property Name="CodigoDistrito" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Distrito" Relationship="Self.FK_Concelho_Distrito" FromRole="Concelho" ToRole="Distrito" />
           <NavigationProperty Name="Localidades" Relationship="CandidaturasModel.FK_Localidade_Distrito_Concelho" FromRole="Concelho" ToRole="Localidade" />
+          <NavigationProperty Name="Freguesias" Relationship="CandidaturasModel.FK_Freguesia_Distrito_Concelho" FromRole="Concelho" ToRole="Freguesia" />
         </EntityType>
         <EntityType Name="ConhecimentoEscola">
           <Key>
@@ -403,18 +421,6 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Nome" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="UserExames" Relationship="Self.FK_ExameUE" FromRole="Exame" ToRole="UserExame" />
-        </EntityType>
-        <EntityType Name="Freguesia">
-          <Key>
-            <PropertyRef Name="Codigo" />
-            <PropertyRef Name="CodigoConcelho" />
-            <PropertyRef Name="CodigoDistrito" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Nome" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Codigo" Type="Int32" Nullable="false" />
-          <Property Name="CodigoConcelho" Type="Int32" Nullable="false" />
-          <Property Name="CodigoDistrito" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="Genero">
           <Key>
@@ -563,7 +569,6 @@
           <EntitySet Name="Documentoes" EntityType="Self.Documento" />
           <EntitySet Name="EstadoCivils" EntityType="Self.EstadoCivil" />
           <EntitySet Name="Exames" EntityType="Self.Exame" />
-          <EntitySet Name="Freguesias" EntityType="Self.Freguesia" />
           <EntitySet Name="Generoes" EntityType="Self.Genero" />
           <EntitySet Name="Inqueritoes" EntityType="Self.Inquerito" />
           <EntitySet Name="Pais" EntityType="Self.Pai" />
@@ -594,6 +599,11 @@
             <End Role="Concelho" EntitySet="Concelhoes" />
             <End Role="Localidade" EntitySet="Localidades" />
           </AssociationSet>
+          <EntitySet Name="Freguesias" EntityType="CandidaturasModel.Freguesia" />
+          <AssociationSet Name="FK_Freguesia_Distrito_Concelho" Association="CandidaturasModel.FK_Freguesia_Distrito_Concelho">
+            <End Role="Concelho" EntitySet="Concelhoes" />
+            <End Role="Freguesia" EntitySet="Freguesias" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Localidade">
           <Key>
@@ -616,6 +626,32 @@
               <PropertyRef Name="CodigoDistrito" />
             </Principal>
             <Dependent Role="Localidade">
+              <PropertyRef Name="CodigoConcelho" />
+              <PropertyRef Name="CodigoDistrito" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Freguesia">
+          <Key>
+            <PropertyRef Name="Codigo" />
+            <PropertyRef Name="CodigoConcelho" />
+            <PropertyRef Name="CodigoDistrito" />
+          </Key>
+          <Property Name="Nome" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Codigo" Type="Int32" Nullable="false" />
+          <Property Name="CodigoConcelho" Type="Int32" Nullable="false" />
+          <Property Name="CodigoDistrito" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Concelho" Relationship="CandidaturasModel.FK_Freguesia_Distrito_Concelho" FromRole="Freguesia" ToRole="Concelho" />
+        </EntityType>
+        <Association Name="FK_Freguesia_Distrito_Concelho">
+          <End Type="CandidaturasModel.Concelho" Role="Concelho" Multiplicity="1" />
+          <End Type="CandidaturasModel.Freguesia" Role="Freguesia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Concelho">
+              <PropertyRef Name="Codigo" />
+              <PropertyRef Name="CodigoDistrito" />
+            </Principal>
+            <Dependent Role="Freguesia">
               <PropertyRef Name="CodigoConcelho" />
               <PropertyRef Name="CodigoDistrito" />
             </Dependent>
@@ -724,17 +760,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Freguesias">
-            <EntityTypeMapping TypeName="CandidaturasModel.Freguesia">
-              <MappingFragment StoreEntitySet="Freguesia">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Nome" ColumnName="Nome" />
-                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
-                <ScalarProperty Name="CodigoConcelho" ColumnName="CodigoConcelho" />
-                <ScalarProperty Name="CodigoDistrito" ColumnName="CodigoDistrito" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Generoes">
             <EntityTypeMapping TypeName="CandidaturasModel.Genero">
               <MappingFragment StoreEntitySet="Genero">
@@ -836,6 +861,16 @@
                 <ScalarProperty Name="Codigo" ColumnName="Codigo" />
                 <ScalarProperty Name="CodigoConcelho" ColumnName="CodigoConcelho" />
                 <ScalarProperty Name="CodigoDistrito" ColumnName="CodigoDistrito" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Freguesias">
+            <EntityTypeMapping TypeName="CandidaturasModel.Freguesia">
+              <MappingFragment StoreEntitySet="Freguesia">
+                <ScalarProperty Name="CodigoDistrito" ColumnName="CodigoDistrito" />
+                <ScalarProperty Name="CodigoConcelho" ColumnName="CodigoConcelho" />
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

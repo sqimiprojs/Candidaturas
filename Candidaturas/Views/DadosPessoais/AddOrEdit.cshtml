@@ -576,6 +576,10 @@
                     $select2.empty();
                     $select2.append('<option value="">Escolha uma opção...</option>');
 
+                    var $select3 = $('#Localidade');
+                    $select3.empty();
+                    $select3.append('<option value="">Escolha uma opção...</option>');
+
                     $.each(concelhos, function (i, concelho) {
                         $('<option>', {
                             value: concelho.ID
@@ -604,6 +608,7 @@
                     var $select = $('#FreguesiaNatural');
                     $select.empty();
                     $select.append('<option value="">Escolha uma opção...</option>');
+
                     $.each(freguesias, function (i, freguesia) {
                         $('<option>', {
                             value: freguesia.ID
@@ -626,6 +631,11 @@
                     var $select = $('#FreguesiaMorada');
                     $select.empty();
                     $select.append('<option value="">Escolha uma opção...</option>');
+
+                    var $select2 = $('#Localidade');
+                    $select2.empty();
+                    $select2.append('<option value="">Escolha uma opção...</option>');
+
                     $.each(freguesias, function (i, freguesia) {
                         $('<option>', {
                             value: freguesia.ID
