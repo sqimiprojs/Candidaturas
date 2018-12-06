@@ -131,7 +131,7 @@
         <h4 class="candidaturasHeader">Naturalidade</h4>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Nacionalidade, "Natural de", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Nacionalidade, "País", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownListFor(model => model.Nacionalidade, ViewBag.Nacionalidade as SelectList, "Escolha uma opção...", new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Nacionalidade, "", new { @class = "text-danger" })
@@ -188,14 +188,6 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Localidade, "Localidade", htmlAttributes: new { @class = "control-label col-md-2 required" })
-            <div class="col-md-10">
-                @Html.DropDownListFor(model => model.Localidade, ViewBag.Localidade as SelectList, "Escolha uma opção...", new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Localidade, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
             @Html.LabelFor(model => model.DistritoMorada, "Distrito", htmlAttributes: new { @class = "control-label col-md-2 required" })
             <div class="col-md-10">
                 @Html.DropDownListFor(model => model.DistritoMorada, ViewBag.DistritoMorada as SelectList, "Escolha uma opção...", new { @class = "form-control", @onchange = "changeConcelhos(false)" })
@@ -218,6 +210,15 @@
                 @Html.ValidationMessageFor(model => model.FreguesiaMorada, "", new { @class = "text-danger" })
             </div>
         </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Localidade, "Localidade", htmlAttributes: new { @class = "control-label col-md-2 required" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.Localidade, ViewBag.Localidade as SelectList, "Escolha uma opção...", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Localidade, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
     </div>
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
@@ -584,6 +585,7 @@
                 error: function (e) { console.log(e); }
             })
         }
+
     }
 
     //altera as freguesias consoante o concelho escolhido
@@ -633,6 +635,35 @@
                 error: function (e) { console.log(e); }
             })
         }
+
+        changeLocalidades();
+    }
+
+    //altera as localidades consoante o distrito escolhido
+    function changeLocalidades() {
+        var distritoMoradaEscolhido = $('#DistritoMorada').val();
+        var concelhoMoradaEscolhido = $('#ConcelhoMorada').val();
+
+        $.ajax({
+            url: '@Url.Action("UpdateLocalidades", "DadosPessoais")',
+            data: {
+                distrito: distritoMoradaEscolhido,
+                concelho: concelhoMoradaEscolhido
+            },
+            type: "POST",
+            success: function (localidades) {
+                var $select = $('#Localidade');
+                $select.empty();
+                $select.append('<option value="">Escolha uma opção...</option>');
+
+                $.each(localidades, function (i, localidade) {
+                    $('<option>', {
+                        value: localidade.ID
+                    }).html(localidade.Name).appendTo($select);
+                });
+            },
+            error: function (e) { console.log(e); }
+        })
     }
 </script>
 <style>

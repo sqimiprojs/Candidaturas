@@ -167,7 +167,7 @@ namespace Candidaturas.Controllers
 
             });
 
-            IEnumerable<SelectListItem> localidades = db.Localidades.OrderBy(dp => dp.Nome).Select(c => new SelectListItem
+            IEnumerable<SelectListItem> localidades = db.Localidades.Where(dp => dp.CodigoDistrito == codigoDistritoMorada).OrderBy(dp => dp.Nome).Select(c => new SelectListItem
             {
                 Value = c.Nome,
                 Text = c.Nome,
@@ -236,6 +236,32 @@ namespace Candidaturas.Controllers
             };
 
             return jsonFreguesias;
+        }
+
+        [HttpPost]
+        //actualiza lista de localidades consoante o distrito seleccionado
+        public JsonResult updateLocalidades(string distrito, string concelho)
+        {
+            LoginDataBaseEntities db = new LoginDataBaseEntities();
+
+            int codigoDistrito = db.Distritoes.Where(d => d.Nome == distrito).Select(d => d.Codigo).FirstOrDefault();
+
+            int codigoConcelho = db.Concelhoes.Where(c => c.Nome == concelho).Select(c => c.Codigo).FirstOrDefault();
+
+            var localidades = db.Localidades.Where(dp => dp.CodigoDistrito == codigoDistrito && dp.CodigoConcelho == codigoConcelho).OrderBy(dp => dp.Nome).Select(c => new
+            {
+                ID = c.Nome,
+                Name = c.Nome
+            }).ToList();
+
+            JsonResult jsonLocalidades = new JsonResult
+            {
+                Data = localidades.ToList(),
+
+                ContentType = "application / json"
+            };
+
+            return jsonLocalidades;
         }
 
         [HttpPost]

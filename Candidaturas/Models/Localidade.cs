@@ -19,6 +19,6 @@ namespace Candidaturas.Models
         public int Codigo { get; set; }
         public string Nome { get; set; }
     
-        public virtual Distrito Distrito { get; set; }
+        public virtual Concelho Concelho { get; set; }
     }
 }
