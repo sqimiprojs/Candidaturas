@@ -13,7 +13,7 @@
         <EntityTypeShape EntityType="CandidaturasModel.Documento" Width="1.5" PointX="8.75" PointY="2.125" IsExpanded="true" />
         <EntityTypeShape EntityType="CandidaturasModel.EstadoCivil" Width="1.5" PointX="8.75" PointY="5.125" IsExpanded="true" />
         <EntityTypeShape EntityType="CandidaturasModel.Exame" Width="1.5" PointX="3.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="CandidaturasModel.Freguesia" Width="1.5" PointX="3" PointY="10.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="CandidaturasModel.Freguesia" Width="1.5" PointX="2.875" PointY="10.625" IsExpanded="true" />
         <EntityTypeShape EntityType="CandidaturasModel.Genero" Width="1.5" PointX="9.875" PointY="12.125" IsExpanded="true" />
         <EntityTypeShape EntityType="CandidaturasModel.Inquerito" Width="1.5" PointX="3" PointY="3.875" IsExpanded="true" />
         <EntityTypeShape EntityType="CandidaturasModel.Pai" Width="1.5" PointX="9.75" PointY="8.125" IsExpanded="true" />
