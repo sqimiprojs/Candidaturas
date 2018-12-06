@@ -28,7 +28,7 @@
         <AssociationConnector Association="CandidaturasModel.FK_UserId" ManuallyRouted="false" />
         <AssociationConnector Association="CandidaturasModel.FK_UserUE" ManuallyRouted="false" />
         <EntityTypeShape EntityType="CandidaturasModel.Localidade" Width="1.5" PointX="5.25" PointY="8.125" />
-        <AssociationConnector Association="CandidaturasModel.FK_Localidade_Concelho_Distrito" />
+        <AssociationConnector Association="CandidaturasModel.FK_Localidade_Distrito_Concelho" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

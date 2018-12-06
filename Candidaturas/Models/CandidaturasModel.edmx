@@ -227,7 +227,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Localidade_Concelho_Distrito">
+        <Association Name="FK_Localidade_Distrito_Concelho">
           <End Role="Concelho" Type="Self.Concelho" Multiplicity="1" />
           <End Role="Localidade" Type="Self.Localidade" Multiplicity="*" />
           <ReferentialConstraint>
@@ -293,7 +293,7 @@
             <End Role="Exame" EntitySet="Exame" />
             <End Role="UserExame" EntitySet="UserExame" />
           </AssociationSet>
-          <AssociationSet Name="FK_Localidade_Concelho_Distrito" Association="Self.FK_Localidade_Concelho_Distrito">
+          <AssociationSet Name="FK_Localidade_Distrito_Concelho" Association="Self.FK_Localidade_Distrito_Concelho">
             <End Role="Concelho" EntitySet="Concelho" />
             <End Role="Localidade" EntitySet="Localidade" />
           </AssociationSet>
@@ -319,7 +319,7 @@
           <Property Name="Codigo" Type="Int32" Nullable="false" />
           <Property Name="CodigoDistrito" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Distrito" Relationship="Self.FK_Concelho_Distrito" FromRole="Concelho" ToRole="Distrito" />
-          <NavigationProperty Name="Localidades" Relationship="CandidaturasModel.FK_Localidade_Concelho_Distrito" FromRole="Concelho" ToRole="Localidade" />
+          <NavigationProperty Name="Localidades" Relationship="CandidaturasModel.FK_Localidade_Distrito_Concelho" FromRole="Concelho" ToRole="Localidade" />
         </EntityType>
         <EntityType Name="ConhecimentoEscola">
           <Key>
@@ -590,7 +590,7 @@
             <End Role="UserExame" EntitySet="UserExames" />
           </AssociationSet>
           <EntitySet Name="Localidades" EntityType="CandidaturasModel.Localidade" />
-          <AssociationSet Name="FK_Localidade_Concelho_Distrito" Association="CandidaturasModel.FK_Localidade_Concelho_Distrito">
+          <AssociationSet Name="FK_Localidade_Distrito_Concelho" Association="CandidaturasModel.FK_Localidade_Distrito_Concelho">
             <End Role="Concelho" EntitySet="Concelhoes" />
             <End Role="Localidade" EntitySet="Localidades" />
           </AssociationSet>
@@ -605,9 +605,9 @@
           <Property Name="CodigoConcelho" Type="Int32" Nullable="false" />
           <Property Name="Codigo" Type="Int32" Nullable="false" />
           <Property Name="Nome" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Concelho" Relationship="CandidaturasModel.FK_Localidade_Concelho_Distrito" FromRole="Localidade" ToRole="Concelho" />
+          <NavigationProperty Name="Concelho" Relationship="CandidaturasModel.FK_Localidade_Distrito_Concelho" FromRole="Localidade" ToRole="Concelho" />
         </EntityType>
-        <Association Name="FK_Localidade_Concelho_Distrito">
+        <Association Name="FK_Localidade_Distrito_Concelho">
           <End Type="CandidaturasModel.Concelho" Role="Concelho" Multiplicity="1" />
           <End Type="CandidaturasModel.Localidade" Role="Localidade" Multiplicity="*" />
           <ReferentialConstraint>
