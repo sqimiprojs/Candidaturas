@@ -48,16 +48,16 @@
           <Property Name="ConcelhoNatural" Type="int" />
           <Property Name="FreguesiaNatural" Type="int" />
           <Property Name="Morada" Type="varchar" MaxLength="50" />
-          <Property Name="Localidade" Type="varchar" MaxLength="50" />
+          <Property Name="Localidade" Type="int" />
           <Property Name="UserId" Type="int" Nullable="false" />
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="RepFinNIF" Type="varchar" MaxLength="50" />
           <Property Name="CCDigitosControlo" Type="varchar" MaxLength="50" />
           <Property Name="NSegSoc" Type="varchar" MaxLength="50" />
           <Property Name="NIF" Type="varchar" MaxLength="50" />
-          <Property Name="DistritoMorada" Type="varchar" MaxLength="50" />
-          <Property Name="ConcelhoMorada" Type="varchar" MaxLength="50" />
-          <Property Name="FreguesiaMorada" Type="varchar" MaxLength="150" />
+          <Property Name="DistritoMorada" Type="int" />
+          <Property Name="ConcelhoMorada" Type="int" />
+          <Property Name="FreguesiaMorada" Type="int" />
           <Property Name="Telefone" Type="varchar" MaxLength="50" />
           <Property Name="CodigoPostal4Dig" Type="nchar" MaxLength="10" />
           <Property Name="CodigoPostal3Dig" Type="nchar" MaxLength="10" />
@@ -214,6 +214,38 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_DadosPessoais_Freguesia">
+          <End Role="Freguesia" Type="Self.Freguesia" Multiplicity="0..1" />
+          <End Role="DadosPessoais" Type="Self.DadosPessoais" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Freguesia">
+              <PropertyRef Name="Codigo" />
+              <PropertyRef Name="CodigoConcelho" />
+              <PropertyRef Name="CodigoDistrito" />
+            </Principal>
+            <Dependent Role="DadosPessoais">
+              <PropertyRef Name="FreguesiaNatural" />
+              <PropertyRef Name="ConcelhoNatural" />
+              <PropertyRef Name="DistritoNatural" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DadosPessoais_Freguesia_Morada">
+          <End Role="Freguesia" Type="Self.Freguesia" Multiplicity="0..1" />
+          <End Role="DadosPessoais" Type="Self.DadosPessoais" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Freguesia">
+              <PropertyRef Name="Codigo" />
+              <PropertyRef Name="CodigoConcelho" />
+              <PropertyRef Name="CodigoDistrito" />
+            </Principal>
+            <Dependent Role="DadosPessoais">
+              <PropertyRef Name="FreguesiaMorada" />
+              <PropertyRef Name="ConcelhoMorada" />
+              <PropertyRef Name="DistritoMorada" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_ExameUE">
           <End Role="Exame" Type="Self.Exame" Multiplicity="1" />
           <End Role="UserExame" Type="Self.UserExame" Multiplicity="*" />
@@ -301,6 +333,14 @@
           <AssociationSet Name="FK_Concelho_Distrito" Association="Self.FK_Concelho_Distrito">
             <End Role="Distrito" EntitySet="Distrito" />
             <End Role="Concelho" EntitySet="Concelho" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DadosPessoais_Freguesia" Association="Self.FK_DadosPessoais_Freguesia">
+            <End Role="Freguesia" EntitySet="Freguesia" />
+            <End Role="DadosPessoais" EntitySet="DadosPessoais" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DadosPessoais_Freguesia_Morada" Association="Self.FK_DadosPessoais_Freguesia_Morada">
+            <End Role="Freguesia" EntitySet="Freguesia" />
+            <End Role="DadosPessoais" EntitySet="DadosPessoais" />
           </AssociationSet>
           <AssociationSet Name="FK_ExameUE" Association="Self.FK_ExameUE">
             <End Role="Exame" EntitySet="Exame" />
@@ -570,6 +610,14 @@
             <End Role="Freguesia" EntitySet="Freguesias" />
           </AssociationSet>
           <EntitySet Name="DadosPessoais" EntityType="CandidaturasModel.DadosPessoai" />
+          <AssociationSet Name="FK_DadosPessoais_Freguesia" Association="CandidaturasModel.FK_DadosPessoais_Freguesia">
+            <End Role="Freguesia" EntitySet="Freguesias" />
+            <End Role="DadosPessoai" EntitySet="DadosPessoais" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DadosPessoais_Freguesia_Morada" Association="CandidaturasModel.FK_DadosPessoais_Freguesia_Morada">
+            <End Role="Freguesia" EntitySet="Freguesias" />
+            <End Role="DadosPessoai" EntitySet="DadosPessoais" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Localidade">
           <Key>
@@ -608,6 +656,8 @@
           <Property Name="CodigoConcelho" Type="Int32" Nullable="false" />
           <Property Name="CodigoDistrito" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Concelho" Relationship="CandidaturasModel.FK_Freguesia_Distrito_Concelho" FromRole="Freguesia" ToRole="Concelho" />
+          <NavigationProperty Name="DadosPessoais" Relationship="CandidaturasModel.FK_DadosPessoais_Freguesia" FromRole="Freguesia" ToRole="DadosPessoai" />
+          <NavigationProperty Name="DadosPessoais1" Relationship="CandidaturasModel.FK_DadosPessoais_Freguesia_Morada" FromRole="Freguesia" ToRole="DadosPessoai" />
         </EntityType>
         <Association Name="FK_Freguesia_Distrito_Concelho">
           <End Type="CandidaturasModel.Concelho" Role="Concelho" Multiplicity="1" />
@@ -641,22 +691,56 @@
           <Property Name="ConcelhoNatural" Type="Int32" />
           <Property Name="FreguesiaNatural" Type="Int32" />
           <Property Name="Morada" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Localidade" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Localidade" Type="Int32" />
           <Property Name="UserId" Type="Int32" Nullable="false" />
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="RepFinNIF" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="CCDigitosControlo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="NSegSoc" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="NIF" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="DistritoMorada" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="ConcelhoMorada" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="FreguesiaMorada" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="DistritoMorada" Type="Int32" />
+          <Property Name="ConcelhoMorada" Type="Int32" />
+          <Property Name="FreguesiaMorada" Type="Int32" />
           <Property Name="Telefone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="CodigoPostal4Dig" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Name="CodigoPostal3Dig" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Name="DataCriacao" Type="DateTime" Precision="3" />
           <Property Name="DataUltimaAtualizacao" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Freguesia" Relationship="CandidaturasModel.FK_DadosPessoais_Freguesia" FromRole="DadosPessoai" ToRole="Freguesia" />
+          <NavigationProperty Name="Freguesia1" Relationship="CandidaturasModel.FK_DadosPessoais_Freguesia_Morada" FromRole="DadosPessoai" ToRole="Freguesia" />
         </EntityType>
+        <Association Name="FK_DadosPessoais_Freguesia">
+          <End Type="CandidaturasModel.Freguesia" Role="Freguesia" Multiplicity="0..1" />
+          <End Type="CandidaturasModel.DadosPessoai" Role="DadosPessoai" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Freguesia">
+              <PropertyRef Name="Codigo" />
+              <PropertyRef Name="CodigoConcelho" />
+              <PropertyRef Name="CodigoDistrito" />
+            </Principal>
+            <Dependent Role="DadosPessoai">
+              <PropertyRef Name="FreguesiaNatural" />
+              <PropertyRef Name="ConcelhoNatural" />
+              <PropertyRef Name="DistritoNatural" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DadosPessoais_Freguesia_Morada">
+          <End Type="CandidaturasModel.Freguesia" Role="Freguesia" Multiplicity="0..1" />
+          <End Type="CandidaturasModel.DadosPessoai" Role="DadosPessoai" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Freguesia">
+              <PropertyRef Name="Codigo" />
+              <PropertyRef Name="CodigoConcelho" />
+              <PropertyRef Name="CodigoDistrito" />
+            </Principal>
+            <Dependent Role="DadosPessoai">
+              <PropertyRef Name="FreguesiaMorada" />
+              <PropertyRef Name="ConcelhoMorada" />
+              <PropertyRef Name="DistritoMorada" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->

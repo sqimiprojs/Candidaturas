@@ -28,20 +28,23 @@ namespace Candidaturas.Models
         public Nullable<int> ConcelhoNatural { get; set; }
         public Nullable<int> FreguesiaNatural { get; set; }
         public string Morada { get; set; }
-        public string Localidade { get; set; }
+        public Nullable<int> Localidade { get; set; }
         public int UserId { get; set; }
         public int ID { get; set; }
         public string RepFinNIF { get; set; }
         public string CCDigitosControlo { get; set; }
         public string NSegSoc { get; set; }
         public string NIF { get; set; }
-        public string DistritoMorada { get; set; }
-        public string ConcelhoMorada { get; set; }
-        public string FreguesiaMorada { get; set; }
+        public Nullable<int> DistritoMorada { get; set; }
+        public Nullable<int> ConcelhoMorada { get; set; }
+        public Nullable<int> FreguesiaMorada { get; set; }
         public string Telefone { get; set; }
         public string CodigoPostal4Dig { get; set; }
         public string CodigoPostal3Dig { get; set; }
         public Nullable<System.DateTime> DataCriacao { get; set; }
         public Nullable<System.DateTime> DataUltimaAtualizacao { get; set; }
+    
+        public virtual Freguesia Freguesia { get; set; }
+        public virtual Freguesia Freguesia1 { get; set; }
     }
 }

@@ -561,11 +561,12 @@
         }
         else {
             var distritoMoradaEscolhido = $('#DistritoMorada').val();
+            var codigoDistrito = parseInt(distritoMoradaEscolhido);
 
             $.ajax({
                 url: '@Url.Action("UpdateConcelhos", "DadosPessoais")',
                 data: {
-                    distrito: distritoMoradaEscolhido
+                    distrito: codigoDistrito
                 },
                 type: "POST",
                 success: function (concelhos) {
@@ -622,11 +623,12 @@
         }
         else {
             var concelhoMoradaEscolhido = $('#ConcelhoMorada').val();
+            var codigoConcelho = parseInt(concelhoMoradaEscolhido);
 
             $.ajax({
                 url: '@Url.Action("UpdateFreguesias", "DadosPessoais")',
                 data: {
-                    concelho: concelhoMoradaEscolhido
+                    concelho: codigoConcelho
                 },
                 type: "POST",
                 success: function (freguesias) {
@@ -654,13 +656,15 @@
     //altera as localidades consoante o distrito escolhido
     function changeLocalidades() {
         var distritoMoradaEscolhido = $('#DistritoMorada').val();
+        var codigoDistrito = parseInt(distritoMoradaEscolhido);
         var concelhoMoradaEscolhido = $('#ConcelhoMorada').val();
+        var codigoConcelho = parseInt(concelhoMoradaEscolhido);
 
         $.ajax({
             url: '@Url.Action("UpdateLocalidades", "DadosPessoais")',
             data: {
-                distrito: distritoMoradaEscolhido,
-                concelho: concelhoMoradaEscolhido
+                distrito: codigoDistrito,
+                concelho: codigoConcelho
             },
             type: "POST",
             success: function (localidades) {

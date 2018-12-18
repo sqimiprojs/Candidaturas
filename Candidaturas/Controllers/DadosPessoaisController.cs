@@ -13,12 +13,12 @@ namespace Candidaturas.Controllers
         int? distritoNaturalEscolhido = null;
         int? concelhoNaturalEscolhido = null;
         int? freguesiaNaturalEscolhida = null;
-        string distritoMoradaEscolhido = null;
-        string concelhoMoradaEscolhido = null;
-        string freguesiaMoradaEscolhida = null;
+        int? distritoMoradaEscolhido = null;
+        int? concelhoMoradaEscolhido = null;
+        int? freguesiaMoradaEscolhida = null;
+        int? localidadeEscolhida = null;
         string estadoCivilEscolhido = null;
         string nacionalidadeEscolhida = null;
-        string localidadeEscolhida = null;
 
         // GET: DadosPessoais
         public ActionResult Index()
@@ -75,7 +75,7 @@ namespace Candidaturas.Controllers
         }
 
         //obtém os dados a serem preenchidos nas drops
-        public void getDataForDropdownLists(int? distritoNatural, int? concelhoNatural, string distritoMorada, string concelhoMorada)
+        public void getDataForDropdownLists(int? distritoNatural, int? concelhoNatural, int? distritoMorada, int? concelhoMorada)
         {
             LoginDataBaseEntities db = new LoginDataBaseEntities();
 
@@ -117,29 +117,29 @@ namespace Candidaturas.Controllers
 
             IEnumerable<SelectListItem> distritosMoradas = db.Distritoes.OrderBy(dp => dp.Nome).Select(c => new SelectListItem
             {
-                Value = c.Nome,
+                Value = c.Codigo.ToString(),
                 Text = c.Nome,
-                Selected = c.Nome == distritoMoradaEscolhido
+                Selected = c.Codigo == distritoMoradaEscolhido
 
             });
 
-            int codigoDistritoMorada = db.Distritoes.Where(d => d.Nome == distritoMorada).Select(d => d.Codigo).FirstOrDefault();
+            //int codigoDistritoMorada = db.Distritoes.Where(d => d.Nome == distritoMorada).Select(d => d.Codigo).FirstOrDefault();
 
-            IEnumerable<SelectListItem> concelhosMoradas = db.Concelhoes.Where(dp => dp.CodigoDistrito == codigoDistritoMorada).OrderBy(dp => dp.Nome).Select(c => new SelectListItem
+            IEnumerable<SelectListItem> concelhosMoradas = db.Concelhoes.Where(dp => dp.CodigoDistrito == distritoMorada).OrderBy(dp => dp.Nome).Select(c => new SelectListItem
             {
-                Value = c.Nome,
+                Value = c.Codigo.ToString(),
                 Text = c.Nome,
-                Selected = c.Nome == concelhoMoradaEscolhido
+                Selected = c.Codigo == concelhoMoradaEscolhido
 
             });
 
-            int codigoConcelhoMorada = db.Concelhoes.Where(c => c.Nome == concelhoMorada).Select(c => c.Codigo).FirstOrDefault();
+            //int codigoConcelhoMorada = db.Concelhoes.Where(c => c.Nome == concelhoMorada).Select(c => c.Codigo).FirstOrDefault();
 
-            IEnumerable<SelectListItem> freguesiasMoradas = db.Freguesias.Where(dp => dp.CodigoConcelho == codigoConcelhoMorada && dp.CodigoDistrito == codigoDistritoMorada).OrderBy(dp => dp.Nome).Select(c => new SelectListItem
+            IEnumerable<SelectListItem> freguesiasMoradas = db.Freguesias.Where(dp => dp.CodigoConcelho == concelhoMorada && dp.CodigoDistrito == distritoMorada).OrderBy(dp => dp.Nome).Select(c => new SelectListItem
             {
-                Value = c.Nome,
+                Value = c.Codigo.ToString(),
                 Text = c.Nome,
-                Selected = c.Nome == freguesiaMoradaEscolhida
+                Selected = c.Codigo == freguesiaMoradaEscolhida
 
             });
 
@@ -167,11 +167,11 @@ namespace Candidaturas.Controllers
 
             });
 
-            IEnumerable<SelectListItem> localidades = db.Localidades.Where(dp => dp.CodigoConcelho == codigoConcelhoMorada && dp.CodigoDistrito == codigoDistritoMorada).OrderBy(dp => dp.Nome).Select(c => new SelectListItem
+            IEnumerable<SelectListItem> localidades = db.Localidades.Where(dp => dp.CodigoConcelho == concelhoMorada && dp.CodigoDistrito == distritoMorada).OrderBy(dp => dp.Nome).Select(c => new SelectListItem
             {
-                Value = c.Nome,
+                Value = c.Codigo.ToString(),
                 Text = c.Nome,
-                Selected = c.Nome == localidadeEscolhida
+                Selected = c.Codigo == localidadeEscolhida
 
             });
 
@@ -240,17 +240,17 @@ namespace Candidaturas.Controllers
 
         [HttpPost]
         //actualiza lista de localidades consoante o distrito seleccionado
-        public JsonResult updateLocalidades(string distrito, string concelho)
+        public JsonResult updateLocalidades(int distrito, int concelho)
         {
             LoginDataBaseEntities db = new LoginDataBaseEntities();
 
-            int codigoDistrito = db.Distritoes.Where(d => d.Nome == distrito).Select(d => d.Codigo).FirstOrDefault();
+            //int codigoDistrito = db.Distritoes.Where(d => d.Nome == distrito).Select(d => d.Codigo).FirstOrDefault();
 
-            int codigoConcelho = db.Concelhoes.Where(c => c.Nome == concelho).Select(c => c.Codigo).FirstOrDefault();
+            //int codigoConcelho = db.Concelhoes.Where(c => c.Nome == concelho).Select(c => c.Codigo).FirstOrDefault();
 
-            var localidades = db.Localidades.Where(dp => dp.CodigoDistrito == codigoDistrito && dp.CodigoConcelho == codigoConcelho).OrderBy(dp => dp.Nome).Select(c => new
+            var localidades = db.Localidades.Where(dp => dp.CodigoDistrito == distrito && dp.CodigoConcelho == concelho).OrderBy(dp => dp.Nome).Select(c => new
             {
-                ID = c.Nome,
+                ID = c.Codigo,
                 Name = c.Nome
             }).ToList();
 
