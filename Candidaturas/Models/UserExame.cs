@@ -19,6 +19,5 @@ namespace Candidaturas.Models
         public int ExameId { get; set; }
     
         public virtual Exame Exame { get; set; }
-        public virtual User User { get; set; }
     }
 }
