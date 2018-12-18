@@ -24,9 +24,9 @@ namespace Candidaturas.Models
         public string Genero { get; set; }
         public string EstadoCivil { get; set; }
         public string Nacionalidade { get; set; }
-        public string DistritoNatural { get; set; }
-        public string ConcelhoNatural { get; set; }
-        public string FreguesiaNatural { get; set; }
+        public Nullable<int> DistritoNatural { get; set; }
+        public Nullable<int> ConcelhoNatural { get; set; }
+        public Nullable<int> FreguesiaNatural { get; set; }
         public string Morada { get; set; }
         public string Localidade { get; set; }
         public int UserId { get; set; }

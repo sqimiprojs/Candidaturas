@@ -533,11 +533,12 @@
 
         if (isNatural) {
             var distritoNaturalEscolhido = $('#DistritoNatural').val();
+            var codigoDistrito = parseInt(distritoNaturalEscolhido);
 
             $.ajax({
                 url: '@Url.Action("UpdateConcelhos", "DadosPessoais")',
                 data: {
-                    distrito: distritoNaturalEscolhido
+                    distrito: codigoDistrito
                 },
                 type: "POST",
                 success: function (concelhos) {
@@ -597,11 +598,12 @@
 
         if (isNatural) {
             var concelhoNaturalEscolhido = $('#ConcelhoNatural').val();
+            var codigoConcelho = parseInt(concelhoNaturalEscolhido);
 
             $.ajax({
                 url: '@Url.Action("UpdateFreguesias", "DadosPessoais")',
                 data: {
-                    concelho: concelhoNaturalEscolhido
+                    concelho: codigoConcelho
                 },
                 type: "POST",
                 success: function (freguesias) {

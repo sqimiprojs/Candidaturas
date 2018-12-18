@@ -44,9 +44,9 @@
           <Property Name="Genero" Type="varchar" MaxLength="50" />
           <Property Name="EstadoCivil" Type="varchar" MaxLength="50" />
           <Property Name="Nacionalidade" Type="varchar" MaxLength="50" />
-          <Property Name="DistritoNatural" Type="varchar" MaxLength="50" />
-          <Property Name="ConcelhoNatural" Type="varchar" MaxLength="50" />
-          <Property Name="FreguesiaNatural" Type="varchar" MaxLength="150" />
+          <Property Name="DistritoNatural" Type="int" />
+          <Property Name="ConcelhoNatural" Type="int" />
+          <Property Name="FreguesiaNatural" Type="int" />
           <Property Name="Morada" Type="varchar" MaxLength="50" />
           <Property Name="Localidade" Type="varchar" MaxLength="50" />
           <Property Name="UserId" Type="int" Nullable="false" />
@@ -355,40 +355,6 @@
           <Property Name="CodigoCurso" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="CodigoRamo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
-        <EntityType Name="DadosPessoai">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="NomeColoquial" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Nomes" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Apelidos" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="NomePai" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="NomeMae" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="NDI" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TipoDocID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Genero" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="EstadoCivil" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Nacionalidade" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="DistritoNatural" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="ConcelhoNatural" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="FreguesiaNatural" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="Morada" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Localidade" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="UserId" Type="Int32" Nullable="false" />
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="RepFinNIF" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="CCDigitosControlo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="NSegSoc" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="NIF" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="DistritoMorada" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="ConcelhoMorada" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="FreguesiaMorada" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="Telefone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="CodigoPostal4Dig" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="CodigoPostal3Dig" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="DataCriacao" Type="DateTime" Precision="3" />
-          <Property Name="DataUltimaAtualizacao" Type="DateTime" Precision="3" />
-        </EntityType>
         <EntityType Name="Distrito">
           <Key>
             <PropertyRef Name="Codigo" />
@@ -564,7 +530,6 @@
           <EntitySet Name="Concelhoes" EntityType="Self.Concelho" />
           <EntitySet Name="ConhecimentoEscolas" EntityType="Self.ConhecimentoEscola" />
           <EntitySet Name="Cursoes" EntityType="Self.Curso" />
-          <EntitySet Name="DadosPessoais" EntityType="Self.DadosPessoai" />
           <EntitySet Name="Distritoes" EntityType="Self.Distrito" />
           <EntitySet Name="Documentoes" EntityType="Self.Documento" />
           <EntitySet Name="EstadoCivils" EntityType="Self.EstadoCivil" />
@@ -604,6 +569,7 @@
             <End Role="Concelho" EntitySet="Concelhoes" />
             <End Role="Freguesia" EntitySet="Freguesias" />
           </AssociationSet>
+          <EntitySet Name="DadosPessoais" EntityType="CandidaturasModel.DadosPessoai" />
         </EntityContainer>
         <EntityType Name="Localidade">
           <Key>
@@ -657,6 +623,40 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="DadosPessoai">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="NomeColoquial" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Nomes" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Apelidos" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="NomePai" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="NomeMae" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="NDI" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TipoDocID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Genero" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EstadoCivil" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Nacionalidade" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DistritoNatural" Type="Int32" />
+          <Property Name="ConcelhoNatural" Type="Int32" />
+          <Property Name="FreguesiaNatural" Type="Int32" />
+          <Property Name="Morada" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Localidade" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RepFinNIF" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CCDigitosControlo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="NSegSoc" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="NIF" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DistritoMorada" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ConcelhoMorada" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FreguesiaMorada" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Telefone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CodigoPostal4Dig" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="CodigoPostal3Dig" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="DataCriacao" Type="DateTime" Precision="3" />
+          <Property Name="DataUltimaAtualizacao" Type="DateTime" Precision="3" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -687,41 +687,6 @@
                 <ScalarProperty Name="Nome" ColumnName="Nome" />
                 <ScalarProperty Name="CodigoCurso" ColumnName="CodigoCurso" />
                 <ScalarProperty Name="CodigoRamo" ColumnName="CodigoRamo" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="DadosPessoais">
-            <EntityTypeMapping TypeName="CandidaturasModel.DadosPessoai">
-              <MappingFragment StoreEntitySet="DadosPessoais">
-                <ScalarProperty Name="NomeColoquial" ColumnName="NomeColoquial" />
-                <ScalarProperty Name="Nomes" ColumnName="Nomes" />
-                <ScalarProperty Name="Apelidos" ColumnName="Apelidos" />
-                <ScalarProperty Name="NomePai" ColumnName="NomePai" />
-                <ScalarProperty Name="NomeMae" ColumnName="NomeMae" />
-                <ScalarProperty Name="NDI" ColumnName="NDI" />
-                <ScalarProperty Name="TipoDocID" ColumnName="TipoDocID" />
-                <ScalarProperty Name="Genero" ColumnName="Genero" />
-                <ScalarProperty Name="EstadoCivil" ColumnName="EstadoCivil" />
-                <ScalarProperty Name="Nacionalidade" ColumnName="Nacionalidade" />
-                <ScalarProperty Name="DistritoNatural" ColumnName="DistritoNatural" />
-                <ScalarProperty Name="ConcelhoNatural" ColumnName="ConcelhoNatural" />
-                <ScalarProperty Name="FreguesiaNatural" ColumnName="FreguesiaNatural" />
-                <ScalarProperty Name="Morada" ColumnName="Morada" />
-                <ScalarProperty Name="Localidade" ColumnName="Localidade" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="RepFinNIF" ColumnName="RepFinNIF" />
-                <ScalarProperty Name="CCDigitosControlo" ColumnName="CCDigitosControlo" />
-                <ScalarProperty Name="NSegSoc" ColumnName="NSegSoc" />
-                <ScalarProperty Name="NIF" ColumnName="NIF" />
-                <ScalarProperty Name="DistritoMorada" ColumnName="DistritoMorada" />
-                <ScalarProperty Name="ConcelhoMorada" ColumnName="ConcelhoMorada" />
-                <ScalarProperty Name="FreguesiaMorada" ColumnName="FreguesiaMorada" />
-                <ScalarProperty Name="Telefone" ColumnName="Telefone" />
-                <ScalarProperty Name="CodigoPostal4Dig" ColumnName="CodigoPostal4Dig" />
-                <ScalarProperty Name="CodigoPostal3Dig" ColumnName="CodigoPostal3Dig" />
-                <ScalarProperty Name="DataCriacao" ColumnName="DataCriacao" />
-                <ScalarProperty Name="DataUltimaAtualizacao" ColumnName="DataUltimaAtualizacao" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -871,6 +836,41 @@
                 <ScalarProperty Name="CodigoConcelho" ColumnName="CodigoConcelho" />
                 <ScalarProperty Name="Codigo" ColumnName="Codigo" />
                 <ScalarProperty Name="Nome" ColumnName="Nome" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DadosPessoais">
+            <EntityTypeMapping TypeName="CandidaturasModel.DadosPessoai">
+              <MappingFragment StoreEntitySet="DadosPessoais">
+                <ScalarProperty Name="DataUltimaAtualizacao" ColumnName="DataUltimaAtualizacao" />
+                <ScalarProperty Name="DataCriacao" ColumnName="DataCriacao" />
+                <ScalarProperty Name="CodigoPostal3Dig" ColumnName="CodigoPostal3Dig" />
+                <ScalarProperty Name="CodigoPostal4Dig" ColumnName="CodigoPostal4Dig" />
+                <ScalarProperty Name="Telefone" ColumnName="Telefone" />
+                <ScalarProperty Name="FreguesiaMorada" ColumnName="FreguesiaMorada" />
+                <ScalarProperty Name="ConcelhoMorada" ColumnName="ConcelhoMorada" />
+                <ScalarProperty Name="DistritoMorada" ColumnName="DistritoMorada" />
+                <ScalarProperty Name="NIF" ColumnName="NIF" />
+                <ScalarProperty Name="NSegSoc" ColumnName="NSegSoc" />
+                <ScalarProperty Name="CCDigitosControlo" ColumnName="CCDigitosControlo" />
+                <ScalarProperty Name="RepFinNIF" ColumnName="RepFinNIF" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Localidade" ColumnName="Localidade" />
+                <ScalarProperty Name="Morada" ColumnName="Morada" />
+                <ScalarProperty Name="FreguesiaNatural" ColumnName="FreguesiaNatural" />
+                <ScalarProperty Name="ConcelhoNatural" ColumnName="ConcelhoNatural" />
+                <ScalarProperty Name="DistritoNatural" ColumnName="DistritoNatural" />
+                <ScalarProperty Name="Nacionalidade" ColumnName="Nacionalidade" />
+                <ScalarProperty Name="EstadoCivil" ColumnName="EstadoCivil" />
+                <ScalarProperty Name="Genero" ColumnName="Genero" />
+                <ScalarProperty Name="TipoDocID" ColumnName="TipoDocID" />
+                <ScalarProperty Name="NDI" ColumnName="NDI" />
+                <ScalarProperty Name="NomeMae" ColumnName="NomeMae" />
+                <ScalarProperty Name="NomePai" ColumnName="NomePai" />
+                <ScalarProperty Name="Apelidos" ColumnName="Apelidos" />
+                <ScalarProperty Name="Nomes" ColumnName="Nomes" />
+                <ScalarProperty Name="NomeColoquial" ColumnName="NomeColoquial" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

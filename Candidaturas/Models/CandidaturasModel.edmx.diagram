@@ -8,7 +8,6 @@
         <EntityTypeShape EntityType="CandidaturasModel.Concelho" Width="1.5" PointX="3" PointY="9.125" IsExpanded="true" />
         <EntityTypeShape EntityType="CandidaturasModel.ConhecimentoEscola" Width="1.5" PointX="1" PointY="5.625" IsExpanded="true" />
         <EntityTypeShape EntityType="CandidaturasModel.Curso" Width="1.5" PointX="13.375" PointY="5.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="CandidaturasModel.DadosPessoai" Width="1.5" PointX="9.25" PointY="8.125" IsExpanded="true" />
         <EntityTypeShape EntityType="CandidaturasModel.Distrito" Width="1.5" PointX="0.75" PointY="9.125" IsExpanded="true" />
         <EntityTypeShape EntityType="CandidaturasModel.Documento" Width="1.5" PointX="11.75" PointY="1.625" IsExpanded="true" />
         <EntityTypeShape EntityType="CandidaturasModel.EstadoCivil" Width="1.5" PointX="11.25" PointY="9.875" IsExpanded="true" />
@@ -30,6 +29,7 @@
         <AssociationConnector Association="CandidaturasModel.FK_Localidade_Distrito_Concelho" />
         <EntityTypeShape EntityType="CandidaturasModel.Freguesia" Width="1.5" PointX="3" PointY="12.125" />
         <AssociationConnector Association="CandidaturasModel.FK_Freguesia_Distrito_Concelho" />
+        <EntityTypeShape EntityType="CandidaturasModel.DadosPessoai" Width="1.5" PointX="7.375" PointY="8.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
