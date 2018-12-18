@@ -30,7 +30,6 @@ namespace Candidaturas.Models
         public string Morada { get; set; }
         public Nullable<int> Localidade { get; set; }
         public int UserId { get; set; }
-        public int ID { get; set; }
         public string RepFinNIF { get; set; }
         public string CCDigitosControlo { get; set; }
         public string NSegSoc { get; set; }
@@ -46,5 +45,6 @@ namespace Candidaturas.Models
     
         public virtual Freguesia Freguesia { get; set; }
         public virtual Freguesia Freguesia1 { get; set; }
+        public virtual User User { get; set; }
     }
 }

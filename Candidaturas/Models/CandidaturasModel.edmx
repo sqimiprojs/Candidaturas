@@ -32,7 +32,7 @@
         </EntityType>
         <EntityType Name="DadosPessoais">
           <Key>
-            <PropertyRef Name="ID" />
+            <PropertyRef Name="UserId" />
           </Key>
           <Property Name="NomeColoquial" Type="varchar" MaxLength="50" />
           <Property Name="Nomes" Type="varchar" MaxLength="50" />
@@ -50,7 +50,6 @@
           <Property Name="Morada" Type="varchar" MaxLength="50" />
           <Property Name="Localidade" Type="int" />
           <Property Name="UserId" Type="int" Nullable="false" />
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="RepFinNIF" Type="varchar" MaxLength="50" />
           <Property Name="CCDigitosControlo" Type="varchar" MaxLength="50" />
           <Property Name="NSegSoc" Type="varchar" MaxLength="50" />
@@ -246,6 +245,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_DadosPessoais_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="DadosPessoais" Type="Self.DadosPessoais" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DadosPessoais">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_ExameUE">
           <End Role="Exame" Type="Self.Exame" Multiplicity="1" />
           <End Role="UserExame" Type="Self.UserExame" Multiplicity="*" />
@@ -328,6 +339,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_DadosPessoais_Freguesia_Morada" Association="Self.FK_DadosPessoais_Freguesia_Morada">
             <End Role="Freguesia" EntitySet="Freguesia" />
+            <End Role="DadosPessoais" EntitySet="DadosPessoais" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DadosPessoais_User" Association="Self.FK_DadosPessoais_User">
+            <End Role="User" EntitySet="User" />
             <End Role="DadosPessoais" EntitySet="DadosPessoais" />
           </AssociationSet>
           <AssociationSet Name="FK_ExameUE" Association="Self.FK_ExameUE">
@@ -542,6 +557,11 @@
             <End Role="Concelho" EntitySet="Concelhoes" />
             <End Role="Freguesia" EntitySet="Freguesias" />
           </AssociationSet>
+          <EntitySet Name="Users" EntityType="CandidaturasModel.User" />
+          <AssociationSet Name="FK_Inquerito_User" Association="CandidaturasModel.FK_Inquerito_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Inquerito" EntitySet="Inqueritoes" />
+          </AssociationSet>
           <EntitySet Name="DadosPessoais" EntityType="CandidaturasModel.DadosPessoai" />
           <AssociationSet Name="FK_DadosPessoais_Freguesia" Association="CandidaturasModel.FK_DadosPessoais_Freguesia">
             <End Role="Freguesia" EntitySet="Freguesias" />
@@ -551,12 +571,11 @@
             <End Role="Freguesia" EntitySet="Freguesias" />
             <End Role="DadosPessoai" EntitySet="DadosPessoais" />
           </AssociationSet>
-          <EntitySet Name="Users" EntityType="CandidaturasModel.User" />
-          <AssociationSet Name="FK_Inquerito_User" Association="CandidaturasModel.FK_Inquerito_User">
+          <AssociationSet Name="FK_DadosPessoais_User" Association="CandidaturasModel.FK_DadosPessoais_User">
             <End Role="User" EntitySet="Users" />
-            <End Role="Inquerito" EntitySet="Inqueritoes" />
+            <End Role="DadosPessoai" EntitySet="DadosPessoais" />
           </AssociationSet>
-        </EntityContainer>
+          </EntityContainer>
         <EntityType Name="Localidade">
           <Key>
             <PropertyRef Name="CodigoDistrito" />
@@ -596,7 +615,7 @@
           <NavigationProperty Name="Concelho" Relationship="CandidaturasModel.FK_Freguesia_Distrito_Concelho" FromRole="Freguesia" ToRole="Concelho" />
           <NavigationProperty Name="DadosPessoais" Relationship="CandidaturasModel.FK_DadosPessoais_Freguesia" FromRole="Freguesia" ToRole="DadosPessoai" />
           <NavigationProperty Name="DadosPessoais1" Relationship="CandidaturasModel.FK_DadosPessoais_Freguesia_Morada" FromRole="Freguesia" ToRole="DadosPessoai" />
-        </EntityType>
+          </EntityType>
         <Association Name="FK_Freguesia_Distrito_Concelho">
           <End Type="CandidaturasModel.Concelho" Role="Concelho" Multiplicity="1" />
           <End Type="CandidaturasModel.Freguesia" Role="Freguesia" Multiplicity="*" />
@@ -611,9 +630,38 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="DadosPessoai">
+        <EntityType Name="User">
           <Key>
             <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NomeCompleto" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="NDI" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Militar" Type="Boolean" Nullable="false" />
+          <Property Name="DataNascimento" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LoginErrorMessage" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TipoDocID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DataCriacao" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Inqueritoes" Relationship="CandidaturasModel.FK_Inquerito_User" FromRole="User" ToRole="Inquerito" />
+          <NavigationProperty Name="DadosPessoai" Relationship="CandidaturasModel.FK_DadosPessoais_User" FromRole="User" ToRole="DadosPessoai" />
+        </EntityType>
+        <Association Name="FK_Inquerito_User">
+          <End Type="CandidaturasModel.User" Role="User" Multiplicity="1" />
+          <End Type="CandidaturasModel.Inquerito" Role="Inquerito" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Inquerito">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="DadosPessoai">
+          <Key>
+            <PropertyRef Name="UserId" />
           </Key>
           <Property Name="NomeColoquial" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Nomes" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
@@ -631,7 +679,6 @@
           <Property Name="Morada" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Localidade" Type="Int32" />
           <Property Name="UserId" Type="Int32" Nullable="false" />
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="RepFinNIF" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="CCDigitosControlo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="NSegSoc" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
@@ -646,6 +693,7 @@
           <Property Name="DataUltimaAtualizacao" Type="DateTime" Precision="3" />
           <NavigationProperty Name="Freguesia" Relationship="CandidaturasModel.FK_DadosPessoais_Freguesia" FromRole="DadosPessoai" ToRole="Freguesia" />
           <NavigationProperty Name="Freguesia1" Relationship="CandidaturasModel.FK_DadosPessoais_Freguesia_Morada" FromRole="DadosPessoai" ToRole="Freguesia" />
+          <NavigationProperty Name="User" Relationship="CandidaturasModel.FK_DadosPessoais_User" FromRole="DadosPessoai" ToRole="User" />
         </EntityType>
         <Association Name="FK_DadosPessoais_Freguesia">
           <End Type="CandidaturasModel.Freguesia" Role="Freguesia" Multiplicity="0..1" />
@@ -679,35 +727,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="User">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="NomeCompleto" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Password" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="NDI" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Militar" Type="Boolean" Nullable="false" />
-          <Property Name="DataNascimento" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="LoginErrorMessage" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TipoDocID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="DataCriacao" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="Inqueritoes" Relationship="CandidaturasModel.FK_Inquerito_User" FromRole="User" ToRole="Inquerito" />
-        </EntityType>
-        <Association Name="FK_Inquerito_User">
+        <Association Name="FK_DadosPessoais_User">
           <End Type="CandidaturasModel.User" Role="User" Multiplicity="1" />
-          <End Type="CandidaturasModel.Inquerito" Role="Inquerito" Multiplicity="*" />
+          <End Type="CandidaturasModel.DadosPessoai" Role="DadosPessoai" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="User">
               <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="Inquerito">
+            <Dependent Role="DadosPessoai">
               <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -873,6 +905,22 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="CandidaturasModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="DataCriacao" ColumnName="DataCriacao" />
+                <ScalarProperty Name="TipoDocID" ColumnName="TipoDocID" />
+                <ScalarProperty Name="LoginErrorMessage" ColumnName="LoginErrorMessage" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="DataNascimento" ColumnName="DataNascimento" />
+                <ScalarProperty Name="Militar" ColumnName="Militar" />
+                <ScalarProperty Name="NDI" ColumnName="NDI" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="NomeCompleto" ColumnName="NomeCompleto" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="DadosPessoais">
             <EntityTypeMapping TypeName="CandidaturasModel.DadosPessoai">
               <MappingFragment StoreEntitySet="DadosPessoais">
@@ -888,7 +936,6 @@
                 <ScalarProperty Name="NSegSoc" ColumnName="NSegSoc" />
                 <ScalarProperty Name="CCDigitosControlo" ColumnName="CCDigitosControlo" />
                 <ScalarProperty Name="RepFinNIF" ColumnName="RepFinNIF" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="Localidade" ColumnName="Localidade" />
                 <ScalarProperty Name="Morada" ColumnName="Morada" />
@@ -908,23 +955,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Users">
-            <EntityTypeMapping TypeName="CandidaturasModel.User">
-              <MappingFragment StoreEntitySet="User">
-                <ScalarProperty Name="DataCriacao" ColumnName="DataCriacao" />
-                <ScalarProperty Name="TipoDocID" ColumnName="TipoDocID" />
-                <ScalarProperty Name="LoginErrorMessage" ColumnName="LoginErrorMessage" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="DataNascimento" ColumnName="DataNascimento" />
-                <ScalarProperty Name="Militar" ColumnName="Militar" />
-                <ScalarProperty Name="NDI" ColumnName="NDI" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="NomeCompleto" ColumnName="NomeCompleto" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-        </EntityContainerMapping>
+          </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>

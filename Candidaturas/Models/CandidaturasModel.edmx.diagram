@@ -26,11 +26,12 @@
         <AssociationConnector Association="CandidaturasModel.FK_Localidade_Distrito_Concelho" />
         <EntityTypeShape EntityType="CandidaturasModel.Freguesia" Width="1.5" PointX="3" PointY="12.125" />
         <AssociationConnector Association="CandidaturasModel.FK_Freguesia_Distrito_Concelho" />
-        <EntityTypeShape EntityType="CandidaturasModel.DadosPessoai" Width="1.5" PointX="8.25" PointY="8.875" />
+        <EntityTypeShape EntityType="CandidaturasModel.User" Width="1.5" PointX="8.125" PointY="3.875" />
+        <AssociationConnector Association="CandidaturasModel.FK_Inquerito_User" />
+        <EntityTypeShape EntityType="CandidaturasModel.DadosPessoai" Width="1.5" PointX="8.25" PointY="8.75" />
         <AssociationConnector Association="CandidaturasModel.FK_DadosPessoais_Freguesia" />
         <AssociationConnector Association="CandidaturasModel.FK_DadosPessoais_Freguesia_Morada" />
-        <EntityTypeShape EntityType="CandidaturasModel.User" Width="1.5" PointX="7.375" PointY="4" />
-        <AssociationConnector Association="CandidaturasModel.FK_Inquerito_User" />
+        <AssociationConnector Association="CandidaturasModel.FK_DadosPessoais_User" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
