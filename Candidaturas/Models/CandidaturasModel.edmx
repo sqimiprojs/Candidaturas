@@ -58,8 +58,8 @@
           <Property Name="ConcelhoMorada" Type="int" />
           <Property Name="FreguesiaMorada" Type="int" />
           <Property Name="Telefone" Type="varchar" MaxLength="50" />
-          <Property Name="CodigoPostal4Dig" Type="nchar" MaxLength="10" />
-          <Property Name="CodigoPostal3Dig" Type="nchar" MaxLength="10" />
+          <Property Name="CodigoPostal4Dig" Type="smallint" />
+          <Property Name="CodigoPostal3Dig" Type="smallint" />
           <Property Name="DataCriacao" Type="datetime" />
           <Property Name="DataUltimaAtualizacao" Type="datetime" />
         </EntityType>
@@ -567,8 +567,8 @@
             <End Role="User" EntitySet="Users" />
             <End Role="UserExame" EntitySet="UserExames" />
           </AssociationSet>
-          <EntitySet Name="DadosPessoais" EntityType="CandidaturasModel.DadosPessoai" />
           <EntitySet Name="Pais" EntityType="CandidaturasModel.Pai" />
+          <EntitySet Name="DadosPessoais" EntityType="CandidaturasModel.DadosPessoai" />
           <AssociationSet Name="FK_DadosPessoais_Freguesia" Association="CandidaturasModel.FK_DadosPessoais_Freguesia">
             <End Role="Freguesia" EntitySet="Freguesias" />
             <End Role="DadosPessoai" EntitySet="DadosPessoais" />
@@ -704,6 +704,14 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Pai">
+          <Key>
+            <PropertyRef Name="Sigla" />
+          </Key>
+          <Property Name="Nome" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Sigla" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="DadosPessoais" Relationship="CandidaturasModel.FK_DadosPessoais_Pais" FromRole="Pai" ToRole="DadosPessoai" />
+        </EntityType>
         <EntityType Name="DadosPessoai">
           <Key>
             <PropertyRef Name="UserId" />
@@ -732,22 +740,14 @@
           <Property Name="ConcelhoMorada" Type="Int32" />
           <Property Name="FreguesiaMorada" Type="Int32" />
           <Property Name="Telefone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="CodigoPostal4Dig" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="CodigoPostal3Dig" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="CodigoPostal4Dig" Type="Int16" />
+          <Property Name="CodigoPostal3Dig" Type="Int16" />
           <Property Name="DataCriacao" Type="DateTime" Precision="3" />
           <Property Name="DataUltimaAtualizacao" Type="DateTime" Precision="3" />
           <NavigationProperty Name="Freguesia" Relationship="CandidaturasModel.FK_DadosPessoais_Freguesia" FromRole="DadosPessoai" ToRole="Freguesia" />
           <NavigationProperty Name="Freguesia1" Relationship="CandidaturasModel.FK_DadosPessoais_Freguesia_Morada" FromRole="DadosPessoai" ToRole="Freguesia" />
           <NavigationProperty Name="Pai" Relationship="CandidaturasModel.FK_DadosPessoais_Pais" FromRole="DadosPessoai" ToRole="Pai" />
           <NavigationProperty Name="User" Relationship="CandidaturasModel.FK_DadosPessoais_User" FromRole="DadosPessoai" ToRole="User" />
-        </EntityType>
-        <EntityType Name="Pai">
-          <Key>
-            <PropertyRef Name="Sigla" />
-          </Key>
-          <Property Name="Nome" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Sigla" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="DadosPessoais" Relationship="CandidaturasModel.FK_DadosPessoais_Pais" FromRole="Pai" ToRole="DadosPessoai" />
         </EntityType>
         <Association Name="FK_DadosPessoais_Freguesia">
           <End Type="CandidaturasModel.Freguesia" Role="Freguesia" Multiplicity="0..1" />
@@ -978,6 +978,14 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Pais">
+            <EntityTypeMapping TypeName="CandidaturasModel.Pai">
+              <MappingFragment StoreEntitySet="Pais">
+                <ScalarProperty Name="Sigla" ColumnName="Sigla" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="DadosPessoais">
             <EntityTypeMapping TypeName="CandidaturasModel.DadosPessoai">
               <MappingFragment StoreEntitySet="DadosPessoais">
@@ -1009,14 +1017,6 @@
                 <ScalarProperty Name="Apelidos" ColumnName="Apelidos" />
                 <ScalarProperty Name="Nomes" ColumnName="Nomes" />
                 <ScalarProperty Name="NomeColoquial" ColumnName="NomeColoquial" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Pais">
-            <EntityTypeMapping TypeName="CandidaturasModel.Pai">
-              <MappingFragment StoreEntitySet="Pais">
-                <ScalarProperty Name="Sigla" ColumnName="Sigla" />
-                <ScalarProperty Name="Nome" ColumnName="Nome" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

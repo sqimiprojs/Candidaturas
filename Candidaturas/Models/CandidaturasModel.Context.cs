@@ -42,7 +42,7 @@ namespace Candidaturas.Models
         public virtual DbSet<Freguesia> Freguesias { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<UserExame> UserExames { get; set; }
-        public virtual DbSet<DadosPessoai> DadosPessoais { get; set; }
         public virtual DbSet<Pai> Pais { get; set; }
+        public virtual DbSet<DadosPessoai> DadosPessoais { get; set; }
     }
 }

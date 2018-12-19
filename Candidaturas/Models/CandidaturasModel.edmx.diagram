@@ -28,8 +28,8 @@
         <AssociationConnector Association="CandidaturasModel.FK_ExameUE" />
         <AssociationConnector Association="CandidaturasModel.FK_Inquerito_User" />
         <AssociationConnector Association="CandidaturasModel.FK_UserExame_User" />
-        <EntityTypeShape EntityType="CandidaturasModel.DadosPessoai" Width="1.5" PointX="8.375" PointY="9.625" />
         <EntityTypeShape EntityType="CandidaturasModel.Pai" Width="1.5" PointX="5.625" PointY="14.625" />
+        <EntityTypeShape EntityType="CandidaturasModel.DadosPessoai" Width="1.5" PointX="8.25" PointY="8.875" />
         <AssociationConnector Association="CandidaturasModel.FK_DadosPessoais_Freguesia" />
         <AssociationConnector Association="CandidaturasModel.FK_DadosPessoais_Freguesia_Morada" />
         <AssociationConnector Association="CandidaturasModel.FK_DadosPessoais_Pais" />
