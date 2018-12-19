@@ -4,7 +4,7 @@
 @model Candidaturas.Models.User
 
 @{
-    ViewBag.Title = "Novo Utilizador";
+    ViewBag.Title = "Criar Conta";
 }
 <div class="header">
     <img src="~/Content/marinha.png" alt="Logo Marinha" />
@@ -21,7 +21,7 @@
     <div class="form-group">
         @Html.LabelFor(model => model.NomeCompleto, "Nome Completo", htmlAttributes: new { @class = "control-label col-md-2 required" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.NomeCompleto, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.EditorFor(model => model.NomeCompleto, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
             @Html.ValidationMessageFor(model => model.NomeCompleto, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -29,7 +29,7 @@
     <div class="form-group">
         @Html.LabelFor(model => model.Email, "Email", htmlAttributes: new { @class = "control-label col-md-2 required" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @required = "required", @type = "email" } })
             @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
             <span id="EmailWarning" for="Email" class="text-danger"></span>
         </div>
@@ -38,7 +38,7 @@
     <div class="form-group">
         @Html.LabelFor(model => model.TipoDocID, "Tipo de Documento de Identificação", htmlAttributes: new { @class = "control-label col-md-2 required" })
         <div class="col-md-10">
-            @Html.DropDownListFor(model => model.TipoDocID, ViewBag.TipoDocID as SelectList, "Escolha uma opção...", new { @class = "form-control" })
+            @Html.DropDownListFor(model => model.TipoDocID, ViewBag.TipoDocID as SelectList, "Escolha uma opção...", new { @class = "form-control", @required = "required" })
             @Html.ValidationMessageFor(model => model.TipoDocID, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -46,7 +46,7 @@
     <div class="form-group">
         @Html.LabelFor(model => model.NDI, "Nº de Documento de Identificação", htmlAttributes: new { @class = "control-label col-md-2 required" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.NDI, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.EditorFor(model => model.NDI, new { htmlAttributes = new { @class = "form-control", @required = "required", @type = "number" } })
             @Html.ValidationMessageFor(model => model.NDI, "", new { @class = "text-danger" })
             <span id="NIFWarning" for="NIF" class="text-danger"></span>
         </div>
@@ -67,7 +67,7 @@
     <div class="form-group">
         @Html.LabelFor(model => model.DataNascimento, "Data de Nascimento", htmlAttributes: new { @class = "control-label col-md-2 required" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.DataNascimento, new { htmlAttributes = new { @class = "form-control", type = "date" } })
+            @Html.EditorFor(model => model.DataNascimento, new { htmlAttributes = new { @class = "form-control", type = "date", @required = "required" } })
             @Html.ValidationMessageFor(model => model.DataNascimento, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -123,10 +123,6 @@
     $("#TipoDocID").change(function () {
         validarTipoDocId();
         mostrarPlaceholderFormatoCCouBI();
-    });
-
-    $("#Email").blur(function () {
-        validarEmail();
     });
 
     function validarTipoDocId() {
@@ -292,10 +288,6 @@
             valid = false;
         }
 
-        if (!validarEmail()) {
-            valid = false;
-        }
-
         if (!valid) {
             event.preventDefault();
             return false;
@@ -320,32 +312,4 @@
         }
     }
 
-    //validar email
-    function regexEmail(email) {
-        var re = /[A-Z0-9._%+-]+@@[A-Z0-9.-]+.[A-Z]{2,4}/igm;
-
-        return re.test(email);
-    }
-
-    function validarEmail() {
-        var email = $("#Email").val();
-
-        if (email != "") {
-            if (regexEmail(email)) {
-                $("#EmailWarning").hide();
-                return true;
-            }
-            else {
-                $("#EmailWarning").text("Email com formato inválido.");
-                $("#EmailWarning").show();
-                return false;
-            }
-        }
-        else {
-            if ($("#EmailWarning").is(":visible")) {
-                $("#EmailWarning").hide();
-            }
-            return true;
-        }
-    }
 </script>
