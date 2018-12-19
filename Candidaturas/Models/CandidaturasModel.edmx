@@ -309,6 +309,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_UserExame_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="UserExame" Type="Self.UserExame" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserExame">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="CandidaturasModelStoreContainer">
           <EntitySet Name="Concelho" EntityType="Self.Concelho" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ConhecimentoEscola" EntityType="Self.ConhecimentoEscola" Schema="dbo" store:Type="Tables" />
@@ -360,6 +372,10 @@
           <AssociationSet Name="FK_Localidade_Distrito_Concelho" Association="Self.FK_Localidade_Distrito_Concelho">
             <End Role="Concelho" EntitySet="Concelho" />
             <End Role="Localidade" EntitySet="Localidade" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserExame_User" Association="Self.FK_UserExame_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="UserExame" EntitySet="UserExame" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -425,7 +441,7 @@
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Nome" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="UserExames" Relationship="Self.FK_ExameUE" FromRole="Exame" ToRole="UserExame" />
+          <NavigationProperty Name="UserExames" Relationship="CandidaturasModel.FK_ExameUE" FromRole="Exame" ToRole="UserExame" />
         </EntityType>
         <EntityType Name="Genero">
           <Key>
@@ -490,15 +506,6 @@
           <Property Name="UserId" Type="Int32" Nullable="false" />
           <Property Name="DocumentoId" Type="Int32" Nullable="false" />
         </EntityType>
-        <EntityType Name="UserExame">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UserId" Type="Int32" Nullable="false" />
-          <Property Name="ExameId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Exame" Relationship="Self.FK_ExameUE" FromRole="UserExame" ToRole="Exame" />
-        </EntityType>
         <Association Name="FK_Concelho_Distrito">
           <End Role="Distrito" Type="Self.Distrito" Multiplicity="1" />
           <End Role="Concelho" Type="Self.Concelho" Multiplicity="*" />
@@ -508,18 +515,6 @@
             </Principal>
             <Dependent Role="Concelho">
               <PropertyRef Name="CodigoDistrito" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ExameUE">
-          <End Role="Exame" Type="Self.Exame" Multiplicity="1" />
-          <End Role="UserExame" Type="Self.UserExame" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Exame">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="UserExame">
-              <PropertyRef Name="ExameId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -538,14 +533,9 @@
           <EntitySet Name="TipoDocumentoIDs" EntityType="Self.TipoDocumentoID" />
           <EntitySet Name="UserCursoes" EntityType="Self.UserCurso" />
           <EntitySet Name="UserDocumentoes" EntityType="Self.UserDocumento" />
-          <EntitySet Name="UserExames" EntityType="Self.UserExame" />
           <AssociationSet Name="FK_Concelho_Distrito" Association="Self.FK_Concelho_Distrito">
             <End Role="Distrito" EntitySet="Distritoes" />
             <End Role="Concelho" EntitySet="Concelhoes" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ExameUE" Association="Self.FK_ExameUE">
-            <End Role="Exame" EntitySet="Exames" />
-            <End Role="UserExame" EntitySet="UserExames" />
           </AssociationSet>
           <EntitySet Name="Localidades" EntityType="CandidaturasModel.Localidade" />
           <AssociationSet Name="FK_Localidade_Distrito_Concelho" Association="CandidaturasModel.FK_Localidade_Distrito_Concelho">
@@ -557,11 +547,6 @@
             <End Role="Concelho" EntitySet="Concelhoes" />
             <End Role="Freguesia" EntitySet="Freguesias" />
           </AssociationSet>
-          <EntitySet Name="Users" EntityType="CandidaturasModel.User" />
-          <AssociationSet Name="FK_Inquerito_User" Association="CandidaturasModel.FK_Inquerito_User">
-            <End Role="User" EntitySet="Users" />
-            <End Role="Inquerito" EntitySet="Inqueritoes" />
-          </AssociationSet>
           <EntitySet Name="DadosPessoais" EntityType="CandidaturasModel.DadosPessoai" />
           <AssociationSet Name="FK_DadosPessoais_Freguesia" Association="CandidaturasModel.FK_DadosPessoais_Freguesia">
             <End Role="Freguesia" EntitySet="Freguesias" />
@@ -571,9 +556,23 @@
             <End Role="Freguesia" EntitySet="Freguesias" />
             <End Role="DadosPessoai" EntitySet="DadosPessoais" />
           </AssociationSet>
+          <EntitySet Name="Users" EntityType="CandidaturasModel.User" />
+          <EntitySet Name="UserExames" EntityType="CandidaturasModel.UserExame" />
           <AssociationSet Name="FK_DadosPessoais_User" Association="CandidaturasModel.FK_DadosPessoais_User">
             <End Role="User" EntitySet="Users" />
             <End Role="DadosPessoai" EntitySet="DadosPessoais" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ExameUE" Association="CandidaturasModel.FK_ExameUE">
+            <End Role="Exame" EntitySet="Exames" />
+            <End Role="UserExame" EntitySet="UserExames" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inquerito_User" Association="CandidaturasModel.FK_Inquerito_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Inquerito" EntitySet="Inqueritoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserExame_User" Association="CandidaturasModel.FK_UserExame_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="UserExame" EntitySet="UserExames" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="Localidade">
@@ -627,35 +626,6 @@
             <Dependent Role="Freguesia">
               <PropertyRef Name="CodigoConcelho" />
               <PropertyRef Name="CodigoDistrito" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="User">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="NomeCompleto" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Password" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="NDI" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Militar" Type="Boolean" Nullable="false" />
-          <Property Name="DataNascimento" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="LoginErrorMessage" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TipoDocID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="DataCriacao" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="Inqueritoes" Relationship="CandidaturasModel.FK_Inquerito_User" FromRole="User" ToRole="Inquerito" />
-          <NavigationProperty Name="DadosPessoai" Relationship="CandidaturasModel.FK_DadosPessoais_User" FromRole="User" ToRole="DadosPessoai" />
-        </EntityType>
-        <Association Name="FK_Inquerito_User">
-          <End Type="CandidaturasModel.User" Role="User" Multiplicity="1" />
-          <End Type="CandidaturasModel.Inquerito" Role="Inquerito" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Inquerito">
-              <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -727,6 +697,34 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NomeCompleto" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="NDI" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Militar" Type="Boolean" Nullable="false" />
+          <Property Name="DataNascimento" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LoginErrorMessage" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TipoDocID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DataCriacao" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="DadosPessoai" Relationship="CandidaturasModel.FK_DadosPessoais_User" FromRole="User" ToRole="DadosPessoai" />
+          <NavigationProperty Name="Inqueritoes" Relationship="CandidaturasModel.FK_Inquerito_User" FromRole="User" ToRole="Inquerito" />
+          <NavigationProperty Name="UserExames" Relationship="CandidaturasModel.FK_UserExame_User" FromRole="User" ToRole="UserExame" />
+        </EntityType>
+        <EntityType Name="UserExame">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="ExameId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Exame" Relationship="CandidaturasModel.FK_ExameUE" FromRole="UserExame" ToRole="Exame" />
+          <NavigationProperty Name="User" Relationship="CandidaturasModel.FK_UserExame_User" FromRole="UserExame" ToRole="User" />
+        </EntityType>
         <Association Name="FK_DadosPessoais_User">
           <End Type="CandidaturasModel.User" Role="User" Multiplicity="1" />
           <End Type="CandidaturasModel.DadosPessoai" Role="DadosPessoai" Multiplicity="0..1" />
@@ -735,6 +733,42 @@
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="DadosPessoai">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ExameUE">
+          <End Type="CandidaturasModel.Exame" Role="Exame" Multiplicity="1" />
+          <End Type="CandidaturasModel.UserExame" Role="UserExame" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Exame">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserExame">
+              <PropertyRef Name="ExameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inquerito_User">
+          <End Type="CandidaturasModel.User" Role="User" Multiplicity="1" />
+          <End Type="CandidaturasModel.Inquerito" Role="Inquerito" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Inquerito">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserExame_User">
+          <End Type="CandidaturasModel.User" Role="User" Multiplicity="1" />
+          <End Type="CandidaturasModel.UserExame" Role="UserExame" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserExame">
               <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
@@ -876,15 +910,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="UserExames">
-            <EntityTypeMapping TypeName="CandidaturasModel.UserExame">
-              <MappingFragment StoreEntitySet="UserExame">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="ExameId" ColumnName="ExameId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Localidades">
             <EntityTypeMapping TypeName="CandidaturasModel.Localidade">
               <MappingFragment StoreEntitySet="Localidade">
@@ -902,22 +927,6 @@
                 <ScalarProperty Name="CodigoConcelho" ColumnName="CodigoConcelho" />
                 <ScalarProperty Name="Codigo" ColumnName="Codigo" />
                 <ScalarProperty Name="Nome" ColumnName="Nome" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Users">
-            <EntityTypeMapping TypeName="CandidaturasModel.User">
-              <MappingFragment StoreEntitySet="User">
-                <ScalarProperty Name="DataCriacao" ColumnName="DataCriacao" />
-                <ScalarProperty Name="TipoDocID" ColumnName="TipoDocID" />
-                <ScalarProperty Name="LoginErrorMessage" ColumnName="LoginErrorMessage" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="DataNascimento" ColumnName="DataNascimento" />
-                <ScalarProperty Name="Militar" ColumnName="Militar" />
-                <ScalarProperty Name="NDI" ColumnName="NDI" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="NomeCompleto" ColumnName="NomeCompleto" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -952,6 +961,31 @@
                 <ScalarProperty Name="Apelidos" ColumnName="Apelidos" />
                 <ScalarProperty Name="Nomes" ColumnName="Nomes" />
                 <ScalarProperty Name="NomeColoquial" ColumnName="NomeColoquial" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="CandidaturasModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="DataCriacao" ColumnName="DataCriacao" />
+                <ScalarProperty Name="TipoDocID" ColumnName="TipoDocID" />
+                <ScalarProperty Name="LoginErrorMessage" ColumnName="LoginErrorMessage" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="DataNascimento" ColumnName="DataNascimento" />
+                <ScalarProperty Name="Militar" ColumnName="Militar" />
+                <ScalarProperty Name="NDI" ColumnName="NDI" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="NomeCompleto" ColumnName="NomeCompleto" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserExames">
+            <EntityTypeMapping TypeName="CandidaturasModel.UserExame">
+              <MappingFragment StoreEntitySet="UserExame">
+                <ScalarProperty Name="ExameId" ColumnName="ExameId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

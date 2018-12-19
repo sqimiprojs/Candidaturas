@@ -18,6 +18,7 @@ namespace Candidaturas.Models
         public User()
         {
             this.Inqueritoes = new HashSet<Inquerito>();
+            this.UserExames = new HashSet<UserExame>();
         }
     
         public int ID { get; set; }
@@ -31,8 +32,10 @@ namespace Candidaturas.Models
         public string TipoDocID { get; set; }
         public System.DateTime DataCriacao { get; set; }
     
+        public virtual DadosPessoai DadosPessoai { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Inquerito> Inqueritoes { get; set; }
-        public virtual DadosPessoai DadosPessoai { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<UserExame> UserExames { get; set; }
     }
 }
