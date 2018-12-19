@@ -14,8 +14,16 @@ namespace Candidaturas.Models
     
     public partial class Pai
     {
-        public int ID { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Pai()
+        {
+            this.DadosPessoais = new HashSet<DadosPessoai>();
+        }
+    
         public string Nome { get; set; }
         public string Sigla { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DadosPessoai> DadosPessoais { get; set; }
     }
 }

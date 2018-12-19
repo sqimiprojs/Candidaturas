@@ -45,6 +45,7 @@ namespace Candidaturas.Models
     
         public virtual Freguesia Freguesia { get; set; }
         public virtual Freguesia Freguesia1 { get; set; }
+        public virtual Pai Pai { get; set; }
         public virtual User User { get; set; }
     }
 }
