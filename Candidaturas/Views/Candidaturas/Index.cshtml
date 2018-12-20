@@ -89,26 +89,36 @@
 
         $("#AddExame").click(function () {
             var hidValue = $("#SelectedExame").val();
-            $.ajax({
-                url: '@Url.Action("AdicionarExame", "Candidaturas")',
-                type: "post",
-                data: {ExameSeleccionado:hidValue},
-                dataType: "application/json", //type of response
-                success: window.location.href = '',
-                error: window.location.href = '',
-            })
+            
+            if (hidValue != "") {
+                $.ajax({
+                    url: '@Url.Action("AdicionarExame", "Candidaturas")',
+                    type: "post",
+                    data: { ExameSeleccionado: hidValue },
+                    dataType: "application/json", //type of response
+                    success: window.location.href = '',
+                    error: window.location.href = '',
+                })
+            } else {
+                window.alert("Por favor selecione um exame da lista.");
+            }
+            
         });
 
         $("#AddCurso").click(function () {
             var hidValue = $("#SelectedCurso").val();
-            $.ajax({
-                url: '@Url.Action("AdicionarCurso", "Candidaturas")',
-                type: "post",
-                data: {CursoSeleccionado:hidValue},
-                dataType: "application/json", //type of response
-                success: window.location.href = '',
-                error: window.location.href = '',
-            })
+            if (hidValue != "") {
+                $.ajax({
+                    url: '@Url.Action("AdicionarCurso", "Candidaturas")',
+                    type: "post",
+                    data: {CursoSeleccionado:hidValue},
+                    dataType: "application/json", //type of response
+                    success: window.location.href = '',
+                    error: window.location.href = '',
+                })
+            } else {
+                window.alert("Por favor selecione um curso da lista.");
+            }
         });
     });
 
