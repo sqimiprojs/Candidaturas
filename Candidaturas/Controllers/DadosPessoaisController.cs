@@ -204,13 +204,11 @@ namespace Candidaturas.Controllers
 
         [HttpPost]
         //actualiza lista de freguesias consoante o concelho seleccionado
-        public JsonResult updateFreguesias(int concelho)
+        public JsonResult updateFreguesias(int distrito, int concelho)
         {
             LoginDataBaseEntities db = new LoginDataBaseEntities();
 
-            int codigoDistrito = db.Concelhoes.Where(c => c.Codigo == concelho).Select(c => c.CodigoDistrito).FirstOrDefault();
-
-            var freguesias = db.Freguesias.Where(dp => dp.CodigoConcelho == concelho && dp.CodigoDistrito == codigoDistrito).OrderBy(dp => dp.Nome).Select(c => new
+            var freguesias = db.Freguesias.Where(dp => dp.CodigoDistrito == distrito && dp.CodigoConcelho == concelho).OrderBy(dp => dp.Nome).Select(c => new
             {
                 ID = c.Codigo,
                 Name = c.Nome

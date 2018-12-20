@@ -599,12 +599,15 @@
     function changeFreguesias(isNatural) {
 
         if (isNatural) {
+            var distritoNaturalEscolhido = $('#DistritoNatural').val();
+            var codigoDistrito = parseInt(distritoNaturalEscolhido);
             var concelhoNaturalEscolhido = $('#ConcelhoNatural').val();
             var codigoConcelho = parseInt(concelhoNaturalEscolhido);
 
             $.ajax({
                 url: '@Url.Action("UpdateFreguesias", "DadosPessoais")',
                 data: {
+                    distrito: codigoDistrito,
                     concelho: codigoConcelho
                 },
                 type: "POST",
@@ -623,12 +626,15 @@
             })
         }
         else {
+            var distritoMoradaEscolhido = $('#DistritoMorada').val();
+            var codigoDistrito = parseInt(distritoMoradaEscolhido);
             var concelhoMoradaEscolhido = $('#ConcelhoMorada').val();
             var codigoConcelho = parseInt(concelhoMoradaEscolhido);
 
             $.ajax({
                 url: '@Url.Action("UpdateFreguesias", "DadosPessoais")',
                 data: {
+                    distrito: codigoDistrito,
                     concelho: codigoConcelho
                 },
                 type: "POST",
