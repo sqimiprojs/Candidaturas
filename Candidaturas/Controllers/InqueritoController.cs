@@ -23,7 +23,7 @@ namespace Candidaturas.Controllers
             }
 
             this.getDataForDropdownLists();
-
+            
             return View("~/Views/Inquerito/AddOrEdit.cshtml");
         }
 
