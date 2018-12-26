@@ -23,14 +23,14 @@ namespace Candidaturas.Controllers
             }
 
             this.getDataForDropdownLists();
-
+            
             return View("~/Views/Inquerito/AddOrEdit.cshtml");
         }
 
         //obtém os dados preenchdios pelo utilizador para mostrar no ecrã
         public void getDadosPessoais(int userId)
         {
-            LoginDataBaseEntities1 db = new LoginDataBaseEntities1();
+            LoginDataBaseEntities db = new LoginDataBaseEntities();
             Inquerito inqueritoUser = db.Inqueritoes.Where(dp => dp.UserId == userId).FirstOrDefault();
 
             if(inqueritoUser != null)
@@ -46,7 +46,7 @@ namespace Candidaturas.Controllers
         //obtém os dados a serem preenchidos nas drops
         public void getDataForDropdownLists()
         {
-            LoginDataBaseEntities1 db = new LoginDataBaseEntities1();
+            LoginDataBaseEntities db = new LoginDataBaseEntities();
 
             IEnumerable<SelectListItem> situacoesPai = db.Situacaos.Select(c => new SelectListItem
             {
@@ -81,7 +81,7 @@ namespace Candidaturas.Controllers
             {
                 int userId = (int)Session["userID"];
 
-                using (LoginDataBaseEntities1 dbModel = new LoginDataBaseEntities1())
+                using (LoginDataBaseEntities dbModel = new LoginDataBaseEntities())
                 {
 
                     try

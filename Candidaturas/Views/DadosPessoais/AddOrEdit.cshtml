@@ -27,7 +27,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Nomes, "Nomes", htmlAttributes: new { @class = "control-label col-md-2 required" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Nomes, new { htmlAttributes = new { @class = "form-control", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.Nomes) } })
+                @Html.EditorFor(model => model.Nomes, new { htmlAttributes = new { @class = "form-control", @required = "required", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.Nomes) } })
                 @Html.ValidationMessageFor(model => model.Nomes, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -35,7 +35,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Apelidos, "Apelidos", htmlAttributes: new { @class = "control-label col-md-2 required" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Apelidos, new { htmlAttributes = new { @class = "form-control", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.Apelidos) } })
+                @Html.EditorFor(model => model.Apelidos, new { htmlAttributes = new { @class = "form-control", @required = "required", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.Apelidos) } })
                 @Html.ValidationMessageFor(model => model.Apelidos, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -59,7 +59,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Genero, "Género", htmlAttributes: new { @class = "control-label col-md-2 required" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.Genero, ViewBag.Genero as SelectList, "Escolha uma opção...", new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.Genero, ViewBag.Genero as SelectList, "Escolha uma opção...", new { @class = "form-control", @required = "required" })
                 @Html.ValidationMessageFor(model => model.Genero, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -67,7 +67,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.EstadoCivil, "Estado Civil", htmlAttributes: new { @class = "control-label col-md-2 required" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.EstadoCivil, ViewBag.EstadoCivil as SelectList, "Escolha uma opção...", new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.EstadoCivil, ViewBag.EstadoCivil as SelectList, "Escolha uma opção...", new { @class = "form-control", @required = "required" })
                 @Html.ValidationMessageFor(model => model.EstadoCivil, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -77,6 +77,100 @@
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Telefone, new { htmlAttributes = new { @class = "form-control", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.Telefone) } })
                 @Html.ValidationMessageFor(model => model.Telefone, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <hr class="dadosPessoaisHr" />
+
+        <h4 class="candidaturasHeader">Morada</h4>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Morada, "Morada", htmlAttributes: new { @class = "control-label col-md-2 required" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Morada, new { htmlAttributes = new { @class = "form-control", @required = "required", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.Morada) } })
+                @Html.ValidationMessageFor(model => model.Morada, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CodigoPostal4Dig, "Código Postal", htmlAttributes: new { @class = "control-label col-md-2 required" })
+            <div class="col-md-10">
+                <div class="form-inline">
+                    @Html.EditorFor(model => model.CodigoPostal4Dig, new { htmlAttributes = new { @type = "number", @maxlength = "4", @class = "form-control", @required = "required", @style = "width:40%", @placeholder = "1234", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.CodigoPostal4Dig) } })
+                    -
+                    @Html.EditorFor(model => model.CodigoPostal3Dig, new { htmlAttributes = new { @type = "number", @maxlength = "3", @class = "form-control", @required = "required", @style = "width:20%", @placeholder = "123", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.CodigoPostal3Dig) } })
+                </div>
+                @Html.ValidationMessageFor(model => model.CodigoPostal4Dig, "", new { @class = "text-danger" })
+                @Html.ValidationMessageFor(model => model.CodigoPostal3Dig, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DistritoMorada, "Distrito", htmlAttributes: new { @class = "control-label col-md-2 required" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.DistritoMorada, ViewBag.DistritoMorada as SelectList, "Escolha uma opção...", new { @class = "form-control", @required = "required", @onchange = "changeConcelhos(false)" })
+                @Html.ValidationMessageFor(model => model.DistritoMorada, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ConcelhoMorada, "Concelho", htmlAttributes: new { @class = "control-label col-md-2 required" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.ConcelhoMorada, ViewBag.ConcelhoMorada as SelectList, "Escolha uma opção...", new { @class = "form-control", @required = "required", @onchange = "changeFreguesias(false)" })
+                @Html.ValidationMessageFor(model => model.ConcelhoMorada, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.FreguesiaMorada, "Freguesia", htmlAttributes: new { @class = "control-label col-md-2 required" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.FreguesiaMorada, ViewBag.FreguesiaMorada as SelectList, "Escolha uma opção...", new { @class = "form-control", @required = "required" })
+                @Html.ValidationMessageFor(model => model.FreguesiaMorada, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Localidade, "Localidade", htmlAttributes: new { @class = "control-label col-md-2 required" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.Localidade, ViewBag.Localidade as SelectList, "Escolha uma opção...", new { @class = "form-control", @required = "required" })
+                @Html.ValidationMessageFor(model => model.Localidade, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="column">
+        <h4 class="candidaturasHeader">Naturalidade</h4>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Nacionalidade, "País", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.Nacionalidade, ViewBag.Nacionalidade as SelectList, "Escolha uma opção...", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Nacionalidade, "", new { @class = "text-danger" })
+                <span id="NacWarning" for="NIF" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DistritoNatural, "Distrito", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.DistritoNatural, ViewBag.DistritoNatural as SelectList, "Escolha uma opção...", new { @class = "form-control", @onchange = "changeConcelhos(true)" })
+                @Html.ValidationMessageFor(model => model.DistritoNatural, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ConcelhoNatural, "Concelho", htmlAttributes: new { @id = "conc", @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.ConcelhoNatural, ViewBag.ConcelhoNatural as SelectList, "Escolha uma opção...", new { @class = "form-control", @onchange = "changeFreguesias(true)" })
+                @Html.ValidationMessageFor(model => model.ConcelhoNatural, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.FreguesiaNatural, "Freguesia", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.FreguesiaNatural, ViewBag.FreguesiaNatural as SelectList, "Escolha uma opção...", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.FreguesiaNatural, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -125,99 +219,7 @@
                 @Html.ValidationMessageFor(model => model.NSegSoc, "", new { @class = "text-danger" })
             </div>
         </div>
-    </div>
 
-    <div class="column">
-        <h4 class="candidaturasHeader">Naturalidade</h4>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Nacionalidade, "Natural de", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownListFor(model => model.Nacionalidade, ViewBag.Nacionalidade as SelectList, "Escolha uma opção...", new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Nacionalidade, "", new { @class = "text-danger" })
-                <span id="NacWarning" for="NIF" class="text-danger"></span>
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.DistritoNatural, "Distrito", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownListFor(model => model.DistritoNatural, ViewBag.DistritoNatural as SelectList, "Escolha uma opção...", new { @class = "form-control", @onchange = "changeConcelhos(true)" })
-                @Html.ValidationMessageFor(model => model.DistritoNatural, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.ConcelhoNatural, "Concelho", htmlAttributes: new { @id = "conc", @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownListFor(model => model.ConcelhoNatural, ViewBag.ConcelhoNatural as SelectList, "Escolha uma opção...", new { @class = "form-control", @onchange = "changeFreguesias(true)" })
-                @Html.ValidationMessageFor(model => model.ConcelhoNatural, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.FreguesiaNatural, "Freguesia", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownListFor(model => model.FreguesiaNatural, ViewBag.FreguesiaNatural as SelectList, "Escolha uma opção...", new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.FreguesiaNatural, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <hr class="dadosPessoaisHr" />
-
-        <h4 class="candidaturasHeader">Morada</h4>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Morada, "Morada", htmlAttributes: new { @class = "control-label col-md-2 required" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Morada, new { htmlAttributes = new { @class = "form-control", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.Morada) } })
-                @Html.ValidationMessageFor(model => model.Morada, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.CodigoPostal4Dig, "Código Postal", htmlAttributes: new { @class = "control-label col-md-2 required" })
-            <div class="col-md-10">
-                <div class="form-inline">
-                    @Html.EditorFor(model => model.CodigoPostal4Dig, new { htmlAttributes = new { @class = "form-control", @style = "width:40%", @placeholder = "4 dígitos", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.CodigoPostal4Dig) } })
-                    @Html.EditorFor(model => model.CodigoPostal3Dig, new { htmlAttributes = new { @class = "form-control", @style = "width:20%", @placeholder = "3 dígitos", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.CodigoPostal3Dig) } })
-                </div>
-                @Html.ValidationMessageFor(model => model.CodigoPostal4Dig, "", new { @class = "text-danger" })
-                @Html.ValidationMessageFor(model => model.CodigoPostal3Dig, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Localidade, "Localidade", htmlAttributes: new { @class = "control-label col-md-2 required" })
-            <div class="col-md-10">
-                @Html.DropDownListFor(model => model.Localidade, ViewBag.Localidade as SelectList, "Escolha uma opção...", new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Localidade, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.DistritoMorada, "Distrito", htmlAttributes: new { @class = "control-label col-md-2 required" })
-            <div class="col-md-10">
-                @Html.DropDownListFor(model => model.DistritoMorada, ViewBag.DistritoMorada as SelectList, "Escolha uma opção...", new { @class = "form-control", @onchange = "changeConcelhos(false)" })
-                @Html.ValidationMessageFor(model => model.DistritoMorada, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.ConcelhoMorada, "Concelho", htmlAttributes: new { @class = "control-label col-md-2 required" })
-            <div class="col-md-10">
-                @Html.DropDownListFor(model => model.ConcelhoMorada, ViewBag.ConcelhoMorada as SelectList, "Escolha uma opção...", new { @class = "form-control", @onchange = "changeFreguesias(false)" })
-                @Html.ValidationMessageFor(model => model.ConcelhoMorada, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.FreguesiaMorada, "Freguesia", htmlAttributes: new { @class = "control-label col-md-2 required" })
-            <div class="col-md-10">
-                @Html.DropDownListFor(model => model.FreguesiaMorada, ViewBag.FreguesiaMorada as SelectList, "Escolha uma opção...", new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.FreguesiaMorada, "", new { @class = "text-danger" })
-            </div>
-        </div>
     </div>
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
@@ -287,11 +289,11 @@
         return true;
     }
 
-    //validar nacionalidade se fôr Portugal
+    //validar nacionalidade se for Portugal (PT) 
     $(document).ready(function () {
         var nacionalidade = $("#Nacionalidade").val();
 
-        if (nacionalidade == "Portugal") {
+        if (nacionalidade == "PT") { 
             $("label[for='NIF']").last().addClass("required");
         }
         else {
@@ -302,7 +304,7 @@
     function validarNacionalidade() {
         var nacionalidade = $("#Nacionalidade").val();
 
-        if (nacionalidade == "Portugal") {
+        if (nacionalidade == "PT") {
             var tipoDocID = $("#TipoDocID").val();
 
             var NIF = $("#NIF").val();
@@ -445,32 +447,32 @@
 
         if (isNaN(char)) {
             switch (char) {
-                case 'A': res = 10;
-                case 'B': res = 11;
-                case 'C': res = 12;
-                case 'D': res = 13;
-                case 'E': res = 14;
-                case 'F': res = 15;
-                case 'G': res = 16;
-                case 'H': res = 17;
-                case 'I': res = 18;
-                case 'J': res = 19;
-                case 'K': res = 20;
-                case 'L': res = 21;
-                case 'M': res = 22;
-                case 'N': res = 23;
-                case 'O': res = 24;
-                case 'P': res = 25;
-                case 'Q': res = 26;
-                case 'R': res = 27;
-                case 'S': res = 28;
-                case 'T': res = 29;
-                case 'U': res = 30;
-                case 'V': res = 31;
-                case 'W': res = 32;
-                case 'X': res = 33;
-                case 'Y': res = 34;
-                case 'Z': res = 35;
+                case 'A': res = 10; break;
+                case 'B': res = 11; break;
+                case 'C': res = 12; break;
+                case 'D': res = 13; break;
+                case 'E': res = 14; break;
+                case 'F': res = 15; break;
+                case 'G': res = 16; break;
+                case 'H': res = 17; break;
+                case 'I': res = 18; break;
+                case 'J': res = 19; break;
+                case 'K': res = 20; break;
+                case 'L': res = 21; break;
+                case 'M': res = 22; break;
+                case 'N': res = 23; break;
+                case 'O': res = 24; break;
+                case 'P': res = 25; break;
+                case 'Q': res = 26; break;
+                case 'R': res = 27; break;
+                case 'S': res = 28; break;
+                case 'T': res = 29; break;
+                case 'U': res = 30; break;
+                case 'V': res = 31; break;
+                case 'W': res = 32; break;
+                case 'X': res = 33; break;
+                case 'Y': res = 34; break;
+                case 'Z': res = 35; break;
             }
         }
         else {
@@ -532,11 +534,12 @@
 
         if (isNatural) {
             var distritoNaturalEscolhido = $('#DistritoNatural').val();
+            var codigoDistrito = parseInt(distritoNaturalEscolhido);
 
             $.ajax({
                 url: '@Url.Action("UpdateConcelhos", "DadosPessoais")',
                 data: {
-                    distrito: distritoNaturalEscolhido
+                    distrito: codigoDistrito
                 },
                 type: "POST",
                 success: function (concelhos) {
@@ -559,11 +562,12 @@
         }
         else {
             var distritoMoradaEscolhido = $('#DistritoMorada').val();
+            var codigoDistrito = parseInt(distritoMoradaEscolhido);
 
             $.ajax({
                 url: '@Url.Action("UpdateConcelhos", "DadosPessoais")',
                 data: {
-                    distrito: distritoMoradaEscolhido
+                    distrito: codigoDistrito
                 },
                 type: "POST",
                 success: function (concelhos) {
@@ -575,6 +579,10 @@
                     $select2.empty();
                     $select2.append('<option value="">Escolha uma opção...</option>');
 
+                    var $select3 = $('#Localidade');
+                    $select3.empty();
+                    $select3.append('<option value="">Escolha uma opção...</option>');
+
                     $.each(concelhos, function (i, concelho) {
                         $('<option>', {
                             value: concelho.ID
@@ -584,24 +592,30 @@
                 error: function (e) { console.log(e); }
             })
         }
+
     }
 
     //altera as freguesias consoante o concelho escolhido
     function changeFreguesias(isNatural) {
 
         if (isNatural) {
+            var distritoNaturalEscolhido = $('#DistritoNatural').val();
+            var codigoDistrito = parseInt(distritoNaturalEscolhido);
             var concelhoNaturalEscolhido = $('#ConcelhoNatural').val();
+            var codigoConcelho = parseInt(concelhoNaturalEscolhido);
 
             $.ajax({
                 url: '@Url.Action("UpdateFreguesias", "DadosPessoais")',
                 data: {
-                    concelho: concelhoNaturalEscolhido
+                    distrito: codigoDistrito,
+                    concelho: codigoConcelho
                 },
                 type: "POST",
                 success: function (freguesias) {
                     var $select = $('#FreguesiaNatural');
                     $select.empty();
                     $select.append('<option value="">Escolha uma opção...</option>');
+
                     $.each(freguesias, function (i, freguesia) {
                         $('<option>', {
                             value: freguesia.ID
@@ -612,18 +626,27 @@
             })
         }
         else {
+            var distritoMoradaEscolhido = $('#DistritoMorada').val();
+            var codigoDistrito = parseInt(distritoMoradaEscolhido);
             var concelhoMoradaEscolhido = $('#ConcelhoMorada').val();
+            var codigoConcelho = parseInt(concelhoMoradaEscolhido);
 
             $.ajax({
                 url: '@Url.Action("UpdateFreguesias", "DadosPessoais")',
                 data: {
-                    concelho: concelhoMoradaEscolhido
+                    distrito: codigoDistrito,
+                    concelho: codigoConcelho
                 },
                 type: "POST",
                 success: function (freguesias) {
                     var $select = $('#FreguesiaMorada');
                     $select.empty();
                     $select.append('<option value="">Escolha uma opção...</option>');
+
+                    var $select2 = $('#Localidade');
+                    $select2.empty();
+                    $select2.append('<option value="">Escolha uma opção...</option>');
+
                     $.each(freguesias, function (i, freguesia) {
                         $('<option>', {
                             value: freguesia.ID
@@ -633,6 +656,37 @@
                 error: function (e) { console.log(e); }
             })
         }
+
+        changeLocalidades();
+    }
+
+    //altera as localidades consoante o distrito escolhido
+    function changeLocalidades() {
+        var distritoMoradaEscolhido = $('#DistritoMorada').val();
+        var codigoDistrito = parseInt(distritoMoradaEscolhido);
+        var concelhoMoradaEscolhido = $('#ConcelhoMorada').val();
+        var codigoConcelho = parseInt(concelhoMoradaEscolhido);
+
+        $.ajax({
+            url: '@Url.Action("UpdateLocalidades", "DadosPessoais")',
+            data: {
+                distrito: codigoDistrito,
+                concelho: codigoConcelho
+            },
+            type: "POST",
+            success: function (localidades) {
+                var $select = $('#Localidade');
+                $select.empty();
+                $select.append('<option value="">Escolha uma opção...</option>');
+
+                $.each(localidades, function (i, localidade) {
+                    $('<option>', {
+                        value: localidade.ID
+                    }).html(localidade.Name).appendTo($select);
+                });
+            },
+            error: function (e) { console.log(e); }
+        })
     }
 </script>
 <style>

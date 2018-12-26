@@ -11,7 +11,7 @@ namespace Candidaturas.Controllers
 
         public void getDataForDropdownLists()
         {
-            LoginDataBaseEntities1 db = new LoginDataBaseEntities1();
+            LoginDataBaseEntities db = new LoginDataBaseEntities();
 
             IEnumerable<SelectListItem> tiposDocumentosId = db.TipoDocumentoIDs.Select(c => new SelectListItem
             {
@@ -40,30 +40,41 @@ namespace Candidaturas.Controllers
 
             if (response.Success)
             {
-                using (LoginDataBaseEntities1 dbModel = new LoginDataBaseEntities1())
+                using (LoginDataBaseEntities dbModel = new LoginDataBaseEntities())
                 {
-
-                    try
+                    if (!dbModel.Users.Any(u => u.Email == userModel.Email))
                     {
-                        userModel.Password = newPassword;
-                        userModel.DataCriacao = System.DateTime.Now;
-                        dbModel.Users.Add(userModel);
-                        /**/
-                        dbModel.SaveChanges();
-                    }
-                    catch (System.Data.Entity.Validation.DbEntityValidationException dbEx)
-                    {
-                        Exception raise = dbEx;
-                        foreach (var validationErrors in dbEx.EntityValidationErrors)
+                        try
                         {
-                            foreach (var validationError in validationErrors.ValidationErrors)
-                            {
-                                string message = string.Format("{0}:{1}", validationErrors.Entry.Entity.ToString(), validationError.ErrorMessage);
-                                raise = new InvalidOperationException(message, raise);
-                            }
+                            userModel.Password = newPassword;
+                            userModel.DataCriacao = System.DateTime.Now;
+                            dbModel.Users.Add(userModel);
+                            /**/
+                            dbModel.SaveChanges();
                         }
-                        throw raise;
+                        catch (System.Data.Entity.Validation.DbEntityValidationException dbEx)
+                        {
+                            Exception raise = dbEx;
+                            foreach (var validationErrors in dbEx.EntityValidationErrors)
+                            {
+                                foreach (var validationError in validationErrors.ValidationErrors)
+                                {
+                                    string message = string.Format("{0}:{1}", validationErrors.Entry.Entity.ToString(), validationError.ErrorMessage);
+                                    raise = new InvalidOperationException(message, raise);
+                                }
+                            }
+                            throw raise;
+                        }
                     }
+                    else
+                    {
+                        // A user with that e-mail already exists, handle accordingly
+                        String msg = "O email que introduziu já se encontra registado.";
+                        Response.Write("<script>alert('" + msg + "')</script>");
+                        return View("~/Views/Login/Index.cshtml");
+                    }
+
+                    
                 }
                 ModelState.Clear();
 

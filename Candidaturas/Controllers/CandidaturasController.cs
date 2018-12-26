@@ -21,7 +21,7 @@ namespace Candidaturas.Controllers
 
             if(Session["userID"] != null)
             {
-                LoginDataBaseEntities1 db = new LoginDataBaseEntities1();
+                LoginDataBaseEntities db = new LoginDataBaseEntities();
                 int userId = (int)Session["userID"];
 
                 getDataForDropdownLists(db);
@@ -37,7 +37,7 @@ namespace Candidaturas.Controllers
         }
 
         //obtém os exames seleccionados pelo utilizador
-        public void getSelectedExames(LoginDataBaseEntities1 db, int userId)
+        public void getSelectedExames(LoginDataBaseEntities db, int userId)
         {
             List<int> examesEscolhidos = db.UserExames.Where(dp => dp.UserId == userId).Select(dp => dp.ExameId).ToList();
 
@@ -49,7 +49,7 @@ namespace Candidaturas.Controllers
         }
 
         //obtém os cursos seleccionados pelo utilizador
-        public void getSelectedCursos(LoginDataBaseEntities1 db, int userId)
+        public void getSelectedCursos(LoginDataBaseEntities db, int userId)
         {
             List<int> cursosEscolhidos = db.UserCursoes.Where(dp => dp.UserId == userId).OrderBy(dp => dp.Prioridade).Select(dp => dp.CursoId).ToList();
 
@@ -65,7 +65,7 @@ namespace Candidaturas.Controllers
         }
 
         //obtém os dados a serem preenchidos nas drops (exames, cursos)
-        public void getDataForDropdownLists(LoginDataBaseEntities1 db)
+        public void getDataForDropdownLists(LoginDataBaseEntities db)
         {
 
             IEnumerable<SelectListItem> exames = db.Exames.Select(c => new SelectListItem
@@ -95,7 +95,7 @@ namespace Candidaturas.Controllers
 
                 if (exameEscolhido != 0)
                 {
-                    using (LoginDataBaseEntities1 dbModel = new LoginDataBaseEntities1())
+                    using (LoginDataBaseEntities dbModel = new LoginDataBaseEntities())
                     {
 
                         try
@@ -162,7 +162,7 @@ namespace Candidaturas.Controllers
 
                 if (cursoEscolhido != 0)
                 {
-                    using (LoginDataBaseEntities1 dbModel = new LoginDataBaseEntities1())
+                    using (LoginDataBaseEntities dbModel = new LoginDataBaseEntities())
                     {
 
                         try
@@ -240,7 +240,7 @@ namespace Candidaturas.Controllers
             {
                 int userId = (int)Session["userID"];
 
-                using (LoginDataBaseEntities1 dbModel = new LoginDataBaseEntities1())
+                using (LoginDataBaseEntities dbModel = new LoginDataBaseEntities())
                 {
                     try
                     {
@@ -281,7 +281,7 @@ namespace Candidaturas.Controllers
             {
                 int userId = (int)Session["userID"];
 
-                using (LoginDataBaseEntities1 dbModel = new LoginDataBaseEntities1())
+                using (LoginDataBaseEntities dbModel = new LoginDataBaseEntities())
                 {
                     try
                     {
@@ -336,7 +336,7 @@ namespace Candidaturas.Controllers
             {
                 int userId = (int)Session["userID"];
 
-                using (LoginDataBaseEntities1 dbModel = new LoginDataBaseEntities1())
+                using (LoginDataBaseEntities dbModel = new LoginDataBaseEntities())
                 {
                     try
                     {
@@ -391,7 +391,7 @@ namespace Candidaturas.Controllers
             {
                 int userId = (int)Session["userID"];
 
-                using (LoginDataBaseEntities1 dbModel = new LoginDataBaseEntities1())
+                using (LoginDataBaseEntities dbModel = new LoginDataBaseEntities())
                 {
                     try
                     {

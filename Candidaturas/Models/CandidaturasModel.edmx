@@ -1,0 +1,1420 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="CandidaturasModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Concelho">
+          <Key>
+            <PropertyRef Name="Codigo" />
+            <PropertyRef Name="CodigoDistrito" />
+          </Key>
+          <Property Name="Nome" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Codigo" Type="int" Nullable="false" />
+          <Property Name="CodigoDistrito" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ConhecimentoEscola">
+          <Key>
+            <PropertyRef Name="Nome" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nome" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Curso">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nome" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="CodigoCurso" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CodigoRamo" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="DadosPessoais">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="NomeColoquial" Type="varchar" MaxLength="50" />
+          <Property Name="Nomes" Type="varchar" MaxLength="50" />
+          <Property Name="Apelidos" Type="varchar" MaxLength="50" />
+          <Property Name="NomePai" Type="varchar" MaxLength="50" />
+          <Property Name="NomeMae" Type="varchar" MaxLength="50" />
+          <Property Name="NDI" Type="varchar" MaxLength="50" />
+          <Property Name="TipoDocID" Type="varchar" MaxLength="50" />
+          <Property Name="Genero" Type="varchar" MaxLength="50" />
+          <Property Name="EstadoCivil" Type="varchar" MaxLength="50" />
+          <Property Name="Nacionalidade" Type="varchar" MaxLength="10" />
+          <Property Name="DistritoNatural" Type="int" />
+          <Property Name="ConcelhoNatural" Type="int" />
+          <Property Name="FreguesiaNatural" Type="int" />
+          <Property Name="Morada" Type="varchar" MaxLength="50" />
+          <Property Name="Localidade" Type="int" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="RepFinNIF" Type="varchar" MaxLength="50" />
+          <Property Name="CCDigitosControlo" Type="varchar" MaxLength="50" />
+          <Property Name="NSegSoc" Type="varchar" MaxLength="50" />
+          <Property Name="NIF" Type="varchar" MaxLength="50" />
+          <Property Name="DistritoMorada" Type="int" />
+          <Property Name="ConcelhoMorada" Type="int" />
+          <Property Name="FreguesiaMorada" Type="int" />
+          <Property Name="Telefone" Type="varchar" MaxLength="50" />
+          <Property Name="CodigoPostal4Dig" Type="smallint" />
+          <Property Name="CodigoPostal3Dig" Type="smallint" />
+          <Property Name="DataCriacao" Type="datetime" />
+          <Property Name="DataUltimaAtualizacao" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Distrito">
+          <Key>
+            <PropertyRef Name="Codigo" />
+          </Key>
+          <Property Name="Nome" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Codigo" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Documento">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nome" Type="varchar" MaxLength="50" />
+          <Property Name="Descricao" Type="varchar" MaxLength="50" />
+          <Property Name="Ficheiro" Type="varbinary(max)" />
+          <Property Name="Tipo" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="EstadoCivil">
+          <Key>
+            <PropertyRef Name="Nome" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nome" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Exame">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nome" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Freguesia">
+          <Key>
+            <PropertyRef Name="Codigo" />
+            <PropertyRef Name="CodigoConcelho" />
+            <PropertyRef Name="CodigoDistrito" />
+          </Key>
+          <Property Name="Nome" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Codigo" Type="int" Nullable="false" />
+          <Property Name="CodigoConcelho" Type="int" Nullable="false" />
+          <Property Name="CodigoDistrito" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Genero">
+          <Key>
+            <PropertyRef Name="Nome" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nome" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Inquerito">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="SituacaoPai" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="OutraPai" Type="varchar" MaxLength="50" />
+          <Property Name="SituacaoMae" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="OutraMae" Type="varchar" MaxLength="50" />
+          <Property Name="ConhecimentoEscola" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Outro" Type="varchar" MaxLength="50" />
+          <Property Name="CandidatarOutros" Type="bit" Nullable="false" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DataCriacao" Type="datetime" />
+          <Property Name="DataAtualizacao" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Localidade">
+          <Key>
+            <PropertyRef Name="CodigoDistrito" />
+            <PropertyRef Name="CodigoConcelho" />
+            <PropertyRef Name="Codigo" />
+          </Key>
+          <Property Name="CodigoDistrito" Type="int" Nullable="false" />
+          <Property Name="CodigoConcelho" Type="int" Nullable="false" />
+          <Property Name="Codigo" Type="int" Nullable="false" />
+          <Property Name="Nome" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Pais">
+          <Key>
+            <PropertyRef Name="Sigla" />
+          </Key>
+          <Property Name="Nome" Type="varchar" MaxLength="50" />
+          <Property Name="Sigla" Type="varchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Situacao">
+          <Key>
+            <PropertyRef Name="Nome" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nome" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TipoDocumentoID">
+          <Key>
+            <PropertyRef Name="Nome" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nome" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NomeCompleto" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="NDI" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Militar" Type="bit" Nullable="false" />
+          <Property Name="DataNascimento" Type="date" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="LoginErrorMessage" Type="varchar" MaxLength="50" />
+          <Property Name="TipoDocID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="DataCriacao" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserCurso">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="CursoId" Type="int" Nullable="false" />
+          <Property Name="Prioridade" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserDocumento">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="DocumentoId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserExame">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="ExameId" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Concelho_Distrito">
+          <End Role="Distrito" Type="Self.Distrito" Multiplicity="1" />
+          <End Role="Concelho" Type="Self.Concelho" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Distrito">
+              <PropertyRef Name="Codigo" />
+            </Principal>
+            <Dependent Role="Concelho">
+              <PropertyRef Name="CodigoDistrito" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DadosPessoais_EstadoCivil">
+          <End Role="EstadoCivil" Type="Self.EstadoCivil" Multiplicity="0..1" />
+          <End Role="DadosPessoais" Type="Self.DadosPessoais" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EstadoCivil">
+              <PropertyRef Name="Nome" />
+            </Principal>
+            <Dependent Role="DadosPessoais">
+              <PropertyRef Name="EstadoCivil" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DadosPessoais_Freguesia">
+          <End Role="Freguesia" Type="Self.Freguesia" Multiplicity="0..1" />
+          <End Role="DadosPessoais" Type="Self.DadosPessoais" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Freguesia">
+              <PropertyRef Name="Codigo" />
+              <PropertyRef Name="CodigoConcelho" />
+              <PropertyRef Name="CodigoDistrito" />
+            </Principal>
+            <Dependent Role="DadosPessoais">
+              <PropertyRef Name="FreguesiaNatural" />
+              <PropertyRef Name="ConcelhoNatural" />
+              <PropertyRef Name="DistritoNatural" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DadosPessoais_Freguesia_Morada">
+          <End Role="Freguesia" Type="Self.Freguesia" Multiplicity="0..1" />
+          <End Role="DadosPessoais" Type="Self.DadosPessoais" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Freguesia">
+              <PropertyRef Name="Codigo" />
+              <PropertyRef Name="CodigoConcelho" />
+              <PropertyRef Name="CodigoDistrito" />
+            </Principal>
+            <Dependent Role="DadosPessoais">
+              <PropertyRef Name="FreguesiaMorada" />
+              <PropertyRef Name="ConcelhoMorada" />
+              <PropertyRef Name="DistritoMorada" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DadosPessoais_Genero">
+          <End Role="Genero" Type="Self.Genero" Multiplicity="0..1" />
+          <End Role="DadosPessoais" Type="Self.DadosPessoais" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Genero">
+              <PropertyRef Name="Nome" />
+            </Principal>
+            <Dependent Role="DadosPessoais">
+              <PropertyRef Name="Genero" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DadosPessoais_Pais">
+          <End Role="Pais" Type="Self.Pais" Multiplicity="0..1" />
+          <End Role="DadosPessoais" Type="Self.DadosPessoais" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pais">
+              <PropertyRef Name="Sigla" />
+            </Principal>
+            <Dependent Role="DadosPessoais">
+              <PropertyRef Name="Nacionalidade" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DadosPessoais_TipoDocumentoID">
+          <End Role="TipoDocumentoID" Type="Self.TipoDocumentoID" Multiplicity="0..1" />
+          <End Role="DadosPessoais" Type="Self.DadosPessoais" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoDocumentoID">
+              <PropertyRef Name="Nome" />
+            </Principal>
+            <Dependent Role="DadosPessoais">
+              <PropertyRef Name="TipoDocID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DadosPessoais_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="DadosPessoais" Type="Self.DadosPessoais" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DadosPessoais">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ExameUE">
+          <End Role="Exame" Type="Self.Exame" Multiplicity="1" />
+          <End Role="UserExame" Type="Self.UserExame" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Exame">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserExame">
+              <PropertyRef Name="ExameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Freguesia_Distrito_Concelho">
+          <End Role="Concelho" Type="Self.Concelho" Multiplicity="1" />
+          <End Role="Freguesia" Type="Self.Freguesia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Concelho">
+              <PropertyRef Name="Codigo" />
+              <PropertyRef Name="CodigoDistrito" />
+            </Principal>
+            <Dependent Role="Freguesia">
+              <PropertyRef Name="CodigoConcelho" />
+              <PropertyRef Name="CodigoDistrito" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inquerito_ConhecimentoEscola">
+          <End Role="ConhecimentoEscola" Type="Self.ConhecimentoEscola" Multiplicity="1" />
+          <End Role="Inquerito" Type="Self.Inquerito" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ConhecimentoEscola">
+              <PropertyRef Name="Nome" />
+            </Principal>
+            <Dependent Role="Inquerito">
+              <PropertyRef Name="ConhecimentoEscola" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inquerito_Situacao_Mae">
+          <End Role="Situacao" Type="Self.Situacao" Multiplicity="1" />
+          <End Role="Inquerito" Type="Self.Inquerito" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Situacao">
+              <PropertyRef Name="Nome" />
+            </Principal>
+            <Dependent Role="Inquerito">
+              <PropertyRef Name="SituacaoMae" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inquerito_Situacao_Pai">
+          <End Role="Situacao" Type="Self.Situacao" Multiplicity="1" />
+          <End Role="Inquerito" Type="Self.Inquerito" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Situacao">
+              <PropertyRef Name="Nome" />
+            </Principal>
+            <Dependent Role="Inquerito">
+              <PropertyRef Name="SituacaoPai" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inquerito_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Inquerito" Type="Self.Inquerito" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Inquerito">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Localidade_Distrito_Concelho">
+          <End Role="Concelho" Type="Self.Concelho" Multiplicity="1" />
+          <End Role="Localidade" Type="Self.Localidade" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Concelho">
+              <PropertyRef Name="Codigo" />
+              <PropertyRef Name="CodigoDistrito" />
+            </Principal>
+            <Dependent Role="Localidade">
+              <PropertyRef Name="CodigoConcelho" />
+              <PropertyRef Name="CodigoDistrito" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_TipoDocumentoID">
+          <End Role="TipoDocumentoID" Type="Self.TipoDocumentoID" Multiplicity="1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoDocumentoID">
+              <PropertyRef Name="Nome" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="TipoDocID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserCurso_Curso">
+          <End Role="Curso" Type="Self.Curso" Multiplicity="1" />
+          <End Role="UserCurso" Type="Self.UserCurso" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Curso">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserCurso">
+              <PropertyRef Name="CursoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserCurso_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="UserCurso" Type="Self.UserCurso" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserCurso">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserDocumento_Documento">
+          <End Role="Documento" Type="Self.Documento" Multiplicity="1" />
+          <End Role="UserDocumento" Type="Self.UserDocumento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Documento">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserDocumento">
+              <PropertyRef Name="DocumentoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserDocumento_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="UserDocumento" Type="Self.UserDocumento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserDocumento">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserExame_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="UserExame" Type="Self.UserExame" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserExame">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CandidaturasModelStoreContainer">
+          <EntitySet Name="Concelho" EntityType="Self.Concelho" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ConhecimentoEscola" EntityType="Self.ConhecimentoEscola" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Curso" EntityType="Self.Curso" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DadosPessoais" EntityType="Self.DadosPessoais" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Distrito" EntityType="Self.Distrito" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Documento" EntityType="Self.Documento" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EstadoCivil" EntityType="Self.EstadoCivil" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Exame" EntityType="Self.Exame" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Freguesia" EntityType="Self.Freguesia" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Genero" EntityType="Self.Genero" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Inquerito" EntityType="Self.Inquerito" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Localidade" EntityType="Self.Localidade" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Pais" EntityType="Self.Pais" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Situacao" EntityType="Self.Situacao" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TipoDocumentoID" EntityType="Self.TipoDocumentoID" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserCurso" EntityType="Self.UserCurso" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserDocumento" EntityType="Self.UserDocumento" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserExame" EntityType="Self.UserExame" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Concelho_Distrito" Association="Self.FK_Concelho_Distrito">
+            <End Role="Distrito" EntitySet="Distrito" />
+            <End Role="Concelho" EntitySet="Concelho" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DadosPessoais_EstadoCivil" Association="Self.FK_DadosPessoais_EstadoCivil">
+            <End Role="EstadoCivil" EntitySet="EstadoCivil" />
+            <End Role="DadosPessoais" EntitySet="DadosPessoais" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DadosPessoais_Freguesia" Association="Self.FK_DadosPessoais_Freguesia">
+            <End Role="Freguesia" EntitySet="Freguesia" />
+            <End Role="DadosPessoais" EntitySet="DadosPessoais" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DadosPessoais_Freguesia_Morada" Association="Self.FK_DadosPessoais_Freguesia_Morada">
+            <End Role="Freguesia" EntitySet="Freguesia" />
+            <End Role="DadosPessoais" EntitySet="DadosPessoais" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DadosPessoais_Genero" Association="Self.FK_DadosPessoais_Genero">
+            <End Role="Genero" EntitySet="Genero" />
+            <End Role="DadosPessoais" EntitySet="DadosPessoais" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DadosPessoais_Pais" Association="Self.FK_DadosPessoais_Pais">
+            <End Role="Pais" EntitySet="Pais" />
+            <End Role="DadosPessoais" EntitySet="DadosPessoais" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DadosPessoais_TipoDocumentoID" Association="Self.FK_DadosPessoais_TipoDocumentoID">
+            <End Role="TipoDocumentoID" EntitySet="TipoDocumentoID" />
+            <End Role="DadosPessoais" EntitySet="DadosPessoais" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DadosPessoais_User" Association="Self.FK_DadosPessoais_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="DadosPessoais" EntitySet="DadosPessoais" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ExameUE" Association="Self.FK_ExameUE">
+            <End Role="Exame" EntitySet="Exame" />
+            <End Role="UserExame" EntitySet="UserExame" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Freguesia_Distrito_Concelho" Association="Self.FK_Freguesia_Distrito_Concelho">
+            <End Role="Concelho" EntitySet="Concelho" />
+            <End Role="Freguesia" EntitySet="Freguesia" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inquerito_ConhecimentoEscola" Association="Self.FK_Inquerito_ConhecimentoEscola">
+            <End Role="ConhecimentoEscola" EntitySet="ConhecimentoEscola" />
+            <End Role="Inquerito" EntitySet="Inquerito" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inquerito_Situacao_Mae" Association="Self.FK_Inquerito_Situacao_Mae">
+            <End Role="Situacao" EntitySet="Situacao" />
+            <End Role="Inquerito" EntitySet="Inquerito" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inquerito_Situacao_Pai" Association="Self.FK_Inquerito_Situacao_Pai">
+            <End Role="Situacao" EntitySet="Situacao" />
+            <End Role="Inquerito" EntitySet="Inquerito" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inquerito_User" Association="Self.FK_Inquerito_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Inquerito" EntitySet="Inquerito" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Localidade_Distrito_Concelho" Association="Self.FK_Localidade_Distrito_Concelho">
+            <End Role="Concelho" EntitySet="Concelho" />
+            <End Role="Localidade" EntitySet="Localidade" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_TipoDocumentoID" Association="Self.FK_User_TipoDocumentoID">
+            <End Role="TipoDocumentoID" EntitySet="TipoDocumentoID" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserCurso_Curso" Association="Self.FK_UserCurso_Curso">
+            <End Role="Curso" EntitySet="Curso" />
+            <End Role="UserCurso" EntitySet="UserCurso" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserCurso_User" Association="Self.FK_UserCurso_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="UserCurso" EntitySet="UserCurso" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserDocumento_Documento" Association="Self.FK_UserDocumento_Documento">
+            <End Role="Documento" EntitySet="Documento" />
+            <End Role="UserDocumento" EntitySet="UserDocumento" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserDocumento_User" Association="Self.FK_UserDocumento_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="UserDocumento" EntitySet="UserDocumento" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserExame_User" Association="Self.FK_UserExame_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="UserExame" EntitySet="UserExame" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CandidaturasModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Concelho">
+          <Key>
+            <PropertyRef Name="Codigo" />
+            <PropertyRef Name="CodigoDistrito" />
+          </Key>
+          <Property Name="Nome" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Codigo" Type="Int32" Nullable="false" />
+          <Property Name="CodigoDistrito" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Distrito" Relationship="Self.FK_Concelho_Distrito" FromRole="Concelho" ToRole="Distrito" />
+          <NavigationProperty Name="Localidades" Relationship="CandidaturasModel.FK_Localidade_Distrito_Concelho" FromRole="Concelho" ToRole="Localidade" />
+          <NavigationProperty Name="Freguesias" Relationship="CandidaturasModel.FK_Freguesia_Distrito_Concelho" FromRole="Concelho" ToRole="Freguesia" />
+        </EntityType>
+        <EntityType Name="Distrito">
+          <Key>
+            <PropertyRef Name="Codigo" />
+          </Key>
+          <Property Name="Nome" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Codigo" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Concelhoes" Relationship="Self.FK_Concelho_Distrito" FromRole="Distrito" ToRole="Concelho" />
+        </EntityType>
+        <EntityType Name="Exame">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nome" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="UserExames" Relationship="CandidaturasModel.FK_ExameUE" FromRole="Exame" ToRole="UserExame" />
+        </EntityType>
+        <EntityType Name="Inquerito">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="SituacaoPai" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="OutraPai" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SituacaoMae" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="OutraMae" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ConhecimentoEscola" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Outro" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CandidatarOutros" Type="Boolean" Nullable="false" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DataCriacao" Type="DateTime" Precision="3" />
+          <Property Name="DataAtualizacao" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="User" Relationship="CandidaturasModel.FK_Inquerito_User" FromRole="Inquerito" ToRole="User" />
+          <NavigationProperty Name="ConhecimentoEscola1" Relationship="CandidaturasModel.FK_Inquerito_ConhecimentoEscola" FromRole="Inquerito" ToRole="ConhecimentoEscola" />
+          <NavigationProperty Name="Situacao" Relationship="CandidaturasModel.FK_Inquerito_Situacao_Mae" FromRole="Inquerito" ToRole="Situacao" />
+          <NavigationProperty Name="Situacao1" Relationship="CandidaturasModel.FK_Inquerito_Situacao_Pai" FromRole="Inquerito" ToRole="Situacao" />
+        </EntityType>
+        <Association Name="FK_Concelho_Distrito">
+          <End Role="Distrito" Type="Self.Distrito" Multiplicity="1" />
+          <End Role="Concelho" Type="Self.Concelho" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Distrito">
+              <PropertyRef Name="Codigo" />
+            </Principal>
+            <Dependent Role="Concelho">
+              <PropertyRef Name="CodigoDistrito" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="LoginDataBaseEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Concelhoes" EntityType="Self.Concelho" />
+          <EntitySet Name="Distritoes" EntityType="Self.Distrito" />
+          <EntitySet Name="Exames" EntityType="Self.Exame" />
+          <EntitySet Name="Inqueritoes" EntityType="Self.Inquerito" />
+          <AssociationSet Name="FK_Concelho_Distrito" Association="Self.FK_Concelho_Distrito">
+            <End Role="Distrito" EntitySet="Distritoes" />
+            <End Role="Concelho" EntitySet="Concelhoes" />
+          </AssociationSet>
+          <EntitySet Name="Localidades" EntityType="CandidaturasModel.Localidade" />
+          <AssociationSet Name="FK_Localidade_Distrito_Concelho" Association="CandidaturasModel.FK_Localidade_Distrito_Concelho">
+            <End Role="Concelho" EntitySet="Concelhoes" />
+            <End Role="Localidade" EntitySet="Localidades" />
+          </AssociationSet>
+          <EntitySet Name="Freguesias" EntityType="CandidaturasModel.Freguesia" />
+          <AssociationSet Name="FK_Freguesia_Distrito_Concelho" Association="CandidaturasModel.FK_Freguesia_Distrito_Concelho">
+            <End Role="Concelho" EntitySet="Concelhoes" />
+            <End Role="Freguesia" EntitySet="Freguesias" />
+          </AssociationSet>
+          <EntitySet Name="Users" EntityType="CandidaturasModel.User" />
+          <EntitySet Name="UserExames" EntityType="CandidaturasModel.UserExame" />
+          <AssociationSet Name="FK_ExameUE" Association="CandidaturasModel.FK_ExameUE">
+            <End Role="Exame" EntitySet="Exames" />
+            <End Role="UserExame" EntitySet="UserExames" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inquerito_User" Association="CandidaturasModel.FK_Inquerito_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Inquerito" EntitySet="Inqueritoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserExame_User" Association="CandidaturasModel.FK_UserExame_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="UserExame" EntitySet="UserExames" />
+          </AssociationSet>
+          <EntitySet Name="Pais" EntityType="CandidaturasModel.Pai" />
+          <EntitySet Name="DadosPessoais" EntityType="CandidaturasModel.DadosPessoai" />
+          <AssociationSet Name="FK_DadosPessoais_Freguesia" Association="CandidaturasModel.FK_DadosPessoais_Freguesia">
+            <End Role="Freguesia" EntitySet="Freguesias" />
+            <End Role="DadosPessoai" EntitySet="DadosPessoais" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DadosPessoais_Freguesia_Morada" Association="CandidaturasModel.FK_DadosPessoais_Freguesia_Morada">
+            <End Role="Freguesia" EntitySet="Freguesias" />
+            <End Role="DadosPessoai" EntitySet="DadosPessoais" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DadosPessoais_Pais" Association="CandidaturasModel.FK_DadosPessoais_Pais">
+            <End Role="Pai" EntitySet="Pais" />
+            <End Role="DadosPessoai" EntitySet="DadosPessoais" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DadosPessoais_User" Association="CandidaturasModel.FK_DadosPessoais_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="DadosPessoai" EntitySet="DadosPessoais" />
+          </AssociationSet>
+          <EntitySet Name="Generoes" EntityType="CandidaturasModel.Genero" />
+          <AssociationSet Name="FK_DadosPessoais_Genero" Association="CandidaturasModel.FK_DadosPessoais_Genero">
+            <End Role="Genero" EntitySet="Generoes" />
+            <End Role="DadosPessoai" EntitySet="DadosPessoais" />
+          </AssociationSet>
+          <EntitySet Name="EstadoCivils" EntityType="CandidaturasModel.EstadoCivil" />
+          <AssociationSet Name="FK_DadosPessoais_EstadoCivil" Association="CandidaturasModel.FK_DadosPessoais_EstadoCivil">
+            <End Role="EstadoCivil" EntitySet="EstadoCivils" />
+            <End Role="DadosPessoai" EntitySet="DadosPessoais" />
+          </AssociationSet>
+          <EntitySet Name="ConhecimentoEscolas" EntityType="CandidaturasModel.ConhecimentoEscola" />
+          <EntitySet Name="Situacaos" EntityType="CandidaturasModel.Situacao" />
+          <AssociationSet Name="FK_Inquerito_ConhecimentoEscola" Association="CandidaturasModel.FK_Inquerito_ConhecimentoEscola">
+            <End Role="ConhecimentoEscola" EntitySet="ConhecimentoEscolas" />
+            <End Role="Inquerito" EntitySet="Inqueritoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inquerito_Situacao_Mae" Association="CandidaturasModel.FK_Inquerito_Situacao_Mae">
+            <End Role="Situacao" EntitySet="Situacaos" />
+            <End Role="Inquerito" EntitySet="Inqueritoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inquerito_Situacao_Pai" Association="CandidaturasModel.FK_Inquerito_Situacao_Pai">
+            <End Role="Situacao" EntitySet="Situacaos" />
+            <End Role="Inquerito" EntitySet="Inqueritoes" />
+          </AssociationSet>
+          <EntitySet Name="TipoDocumentoIDs" EntityType="CandidaturasModel.TipoDocumentoID" />
+          <AssociationSet Name="FK_DadosPessoais_TipoDocumentoID" Association="CandidaturasModel.FK_DadosPessoais_TipoDocumentoID">
+            <End Role="TipoDocumentoID" EntitySet="TipoDocumentoIDs" />
+            <End Role="DadosPessoai" EntitySet="DadosPessoais" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_TipoDocumentoID" Association="CandidaturasModel.FK_User_TipoDocumentoID">
+            <End Role="TipoDocumentoID" EntitySet="TipoDocumentoIDs" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
+          <EntitySet Name="Documentoes" EntityType="CandidaturasModel.Documento" />
+          <EntitySet Name="UserDocumentoes" EntityType="CandidaturasModel.UserDocumento" />
+          <AssociationSet Name="FK_UserDocumento_Documento" Association="CandidaturasModel.FK_UserDocumento_Documento">
+            <End Role="Documento" EntitySet="Documentoes" />
+            <End Role="UserDocumento" EntitySet="UserDocumentoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserDocumento_User" Association="CandidaturasModel.FK_UserDocumento_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="UserDocumento" EntitySet="UserDocumentoes" />
+          </AssociationSet>
+          <EntitySet Name="Cursoes" EntityType="CandidaturasModel.Curso" />
+          <EntitySet Name="UserCursoes" EntityType="CandidaturasModel.UserCurso" />
+          <AssociationSet Name="FK_UserCurso_Curso" Association="CandidaturasModel.FK_UserCurso_Curso">
+            <End Role="Curso" EntitySet="Cursoes" />
+            <End Role="UserCurso" EntitySet="UserCursoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserCurso_User" Association="CandidaturasModel.FK_UserCurso_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="UserCurso" EntitySet="UserCursoes" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="Localidade">
+          <Key>
+            <PropertyRef Name="CodigoDistrito" />
+            <PropertyRef Name="CodigoConcelho" />
+            <PropertyRef Name="Codigo" />
+          </Key>
+          <Property Name="CodigoDistrito" Type="Int32" Nullable="false" />
+          <Property Name="CodigoConcelho" Type="Int32" Nullable="false" />
+          <Property Name="Codigo" Type="Int32" Nullable="false" />
+          <Property Name="Nome" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Concelho" Relationship="CandidaturasModel.FK_Localidade_Distrito_Concelho" FromRole="Localidade" ToRole="Concelho" />
+        </EntityType>
+        <Association Name="FK_Localidade_Distrito_Concelho">
+          <End Type="CandidaturasModel.Concelho" Role="Concelho" Multiplicity="1" />
+          <End Type="CandidaturasModel.Localidade" Role="Localidade" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Concelho">
+              <PropertyRef Name="Codigo" />
+              <PropertyRef Name="CodigoDistrito" />
+            </Principal>
+            <Dependent Role="Localidade">
+              <PropertyRef Name="CodigoConcelho" />
+              <PropertyRef Name="CodigoDistrito" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Freguesia">
+          <Key>
+            <PropertyRef Name="Codigo" />
+            <PropertyRef Name="CodigoConcelho" />
+            <PropertyRef Name="CodigoDistrito" />
+          </Key>
+          <Property Name="Nome" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Codigo" Type="Int32" Nullable="false" />
+          <Property Name="CodigoConcelho" Type="Int32" Nullable="false" />
+          <Property Name="CodigoDistrito" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Concelho" Relationship="CandidaturasModel.FK_Freguesia_Distrito_Concelho" FromRole="Freguesia" ToRole="Concelho" />
+          <NavigationProperty Name="DadosPessoais" Relationship="CandidaturasModel.FK_DadosPessoais_Freguesia" FromRole="Freguesia" ToRole="DadosPessoai" />
+          <NavigationProperty Name="DadosPessoais1" Relationship="CandidaturasModel.FK_DadosPessoais_Freguesia_Morada" FromRole="Freguesia" ToRole="DadosPessoai" />
+          </EntityType>
+        <Association Name="FK_Freguesia_Distrito_Concelho">
+          <End Type="CandidaturasModel.Concelho" Role="Concelho" Multiplicity="1" />
+          <End Type="CandidaturasModel.Freguesia" Role="Freguesia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Concelho">
+              <PropertyRef Name="Codigo" />
+              <PropertyRef Name="CodigoDistrito" />
+            </Principal>
+            <Dependent Role="Freguesia">
+              <PropertyRef Name="CodigoConcelho" />
+              <PropertyRef Name="CodigoDistrito" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NomeCompleto" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="NDI" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Militar" Type="Boolean" Nullable="false" />
+          <Property Name="DataNascimento" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LoginErrorMessage" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TipoDocID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DataCriacao" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Inqueritoes" Relationship="CandidaturasModel.FK_Inquerito_User" FromRole="User" ToRole="Inquerito" />
+          <NavigationProperty Name="UserExames" Relationship="CandidaturasModel.FK_UserExame_User" FromRole="User" ToRole="UserExame" />
+          <NavigationProperty Name="DadosPessoai" Relationship="CandidaturasModel.FK_DadosPessoais_User" FromRole="User" ToRole="DadosPessoai" />
+          <NavigationProperty Name="TipoDocumentoID" Relationship="CandidaturasModel.FK_User_TipoDocumentoID" FromRole="User" ToRole="TipoDocumentoID" />
+          <NavigationProperty Name="UserDocumentoes" Relationship="CandidaturasModel.FK_UserDocumento_User" FromRole="User" ToRole="UserDocumento" />
+          <NavigationProperty Name="UserCursoes" Relationship="CandidaturasModel.FK_UserCurso_User" FromRole="User" ToRole="UserCurso" />
+        </EntityType>
+        <EntityType Name="UserExame">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="ExameId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Exame" Relationship="CandidaturasModel.FK_ExameUE" FromRole="UserExame" ToRole="Exame" />
+          <NavigationProperty Name="User" Relationship="CandidaturasModel.FK_UserExame_User" FromRole="UserExame" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_ExameUE">
+          <End Type="CandidaturasModel.Exame" Role="Exame" Multiplicity="1" />
+          <End Type="CandidaturasModel.UserExame" Role="UserExame" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Exame">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserExame">
+              <PropertyRef Name="ExameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inquerito_User">
+          <End Type="CandidaturasModel.User" Role="User" Multiplicity="1" />
+          <End Type="CandidaturasModel.Inquerito" Role="Inquerito" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Inquerito">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserExame_User">
+          <End Type="CandidaturasModel.User" Role="User" Multiplicity="1" />
+          <End Type="CandidaturasModel.UserExame" Role="UserExame" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserExame">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Pai">
+          <Key>
+            <PropertyRef Name="Sigla" />
+          </Key>
+          <Property Name="Nome" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Sigla" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="DadosPessoais" Relationship="CandidaturasModel.FK_DadosPessoais_Pais" FromRole="Pai" ToRole="DadosPessoai" />
+        </EntityType>
+        <EntityType Name="DadosPessoai">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="NomeColoquial" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Nomes" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Apelidos" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="NomePai" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="NomeMae" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="NDI" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TipoDocID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Genero" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EstadoCivil" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Nacionalidade" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="DistritoNatural" Type="Int32" />
+          <Property Name="ConcelhoNatural" Type="Int32" />
+          <Property Name="FreguesiaNatural" Type="Int32" />
+          <Property Name="Morada" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Localidade" Type="Int32" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="RepFinNIF" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CCDigitosControlo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="NSegSoc" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="NIF" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DistritoMorada" Type="Int32" />
+          <Property Name="ConcelhoMorada" Type="Int32" />
+          <Property Name="FreguesiaMorada" Type="Int32" />
+          <Property Name="Telefone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CodigoPostal4Dig" Type="Int16" />
+          <Property Name="CodigoPostal3Dig" Type="Int16" />
+          <Property Name="DataCriacao" Type="DateTime" Precision="3" />
+          <Property Name="DataUltimaAtualizacao" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Freguesia" Relationship="CandidaturasModel.FK_DadosPessoais_Freguesia" FromRole="DadosPessoai" ToRole="Freguesia" />
+          <NavigationProperty Name="Freguesia1" Relationship="CandidaturasModel.FK_DadosPessoais_Freguesia_Morada" FromRole="DadosPessoai" ToRole="Freguesia" />
+          <NavigationProperty Name="Pai" Relationship="CandidaturasModel.FK_DadosPessoais_Pais" FromRole="DadosPessoai" ToRole="Pai" />
+          <NavigationProperty Name="User" Relationship="CandidaturasModel.FK_DadosPessoais_User" FromRole="DadosPessoai" ToRole="User" />
+          <NavigationProperty Name="Genero1" Relationship="CandidaturasModel.FK_DadosPessoais_Genero" FromRole="DadosPessoai" ToRole="Genero" />
+          <NavigationProperty Name="EstadoCivil1" Relationship="CandidaturasModel.FK_DadosPessoais_EstadoCivil" FromRole="DadosPessoai" ToRole="EstadoCivil" />
+          <NavigationProperty Name="TipoDocumentoID" Relationship="CandidaturasModel.FK_DadosPessoais_TipoDocumentoID" FromRole="DadosPessoai" ToRole="TipoDocumentoID" />
+        </EntityType>
+        <Association Name="FK_DadosPessoais_Freguesia">
+          <End Type="CandidaturasModel.Freguesia" Role="Freguesia" Multiplicity="0..1" />
+          <End Type="CandidaturasModel.DadosPessoai" Role="DadosPessoai" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Freguesia">
+              <PropertyRef Name="Codigo" />
+              <PropertyRef Name="CodigoConcelho" />
+              <PropertyRef Name="CodigoDistrito" />
+            </Principal>
+            <Dependent Role="DadosPessoai">
+              <PropertyRef Name="FreguesiaNatural" />
+              <PropertyRef Name="ConcelhoNatural" />
+              <PropertyRef Name="DistritoNatural" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DadosPessoais_Freguesia_Morada">
+          <End Type="CandidaturasModel.Freguesia" Role="Freguesia" Multiplicity="0..1" />
+          <End Type="CandidaturasModel.DadosPessoai" Role="DadosPessoai" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Freguesia">
+              <PropertyRef Name="Codigo" />
+              <PropertyRef Name="CodigoConcelho" />
+              <PropertyRef Name="CodigoDistrito" />
+            </Principal>
+            <Dependent Role="DadosPessoai">
+              <PropertyRef Name="FreguesiaMorada" />
+              <PropertyRef Name="ConcelhoMorada" />
+              <PropertyRef Name="DistritoMorada" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DadosPessoais_Pais">
+          <End Type="CandidaturasModel.Pai" Role="Pai" Multiplicity="0..1" />
+          <End Type="CandidaturasModel.DadosPessoai" Role="DadosPessoai" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pai">
+              <PropertyRef Name="Sigla" />
+            </Principal>
+            <Dependent Role="DadosPessoai">
+              <PropertyRef Name="Nacionalidade" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DadosPessoais_User">
+          <End Type="CandidaturasModel.User" Role="User" Multiplicity="1" />
+          <End Type="CandidaturasModel.DadosPessoai" Role="DadosPessoai" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DadosPessoai">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Genero">
+          <Key>
+            <PropertyRef Name="Nome" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nome" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="DadosPessoais" Relationship="CandidaturasModel.FK_DadosPessoais_Genero" FromRole="Genero" ToRole="DadosPessoai" />
+        </EntityType>
+        <Association Name="FK_DadosPessoais_Genero">
+          <End Type="CandidaturasModel.Genero" Role="Genero" Multiplicity="0..1" />
+          <End Type="CandidaturasModel.DadosPessoai" Role="DadosPessoai" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Genero">
+              <PropertyRef Name="Nome" />
+            </Principal>
+            <Dependent Role="DadosPessoai">
+              <PropertyRef Name="Genero" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="EstadoCivil">
+          <Key>
+            <PropertyRef Name="Nome" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nome" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="DadosPessoais" Relationship="CandidaturasModel.FK_DadosPessoais_EstadoCivil" FromRole="EstadoCivil" ToRole="DadosPessoai" />
+        </EntityType>
+        <Association Name="FK_DadosPessoais_EstadoCivil">
+          <End Type="CandidaturasModel.EstadoCivil" Role="EstadoCivil" Multiplicity="0..1" />
+          <End Type="CandidaturasModel.DadosPessoai" Role="DadosPessoai" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EstadoCivil">
+              <PropertyRef Name="Nome" />
+            </Principal>
+            <Dependent Role="DadosPessoai">
+              <PropertyRef Name="EstadoCivil" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ConhecimentoEscola">
+          <Key>
+            <PropertyRef Name="Nome" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nome" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Inqueritoes" Relationship="CandidaturasModel.FK_Inquerito_ConhecimentoEscola" FromRole="ConhecimentoEscola" ToRole="Inquerito" />
+        </EntityType>
+        <EntityType Name="Situacao">
+          <Key>
+            <PropertyRef Name="Nome" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nome" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Inqueritoes" Relationship="CandidaturasModel.FK_Inquerito_Situacao_Mae" FromRole="Situacao" ToRole="Inquerito" />
+          <NavigationProperty Name="Inqueritoes1" Relationship="CandidaturasModel.FK_Inquerito_Situacao_Pai" FromRole="Situacao" ToRole="Inquerito" />
+        </EntityType>
+        <Association Name="FK_Inquerito_ConhecimentoEscola">
+          <End Type="CandidaturasModel.ConhecimentoEscola" Role="ConhecimentoEscola" Multiplicity="1" />
+          <End Type="CandidaturasModel.Inquerito" Role="Inquerito" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ConhecimentoEscola">
+              <PropertyRef Name="Nome" />
+            </Principal>
+            <Dependent Role="Inquerito">
+              <PropertyRef Name="ConhecimentoEscola" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inquerito_Situacao_Mae">
+          <End Type="CandidaturasModel.Situacao" Role="Situacao" Multiplicity="1" />
+          <End Type="CandidaturasModel.Inquerito" Role="Inquerito" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Situacao">
+              <PropertyRef Name="Nome" />
+            </Principal>
+            <Dependent Role="Inquerito">
+              <PropertyRef Name="SituacaoMae" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inquerito_Situacao_Pai">
+          <End Type="CandidaturasModel.Situacao" Role="Situacao" Multiplicity="1" />
+          <End Type="CandidaturasModel.Inquerito" Role="Inquerito" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Situacao">
+              <PropertyRef Name="Nome" />
+            </Principal>
+            <Dependent Role="Inquerito">
+              <PropertyRef Name="SituacaoPai" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="TipoDocumentoID">
+          <Key>
+            <PropertyRef Name="Nome" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nome" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="DadosPessoais" Relationship="CandidaturasModel.FK_DadosPessoais_TipoDocumentoID" FromRole="TipoDocumentoID" ToRole="DadosPessoai" />
+          <NavigationProperty Name="Users" Relationship="CandidaturasModel.FK_User_TipoDocumentoID" FromRole="TipoDocumentoID" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_DadosPessoais_TipoDocumentoID">
+          <End Type="CandidaturasModel.TipoDocumentoID" Role="TipoDocumentoID" Multiplicity="0..1" />
+          <End Type="CandidaturasModel.DadosPessoai" Role="DadosPessoai" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoDocumentoID">
+              <PropertyRef Name="Nome" />
+            </Principal>
+            <Dependent Role="DadosPessoai">
+              <PropertyRef Name="TipoDocID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_TipoDocumentoID">
+          <End Type="CandidaturasModel.TipoDocumentoID" Role="TipoDocumentoID" Multiplicity="1" />
+          <End Type="CandidaturasModel.User" Role="User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoDocumentoID">
+              <PropertyRef Name="Nome" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="TipoDocID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Documento">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nome" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Descricao" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Ficheiro" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="Tipo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="UserDocumentoes" Relationship="CandidaturasModel.FK_UserDocumento_Documento" FromRole="Documento" ToRole="UserDocumento" />
+        </EntityType>
+        <EntityType Name="UserDocumento">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="DocumentoId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Documento" Relationship="CandidaturasModel.FK_UserDocumento_Documento" FromRole="UserDocumento" ToRole="Documento" />
+          <NavigationProperty Name="User" Relationship="CandidaturasModel.FK_UserDocumento_User" FromRole="UserDocumento" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_UserDocumento_Documento">
+          <End Type="CandidaturasModel.Documento" Role="Documento" Multiplicity="1" />
+          <End Type="CandidaturasModel.UserDocumento" Role="UserDocumento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Documento">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserDocumento">
+              <PropertyRef Name="DocumentoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserDocumento_User">
+          <End Type="CandidaturasModel.User" Role="User" Multiplicity="1" />
+          <End Type="CandidaturasModel.UserDocumento" Role="UserDocumento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserDocumento">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Curso">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nome" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CodigoCurso" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CodigoRamo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="UserCursoes" Relationship="CandidaturasModel.FK_UserCurso_Curso" FromRole="Curso" ToRole="UserCurso" />
+        </EntityType>
+        <EntityType Name="UserCurso">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="CursoId" Type="Int32" Nullable="false" />
+          <Property Name="Prioridade" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Curso" Relationship="CandidaturasModel.FK_UserCurso_Curso" FromRole="UserCurso" ToRole="Curso" />
+          <NavigationProperty Name="User" Relationship="CandidaturasModel.FK_UserCurso_User" FromRole="UserCurso" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_UserCurso_Curso">
+          <End Type="CandidaturasModel.Curso" Role="Curso" Multiplicity="1" />
+          <End Type="CandidaturasModel.UserCurso" Role="UserCurso" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Curso">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserCurso">
+              <PropertyRef Name="CursoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserCurso_User">
+          <End Type="CandidaturasModel.User" Role="User" Multiplicity="1" />
+          <End Type="CandidaturasModel.UserCurso" Role="UserCurso" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserCurso">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CandidaturasModelStoreContainer" CdmEntityContainer="LoginDataBaseEntities">
+          <EntitySetMapping Name="Concelhoes">
+            <EntityTypeMapping TypeName="CandidaturasModel.Concelho">
+              <MappingFragment StoreEntitySet="Concelho">
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="CodigoDistrito" ColumnName="CodigoDistrito" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Distritoes">
+            <EntityTypeMapping TypeName="CandidaturasModel.Distrito">
+              <MappingFragment StoreEntitySet="Distrito">
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Exames">
+            <EntityTypeMapping TypeName="CandidaturasModel.Exame">
+              <MappingFragment StoreEntitySet="Exame">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Inqueritoes">
+            <EntityTypeMapping TypeName="CandidaturasModel.Inquerito">
+              <MappingFragment StoreEntitySet="Inquerito">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="SituacaoPai" ColumnName="SituacaoPai" />
+                <ScalarProperty Name="OutraPai" ColumnName="OutraPai" />
+                <ScalarProperty Name="SituacaoMae" ColumnName="SituacaoMae" />
+                <ScalarProperty Name="OutraMae" ColumnName="OutraMae" />
+                <ScalarProperty Name="ConhecimentoEscola" ColumnName="ConhecimentoEscola" />
+                <ScalarProperty Name="Outro" ColumnName="Outro" />
+                <ScalarProperty Name="CandidatarOutros" ColumnName="CandidatarOutros" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="DataCriacao" ColumnName="DataCriacao" />
+                <ScalarProperty Name="DataAtualizacao" ColumnName="DataAtualizacao" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Localidades">
+            <EntityTypeMapping TypeName="CandidaturasModel.Localidade">
+              <MappingFragment StoreEntitySet="Localidade">
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="CodigoConcelho" ColumnName="CodigoConcelho" />
+                <ScalarProperty Name="CodigoDistrito" ColumnName="CodigoDistrito" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Freguesias">
+            <EntityTypeMapping TypeName="CandidaturasModel.Freguesia">
+              <MappingFragment StoreEntitySet="Freguesia">
+                <ScalarProperty Name="CodigoDistrito" ColumnName="CodigoDistrito" />
+                <ScalarProperty Name="CodigoConcelho" ColumnName="CodigoConcelho" />
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="CandidaturasModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="DataCriacao" ColumnName="DataCriacao" />
+                <ScalarProperty Name="TipoDocID" ColumnName="TipoDocID" />
+                <ScalarProperty Name="LoginErrorMessage" ColumnName="LoginErrorMessage" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="DataNascimento" ColumnName="DataNascimento" />
+                <ScalarProperty Name="Militar" ColumnName="Militar" />
+                <ScalarProperty Name="NDI" ColumnName="NDI" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="NomeCompleto" ColumnName="NomeCompleto" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserExames">
+            <EntityTypeMapping TypeName="CandidaturasModel.UserExame">
+              <MappingFragment StoreEntitySet="UserExame">
+                <ScalarProperty Name="ExameId" ColumnName="ExameId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Pais">
+            <EntityTypeMapping TypeName="CandidaturasModel.Pai">
+              <MappingFragment StoreEntitySet="Pais">
+                <ScalarProperty Name="Sigla" ColumnName="Sigla" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DadosPessoais">
+            <EntityTypeMapping TypeName="CandidaturasModel.DadosPessoai">
+              <MappingFragment StoreEntitySet="DadosPessoais">
+                <ScalarProperty Name="DataUltimaAtualizacao" ColumnName="DataUltimaAtualizacao" />
+                <ScalarProperty Name="DataCriacao" ColumnName="DataCriacao" />
+                <ScalarProperty Name="CodigoPostal3Dig" ColumnName="CodigoPostal3Dig" />
+                <ScalarProperty Name="CodigoPostal4Dig" ColumnName="CodigoPostal4Dig" />
+                <ScalarProperty Name="Telefone" ColumnName="Telefone" />
+                <ScalarProperty Name="FreguesiaMorada" ColumnName="FreguesiaMorada" />
+                <ScalarProperty Name="ConcelhoMorada" ColumnName="ConcelhoMorada" />
+                <ScalarProperty Name="DistritoMorada" ColumnName="DistritoMorada" />
+                <ScalarProperty Name="NIF" ColumnName="NIF" />
+                <ScalarProperty Name="NSegSoc" ColumnName="NSegSoc" />
+                <ScalarProperty Name="CCDigitosControlo" ColumnName="CCDigitosControlo" />
+                <ScalarProperty Name="RepFinNIF" ColumnName="RepFinNIF" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Localidade" ColumnName="Localidade" />
+                <ScalarProperty Name="Morada" ColumnName="Morada" />
+                <ScalarProperty Name="FreguesiaNatural" ColumnName="FreguesiaNatural" />
+                <ScalarProperty Name="ConcelhoNatural" ColumnName="ConcelhoNatural" />
+                <ScalarProperty Name="DistritoNatural" ColumnName="DistritoNatural" />
+                <ScalarProperty Name="Nacionalidade" ColumnName="Nacionalidade" />
+                <ScalarProperty Name="EstadoCivil" ColumnName="EstadoCivil" />
+                <ScalarProperty Name="Genero" ColumnName="Genero" />
+                <ScalarProperty Name="TipoDocID" ColumnName="TipoDocID" />
+                <ScalarProperty Name="NDI" ColumnName="NDI" />
+                <ScalarProperty Name="NomeMae" ColumnName="NomeMae" />
+                <ScalarProperty Name="NomePai" ColumnName="NomePai" />
+                <ScalarProperty Name="Apelidos" ColumnName="Apelidos" />
+                <ScalarProperty Name="Nomes" ColumnName="Nomes" />
+                <ScalarProperty Name="NomeColoquial" ColumnName="NomeColoquial" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Generoes">
+            <EntityTypeMapping TypeName="CandidaturasModel.Genero">
+              <MappingFragment StoreEntitySet="Genero">
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EstadoCivils">
+            <EntityTypeMapping TypeName="CandidaturasModel.EstadoCivil">
+              <MappingFragment StoreEntitySet="EstadoCivil">
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ConhecimentoEscolas">
+            <EntityTypeMapping TypeName="CandidaturasModel.ConhecimentoEscola">
+              <MappingFragment StoreEntitySet="ConhecimentoEscola">
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Situacaos">
+            <EntityTypeMapping TypeName="CandidaturasModel.Situacao">
+              <MappingFragment StoreEntitySet="Situacao">
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TipoDocumentoIDs">
+            <EntityTypeMapping TypeName="CandidaturasModel.TipoDocumentoID">
+              <MappingFragment StoreEntitySet="TipoDocumentoID">
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Documentoes">
+            <EntityTypeMapping TypeName="CandidaturasModel.Documento">
+              <MappingFragment StoreEntitySet="Documento">
+                <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+                <ScalarProperty Name="Ficheiro" ColumnName="Ficheiro" />
+                <ScalarProperty Name="Descricao" ColumnName="Descricao" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserDocumentoes">
+            <EntityTypeMapping TypeName="CandidaturasModel.UserDocumento">
+              <MappingFragment StoreEntitySet="UserDocumento">
+                <ScalarProperty Name="DocumentoId" ColumnName="DocumentoId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Cursoes">
+            <EntityTypeMapping TypeName="CandidaturasModel.Curso">
+              <MappingFragment StoreEntitySet="Curso">
+                <ScalarProperty Name="CodigoRamo" ColumnName="CodigoRamo" />
+                <ScalarProperty Name="CodigoCurso" ColumnName="CodigoCurso" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserCursoes">
+            <EntityTypeMapping TypeName="CandidaturasModel.UserCurso">
+              <MappingFragment StoreEntitySet="UserCurso">
+                <ScalarProperty Name="Prioridade" ColumnName="Prioridade" />
+                <ScalarProperty Name="CursoId" ColumnName="CursoId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -17,7 +17,7 @@ namespace Candidaturas.Controllers
         {
             documentos = new List<Documento>();
 
-            LoginDataBaseEntities1 db = new LoginDataBaseEntities1();
+            LoginDataBaseEntities db = new LoginDataBaseEntities();
 
             if(Session["userID"] != null)
             {
@@ -32,7 +32,7 @@ namespace Candidaturas.Controllers
         }
 
         //obtém os documentos adicionados pelo utilizador
-        public void getSelectedDocumentos(LoginDataBaseEntities1 db, int userId)
+        public void getSelectedDocumentos(LoginDataBaseEntities db, int userId)
         {
             List<int> documentosEscolhidos = db.UserDocumentoes.Where(dp => dp.UserId == userId).Select(dp => dp.DocumentoId).ToList();
 
@@ -50,7 +50,7 @@ namespace Candidaturas.Controllers
             {
                 int userId = (int)Session["userID"];
 
-                using (LoginDataBaseEntities1 dbModel = new LoginDataBaseEntities1())
+                using (LoginDataBaseEntities dbModel = new LoginDataBaseEntities())
                 {
                     try
                     {
@@ -133,7 +133,7 @@ namespace Candidaturas.Controllers
             {
                 int userId = (int)Session["userID"];
 
-                using (LoginDataBaseEntities1 dbModel = new LoginDataBaseEntities1())
+                using (LoginDataBaseEntities dbModel = new LoginDataBaseEntities())
                 {
                     try
                     {
@@ -175,7 +175,7 @@ namespace Candidaturas.Controllers
         {
             if (Session["userID"] != null)
             {
-                using (LoginDataBaseEntities1 dbModel = new LoginDataBaseEntities1())
+                using (LoginDataBaseEntities dbModel = new LoginDataBaseEntities())
                 {
                     try
                     {

@@ -14,9 +14,21 @@ namespace Candidaturas.Models
     
     public partial class Concelho
     {
-        public int ID { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Concelho()
+        {
+            this.Localidades = new HashSet<Localidade>();
+            this.Freguesias = new HashSet<Freguesia>();
+        }
+    
         public string Nome { get; set; }
         public int Codigo { get; set; }
         public int CodigoDistrito { get; set; }
+    
+        public virtual Distrito Distrito { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Localidade> Localidades { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Freguesia> Freguesias { get; set; }
     }
 }

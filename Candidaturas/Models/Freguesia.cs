@@ -14,10 +14,22 @@ namespace Candidaturas.Models
     
     public partial class Freguesia
     {
-        public int ID { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Freguesia()
+        {
+            this.DadosPessoais = new HashSet<DadosPessoai>();
+            this.DadosPessoais1 = new HashSet<DadosPessoai>();
+        }
+    
         public string Nome { get; set; }
         public int Codigo { get; set; }
         public int CodigoConcelho { get; set; }
         public int CodigoDistrito { get; set; }
+    
+        public virtual Concelho Concelho { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DadosPessoai> DadosPessoais { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DadosPessoai> DadosPessoais1 { get; set; }
     }
 }
