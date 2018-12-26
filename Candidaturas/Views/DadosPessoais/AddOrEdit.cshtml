@@ -96,12 +96,13 @@
             @Html.LabelFor(model => model.CodigoPostal4Dig, "Código Postal", htmlAttributes: new { @class = "control-label col-md-2 required" })
             <div class="col-md-10">
                 <div class="form-inline">
-                    @Html.EditorFor(model => model.CodigoPostal4Dig, new { htmlAttributes = new { @type = "number", @maxlength = "4", @class = "form-control", @required = "required", @style = "width:40%", @placeholder = "1234", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.CodigoPostal4Dig) } })
+                    @Html.EditorFor(model => model.CodigoPostal4Dig, new { htmlAttributes = new { @type = "number", @class = "form-control", @required = "required", @style = "width:40%", @placeholder = "1234", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.CodigoPostal4Dig) } })
                     -
-                    @Html.EditorFor(model => model.CodigoPostal3Dig, new { htmlAttributes = new { @type = "number", @maxlength = "3", @class = "form-control", @required = "required", @style = "width:20%", @placeholder = "123", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.CodigoPostal3Dig) } })
+                    @Html.EditorFor(model => model.CodigoPostal3Dig, new { htmlAttributes = new { @type = "number", @class = "form-control", @required = "required", @style = "width:20%", @placeholder = "123", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.CodigoPostal3Dig) } })
                 </div>
                 @Html.ValidationMessageFor(model => model.CodigoPostal4Dig, "", new { @class = "text-danger" })
                 @Html.ValidationMessageFor(model => model.CodigoPostal3Dig, "", new { @class = "text-danger" })
+                <span id="CPWarning" for="CodigoPostalDig" class="text-danger"></span>
             </div>
         </div>
 
@@ -260,6 +261,54 @@
     $("#Nacionalidade").change(function () {
         validarNacionalidade();
     });
+
+    $("#CodigoPostal4Dig").change(function () {
+        limitarCodPostal4Dig();
+    });
+
+    $("#CodigoPostal3Dig").change(function () {
+        limitarCodPostal3Dig();
+    });
+
+    //limita 4 digitos
+    function limitarCodPostal4Dig() {
+        var cp4 = $("#CodigoPostal4Dig").val();
+
+        if (cp4 == "") {
+            $("#CPWarning").hide();
+            return true;
+        }
+
+        if (cp4.length != 4) {
+            $("#CPWarning").text("Introduziu digítos a mais, por favor verifique.");
+            $("#CodigoPostal4Dig").val($("#CodigoPostal4Dig").val().substr(0, 4));
+            $("#CPWarning").show();
+            return false;
+        }
+
+        $("#CPWarning").hide();
+        return true;
+    }
+
+    //limita 3 digitos
+    function limitarCodPostal3Dig() {
+        var cp3 = $("#CodigoPostal3Dig").val();
+
+        if (cp3 == "") {
+            $("#CPWarning").hide();
+            return true;
+        }
+
+        if (cp3.length != 3) {
+            $("#CPWarning").text("Introduziu digítos a mais, por favor verifique.");
+            $("#CodigoPostal3Dig").val($("#CodigoPostal3Dig").val().substr(0, 3));
+            $("#CPWarning").show();
+            return false;
+        }
+
+        $("#CPWarning").hide();
+        return true;
+    }
 
     //validar NIF
     function validarNIF() {
