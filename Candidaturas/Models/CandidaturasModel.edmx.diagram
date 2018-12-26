@@ -6,18 +6,9 @@
     <edmx:Diagrams>
       <Diagram DiagramId="d5fad4f82e4a4f9fb24aae41540285f9" Name="Diagram1">
         <EntityTypeShape EntityType="CandidaturasModel.Concelho" Width="1.5" PointX="3" PointY="9.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="CandidaturasModel.ConhecimentoEscola" Width="1.5" PointX="2.625" PointY="6.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="CandidaturasModel.Curso" Width="1.5" PointX="13.5" PointY="5.875" IsExpanded="true" />
         <EntityTypeShape EntityType="CandidaturasModel.Distrito" Width="1.5" PointX="0.75" PointY="9.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="CandidaturasModel.Documento" Width="1.5" PointX="13.375" PointY="2.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="CandidaturasModel.EstadoCivil" Width="1.5" PointX="11.25" PointY="9.625" IsExpanded="true" />
         <EntityTypeShape EntityType="CandidaturasModel.Exame" Width="1.5" PointX="5.625" PointY="1.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="CandidaturasModel.Genero" Width="1.5" PointX="11.25" PointY="12.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="CandidaturasModel.Inquerito" Width="1.5" PointX="5.25" PointY="4.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="CandidaturasModel.Situacao" Width="1.5" PointX="2.625" PointY="4.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="CandidaturasModel.TipoDocumentoID" Width="1.5" PointX="15.625" PointY="2.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="CandidaturasModel.UserCurso" Width="1.5" PointX="11.125" PointY="5.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="CandidaturasModel.UserDocumento" Width="1.5" PointX="11.125" PointY="2.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CandidaturasModel.Inquerito" Width="1.5" PointX="5.375" PointY="4.375" IsExpanded="true" />
         <AssociationConnector Association="CandidaturasModel.FK_Concelho_Distrito" ManuallyRouted="false" />
         <EntityTypeShape EntityType="CandidaturasModel.Localidade" Width="1.5" PointX="5.25" PointY="9.125" />
         <AssociationConnector Association="CandidaturasModel.FK_Localidade_Distrito_Concelho" />
@@ -34,6 +25,26 @@
         <AssociationConnector Association="CandidaturasModel.FK_DadosPessoais_Freguesia_Morada" />
         <AssociationConnector Association="CandidaturasModel.FK_DadosPessoais_Pais" />
         <AssociationConnector Association="CandidaturasModel.FK_DadosPessoais_User" />
+        <EntityTypeShape EntityType="CandidaturasModel.Genero" Width="1.5" PointX="11.125" PointY="13.625" />
+        <AssociationConnector Association="CandidaturasModel.FK_DadosPessoais_Genero" />
+        <EntityTypeShape EntityType="CandidaturasModel.EstadoCivil" Width="1.5" PointX="11.125" PointY="11.5" />
+        <AssociationConnector Association="CandidaturasModel.FK_DadosPessoais_EstadoCivil" />
+        <EntityTypeShape EntityType="CandidaturasModel.ConhecimentoEscola" Width="1.5" PointX="3" PointY="4.375" />
+        <EntityTypeShape EntityType="CandidaturasModel.Situacao" Width="1.5" PointX="3" PointY="6.5" />
+        <AssociationConnector Association="CandidaturasModel.FK_Inquerito_ConhecimentoEscola" />
+        <AssociationConnector Association="CandidaturasModel.FK_Inquerito_Situacao_Mae" />
+        <AssociationConnector Association="CandidaturasModel.FK_Inquerito_Situacao_Pai" />
+        <EntityTypeShape EntityType="CandidaturasModel.TipoDocumentoID" Width="1.5" PointX="11.125" PointY="9.125" />
+        <AssociationConnector Association="CandidaturasModel.FK_DadosPessoais_TipoDocumentoID" />
+        <AssociationConnector Association="CandidaturasModel.FK_User_TipoDocumentoID" />
+        <EntityTypeShape EntityType="CandidaturasModel.Documento" Width="1.5" PointX="13.375" PointY="2.625" />
+        <EntityTypeShape EntityType="CandidaturasModel.UserDocumento" Width="1.5" PointX="11.125" PointY="2.625" />
+        <AssociationConnector Association="CandidaturasModel.FK_UserDocumento_Documento" />
+        <AssociationConnector Association="CandidaturasModel.FK_UserDocumento_User" />
+        <EntityTypeShape EntityType="CandidaturasModel.Curso" Width="1.5" PointX="13.375" PointY="5.5" />
+        <EntityTypeShape EntityType="CandidaturasModel.UserCurso" Width="1.5" PointX="11.125" PointY="5.5" />
+        <AssociationConnector Association="CandidaturasModel.FK_UserCurso_Curso" />
+        <AssociationConnector Association="CandidaturasModel.FK_UserCurso_User" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

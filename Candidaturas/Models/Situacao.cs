@@ -14,7 +14,19 @@ namespace Candidaturas.Models
     
     public partial class Situacao
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Situacao()
+        {
+            this.Inqueritoes = new HashSet<Inquerito>();
+            this.Inqueritoes1 = new HashSet<Inquerito>();
+        }
+    
         public int ID { get; set; }
         public string Nome { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Inquerito> Inqueritoes { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Inquerito> Inqueritoes1 { get; set; }
     }
 }
