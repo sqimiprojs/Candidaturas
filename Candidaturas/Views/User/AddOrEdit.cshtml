@@ -174,8 +174,9 @@
 
     function validarDigitosBI() {
         var bi = $("#NDI").val();
-        var firstEight = bi.substring(0, 8);
-        var lastDigit = bi[bi.length - 1];
+        var firstLength = bi.length - 1;
+        var firstEight = bi.substring(0, firstLength);
+        var lastDigit = bi[firstLength];
         var sum = 0;
         var i;
 
