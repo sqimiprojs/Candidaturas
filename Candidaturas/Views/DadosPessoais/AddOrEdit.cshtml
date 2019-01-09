@@ -176,10 +176,10 @@
 
         <hr class="dadosPessoaisHr" />
 
-        <h4 class="candidaturasHeader">Documentação Pessoal</h4>
+        <h4 class="candidaturasHeader">Documento de Identificação</h4>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.TipoDocID, "Tipo de Documento de Identificação", htmlAttributes: new { @class = "control-label col-md-2 required" })
+            @Html.LabelFor(model => model.TipoDocID, "Tipo", htmlAttributes: new { @class = "control-label col-md-2 required" })
             <div class="col-md-10">
                 @Html.DropDownListFor(model => model.TipoDocID, ViewBag.TipoDocID as SelectList, "Escolha uma opção...", new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.TipoDocID, "", new { @class = "text-danger" })
@@ -187,7 +187,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.NDI, "Nº de Documento de Identificação", htmlAttributes: new { @class = "control-label col-md-2 required" })
+            @Html.LabelFor(model => model.NDI, "Número", htmlAttributes: new { @class = "control-label col-md-2 required" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.NDI, new { htmlAttributes = new { @class = "form-control", @Value = (ViewBag.DadosPessoais == null ? ViewBag.NDI : ViewBag.DadosPessoais.NDI) } })
                 @Html.ValidationMessageFor(model => model.NDI, "", new { @class = "text-danger" })
@@ -195,8 +195,12 @@
             </div>
         </div>
 
+        <hr class="dadosPessoaisHr" />
+
+        <h4 class="candidaturasHeader">Identificação Fiscal</h4>
+
         <div class="form-group">
-            @Html.LabelFor(model => model.NIF, "Nº de Identificação Fiscal", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.NIF, "Número", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.NIF, new { htmlAttributes = new { @class = "form-control", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.NIF) } })
                 @Html.ValidationMessageFor(model => model.NIF, "", new { @class = "text-danger" })
@@ -205,15 +209,19 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.RepFinNIF, "Repartição de Finanças do NIF", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.RepFinNIF, "Repartição Finanças", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.RepFinNIF, new { htmlAttributes = new { @class = "form-control", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.RepFinNIF) } })
                 @Html.ValidationMessageFor(model => model.RepFinNIF, "", new { @class = "text-danger" })
             </div>
         </div>
 
+        <hr class="dadosPessoaisHr" />
+
+        <h4 class="candidaturasHeader">Segurança Social</h4>
+
         <div class="form-group">
-            @Html.LabelFor(model => model.NSegSoc, "Nº de Segurança Social", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.NSegSoc, "Número", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.NSegSoc, new { htmlAttributes = new { @class = "form-control", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.NSegSoc) } })
                 @Html.ValidationMessageFor(model => model.NSegSoc, "", new { @class = "text-danger" })
