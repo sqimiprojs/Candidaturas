@@ -11,7 +11,7 @@ namespace Candidaturas.Controllers
 
         public void getDataForDropdownLists()
         {
-            LoginDataBaseEntities db = new LoginDataBaseEntities();
+            CandidaturaDBEntities db = new CandidaturaDBEntities();
 
             IEnumerable<SelectListItem> tiposDocumentosId = db.TipoDocumentoIDs.Select(c => new SelectListItem
             {
@@ -40,7 +40,7 @@ namespace Candidaturas.Controllers
 
             if (response.Success)
             {
-                using (LoginDataBaseEntities dbModel = new LoginDataBaseEntities())
+                using (CandidaturaDBEntities dbModel = new CandidaturaDBEntities())
                 {
                     if (!dbModel.Users.Any(u => u.Email == userModel.Email))
                     {
@@ -98,7 +98,7 @@ namespace Candidaturas.Controllers
         //Verifica a existência do email na base de dados
         public Boolean checkEmail(String email)
         {
-            LoginDataBaseEntities db = new LoginDataBaseEntities();
+            CandidaturaDBEntities db = new CandidaturaDBEntities();
 
             if (!db.Users.Any(u => u.Email == email))
             {

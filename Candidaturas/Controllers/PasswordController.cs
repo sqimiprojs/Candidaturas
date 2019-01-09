@@ -6,7 +6,7 @@ namespace Candidaturas.Controllers
 {
     public class PasswordController : Controller
     {
-        LoginDataBaseEntities db = new LoginDataBaseEntities();
+        CandidaturaDBEntities db = new CandidaturaDBEntities();
 
         // GET: PasswordRecovery
         public ActionResult Index()

@@ -110,22 +110,22 @@
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="Models\CandidaturasModel.Context.tt">
+    <Content Include="Models\Candidaturas.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>CandidaturasModel.edmx</DependentUpon>
-      <LastGenOutput>CandidaturasModel.Context.cs</LastGenOutput>
+      <DependentUpon>Candidaturas.edmx</DependentUpon>
+      <LastGenOutput>Candidaturas.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Models\CandidaturasModel.tt">
+    <Content Include="Models\Candidaturas.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>CandidaturasModel.edmx</DependentUpon>
-      <LastGenOutput>CandidaturasModel.cs</LastGenOutput>
+      <DependentUpon>Candidaturas.edmx</DependentUpon>
+      <LastGenOutput>Candidaturas.cs</LastGenOutput>
     </Content>
-    <EntityDeploy Include="Models\CandidaturasModel.edmx">
+    <EntityDeploy Include="Models\Candidaturas.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>CandidaturasModel.Designer.cs</LastGenOutput>
+      <LastGenOutput>Candidaturas.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="Models\CandidaturasModel.edmx.diagram">
-      <DependentUpon>CandidaturasModel.edmx</DependentUpon>
+    <Content Include="Models\Candidaturas.edmx.diagram">
+      <DependentUpon>Candidaturas.edmx</DependentUpon>
     </Content>
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Properties\PublishProfiles\CustomProfile1.pubxml" />
@@ -172,78 +172,78 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\CandidaturasModel.Context.cs">
+    <Compile Include="Models\Candidaturas.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>CandidaturasModel.Context.tt</DependentUpon>
+      <DependentUpon>Candidaturas.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\CandidaturasModel.cs">
+    <Compile Include="Models\Candidaturas.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>CandidaturasModel.tt</DependentUpon>
+      <DependentUpon>Candidaturas.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\CandidaturasModel.Designer.cs">
+    <Compile Include="Models\Candidaturas.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>CandidaturasModel.edmx</DependentUpon>
+      <DependentUpon>Candidaturas.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\Concelho.cs">
-      <DependentUpon>CandidaturasModel.tt</DependentUpon>
+      <DependentUpon>Candidaturas.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ConhecimentoEscola.cs">
-      <DependentUpon>CandidaturasModel.tt</DependentUpon>
+      <DependentUpon>Candidaturas.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Curso.cs">
-      <DependentUpon>CandidaturasModel.tt</DependentUpon>
+      <DependentUpon>Candidaturas.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CursoDisplay.cs" />
     <Compile Include="Models\DadosPessoai.cs">
-      <DependentUpon>CandidaturasModel.tt</DependentUpon>
+      <DependentUpon>Candidaturas.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Distrito.cs">
-      <DependentUpon>CandidaturasModel.tt</DependentUpon>
+      <DependentUpon>Candidaturas.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Documento.cs">
-      <DependentUpon>CandidaturasModel.tt</DependentUpon>
+      <DependentUpon>Candidaturas.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\EstadoCivil.cs">
-      <DependentUpon>CandidaturasModel.tt</DependentUpon>
+      <DependentUpon>Candidaturas.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Exame.cs">
-      <DependentUpon>CandidaturasModel.tt</DependentUpon>
+      <DependentUpon>Candidaturas.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Freguesia.cs">
-      <DependentUpon>CandidaturasModel.tt</DependentUpon>
+      <DependentUpon>Candidaturas.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Genero.cs">
-      <DependentUpon>CandidaturasModel.tt</DependentUpon>
+      <DependentUpon>Candidaturas.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Inquerito.cs">
-      <DependentUpon>CandidaturasModel.tt</DependentUpon>
+      <DependentUpon>Candidaturas.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Localidade.cs">
-      <DependentUpon>CandidaturasModel.tt</DependentUpon>
+      <DependentUpon>Candidaturas.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Pai.cs">
-      <DependentUpon>CandidaturasModel.tt</DependentUpon>
+      <DependentUpon>Candidaturas.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Situacao.cs">
-      <DependentUpon>CandidaturasModel.tt</DependentUpon>
+      <DependentUpon>Candidaturas.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TipoDocumentoID.cs">
-      <DependentUpon>CandidaturasModel.tt</DependentUpon>
+      <DependentUpon>Candidaturas.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\User.cs">
-      <DependentUpon>CandidaturasModel.tt</DependentUpon>
+      <DependentUpon>Candidaturas.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\UserCurso.cs">
-      <DependentUpon>CandidaturasModel.tt</DependentUpon>
+      <DependentUpon>Candidaturas.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\UserDocumento.cs">
-      <DependentUpon>CandidaturasModel.tt</DependentUpon>
+      <DependentUpon>Candidaturas.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\UserExame.cs">
-      <DependentUpon>CandidaturasModel.tt</DependentUpon>
+      <DependentUpon>Candidaturas.tt</DependentUpon>
     </Compile>
     <Compile Include="Password.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

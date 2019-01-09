@@ -43,12 +43,12 @@ namespace Candidaturas.Models
         public Nullable<System.DateTime> DataCriacao { get; set; }
         public Nullable<System.DateTime> DataUltimaAtualizacao { get; set; }
     
+        public virtual EstadoCivil EstadoCivil1 { get; set; }
         public virtual Freguesia Freguesia { get; set; }
         public virtual Freguesia Freguesia1 { get; set; }
-        public virtual Pai Pai { get; set; }
-        public virtual User User { get; set; }
         public virtual Genero Genero1 { get; set; }
-        public virtual EstadoCivil EstadoCivil1 { get; set; }
+        public virtual Pai Pai { get; set; }
         public virtual TipoDocumentoID TipoDocumentoID { get; set; }
+        public virtual User User { get; set; }
     }
 }

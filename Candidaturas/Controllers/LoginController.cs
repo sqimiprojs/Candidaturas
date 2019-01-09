@@ -15,7 +15,7 @@ namespace Candidaturas.Controllers
         [HttpPost]
         public ActionResult Authorize(Candidaturas.Models.User userModel)
         {
-            using(LoginDataBaseEntities db = new LoginDataBaseEntities())
+            using(CandidaturaDBEntities db = new CandidaturaDBEntities())
             {
                 var userDetails = db.Users.Where(x => x.Email == userModel.Email && x.Password == userModel.Password).FirstOrDefault();
 

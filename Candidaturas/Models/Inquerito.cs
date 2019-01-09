@@ -26,9 +26,9 @@ namespace Candidaturas.Models
         public Nullable<System.DateTime> DataCriacao { get; set; }
         public Nullable<System.DateTime> DataAtualizacao { get; set; }
     
-        public virtual User User { get; set; }
         public virtual ConhecimentoEscola ConhecimentoEscola1 { get; set; }
         public virtual Situacao Situacao { get; set; }
         public virtual Situacao Situacao1 { get; set; }
+        public virtual User User { get; set; }
     }
 }
