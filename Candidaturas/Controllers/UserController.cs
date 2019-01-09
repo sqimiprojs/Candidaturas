@@ -11,7 +11,7 @@ namespace Candidaturas.Controllers
 
         public void getDataForDropdownLists()
         {
-            LoginDataBaseEntities db = new LoginDataBaseEntities();
+            CandidaturaDBEntities db = new CandidaturaDBEntities();
 
             IEnumerable<SelectListItem> tiposDocumentosId = db.TipoDocumentoIDs.Select(c => new SelectListItem
             {
@@ -40,7 +40,7 @@ namespace Candidaturas.Controllers
 
             if (response.Success)
             {
-                using (LoginDataBaseEntities dbModel = new LoginDataBaseEntities())
+                using (CandidaturaDBEntities dbModel = new CandidaturaDBEntities())
                 {
                     if (!dbModel.Users.Any(u => u.Email == userModel.Email))
                     {
@@ -65,29 +65,24 @@ namespace Candidaturas.Controllers
                             }
                             throw raise;
                         }
-                    }
-                    else
-                    {
-                        // A user with that e-mail already exists, handle accordingly
-                        String msg = "O email que introduziu já se encontra registado.";
-                        Response.Write("<script>alert('" + msg + "')</script>");
-                        return View("~/Views/Login/Index.cshtml");
+
+                        ModelState.Clear();
+
+                        string subject = "Portal de Candidaturas à Base Naval - Password de Acesso";
+                        string body = "A sua password de acesso ao portal de candidaturas é a seguinte: " + newPassword;
+
+                        Email.SendEmail(userModel.Email, subject, body);
+
+                        ViewBag.Subtitle = "Criação de Conta";
+
+                        ViewBag.ConfirmationMessage = "Registo de utilizador efetuado com sucesso. A sua password de acesso foi enviada para o seu email.";
+
+                        return View("~/Views/Shared/Success.cshtml");
                     }
 
-                    
+                    return View();
                 }
-                ModelState.Clear();
-
-                string subject = "Portal de Candidaturas à Base Naval - Password de Acesso";
-                string body = "A sua password de acesso ao portal de candidaturas é a seguinte: " + newPassword;
-
-                Email.SendEmail(userModel.Email, subject, body);
-
-                ViewBag.Subtitle = "Criação de Conta";
-
-                ViewBag.ConfirmationMessage = "Registo de utilizador efetuado com sucesso. A sua password de acesso foi enviada para o seu email.";
-
-                return View("~/Views/Shared/Success.cshtml");
+                
             }
             else
             {
@@ -97,6 +92,20 @@ namespace Candidaturas.Controllers
 
                 return View();
             }
+        }
+
+        [HttpPost]
+        //Verifica a existência do email na base de dados
+        public Boolean checkEmail(String email)
+        {
+            CandidaturaDBEntities db = new CandidaturaDBEntities();
+
+            if (!db.Users.Any(u => u.Email == email))
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

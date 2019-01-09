@@ -41,7 +41,7 @@ namespace Candidaturas.Controllers
         //obtém os dados preenchdios pelo utilizador para mostrar no ecrã
         public void getDadosPessoais(int userId)
         {
-            LoginDataBaseEntities db = new LoginDataBaseEntities();
+            CandidaturaDBEntities db = new CandidaturaDBEntities();
             DadosPessoai dadosPessoaisUser = db.DadosPessoais.Where(dp => dp.UserId == userId).FirstOrDefault();
 
             if(dadosPessoaisUser != null)
@@ -77,7 +77,7 @@ namespace Candidaturas.Controllers
         //obtém os dados a serem preenchidos nas drops
         public void getDataForDropdownLists(int? distritoNatural, int? concelhoNatural, int? distritoMorada, int? concelhoMorada)
         {
-            LoginDataBaseEntities db = new LoginDataBaseEntities();
+            CandidaturaDBEntities db = new CandidaturaDBEntities();
 
             IEnumerable<SelectListItem> generos = db.Generoes.OrderBy(dp => dp.Nome).Select(c => new SelectListItem
             {
@@ -184,7 +184,7 @@ namespace Candidaturas.Controllers
         //actualiza lista de concelhos consoante o distrito seleccionado
         public JsonResult updateConcelhos(int distrito)
         {
-            LoginDataBaseEntities db = new LoginDataBaseEntities();
+            CandidaturaDBEntities db = new CandidaturaDBEntities();
 
             var concelhos = db.Concelhoes.Where(dp => dp.CodigoDistrito == distrito).OrderBy(dp => dp.Nome).Select(c => new
             {
@@ -206,7 +206,7 @@ namespace Candidaturas.Controllers
         //actualiza lista de freguesias consoante o concelho seleccionado
         public JsonResult updateFreguesias(int distrito, int concelho)
         {
-            LoginDataBaseEntities db = new LoginDataBaseEntities();
+            CandidaturaDBEntities db = new CandidaturaDBEntities();
 
             var freguesias = db.Freguesias.Where(dp => dp.CodigoDistrito == distrito && dp.CodigoConcelho == concelho).OrderBy(dp => dp.Nome).Select(c => new
             {
@@ -228,7 +228,7 @@ namespace Candidaturas.Controllers
         //actualiza lista de localidades consoante o distrito seleccionado
         public JsonResult updateLocalidades(int distrito, int concelho)
         {
-            LoginDataBaseEntities db = new LoginDataBaseEntities();
+            CandidaturaDBEntities db = new CandidaturaDBEntities();
 
             var localidades = db.Localidades.Where(dp => dp.CodigoDistrito == distrito && dp.CodigoConcelho == concelho).OrderBy(dp => dp.Nome).Select(c => new
             {
@@ -253,7 +253,7 @@ namespace Candidaturas.Controllers
             {
                 int userId = (int)Session["userID"];
 
-                using (LoginDataBaseEntities dbModel = new LoginDataBaseEntities())
+                using (CandidaturaDBEntities dbModel = new CandidaturaDBEntities())
                 {
 
                     try

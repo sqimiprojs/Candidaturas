@@ -29,7 +29,7 @@
     <div class="form-group">
         @Html.LabelFor(model => model.Email, "Email", htmlAttributes: new { @class = "control-label col-md-2 required" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @required = "required", @type = "email" } })
+            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
             @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
             <span id="EmailWarning" for="Email" class="text-danger"></span>
         </div>
@@ -120,6 +120,11 @@
         mostrarPlaceholderFormatoCCouBI();
     });
 
+    $("#Email").blur(function () {
+        validarEmail();
+        verificarEmail();
+    });
+
     $("#TipoDocID").change(function () {
         validarTipoDocId();
         mostrarPlaceholderFormatoCCouBI();
@@ -169,8 +174,9 @@
 
     function validarDigitosBI() {
         var bi = $("#NDI").val();
-        var firstEight = bi.substring(0, 8);
-        var lastDigit = bi[bi.length - 1];
+        var firstLength = bi.length - 1;
+        var firstEight = bi.substring(0, firstLength);
+        var lastDigit = bi[firstLength];
         var sum = 0;
         var i;
 
@@ -288,6 +294,16 @@
             valid = false;
         }
 
+        if (!validarEmail()) {
+            valid = false;
+        }
+
+        if (!verificarEmail()) {
+            valid = false;
+        }
+
+        console.log(valid);
+
         if (!valid) {
             event.preventDefault();
             return false;
@@ -310,6 +326,67 @@
         else {
             $("#switchLabel").text("Sim");
         }
+    }
+
+    //validar email
+    function regexEmail(email) {
+        var re = /^\w+@@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/; 
+        return re.test(email);
+    }
+
+    function validarEmail() {
+        var email = $("#Email").val();
+        if (email != "") {
+            if (regexEmail(email)) {
+                $("#EmailWarning").hide();
+                return true;
+            }
+            else {
+                $("#EmailWarning").text("Email com formato inválido.");
+                $("#EmailWarning").show();
+                return false;
+            }
+        }
+        else {
+            if ($("#EmailWarning").is(":visible")) {
+                $("#EmailWarning").hide();
+            }
+            return true;
+        }
+    }
+    
+    function verificarEmail() {
+        var email = $("#Email").val();
+        var emailExists = true;
+        var valid = true;
+        
+        if (email != "") {
+            var check = $.ajax({
+                url: '@Url.Action("checkEmail", "User")',
+                data: {
+                    email: email
+                },
+                type: "POST",
+                success: function (exists) {
+                    if (exists == "True") {
+                        $("#EmailWarning").text("Este email já se encontra em uso.");
+                        $("#EmailWarning").show();
+                        emailExists = false;
+                    }
+                },
+                error: function (e) { console.log(e); }
+            });
+
+        }
+
+        check.done(function () {
+            if (emailExists) {
+                valid = true;
+            } else {
+                valid = false;
+            }
+        });
+        return valid;
     }
 
 </script>
