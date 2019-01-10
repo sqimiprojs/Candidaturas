@@ -151,7 +151,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\User\AddOrEdit.cshtml" />
+    <Content Include="Views\User\NewUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -165,7 +165,6 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InqueritoController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
-    <Compile Include="Controllers\PasswordController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="DocumentValidator.cs" />
     <Compile Include="Email.cs" />
@@ -259,7 +258,7 @@
     <Content Include="Views\Candidaturas\Index.cshtml" />
     <Content Include="Views\Declaracao\Index.cshtml" />
     <Content Include="Views\Documentos\Index.cshtml" />
-    <Content Include="Views\Password\Index.cshtml" />
+    <Content Include="Views\User\RecoverPassword.cshtml" />
     <Content Include="Views\Shared\Success.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

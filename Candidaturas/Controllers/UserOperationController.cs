@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
 using System.Web.Mvc;
 using Candidaturas.Models;
 
 namespace Candidaturas.Controllers
 {
-    public class UserController : Controller
+    public class UserOperationController : Controller
     {
+
         public void getDataForDropdownLists()
         {
             CandidaturaDBEntities db = new CandidaturaDBEntities();
@@ -23,9 +22,10 @@ namespace Candidaturas.Controllers
             ViewBag.TipoDocID = tiposDocumentosId.ToList();
         }
 
+        // UserOperations/NewUser
         [HttpGet]
         // GET: User
-        public ActionResult NewUser()
+        public ActionResult Index()
         {
             User userModel = new User();
             getDataForDropdownLists();
@@ -33,7 +33,7 @@ namespace Candidaturas.Controllers
         }
 
         [HttpPost]
-        public ActionResult NewUser(User userModel)
+        public ActionResult newUser(User userModel)
         {
             string newPassword = Password.GeneratePassword().ToString();
 
@@ -47,14 +47,11 @@ namespace Candidaturas.Controllers
                     {
                         try
                         {
-                            using (SHA256 mySHA256 = SHA256.Create())
-                            {
-                                userModel.Password = mySHA256.ComputeHash(Encoding.UTF8.GetBytes(newPassword));
-                                userModel.DataCriacao = System.DateTime.Now;
-                                dbModel.Users.Add(userModel);
-                                /**/
-                                dbModel.SaveChanges();
-                            }                                
+                            userModel.Password = newPassword;
+                            userModel.DataCriacao = System.DateTime.Now;
+                            dbModel.Users.Add(userModel);
+                            /**/
+                            dbModel.SaveChanges();
                         }
                         catch (System.Data.Entity.Validation.DbEntityValidationException dbEx)
                         {
@@ -110,47 +107,6 @@ namespace Candidaturas.Controllers
             }
 
             return true;
-        }
-
-        [HttpGet]
-        // GET: PasswordRecovery
-        public ActionResult RecoverPassword()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult RecoverPassword(User userModel)
-        {
-            CandidaturaDBEntities db = new CandidaturaDBEntities();
-            string email = userModel.Email;
-
-            User user = db.Users.Where(u => u.Email == email).FirstOrDefault();
-
-            if (user == null)
-            {
-                ViewBag.PasswordError = "O email indicado não foi encontrado no sistema.";
-
-                return View();
-            }
-            else
-            {
-                string newPassword = Password.GeneratePassword();
-
-                user.Password = newPassword;
-                db.SaveChanges();
-
-                string subject = "Recuperação de Password";
-                string body = "A sua nova password é a seguinte: " + newPassword;
-
-                Email.SendEmail(email, subject, body);
-
-                ViewBag.Subtitle = "Recuperação de Password";
-
-                ViewBag.ConfirmationMessage = "Pedido de recuperação de password efetuado com sucesso. Por favor verifique a sua caixa de email.";
-
-                return View("~/Views/Shared/Success.cshtml");
-            }
         }
     }
 }
