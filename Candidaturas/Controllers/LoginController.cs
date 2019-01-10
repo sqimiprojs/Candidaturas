@@ -1,5 +1,7 @@
 ﻿using Candidaturas.Models;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Web.Mvc;
 
 namespace Candidaturas.Controllers
@@ -17,7 +19,15 @@ namespace Candidaturas.Controllers
         {
             using(CandidaturaDBEntities db = new CandidaturaDBEntities())
             {
-                var userDetails = db.Users.Where(x => x.Email == userModel.Email && x.Password == userModel.Password).FirstOrDefault();
+                //TODO Tratar cado de password vir null
+                byte[] hashedUserPassword = new byte[0];
+                
+                using (SHA256 mySHA256 = SHA256.Create())
+                {
+                    hashedUserPassword = mySHA256.ComputeHash(Encoding.UTF8.GetBytes(userModel.PasswordInput));
+                }
+
+                var userDetails = db.Users.Where(x => x.Email == userModel.Email && x.Password == hashedUserPassword).FirstOrDefault();
 
                 if (userDetails == null)
                 {

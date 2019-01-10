@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Web.Mvc;
 using Candidaturas.Models;
 
@@ -46,11 +48,14 @@ namespace Candidaturas.Controllers
                     {
                         try
                         {
-                            userModel.Password = newPassword;
-                            userModel.DataCriacao = System.DateTime.Now;
-                            dbModel.Users.Add(userModel);
-                            /**/
-                            dbModel.SaveChanges();
+                            using (SHA256 mySHA256 = SHA256.Create())
+                            {
+                                userModel.Password = mySHA256.ComputeHash(Encoding.UTF8.GetBytes(newPassword));
+                                userModel.DataCriacao = System.DateTime.Now;
+                                dbModel.Users.Add(userModel);
+                                /**/
+                                dbModel.SaveChanges();
+                            }                                
                         }
                         catch (System.Data.Entity.Validation.DbEntityValidationException dbEx)
                         {

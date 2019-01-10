@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="CandidaturaDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="CandidaturaDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Concelho">
           <Key>
             <PropertyRef Name="Codigo" />
@@ -91,6 +91,7 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Nome" Type="varchar" MaxLength="50" />
+          <Property Name="Código" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Freguesia">
           <Key>
@@ -164,7 +165,7 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="NomeCompleto" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Password" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Password" Type="varbinary(max)" Nullable="false" />
           <Property Name="NDI" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Militar" Type="bit" Nullable="false" />
           <Property Name="DataNascimento" Type="date" Nullable="false" />
@@ -198,8 +199,6 @@
           <Property Name="UserId" Type="int" Nullable="false" />
           <Property Name="ExameId" Type="int" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'CandidaturaDB.sys.database_firewall_rules' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <Association Name="FK_Concelho_Distrito">
           <End Role="Distrito" Type="Self.Distrito" Multiplicity="1" />
           <End Role="Concelho" Type="Self.Concelho" Multiplicity="*" />
@@ -569,8 +568,7 @@ warning 6002: The table/view 'CandidaturaDB.sys.database_firewall_rules' does no
             <End Role="UserExame" EntitySet="UserExame" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="CandidaturaDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -640,7 +638,7 @@ warning 6002: The table/view 'CandidaturaDB.sys.database_firewall_rules' does no
           <NavigationProperty Name="Genero1" Relationship="Self.FK_DadosPessoais_Genero" FromRole="DadosPessoais" ToRole="Genero" />
           <NavigationProperty Name="Pai" Relationship="Self.FK_DadosPessoais_Pais" FromRole="DadosPessoais" ToRole="Pais" />
           <NavigationProperty Name="TipoDocumentoID" Relationship="Self.FK_DadosPessoais_TipoDocumentoID" FromRole="DadosPessoais" ToRole="TipoDocumentoID" />
-          <NavigationProperty Name="User" Relationship="Self.FK_DadosPessoais_User" FromRole="DadosPessoais" ToRole="User" />
+          <NavigationProperty Name="User" Relationship="CandidaturaDBModel.FK_DadosPessoais_User" FromRole="DadosPessoai" ToRole="User" />
         </EntityType>
         <EntityType Name="Distrito">
           <Key>
@@ -676,6 +674,7 @@ warning 6002: The table/view 'CandidaturaDB.sys.database_firewall_rules' does no
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Nome" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="UserExames" Relationship="Self.FK_ExameUE" FromRole="Exame" ToRole="UserExame" />
+          <Property Name="Código" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="Freguesia">
           <Key>
@@ -717,7 +716,7 @@ warning 6002: The table/view 'CandidaturaDB.sys.database_firewall_rules' does no
           <NavigationProperty Name="ConhecimentoEscola1" Relationship="Self.FK_Inquerito_ConhecimentoEscola" FromRole="Inquerito" ToRole="ConhecimentoEscola" />
           <NavigationProperty Name="Situacao" Relationship="Self.FK_Inquerito_Situacao_Mae" FromRole="Inquerito" ToRole="Situacao" />
           <NavigationProperty Name="Situacao1" Relationship="Self.FK_Inquerito_Situacao_Pai" FromRole="Inquerito" ToRole="Situacao" />
-          <NavigationProperty Name="User" Relationship="Self.FK_Inquerito_User" FromRole="Inquerito" ToRole="User" />
+          <NavigationProperty Name="User" Relationship="CandidaturaDBModel.FK_Inquerito_User" FromRole="Inquerito" ToRole="User" />
         </EntityType>
         <EntityType Name="Localidade">
           <Key>
@@ -755,28 +754,7 @@ warning 6002: The table/view 'CandidaturaDB.sys.database_firewall_rules' does no
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Nome" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="DadosPessoais" Relationship="Self.FK_DadosPessoais_TipoDocumentoID" FromRole="TipoDocumentoID" ToRole="DadosPessoais" />
-          <NavigationProperty Name="Users" Relationship="Self.FK_User_TipoDocumentoID" FromRole="TipoDocumentoID" ToRole="User" />
-        </EntityType>
-        <EntityType Name="User">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="NomeCompleto" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Password" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="NDI" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Militar" Type="Boolean" Nullable="false" />
-          <Property Name="DataNascimento" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="LoginErrorMessage" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TipoDocID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="DataCriacao" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="DadosPessoai" Relationship="Self.FK_DadosPessoais_User" FromRole="User" ToRole="DadosPessoais" />
-          <NavigationProperty Name="Inqueritoes" Relationship="Self.FK_Inquerito_User" FromRole="User" ToRole="Inquerito" />
-          <NavigationProperty Name="TipoDocumentoID" Relationship="Self.FK_User_TipoDocumentoID" FromRole="User" ToRole="TipoDocumentoID" />
-          <NavigationProperty Name="UserCursoes" Relationship="Self.FK_UserCurso_User" FromRole="User" ToRole="UserCurso" />
-          <NavigationProperty Name="UserDocumentoes" Relationship="Self.FK_UserDocumento_User" FromRole="User" ToRole="UserDocumento" />
-          <NavigationProperty Name="UserExames" Relationship="Self.FK_UserExame_User" FromRole="User" ToRole="UserExame" />
+          <NavigationProperty Name="Users" Relationship="CandidaturaDBModel.FK_User_TipoDocumentoID" FromRole="TipoDocumentoID" ToRole="User" />
         </EntityType>
         <EntityType Name="UserCurso">
           <Key>
@@ -787,7 +765,7 @@ warning 6002: The table/view 'CandidaturaDB.sys.database_firewall_rules' does no
           <Property Name="CursoId" Type="Int32" Nullable="false" />
           <Property Name="Prioridade" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Curso" Relationship="Self.FK_UserCurso_Curso" FromRole="UserCurso" ToRole="Curso" />
-          <NavigationProperty Name="User" Relationship="Self.FK_UserCurso_User" FromRole="UserCurso" ToRole="User" />
+          <NavigationProperty Name="User" Relationship="CandidaturaDBModel.FK_UserCurso_User" FromRole="UserCurso" ToRole="User" />
         </EntityType>
         <EntityType Name="UserDocumento">
           <Key>
@@ -797,7 +775,7 @@ warning 6002: The table/view 'CandidaturaDB.sys.database_firewall_rules' does no
           <Property Name="UserId" Type="Int32" Nullable="false" />
           <Property Name="DocumentoId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Documento" Relationship="Self.FK_UserDocumento_Documento" FromRole="UserDocumento" ToRole="Documento" />
-          <NavigationProperty Name="User" Relationship="Self.FK_UserDocumento_User" FromRole="UserDocumento" ToRole="User" />
+          <NavigationProperty Name="User" Relationship="CandidaturaDBModel.FK_UserDocumento_User" FromRole="UserDocumento" ToRole="User" />
         </EntityType>
         <EntityType Name="UserExame">
           <Key>
@@ -807,7 +785,7 @@ warning 6002: The table/view 'CandidaturaDB.sys.database_firewall_rules' does no
           <Property Name="UserId" Type="Int32" Nullable="false" />
           <Property Name="ExameId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Exame" Relationship="Self.FK_ExameUE" FromRole="UserExame" ToRole="Exame" />
-          <NavigationProperty Name="User" Relationship="Self.FK_UserExame_User" FromRole="UserExame" ToRole="User" />
+          <NavigationProperty Name="User" Relationship="CandidaturaDBModel.FK_UserExame_User" FromRole="UserExame" ToRole="User" />
         </EntityType>
         <Association Name="FK_Concelho_Distrito">
           <End Role="Distrito" Type="Self.Distrito" Multiplicity="1" />
@@ -953,18 +931,6 @@ warning 6002: The table/view 'CandidaturaDB.sys.database_firewall_rules' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_DadosPessoais_User">
-          <End Role="User" Type="Self.User" Multiplicity="1" />
-          <End Role="DadosPessoais" Type="Self.DadosPessoai" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="DadosPessoais">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_UserDocumento_Documento">
           <End Role="Documento" Type="Self.Documento" Multiplicity="1" />
           <End Role="UserDocumento" Type="Self.UserDocumento" Multiplicity="*" />
@@ -1013,66 +979,6 @@ warning 6002: The table/view 'CandidaturaDB.sys.database_firewall_rules' does no
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Inquerito_User">
-          <End Role="User" Type="Self.User" Multiplicity="1" />
-          <End Role="Inquerito" Type="Self.Inquerito" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Inquerito">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_User_TipoDocumentoID">
-          <End Role="TipoDocumentoID" Type="Self.TipoDocumentoID" Multiplicity="1" />
-          <End Role="User" Type="Self.User" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TipoDocumentoID">
-              <PropertyRef Name="Nome" />
-            </Principal>
-            <Dependent Role="User">
-              <PropertyRef Name="TipoDocID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_UserCurso_User">
-          <End Role="User" Type="Self.User" Multiplicity="1" />
-          <End Role="UserCurso" Type="Self.UserCurso" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="UserCurso">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_UserDocumento_User">
-          <End Role="User" Type="Self.User" Multiplicity="1" />
-          <End Role="UserDocumento" Type="Self.UserDocumento" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="UserDocumento">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_UserExame_User">
-          <End Role="User" Type="Self.User" Multiplicity="1" />
-          <End Role="UserExame" Type="Self.UserExame" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="UserExame">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="CandidaturaDBEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Concelhoes" EntityType="Self.Concelho" />
           <EntitySet Name="ConhecimentoEscolas" EntityType="Self.ConhecimentoEscola" />
@@ -1089,7 +995,6 @@ warning 6002: The table/view 'CandidaturaDB.sys.database_firewall_rules' does no
           <EntitySet Name="Pais" EntityType="Self.Pai" />
           <EntitySet Name="Situacaos" EntityType="Self.Situacao" />
           <EntitySet Name="TipoDocumentoIDs" EntityType="Self.TipoDocumentoID" />
-          <EntitySet Name="Users" EntityType="Self.User" />
           <EntitySet Name="UserCursoes" EntityType="Self.UserCurso" />
           <EntitySet Name="UserDocumentoes" EntityType="Self.UserDocumento" />
           <EntitySet Name="UserExames" EntityType="Self.UserExame" />
@@ -1137,10 +1042,6 @@ warning 6002: The table/view 'CandidaturaDB.sys.database_firewall_rules' does no
             <End Role="TipoDocumentoID" EntitySet="TipoDocumentoIDs" />
             <End Role="DadosPessoais" EntitySet="DadosPessoais" />
           </AssociationSet>
-          <AssociationSet Name="FK_DadosPessoais_User" Association="Self.FK_DadosPessoais_User">
-            <End Role="User" EntitySet="Users" />
-            <End Role="DadosPessoais" EntitySet="DadosPessoais" />
-          </AssociationSet>
           <AssociationSet Name="FK_UserDocumento_Documento" Association="Self.FK_UserDocumento_Documento">
             <End Role="Documento" EntitySet="Documentoes" />
             <End Role="UserDocumento" EntitySet="UserDocumentoes" />
@@ -1157,27 +1058,125 @@ warning 6002: The table/view 'CandidaturaDB.sys.database_firewall_rules' does no
             <End Role="Situacao" EntitySet="Situacaos" />
             <End Role="Inquerito" EntitySet="Inqueritoes" />
           </AssociationSet>
-          <AssociationSet Name="FK_Inquerito_User" Association="Self.FK_Inquerito_User">
+          <EntitySet Name="Users" EntityType="CandidaturaDBModel.User" />
+          <AssociationSet Name="FK_DadosPessoais_User" Association="CandidaturaDBModel.FK_DadosPessoais_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="DadosPessoai" EntitySet="DadosPessoais" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inquerito_User" Association="CandidaturaDBModel.FK_Inquerito_User">
             <End Role="User" EntitySet="Users" />
             <End Role="Inquerito" EntitySet="Inqueritoes" />
           </AssociationSet>
-          <AssociationSet Name="FK_User_TipoDocumentoID" Association="Self.FK_User_TipoDocumentoID">
+          <AssociationSet Name="FK_User_TipoDocumentoID" Association="CandidaturaDBModel.FK_User_TipoDocumentoID">
             <End Role="TipoDocumentoID" EntitySet="TipoDocumentoIDs" />
             <End Role="User" EntitySet="Users" />
           </AssociationSet>
-          <AssociationSet Name="FK_UserCurso_User" Association="Self.FK_UserCurso_User">
+          <AssociationSet Name="FK_UserCurso_User" Association="CandidaturaDBModel.FK_UserCurso_User">
             <End Role="User" EntitySet="Users" />
             <End Role="UserCurso" EntitySet="UserCursoes" />
           </AssociationSet>
-          <AssociationSet Name="FK_UserDocumento_User" Association="Self.FK_UserDocumento_User">
+          <AssociationSet Name="FK_UserDocumento_User" Association="CandidaturaDBModel.FK_UserDocumento_User">
             <End Role="User" EntitySet="Users" />
             <End Role="UserDocumento" EntitySet="UserDocumentoes" />
           </AssociationSet>
-          <AssociationSet Name="FK_UserExame_User" Association="Self.FK_UserExame_User">
+          <AssociationSet Name="FK_UserExame_User" Association="CandidaturaDBModel.FK_UserExame_User">
             <End Role="User" EntitySet="Users" />
             <End Role="UserExame" EntitySet="UserExames" />
           </AssociationSet>
         </EntityContainer>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NomeCompleto" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
+          <Property Name="NDI" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Militar" Type="Boolean" Nullable="false" />
+          <Property Name="DataNascimento" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LoginErrorMessage" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TipoDocID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DataCriacao" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="DadosPessoai" Relationship="CandidaturaDBModel.FK_DadosPessoais_User" FromRole="User" ToRole="DadosPessoai" />
+          <NavigationProperty Name="Inqueritoes" Relationship="CandidaturaDBModel.FK_Inquerito_User" FromRole="User" ToRole="Inquerito" />
+          <NavigationProperty Name="TipoDocumentoID" Relationship="CandidaturaDBModel.FK_User_TipoDocumentoID" FromRole="User" ToRole="TipoDocumentoID" />
+          <NavigationProperty Name="UserCursoes" Relationship="CandidaturaDBModel.FK_UserCurso_User" FromRole="User" ToRole="UserCurso" />
+          <NavigationProperty Name="UserDocumentoes" Relationship="CandidaturaDBModel.FK_UserDocumento_User" FromRole="User" ToRole="UserDocumento" />
+          <NavigationProperty Name="UserExames" Relationship="CandidaturaDBModel.FK_UserExame_User" FromRole="User" ToRole="UserExame" />
+        </EntityType>
+        <Association Name="FK_DadosPessoais_User">
+          <End Type="CandidaturaDBModel.User" Role="User" Multiplicity="1" />
+          <End Type="CandidaturaDBModel.DadosPessoai" Role="DadosPessoai" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DadosPessoai">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inquerito_User">
+          <End Type="CandidaturaDBModel.User" Role="User" Multiplicity="1" />
+          <End Type="CandidaturaDBModel.Inquerito" Role="Inquerito" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Inquerito">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_TipoDocumentoID">
+          <End Type="CandidaturaDBModel.TipoDocumentoID" Role="TipoDocumentoID" Multiplicity="1" />
+          <End Type="CandidaturaDBModel.User" Role="User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoDocumentoID">
+              <PropertyRef Name="Nome" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="TipoDocID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserCurso_User">
+          <End Type="CandidaturaDBModel.User" Role="User" Multiplicity="1" />
+          <End Type="CandidaturaDBModel.UserCurso" Role="UserCurso" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserCurso">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserDocumento_User">
+          <End Type="CandidaturaDBModel.User" Role="User" Multiplicity="1" />
+          <End Type="CandidaturaDBModel.UserDocumento" Role="UserDocumento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserDocumento">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserExame_User">
+          <End Type="CandidaturaDBModel.User" Role="User" Multiplicity="1" />
+          <End Type="CandidaturaDBModel.UserExame" Role="UserExame" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserExame">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1273,6 +1272,7 @@ warning 6002: The table/view 'CandidaturaDB.sys.database_firewall_rules' does no
           <EntitySetMapping Name="Exames">
             <EntityTypeMapping TypeName="CandidaturaDBModel.Exame">
               <MappingFragment StoreEntitySet="Exame">
+                <ScalarProperty Name="Código" ColumnName="Código" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Nome" ColumnName="Nome" />
               </MappingFragment>
@@ -1347,22 +1347,6 @@ warning 6002: The table/view 'CandidaturaDB.sys.database_firewall_rules' does no
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Users">
-            <EntityTypeMapping TypeName="CandidaturaDBModel.User">
-              <MappingFragment StoreEntitySet="User">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="NomeCompleto" ColumnName="NomeCompleto" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="NDI" ColumnName="NDI" />
-                <ScalarProperty Name="Militar" ColumnName="Militar" />
-                <ScalarProperty Name="DataNascimento" ColumnName="DataNascimento" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="LoginErrorMessage" ColumnName="LoginErrorMessage" />
-                <ScalarProperty Name="TipoDocID" ColumnName="TipoDocID" />
-                <ScalarProperty Name="DataCriacao" ColumnName="DataCriacao" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="UserCursoes">
             <EntityTypeMapping TypeName="CandidaturaDBModel.UserCurso">
               <MappingFragment StoreEntitySet="UserCurso">
@@ -1388,6 +1372,22 @@ warning 6002: The table/view 'CandidaturaDB.sys.database_firewall_rules' does no
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="ExameId" ColumnName="ExameId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="CandidaturaDBModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="DataCriacao" ColumnName="DataCriacao" />
+                <ScalarProperty Name="TipoDocID" ColumnName="TipoDocID" />
+                <ScalarProperty Name="LoginErrorMessage" ColumnName="LoginErrorMessage" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="DataNascimento" ColumnName="DataNascimento" />
+                <ScalarProperty Name="Militar" ColumnName="Militar" />
+                <ScalarProperty Name="NDI" ColumnName="NDI" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="NomeCompleto" ColumnName="NomeCompleto" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

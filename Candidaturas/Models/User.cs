@@ -25,7 +25,7 @@ namespace Candidaturas.Models
     
         public int ID { get; set; }
         public string NomeCompleto { get; set; }
-        public string Password { get; set; }
+        public byte[] Password { get; set; }
         public string NDI { get; set; }
         public bool Militar { get; set; }
         public System.DateTime DataNascimento { get; set; }
@@ -33,6 +33,7 @@ namespace Candidaturas.Models
         public string LoginErrorMessage { get; set; }
         public string TipoDocID { get; set; }
         public System.DateTime DataCriacao { get; set; }
+        public string PasswordInput { get; set; }
     
         public virtual DadosPessoai DadosPessoai { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
