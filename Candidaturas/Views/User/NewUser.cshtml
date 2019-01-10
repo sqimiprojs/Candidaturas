@@ -4,19 +4,19 @@
 @model Candidaturas.Models.User
 
 @{
-    ViewBag.Title = "Criar Conta";
+    ViewBag.Title = "Criar Nova Conta";
 }
 <div class="header">
     <img src="~/Content/marinha.png" alt="Logo Marinha" />
     <h1>Registo de Utilizador</h1>
 </div>
 
-@using (Html.BeginForm("AddOrEdit", "User", FormMethod.Post, new { onsubmit = "validacaoFinal()" }))
+@using (Html.BeginForm("NewUser", "User", FormMethod.Post, new { onsubmit = "validacaoFinal()" }))
 {
     @Html.AntiForgeryToken()
 
 <div class="form-horizontal" style="margin-top: 40px;">
-    <br />
+    <br/>
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     <div class="form-group">
         @Html.LabelFor(model => model.NomeCompleto, "Nome Completo", htmlAttributes: new { @class = "control-label col-md-2 required" })
@@ -388,5 +388,12 @@
         });
         return valid;
     }
+
+    function verificarIdade(bool isMilitar) {
+        var dtNasc = $("#DataNascimento").val();
+
+        var Age = getYear(dtNasc - getfullyear());
+    }
+
 
 </script>

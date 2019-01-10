@@ -6,7 +6,7 @@ using Candidaturas.Models;
 
 namespace Candidaturas.Controllers
 {
-    public class UserController : Controller
+    public class UserOperationController : Controller
     {
 
         public void getDataForDropdownLists()
@@ -22,9 +22,10 @@ namespace Candidaturas.Controllers
             ViewBag.TipoDocID = tiposDocumentosId.ToList();
         }
 
+        // UserOperations/NewUser
         [HttpGet]
         // GET: User
-        public ActionResult NewUser()
+        public ActionResult Index()
         {
             User userModel = new User();
             getDataForDropdownLists();
@@ -32,7 +33,7 @@ namespace Candidaturas.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddOrEdit(User userModel)
+        public ActionResult newUser(User userModel)
         {
             string newPassword = Password.GeneratePassword().ToString();
 
