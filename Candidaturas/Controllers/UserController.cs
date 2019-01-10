@@ -137,8 +137,11 @@ namespace Candidaturas.Controllers
             {
                 string newPassword = Password.GeneratePassword();
 
-                user.Password = newPassword;
-                db.SaveChanges();
+                using (SHA256 mySHA256 = SHA256.Create())
+                {
+                    user.Password = mySHA256.ComputeHash(Encoding.UTF8.GetBytes(newPassword));
+                    db.SaveChanges();
+                }                    
 
                 string subject = "Recuperação de Password";
                 string body = "A sua nova password é a seguinte: " + newPassword;
