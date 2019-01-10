@@ -392,7 +392,8 @@
     function verificarIdade(bool isMilitar) {
         var dtNasc = $("#DataNascimento").val();
 
-        var Age = getYear(dtNasc - getfullyear());
+        var idd = getYear(dtNasc) - getFullYear());
+        window.alert(idd);
     }
 
 
