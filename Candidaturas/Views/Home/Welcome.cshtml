@@ -1,0 +1,32 @@
+﻿
+@{
+    ViewBag.Title = "Home";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    if (Session["userID"] == null)
+    {
+        Response.Redirect("~/Login/Index");
+    }
+
+    if (Session["SelectedTab"] != null && Session["ErrorDoc"] != null)
+    {
+        if (Int32.Parse(Session["SelectedTab"].ToString()) != 4 && Int32.Parse(Session["ErrorDoc"].ToString()) == 1)
+        {
+            Session["ErrorDoc"] = 0;
+        }
+    }
+}
+<h2>Candidaturas Concurso Escola Naval</h2>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm">
+            <h1>Bem - Vindo Candidato n'25</h1>
+        </div>
+        <div class="col-sm">
+            @Html.ActionLink("Preencher Cadidatura", "DadosPessoais", "Formulario", null, new { @class = "btn btn-default" })
+        </div>
+       
+    </div>
+</div>
+

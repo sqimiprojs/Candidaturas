@@ -14,5 +14,16 @@ namespace Candidaturas.Controllers
 
             return View();
         }
+
+        // GET: Welcome
+        public ActionResult Welcome()
+        {
+            if (Session["SelectedTab"] == null)
+            {
+                Session["SelectedTab"] = 1;
+            }
+
+            return View("~/Views/Home/Welcome.cshtml");
+        }
     }
 }

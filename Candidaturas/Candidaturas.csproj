@@ -103,8 +103,9 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Candidaturas.css" />
-    <Content Include="Content\marinha.png" />
-    <Content Include="Content\uiTabsArrow.png" />
+    <Content Include="Content\img\favicon.ico" />
+    <Content Include="Content\img\marinha.png" />
+    <Content Include="Content\img\uiTabsArrow.png" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -115,6 +116,7 @@
       <DependentUpon>Candidaturas.edmx</DependentUpon>
       <LastGenOutput>Candidaturas.Context.cs</LastGenOutput>
     </Content>
+    <Content Include="Models\Candidaturas.edmx.sql" />
     <Content Include="Models\Candidaturas.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Candidaturas.edmx</DependentUpon>
@@ -158,12 +160,9 @@
     <Compile Include="CaptchaResponse.cs" />
     <Compile Include="CaptchaValidator.cs" />
     <Compile Include="Constants.cs" />
-    <Compile Include="Controllers\CandidaturasController.cs" />
-    <Compile Include="Controllers\DadosPessoaisController.cs" />
-    <Compile Include="Controllers\DeclaracaoController.cs" />
     <Compile Include="Controllers\DocumentosController.cs" />
+    <Compile Include="Controllers\FormularioController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\InqueritoController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="DocumentValidator.cs" />
@@ -253,13 +252,13 @@
     <Content Include="Views\Login\Index.cshtml" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.3.1.min.map" />
-    <Content Include="Views\DadosPessoais\AddOrEdit.cshtml" />
-    <Content Include="Views\Inquerito\AddOrEdit.cshtml" />
-    <Content Include="Views\Candidaturas\Index.cshtml" />
-    <Content Include="Views\Declaracao\Index.cshtml" />
+    <Content Include="Views\Formulario\DadosPessoais.cshtml" />
+    <Content Include="Views\Formulario\Inquerito.cshtml" />
+    <Content Include="Views\Formulario\Opcoes.cshtml" />
     <Content Include="Views\Documentos\Index.cshtml" />
     <Content Include="Views\User\RecoverPassword.cshtml" />
     <Content Include="Views\Shared\Success.cshtml" />
+    <Content Include="Views\Home\Welcome.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

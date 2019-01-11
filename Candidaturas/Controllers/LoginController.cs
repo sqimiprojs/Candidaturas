@@ -34,12 +34,12 @@ namespace Candidaturas.Controllers
                 if (userDetails == null)
                 {
                     userModel.LoginErrorMessage = "Username ou password errado.";
-                    return View();
+                    return View("~/Views/Login/Index.cshtml");
                 }
                 else
                 {
                     Session["userID"] = userDetails.ID;
-                    return View("~/Views/DadosPessoais/AddOrEdit.cshtml");
+                    return RedirectToAction("Welcome", "Home");
                 }
             }
         }

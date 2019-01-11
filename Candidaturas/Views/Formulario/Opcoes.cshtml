@@ -3,7 +3,7 @@
 @model dynamic
 
 @{
-    Layout = null;
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 @Html.AntiForgeryToken()
@@ -31,7 +31,7 @@
                 <tr>
                     <td>@exame.Nome</td>
                     <td>
-                        <a class="glyphicon glyphicon-remove-circle" onclick="location.href='@Url.Action("RemoverExame", "Candidaturas", new { id = (int)@exame.ID})'"><span style="padding-left: 5px;">Remover</span></a>
+                        <a class="glyphicon glyphicon-remove-circle" onclick="location.href='@Url.Action("RemoverExame", "Formulario", new { id = (int)@exame.ID})'"><span style="padding-left: 5px;">Remover</span></a>
                     </td>
                 </tr>
             }
@@ -62,20 +62,23 @@
                     <td>@curso.prioridade.</td>
                     <td>@curso.nome</td>
                     <td>
-                        <a class="glyphicon glyphicon-remove-circle" onclick="location.href='@Url.Action("RemoverCurso", "Candidaturas", new { id = (int)@curso.ID})'"><span class="customSpan">Remover</span></a>
+                        <a class="glyphicon glyphicon-remove-circle" onclick="location.href='@Url.Action("RemoverCurso", "Formulario", new { id = (int)@curso.ID})'"><span class="customSpan">Remover</span></a>
                     </td>
                     <td>
-                        <a class="glyphicon glyphicon-chevron-up" onclick="location.href='@Url.Action("MoverParaCima", "Candidaturas", new { id = (int)@curso.ID})'"><span class="customSpan">Mais Prioritário</span></a>
+                        <a class="glyphicon glyphicon-chevron-up" onclick="location.href='@Url.Action("MoverParaCima", "Formulario", new { id = (int)@curso.ID})'"><span class="customSpan">Mais Prioritário</span></a>
                     </td>
                     <td>
-                        <a class="glyphicon glyphicon-chevron-down" onclick="location.href='@Url.Action("MoverParaBaixo", "Candidaturas", new { id = (int)@curso.ID})'"><span class="customSpan">Menos Prioritário</span></a>
+                        <a class="glyphicon glyphicon-chevron-down" onclick="location.href='@Url.Action("MoverParaBaixo", "Formulario", new { id = (int)@curso.ID})'"><span class="customSpan">Menos Prioritário</span></a>
                     </td>
                 </tr>
             }
         </table>
     </div>
+    
 </div>
-
+<div>
+    @Html.ActionLink("Finalizar Candidatura", "Welcome", "Home", null, new { @class = "btn btn-default" })
+</div>
 <script>
     $('#Exame').bind('change', function () {
         $('#SelectedExame').val($(this).val());
@@ -92,7 +95,7 @@
             
             if (hidValue != "") {
                 $.ajax({
-                    url: '@Url.Action("AdicionarExame", "Candidaturas")',
+                    url: '@Url.Action("AdicionarExame", "Formulario")',
                     type: "post",
                     data: { ExameSeleccionado: hidValue },
                     dataType: "application/json", //type of response
@@ -109,7 +112,7 @@
             var hidValue = $("#SelectedCurso").val();
             if (hidValue != "") {
                 $.ajax({
-                    url: '@Url.Action("AdicionarCurso", "Candidaturas")',
+                    url: '@Url.Action("AdicionarCurso", "Formulario")',
                     type: "post",
                     data: {CursoSeleccionado:hidValue},
                     dataType: "application/json", //type of response

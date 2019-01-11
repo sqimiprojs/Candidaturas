@@ -22,7 +22,7 @@ namespace Candidaturas.Models
             this.UserDocumentoes = new HashSet<UserDocumento>();
             this.UserExames = new HashSet<UserExame>();
         }
-    
+
         public int ID { get; set; }
         public string NomeCompleto { get; set; }
         public byte[] Password { get; set; }

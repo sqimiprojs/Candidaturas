@@ -1,10 +1,10 @@
 ﻿@model Candidaturas.Models.Inquerito
 
 @{
-    Layout = null;
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@using (Html.BeginForm("AddOrEdit", "Inquerito", FormMethod.Post, new { @id = "formInquerito" }))
+@using (Html.BeginForm("Inquerito", "Formulario", FormMethod.Post, new { @id = "formInquerito" }))
 {
     @Html.AntiForgeryToken()
 

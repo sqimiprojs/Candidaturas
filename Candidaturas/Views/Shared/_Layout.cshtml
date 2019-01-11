@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="Description" content="Portal de Candidaturas para a Escola Naval.">
     <title>Candidaturas - @ViewBag.Title</title>
+    <link rel="shortcut icon" type="image/png" href="/images/favicon.png" />
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="~/Content/Candidaturas.css">
@@ -23,7 +24,7 @@
                 </button>
                 @if (Session["userID"] != null)
                 {
-                    @Html.ActionLink("Escola Naval - Candidaturas", "Index", "DadosPessoais", new { area = "" }, new { @class = "navbar-brand", @style = "color:white;font-size: 21px;" })
+                    @Html.ActionLink("Escola Naval - Candidaturas", "Welcome", "Home", new { area = "" }, new { @class = "navbar-brand", @style = "color:white;font-size: 21px;" })
 
                 }
                 else{@Html.ActionLink("Escola Naval - Candidaturas", "Index", "Login", new { area = "" }, new { @class = "navbar-brand", @style = "color:white;font-size: 21px;" })}
