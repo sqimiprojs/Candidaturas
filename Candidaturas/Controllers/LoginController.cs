@@ -14,14 +14,16 @@ namespace Candidaturas.Controllers
             return View();
         }
 
+
         [HttpPost]
         public ActionResult Authorize(Candidaturas.Models.User userModel)
         {
-            using(CandidaturaDBEntities db = new CandidaturaDBEntities())
+
+            using (CandidaturaDBEntities db = new CandidaturaDBEntities())
             {
                 //TODO Tratar cado de password vir null
                 byte[] hashedUserPassword = new byte[0];
-                
+
                 using (SHA256 mySHA256 = SHA256.Create())
                 {
                     hashedUserPassword = mySHA256.ComputeHash(Encoding.UTF8.GetBytes(userModel.PasswordInput));
@@ -32,12 +34,12 @@ namespace Candidaturas.Controllers
                 if (userDetails == null)
                 {
                     userModel.LoginErrorMessage = "Username ou password errado.";
-                    return View("Index", userModel);
+                    return View();
                 }
                 else
                 {
                     Session["userID"] = userDetails.ID;
-                    return RedirectToAction("Index", "Home");
+                    return View("~/Views/DadosPessoais/AddOrEdit.cshtml");
                 }
             }
         }
@@ -47,5 +49,6 @@ namespace Candidaturas.Controllers
             Session.Abandon();
             return RedirectToAction("Index", "Login");
         }
+
     }
 }

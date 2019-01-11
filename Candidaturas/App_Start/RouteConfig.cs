@@ -13,17 +13,15 @@ namespace Candidaturas
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            
+
             routes.MapRoute(
                 name: "NewUser",
-                url: "{User}/{action}",
+                url: "User/{action}",
                 defaults: new { controller = "User", action = "NewUser" }
             );
-            routes.MapRoute(
-                name: "RecoverPassword",
-                url: "{User}/{action}",
-                defaults: new { controller = "User", action = "RecoverPassword" }
-            );
 
+                       
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",

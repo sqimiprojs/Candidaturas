@@ -21,7 +21,13 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Escola Naval - Candidaturas", "Index", "Login", new { area = "" }, new { @class = "navbar-brand", @style = "color:white;font-size: 21px;" })
+                @if (Session["userID"] != null)
+                {
+                    @Html.ActionLink("Escola Naval - Candidaturas", "Index", "DadosPessoais", new { area = "" }, new { @class = "navbar-brand", @style = "color:white;font-size: 21px;" })
+
+                }
+                else{@Html.ActionLink("Escola Naval - Candidaturas", "Index", "Login", new { area = "" }, new { @class = "navbar-brand", @style = "color:white;font-size: 21px;" })}
+
             </div>
             @if(Session["userID"] != null)
             {
