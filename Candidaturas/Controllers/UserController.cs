@@ -16,7 +16,7 @@ namespace Candidaturas.Controllers
 
             IEnumerable<SelectListItem> tiposDocumentosId = db.TipoDocumentoIDs.Select(c => new SelectListItem
             {
-                Value = c.Nome,
+                Value = c.ID.ToString(),
                 Text = c.Nome
             });
 
@@ -35,8 +35,6 @@ namespace Candidaturas.Controllers
         [HttpPost]
         public ActionResult NewUser(User userModel)
         {
-            string newPassword = Password.GeneratePassword().ToString();
-
             CaptchaResponse response = CaptchaValidator.ValidateCaptcha(Request["g-recaptcha-response"]);
 
             if (response.Success)
@@ -47,6 +45,7 @@ namespace Candidaturas.Controllers
                     {
                         try
                         {
+                            string newPassword = Password.GeneratePassword().ToString();
                             using (SHA256 mySHA256 = SHA256.Create())
                             {
                                 userModel.Password = mySHA256.ComputeHash(Encoding.UTF8.GetBytes(newPassword));
@@ -54,7 +53,20 @@ namespace Candidaturas.Controllers
                                 dbModel.Users.Add(userModel);
                                 /**/
                                 dbModel.SaveChanges();
-                            }                                
+
+                                ModelState.Clear();
+
+                                string subject = "Portal de Candidaturas à Base Naval - Palavra-passe de Acesso";
+                                string body = "A sua palavra-passe de acesso ao portal de candidaturas é: " + newPassword;
+
+                                Email.SendEmail(userModel.Email, subject, body);
+
+                                ViewBag.Subtitle = "Criação de Conta";
+
+                                ViewBag.ConfirmationMessage = "Registo de utilizador efetuado com sucesso. A sua palavra-passe de acesso será enviada para o seu email. Por favor verifique.";
+
+                                return View("~/Views/Shared/Success.cshtml");
+                            }
                         }
                         catch (System.Data.Entity.Validation.DbEntityValidationException dbEx)
                         {
@@ -69,24 +81,9 @@ namespace Candidaturas.Controllers
                             }
                             throw raise;
                         }
-
-                        ModelState.Clear();
-
-                        string subject = "Portal de Candidaturas à Base Naval - Password de Acesso";
-                        string body = "A sua password de acesso ao portal de candidaturas é a seguinte: " + newPassword;
-
-                        Email.SendEmail(userModel.Email, subject, body);
-
-                        ViewBag.Subtitle = "Criação de Conta";
-
-                        ViewBag.ConfirmationMessage = "Registo de utilizador efetuado com sucesso. A sua password de acesso foi enviada para o seu email.";
-
-                        return View("~/Views/Shared/Success.cshtml");
                     }
-
                     return View();
                 }
-                
             }
             else
             {
@@ -141,18 +138,18 @@ namespace Candidaturas.Controllers
                 {
                     user.Password = mySHA256.ComputeHash(Encoding.UTF8.GetBytes(newPassword));
                     db.SaveChanges();
-                }                    
 
-                string subject = "Recuperação de Password";
-                string body = "A sua nova password é a seguinte: " + newPassword;
+                    string subject = "Recuperação de Password";
+                    string body = "A sua nova password é a seguinte: " + newPassword;
 
-                Email.SendEmail(email, subject, body);
+                    Email.SendEmail(email, subject, body);
 
-                ViewBag.Subtitle = "Recuperação de Password";
+                    ViewBag.Subtitle = "Recuperação de Password";
 
-                ViewBag.ConfirmationMessage = "Pedido de recuperação de password efetuado com sucesso. Por favor verifique a sua caixa de email.";
+                    ViewBag.ConfirmationMessage = "Pedido de recuperação de password efetuado com sucesso. Por favor verifique a sua caixa de email.";
 
-                return View("~/Views/Shared/Success.cshtml");
+                    return View("~/Views/Shared/Success.cshtml");
+                }
             }
         }
     }

@@ -106,33 +106,33 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.DistritoMorada, "Distrito", htmlAttributes: new { @class = "control-label col-md-2 " })
+            @Html.LabelFor(model => model.DistritoMorada, "Distrito", htmlAttributes: new { @class = "control-label col-md-2 required " })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.DistritoMorada, ViewBag.DistritoMorada as SelectList, "Escolha uma opção...", new { @class = "form-control", @onchange = "changeConcelhos(false)" })
+                @Html.DropDownListFor(model => model.DistritoMorada, ViewBag.DistritoMorada as SelectList, "Escolha uma opção...", new { @class = "form-control", @required = "required", @onchange = "changeConcelhos(false)" })
                 @Html.ValidationMessageFor(model => model.DistritoMorada, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ConcelhoMorada, "Concelho", htmlAttributes: new { @class = "control-label col-md-2 " })
+            @Html.LabelFor(model => model.ConcelhoMorada, "Concelho", htmlAttributes: new { @class = "control-label col-md-2 required  disabled" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.ConcelhoMorada, ViewBag.ConcelhoMorada as SelectList, "Escolha uma opção...", new { @class = "form-control", @onchange = "changeFreguesias(false)" })
+                @Html.DropDownListFor(model => model.ConcelhoMorada, ViewBag.ConcelhoMorada as SelectList, "Escolha uma opção...", new { @class = "form-control", @required = "required", @onchange = "changeFreguesias(false)", disabled = "disabled" })
                 @Html.ValidationMessageFor(model => model.ConcelhoMorada, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.FreguesiaMorada, "Freguesia", htmlAttributes: new { @class = "control-label col-md-2 " })
+            @Html.LabelFor(model => model.FreguesiaMorada, "Freguesia", htmlAttributes: new { @class = "control-label col-md-2 required  disabled" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.FreguesiaMorada, ViewBag.FreguesiaMorada as SelectList, "Escolha uma opção...", new { @class = "form-control"})
+                @Html.DropDownListFor(model => model.FreguesiaMorada, ViewBag.FreguesiaMorada as SelectList, "Escolha uma opção...", new { @class = "form-control", @required = "required", disabled = "disabled" })
                 @Html.ValidationMessageFor(model => model.FreguesiaMorada, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Localidade, "Localidade", htmlAttributes: new { @class = "control-label col-md-2 " })
+            @Html.LabelFor(model => model.Localidade, "Localidade", htmlAttributes: new { @class = "control-label col-md-2 required  disabled" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.Localidade, ViewBag.Localidade as SelectList, "Escolha uma opção...", new { @class = "form-control"})
+                @Html.DropDownListFor(model => model.Localidade, ViewBag.Localidade as SelectList, "Escolha uma opção...", new { @class = "form-control", @required = "required", disabled = "disabled" })
                 @Html.ValidationMessageFor(model => model.Localidade, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -153,23 +153,23 @@
         <div class="form-group">
             @Html.LabelFor(model => model.DistritoNatural, "Distrito", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.DistritoNatural, ViewBag.DistritoNatural as SelectList, "Escolha uma opção...", new { @class = "form-control", @onchange = "changeConcelhos(false)" })
+                @Html.DropDownListFor(model => model.DistritoNatural, ViewBag.DistritoNatural as SelectList, "Escolha uma opção...", new { @class = "form-control", @onchange = "changeConcelhos(true)" })
                 @Html.ValidationMessageFor(model => model.DistritoNatural, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ConcelhoNatural, "Concelho", htmlAttributes: new { @id = "conc", @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.ConcelhoNatural, "Concelho", htmlAttributes: new { @id = "conc", @class = "control-label col-md-2  disabled" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.ConcelhoNatural, ViewBag.ConcelhoNatural as SelectList, "Escolha uma opção...", new { @class = "form-control", @onchange = "changeFreguesias(false)" })
+                @Html.DropDownListFor(model => model.ConcelhoNatural, ViewBag.ConcelhoNatural as SelectList, "Escolha uma opção...", new { @class = "form-control", @onchange = "changeFreguesias(true)", disabled = "disabled" })
                 @Html.ValidationMessageFor(model => model.ConcelhoNatural, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.FreguesiaNatural, "Freguesia", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.FreguesiaNatural, "Freguesia", htmlAttributes: new { @class = "control-label col-md-2 disabled" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.FreguesiaNatural, ViewBag.FreguesiaNatural as SelectList, "Escolha uma opção...", new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.FreguesiaNatural, ViewBag.FreguesiaNatural as SelectList, "Escolha uma opção...", new { @class = "form-control", disabled = "disabled" })
                 @Html.ValidationMessageFor(model => model.FreguesiaNatural, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -231,12 +231,12 @@
         <hr class="dadosPessoaisHr" />
 
         <div class="form-group">
-            <div class="col-md-offset-4 col-md-10">
-                <input type="submit" value="Guardar" class="btn btn-default" />
+            <div class="col-md-offset-4 col-md-10 ">
+                <input class="btn btn-default" type="submit" value="Guardar" />
             </div>
         </div>
 
-    </div>    
+    </div>
 </div>
 }
 
@@ -400,13 +400,13 @@
 
     //mostrar formato do CC caso seleccionar esse
     function mostrarPlaceholderFormatoCCouBI() {
-        var chosenValue = $("#TipoDocID").val();
+        var chosenValue = $('#TipoDocID').val();
 
         if (chosenValue == "Cartão do Cidadão") {
-            $("#NDI").attr("placeholder", "DDDDDDDD-CAAT");
+            $('#NDI').attr("placeholder", "DDDDDDDD-CAAT");
         }
         else if (chosenValue == "Bilhete de Identidade") {
-            $("#NDI").attr("placeholder", "DDDDDDDD-C");
+            $('#NDI').attr("placeholder", "DDDDDDDD-C");
         }
         else {
             $('#NDI').removeAttr('placeholder');
@@ -415,34 +415,35 @@
 
     //validar Cartão de Cidadão ou Bilhete de Identidade
     function validarCCouBI() {
-        var chosenValue = $("#TipoDocID").val();
+        debugger 
+        var chosenValue = $('#TipoDocID').val();
 
         if (chosenValue == "Cartão do Cidadão") {
-            var term = $("#NDI").val();
+            var term = $('#NDI').val();
 
             if (term != "") {
                 if (regexCC() && validarDigitosCC()) {
-                    $("#NDIWarning").hide();
+                    $('#NDIWarning').hide();
                     return true;
                 }
                 else {
-                    $("#NDIWarning").text("Cartão de cidadão ou bilhete de identidade inválido.");
-                    $("#NDIWarning").show();
+                    $('#NDIWarning').text("Cartão de cidadão ou bilhete de identidade inválido.");
+                    $('#NDIWarning').show();
                     return false;
                 }
             }
         }
-        if (chosenValue == "Bilhete de Identidade") {
-            var term = $("#NDI").val();
+        if (chosenValue = "Bilhete de Identidade") {
+            var term = $('#NDI').val();
 
             if (term != "") {
                 if (regexBI() && validarDigitosBI()) {
-                    $("#NDIWarning").hide();
+                    $('#NDIWarning').hide();
                     return true;
                 }
                 else {
-                    $("#NDIWarning").text("Cartão de cidadão ou bilhete de identidade inválido.");
-                    $("#NDIWarning").show();
+                    $('#NDIWarning').text("Cartão de cidadão ou bilhete de identidade inválido.");
+                    $('#NDIWarning').show();
                     return false;
                 }
             }
@@ -456,7 +457,7 @@
     }
 
     function validarDigitosBI() {
-        var bi = $("#NDI").val();
+        var bi = $('#NDI').val();
         var firstEight = bi.substring(0, 8);
         var lastDigit = bi[bi.length - 1];
         var sum = 0;
@@ -479,7 +480,7 @@
     }
 
     function validarDigitosCC() {
-        var cc = $("#NDI").val();
+        var cc = $('#NDI').val();
         var aux = cc.replace('-', '');
         var sum = 0;
         var secondDigit = false;
@@ -542,14 +543,14 @@
     }
 
     function regexCC() {
-        var term = $("#NDI").val();
+        var term = $('#NDI').val();
         var re = new RegExp("^[0-9]{8}[ -]*[0-9][A-Za-z]{2}[0-9]$");
 
         return re.test(term);
     }
 
     function regexBI() {
-        var term = $("#NDI").val();
+        var term = $('#NDI').val();
         var re = new RegExp("^[0-9]{8}[ -]*[0-9]$");
 
         return re.test(term);
@@ -596,7 +597,7 @@
             var codigoDistrito = parseInt(distritoNaturalEscolhido);
 
             $.ajax({
-                url: '@Url.Action("UpdateConcelhos", "DadosPessoais")',
+                url: '@Url.Action("UpdateConcelhos", "Formulario")',
                 data: {
                     distrito: codigoDistrito
                 },
@@ -605,16 +606,19 @@
                     var $select = $('#ConcelhoNatural');
                     $select.empty();
                     $select.append('<option value="">Escolha uma opção...</option>');
+                    $select.prop('disabled', false);
 
                     var $select2 = $('#FreguesiaNatural');
                     $select2.empty();
                     $select2.append('<option value="">Escolha uma opção...</option>');
+                    $select2.prop('disabled', true);
 
                     $.each(concelhos, function (i, concelho) {
                         $('<option>', {
                             value: concelho.ID
                         }).html(concelho.Name).appendTo($select);
                     });
+                    
                 },
                 error: function (e) { console.log(e); }
             })
@@ -624,7 +628,7 @@
             var codigoDistrito = parseInt(distritoMoradaEscolhido);
 
             $.ajax({
-                url: '@Url.Action("UpdateConcelhos", "DadosPessoais")',
+                url: '@Url.Action("UpdateConcelhos", "Formulario")',
                 data: {
                     distrito: codigoDistrito
                 },
@@ -633,14 +637,17 @@
                     var $select = $('#ConcelhoMorada');
                     $select.empty();
                     $select.append('<option value="">Escolha uma opção...</option>');
+                    $select.prop('disabled', false);
 
                     var $select2 = $('#FreguesiaMorada');
                     $select2.empty();
                     $select2.append('<option value="">Escolha uma opção...</option>');
+                    $select2.prop('disabled', true);
 
                     var $select3 = $('#Localidade');
                     $select3.empty();
                     $select3.append('<option value="">Escolha uma opção...</option>');
+                    $select3.prop('disabled', true);
 
                     $.each(concelhos, function (i, concelho) {
                         $('<option>', {
@@ -664,7 +671,7 @@
             var codigoConcelho = parseInt(concelhoNaturalEscolhido);
 
             $.ajax({
-                url: '@Url.Action("UpdateFreguesias", "DadosPessoais")',
+                url: '@Url.Action("UpdateFreguesias", "Formulario")',
                 data: {
                     distrito: codigoDistrito,
                     concelho: codigoConcelho
@@ -674,6 +681,7 @@
                     var $select = $('#FreguesiaNatural');
                     $select.empty();
                     $select.append('<option value="">Escolha uma opção...</option>');
+                    $select.prop('disabled', false);
 
                     $.each(freguesias, function (i, freguesia) {
                         $('<option>', {
@@ -691,7 +699,7 @@
             var codigoConcelho = parseInt(concelhoMoradaEscolhido);
 
             $.ajax({
-                url: '@Url.Action("UpdateFreguesias", "DadosPessoais")',
+                url: '@Url.Action("UpdateFreguesias", "Formulario")',
                 data: {
                     distrito: codigoDistrito,
                     concelho: codigoConcelho
@@ -701,22 +709,24 @@
                     var $select = $('#FreguesiaMorada');
                     $select.empty();
                     $select.append('<option value="">Escolha uma opção...</option>');
+                    $select.prop('disabled', false);
 
                     var $select2 = $('#Localidade');
                     $select2.empty();
                     $select2.append('<option value="">Escolha uma opção...</option>');
+                    $select2.prop('disabled', true);
 
                     $.each(freguesias, function (i, freguesia) {
                         $('<option>', {
                             value: freguesia.ID
                         }).html(freguesia.Name).appendTo($select);
                     });
+                    
                 },
                 error: function (e) { console.log(e); }
             })
+            changeLocalidades();
         }
-
-        changeLocalidades();
     }
 
     //altera as localidades consoante o distrito escolhido
@@ -727,7 +737,7 @@
         var codigoConcelho = parseInt(concelhoMoradaEscolhido);
 
         $.ajax({
-            url: '@Url.Action("UpdateLocalidades", "DadosPessoais")',
+            url: '@Url.Action("UpdateLocalidades", "Formulario")',
             data: {
                 distrito: codigoDistrito,
                 concelho: codigoConcelho
@@ -737,12 +747,14 @@
                 var $select = $('#Localidade');
                 $select.empty();
                 $select.append('<option value="">Escolha uma opção...</option>');
+                $select.prop('disabled', false);
 
                 $.each(localidades, function (i, localidade) {
                     $('<option>', {
                         value: localidade.ID
                     }).html(localidade.Name).appendTo($select);
                 });
+                
             },
             error: function (e) { console.log(e); }
         })

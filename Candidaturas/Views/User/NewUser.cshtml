@@ -1,13 +1,11 @@
 ﻿@using Candidaturas.Models;
-
-
 @model Candidaturas.Models.User
-
+<script type="text/javascript" src="~/Scripts/documentValidation.js"></script>
 @{
     ViewBag.Title = "Criar Nova Conta";
 }
 <div class="header">
-    <img src="~/Content/marinha.png" alt="Logo Marinha" />
+    <img src="~/Content/img/marinha.png" alt="Logo Marinha" />
     <h1>Registo de Utilizador</h1>
 </div>
 
@@ -15,82 +13,83 @@
 {
     @Html.AntiForgeryToken()
 
-<div class="form-horizontal" style="margin-top: 40px;">
-    <br/>
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    <div class="form-group">
-        @Html.LabelFor(model => model.NomeCompleto, "Nome Completo", htmlAttributes: new { @class = "control-label col-md-2 required" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.NomeCompleto, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
-            @Html.ValidationMessageFor(model => model.NomeCompleto, "", new { @class = "text-danger" })
+    <div class="form-horizontal" style="margin-top: 40px;">
+        <br />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.NomeCompleto, "Nome Completo", htmlAttributes: new { @class = "control-label col-md-2 required" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.NomeCompleto, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                @Html.ValidationMessageFor(model => model.NomeCompleto, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Email, "Email", htmlAttributes: new { @class = "control-label col-md-2 required" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
-            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
-            <span id="EmailWarning" for="Email" class="text-danger"></span>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Email, "Email", htmlAttributes: new { @class = "control-label col-md-2 required" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                <span id="EmailWarning" for="Email" class="text-danger"></span>
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.TipoDocID, "Tipo de Documento de Identificação", htmlAttributes: new { @class = "control-label col-md-2 required" })
-        <div class="col-md-10">
-            @Html.DropDownListFor(model => model.TipoDocID, ViewBag.TipoDocID as SelectList, "Escolha uma opção...", new { @class = "form-control", @required = "required" })
-            @Html.ValidationMessageFor(model => model.TipoDocID, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.TipoDocID, "Tipo de Documento de Identificação", htmlAttributes: new { @class = "control-label col-md-2 required" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.TipoDocID, ViewBag.TipoDocID as SelectList, "Escolha uma opção...", new { @class = "form-control", @required = "required" })
+                @Html.ValidationMessageFor(model => model.TipoDocID, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.NDI, "Nº de Documento de Identificação", htmlAttributes: new { @class = "control-label col-md-2 required" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.NDI, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
-            @Html.ValidationMessageFor(model => model.NDI, "", new { @class = "text-danger" })
-            <span id="NIFWarning" for="NIF" class="text-danger"></span>
+        <div class="form-group">
+            @Html.LabelFor(model => model.NDI, "Nº de Documento de Identificação", htmlAttributes: new { @class = "control-label col-md-2 required" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.NDI, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                @Html.ValidationMessageFor(model => model.NDI, "", new { @class = "text-danger" })
+                <span id="NDIWarning" for="NDI" class="text-danger"></span>
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Militar, "Militar?", htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            <label class="switch">
-                @Html.CheckBoxFor(model => model.Militar, new { htmlAttributes = new { @class = "form-control", @type = "checkbox" } })
-                <div class="slider"></div>
-            </label>
-            <span id="switchLabel"></span>
-            @Html.ValidationMessageFor(model => model.Militar, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Militar, "Militar?", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <label class="switch">
+                    @Html.CheckBoxFor(model => model.Militar, new { htmlAttributes = new { @class = "form-control", @type = "checkbox" } })
+                    <div class="slider"></div>
+                </label>
+                <span id="switchLabel"></span>
+                @Html.ValidationMessageFor(model => model.Militar, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.DataNascimento, "Data de Nascimento", htmlAttributes: new { @class = "control-label col-md-2 required" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.DataNascimento, new { htmlAttributes = new { @class = "form-control", type = "date", @required = "required" } })
-            @Html.ValidationMessageFor(model => model.DataNascimento, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.DataNascimento, "Data de Nascimento", htmlAttributes: new { @class = "control-label col-md-2 required" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.DataNascimento, new { htmlAttributes = new { @class = "form-control", type = "date", @required = "required"} })
+                @Html.ValidationMessageFor(model => model.DataNascimento, "", new { @class = "text-danger" })
+                <span id="DtNascWarning" for="NIF" class="text-danger"></span>
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        <div class="col-md-10"><div class="g-recaptcha" data-sitekey="6LfpKGgUAAAAAMuDiV5SegpE0PS9mYnptSW2zUN_"></div></div>
-    </div>
-
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-2">
-            <span class="text-danger">@ViewBag.ErrorMessage</span>
+        <div class="form-group">
+            <div class="col-md-10"><div class="g-recaptcha" data-sitekey="6LfpKGgUAAAAAMuDiV5SegpE0PS9mYnptSW2zUN_"></div></div>
         </div>
-    </div>
 
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Criar" class="btn btn-default" />
-            @Html.ActionLink("Voltar", "Index", "Login", null, new { @class = "btn btn-default" })
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-2">
+                <span class="text-danger">@ViewBag.ErrorMessage</span>
+            </div>
         </div>
-        
-    </div>
 
-</div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Criar" class="btn btn-default" />
+                @Html.ActionLink("Voltar", "Index", "Login", null, new { @class = "btn btn-default" })
+            </div>
+
+        </div>
+
+    </div>
 }
 <script src='https://www.google.com/recaptcha/api.js'></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
@@ -116,287 +115,3 @@
         }
     }
 </style>
-<script type="text/javascript">
-    $("#NDI").blur(function () {
-        validarTipoDocId();
-        mostrarPlaceholderFormatoCCouBI();
-    });
-
-    $("#Email").blur(function () {
-        validarEmail();
-        verificarEmail();
-    });
-
-    $("#TipoDocID").change(function () {
-        validarTipoDocId();
-        mostrarPlaceholderFormatoCCouBI();
-    });
-
-    function validarTipoDocId() {
-        var chosenValue = $("#TipoDocID").val();
-
-        if (validarDocumentoEscolhido(chosenValue)) {
-            var term = $("#NDI").val();
-
-            if (term != "") {
-                if (validarCC() && chosenValue == "Cartão do Cidadão" && validarDigitosCC()) {
-                    $("#NIFWarning").hide();
-                    return true;
-                }
-                if (validarBI() && chosenValue == "Bilhete de Identidade" && validarDigitosBI()) {
-                    $("#NIFWarning").hide();
-                    return true;
-                }
-                else {
-                    $("#NIFWarning").text("Cartão de cidadão ou bilhete de identidade inválido.");
-                    $("#NIFWarning").show();
-                    event.preventDefault();
-                    return false;
-                }
-            }
-            else {
-                $("#NIFWarning").hide();
-                return true;
-            }
-        }
-        else {
-            if ($("#NIFWarning").is(":visible")) {
-                $("#NIFWarning").hide();
-            }
-            return true;
-        }
-    }
-
-    function validarCC() {
-        var term = $("#NDI").val();
-        var re = new RegExp("^[0-9]{8}[ -]*[0-9][A-Za-z]{2}[0-9]$");
-
-        return re.test(term);
-    }
-
-    function validarDigitosBI() {
-        var bi = $("#NDI").val();
-        var firstLength = bi.length - 1;
-        var firstEight = bi.substring(0, firstLength);
-        var lastDigit = bi[firstLength];
-        var sum = 0;
-        var i;
-
-        for (i = 0; i < firstEight.length; i++) {
-            sum += firstEight[firstEight.length - (i + 1)] * (i + 2);
-        }
-
-        var res = sum % 11;
-
-        if (res == 0 || res == 1) {
-            res = 0;
-        }
-        else {
-            res = 11 - res;
-        }
-
-        return res == lastDigit;
-    }
-
-    function validarDigitosCC() {
-        var cc = $("#NDI").val();
-        var aux = cc.replace('-', '');
-        var sum = 0;
-        var secondDigit = false;
-        var i = 0;
-
-        for (i = aux.length - 1; i >= 0; i--) {
-            var digit = aux[i];
-            var valor = getNumberFromChar(digit);
-            
-            if (secondDigit) {
-                valor *= 2;
-                if (valor > 9) {
-                    valor -= 9;
-                }
-            }
-            sum += valor;
-            secondDigit = !secondDigit;
-        }
-        
-        return (sum % 10) == 0;
-    }
-
-    function getNumberFromChar(char) {
-        var res = 0;
-
-        if (isNaN(char)) {
-            switch (char.toUpperCase()) {
-                case 'A': res = 10; break;
-                case 'B': res = 11; break;
-                case 'C': res = 12; break;
-                case 'D': res = 13; break;
-                case 'E': res = 14; break;
-                case 'F': res = 15; break;
-                case 'G': res = 16; break;
-                case 'H': res = 17; break;
-                case 'I': res = 18; break;
-                case 'J': res = 19; break;
-                case 'K': res = 20; break;
-                case 'L': res = 21; break;
-                case 'M': res = 22; break;
-                case 'N': res = 23; break;
-                case 'O': res = 24; break;
-                case 'P': res = 25; break;
-                case 'Q': res = 26; break;
-                case 'R': res = 27; break;
-                case 'S': res = 28; break;
-                case 'T': res = 29; break;
-                case 'U': res = 30; break;
-                case 'V': res = 31; break;
-                case 'W': res = 32; break;
-                case 'X': res = 33; break;
-                case 'Y': res = 34; break;
-                case 'Z': res = 35; break;
-                default: res = 0;
-            }
-        }
-        else {
-            res = parseInt(char);
-        }
-
-        return res;
-    }
-
-    function validarBI() {
-        var term = $("#NDI").val();
-        var re = new RegExp("^[0-9]{8}[ -]*[0-9]$");
-
-        return re.test(term);
-    }
-
-    function validarDocumentoEscolhido(tipoDocID) {
-        return tipoDocID == "Cartão do Cidadão" || tipoDocID == "Bilhete de Identidade";
-    }
-
-    //mostrar formato do CC caso seleccionar esse
-    function mostrarPlaceholderFormatoCCouBI() {
-        var chosenValue = $("#TipoDocID").val();
-
-        if (chosenValue == "Cartão do Cidadão") {
-            $("#NDI").attr("placeholder", "DDDDDDDD-DCCD");
-        }
-        else if (chosenValue == "Bilhete de Identidade") {
-            $("#NDI").attr("placeholder", "DDDDDDDD-D");
-        }
-        else {
-            $('#NDI').removeAttr('placeholder');
-        }
-    }
-
-    function validacaoFinal() {
-        var valid = true;
-
-        if (!validarTipoDocId()) {
-            valid = false;
-        }
-
-        if (!validarEmail()) {
-            valid = false;
-        }
-
-        if (!verificarEmail()) {
-            valid = false;
-        }
-
-        console.log(valid);
-
-        if (!valid) {
-            event.preventDefault();
-            return false;
-        }
-    }
-
-    //muda a label do switch
-    $('#Militar').click(function () {
-        changeLabel();
-    });
-
-    $(document).ready(function () {
-        changeLabel();
-    });
-
-    function changeLabel() {
-        if (!$("#Militar").is(':checked')) {
-            $("#switchLabel").text("Não");
-        }
-        else {
-            $("#switchLabel").text("Sim");
-        }
-    }
-
-    //validar email
-    function regexEmail(email) {
-        var re = /^(([^<>()\[\]\.,;:\s@@\"]+(\.[^<>()\[\]\.,;:\s@@\"]+)*)|(\".+\"))@@(([^<>()[\]\.,;:\s@@\"]+\.)+[^<>()[\]\.,;:\s@@\"]{2,})$/i; 
-        return re.test(email);
-    }
-
-    function validarEmail() {
-        var email = $("#Email").val();
-        if (email != "") {
-            if (regexEmail(email)) {
-                $("#EmailWarning").hide();
-                return true;
-            }
-            else {
-                $("#EmailWarning").text("Email com formato inválido.");
-                $("#EmailWarning").show();
-                return false;
-            }
-        }
-        else {
-            if ($("#EmailWarning").is(":visible")) {
-                $("#EmailWarning").hide();
-            }
-            return true;
-        }
-    }
-    
-    function verificarEmail() {
-        var email = $("#Email").val();
-        var emailExists = true;
-        var valid = true;
-        
-        if (email != "") {
-            var check = $.ajax({
-                url: '@Url.Action("checkEmail", "User")',
-                data: {
-                    email: email
-                },
-                type: "POST",
-                success: function (exists) {
-                    if (exists == "True") {
-                        $("#EmailWarning").text("Este email já se encontra em uso.");
-                        $("#EmailWarning").show();
-                        emailExists = false;
-                    }
-                },
-                error: function (e) { console.log(e); }
-            });
-
-        }
-
-        check.done(function () {
-            if (emailExists) {
-                valid = true;
-            } else {
-                valid = false;
-            }
-        });
-        return valid;
-    }
-
-    function verificarIdade(bool isMilitar) {
-        var dtNasc = $("#DataNascimento").val();
-
-        var idd = getYear(dtNasc) - getFullYear());
-        window.alert(idd);
-    }
-
-
-</script>

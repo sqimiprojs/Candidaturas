@@ -13,7 +13,7 @@ namespace Candidaturas.Controllers
     {
         
         string generoEscolhido = null;
-        string tipoDocIdEscolhido = null;
+        int? tipoDocIdEscolhido = null;
         int? distritoNaturalEscolhido = null;
         int? concelhoNaturalEscolhido = null;
         int? freguesiaNaturalEscolhida = null;
@@ -35,6 +35,7 @@ namespace Candidaturas.Controllers
         //obtém os dados preenchdios pelo utilizador para mostrar no ecrã
         public void getDadosPessoais(int userId)
         {
+            ViewBag.Title = "Dados Pessoais";
             CandidaturaDBEntities db = new CandidaturaDBEntities();
             DadosPessoai dadosPessoaisUser = db.DadosPessoais.Where(dp => dp.UserId == userId).FirstOrDefault();
 
@@ -52,11 +53,11 @@ namespace Candidaturas.Controllers
                 estadoCivilEscolhido = dadosPessoaisUser.EstadoCivil;
                 nacionalidadeEscolhida = dadosPessoaisUser.Nacionalidade;
                 localidadeEscolhida = dadosPessoaisUser.Localidade;
-                tipoDocIdEscolhido = dadosPessoaisUser.TipoDocID;
+                tipoDocIdEscolhido = Int32.Parse(dadosPessoaisUser.TipoDocID);
             }
             else
             {
-                string tipoDocId = db.Users.Where(dp => dp.ID == userId).Select(dp => dp.TipoDocID).FirstOrDefault();
+                int tipoDocId = Int32.Parse(db.Users.Where(dp => dp.ID == userId).Select(dp => dp.TipoDocID).FirstOrDefault());
 
                 tipoDocIdEscolhido = tipoDocId;
             }
@@ -140,7 +141,7 @@ namespace Candidaturas.Controllers
             {
                 Value = c.Nome,
                 Text = c.Nome,
-                Selected = c.Nome == tipoDocIdEscolhido
+                Selected = c.Nome == tipoDocIdEscolhido.ToString()
 
             });
             ViewBag.TipoDocID = tiposDocumentosId.ToList();
@@ -257,7 +258,6 @@ namespace Candidaturas.Controllers
             return jsonLocalidades;
         }
 
-        //POST: Dados Pessoais
         [HttpPost]
         public ActionResult DadosPessoais(DadosPessoai dadosPessoaisModel)
         {
@@ -334,6 +334,8 @@ namespace Candidaturas.Controllers
             }
         }
 
+
+        /*INQUERITO*/
         //obtém os dados preenchdios pelo utilizador para mostrar no ecrã
         public void getDadosPessoaisInquerito(int userId)
         {
@@ -381,10 +383,11 @@ namespace Candidaturas.Controllers
             ViewBag.ConhecimentoEscola = conhecimentosEscola.ToList();
         }
 
-        /*INQUERITO*/
+        
         // GET: Inquerito
         public ActionResult Inquerito()
         {
+            ViewBag.Title = "Inquerito";
             if (Session["userID"] != null)
             {
                 int userId = (int)Session["userID"];
@@ -526,6 +529,7 @@ namespace Candidaturas.Controllers
         // GET: Candidaturas
         public ActionResult Opcoes()
         {
+            ViewBag.Title = "Opcoes";
             exames = new List<Exame>();
             cursos = new List<CursoDisplay>();
 
@@ -686,7 +690,7 @@ namespace Candidaturas.Controllers
 
                 Session["SelectedTab"] = 3;
 
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Opcoes", "Formulario");
             }
             else
             {
@@ -807,7 +811,7 @@ namespace Candidaturas.Controllers
                         //verificar se existe um curso anterior
                         if (anterior == null)
                         {
-                            return RedirectToAction("Index", "Home");
+                            return RedirectToAction("Opcoes", "Formulario");
                         }
                         else
                         {
@@ -862,7 +866,7 @@ namespace Candidaturas.Controllers
                         //verificar se existe um curso seguinte
                         if (seguinte == null)
                         {
-                            return RedirectToAction("Index", "Home");
+                            return RedirectToAction("Opcoes", "Formulario");
                         }
                         else
                         {

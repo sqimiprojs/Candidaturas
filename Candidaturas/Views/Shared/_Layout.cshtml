@@ -5,45 +5,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="Description" content="Portal de Candidaturas para a Escola Naval.">
     <title>Candidaturas - @ViewBag.Title</title>
-    <link rel="shortcut icon" type="image/png" href="/images/favicon.png" />
+    <link rel="shortcut icon" type="image/x-icon" href="~/Content/img/favicon.ico" />
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="~/Content/Candidaturas.css">
     <script src="~/Scripts/modernizr-2.6.2.min.js"></script>
+    <!--<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>-->
     <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+
     <script src="~/Scripts/bootstrap.min.js"></script>
+    <!--<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"></script>-->
+
 </head>
-<body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @if (Session["userID"] != null)
+    <body>
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    @if (Session["userID"] != null)
+                    {
+                        @Html.ActionLink("Escola Naval - Candidaturas", "Welcome", "Home", new { area = "" }, new { @class = "navbar-brand", @style = "color:white;font-size: 21px;" })
+
+                    }
+                    else{@Html.ActionLink("Escola Naval - Candidaturas", "Index", "Login", new { area = "" }, new { @class = "navbar-brand", @style = "color:white;font-size: 21px;" })}
+
+                </div>
+                @if(Session["userID"] != null)
                 {
-                    @Html.ActionLink("Escola Naval - Candidaturas", "Welcome", "Home", new { area = "" }, new { @class = "navbar-brand", @style = "color:white;font-size: 21px;" })
-
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a class="glyphicon glyphicon-log-out navbar-brand" style="color:white;font-size: 14px;" href="@Url.Action("LogOut", "Login")"><span style="padding-left: 5px;font-size: 17px;">Logout</span></a></li>
+                    </ul>
+                </div>
                 }
-                else{@Html.ActionLink("Escola Naval - Candidaturas", "Index", "Login", new { area = "" }, new { @class = "navbar-brand", @style = "color:white;font-size: 21px;" })}
-
             </div>
-            @if(Session["userID"] != null)
-            {
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a class="glyphicon glyphicon-log-out navbar-brand" style="color:white;font-size: 14px;" href="@Url.Action("LogOut", "Login")"><span style="padding-left: 5px;font-size: 17px;">Logout</span></a></li>
-                </ul>
-            </div>
-            }           
         </div>
-    </div>
 
-    <div class="container body-content">
-        @RenderBody()
-    </div>
+        <div class="container body-content">
+            @RenderBody()
+        </div>
 
-</body>
-</html>
+    </body>
+    </html>
