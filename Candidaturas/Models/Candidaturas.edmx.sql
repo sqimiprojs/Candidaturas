@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 01/11/2019 16:10:50
+-- Date Created: 01/15/2019 11:11:43
 -- Generated from EDMX file: C:\Users\fabio\Documents\GitHub\Candidaturas\Candidaturas\Models\Candidaturas.edmx
 -- --------------------------------------------------
 
@@ -26,8 +26,8 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_DadosPessoais_Freguesia]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[DadosPessoais] DROP CONSTRAINT [FK_DadosPessoais_Freguesia];
 GO
-IF OBJECT_ID(N'[dbo].[FK_DadosPessoais_Freguesia_Morada]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[DadosPessoais] DROP CONSTRAINT [FK_DadosPessoais_Freguesia_Morada];
+IF OBJECT_ID(N'[dbo].[FK_DadosPessoais_FreguesiaMorada]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[DadosPessoais] DROP CONSTRAINT [FK_DadosPessoais_FreguesiaMorada];
 GO
 IF OBJECT_ID(N'[dbo].[FK_DadosPessoais_Genero]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[DadosPessoais] DROP CONSTRAINT [FK_DadosPessoais_Genero];
@@ -47,23 +47,20 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_Freguesia_Distrito_Concelho]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Freguesia] DROP CONSTRAINT [FK_Freguesia_Distrito_Concelho];
 GO
-IF OBJECT_ID(N'[dbo].[FK_Inquerito_ConhecimentoEscola]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Inquerito] DROP CONSTRAINT [FK_Inquerito_ConhecimentoEscola];
+IF OBJECT_ID(N'[CandidaturaDBModelStoreContainer].[FK_Inquerito_ConhecimentoEscola]', 'F') IS NOT NULL
+    ALTER TABLE [CandidaturaDBModelStoreContainer].[Inquerito] DROP CONSTRAINT [FK_Inquerito_ConhecimentoEscola];
 GO
-IF OBJECT_ID(N'[dbo].[FK_Inquerito_Situacao_Mae]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Inquerito] DROP CONSTRAINT [FK_Inquerito_Situacao_Mae];
+IF OBJECT_ID(N'[CandidaturaDBModelStoreContainer].[FK_Inquerito_SituacaoMae]', 'F') IS NOT NULL
+    ALTER TABLE [CandidaturaDBModelStoreContainer].[Inquerito] DROP CONSTRAINT [FK_Inquerito_SituacaoMae];
 GO
-IF OBJECT_ID(N'[dbo].[FK_Inquerito_Situacao_Pai]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Inquerito] DROP CONSTRAINT [FK_Inquerito_Situacao_Pai];
+IF OBJECT_ID(N'[CandidaturaDBModelStoreContainer].[FK_Inquerito_SituacaoPai]', 'F') IS NOT NULL
+    ALTER TABLE [CandidaturaDBModelStoreContainer].[Inquerito] DROP CONSTRAINT [FK_Inquerito_SituacaoPai];
 GO
-IF OBJECT_ID(N'[dbo].[FK_Inquerito_User]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Inquerito] DROP CONSTRAINT [FK_Inquerito_User];
+IF OBJECT_ID(N'[CandidaturaDBModelStoreContainer].[FK_Inquerito_User]', 'F') IS NOT NULL
+    ALTER TABLE [CandidaturaDBModelStoreContainer].[Inquerito] DROP CONSTRAINT [FK_Inquerito_User];
 GO
 IF OBJECT_ID(N'[dbo].[FK_Localidade_Distrito_Concelho]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Localidade] DROP CONSTRAINT [FK_Localidade_Distrito_Concelho];
-GO
-IF OBJECT_ID(N'[dbo].[FK_User_TipoDocumentoID]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[User] DROP CONSTRAINT [FK_User_TipoDocumentoID];
 GO
 IF OBJECT_ID(N'[dbo].[FK_UserCurso_Curso]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[UserCurso] DROP CONSTRAINT [FK_UserCurso_Curso];
@@ -115,9 +112,6 @@ GO
 IF OBJECT_ID(N'[dbo].[Genero]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Genero];
 GO
-IF OBJECT_ID(N'[dbo].[Inquerito]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Inquerito];
-GO
 IF OBJECT_ID(N'[dbo].[Localidade]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Localidade];
 GO
@@ -141,6 +135,9 @@ IF OBJECT_ID(N'[dbo].[UserDocumento]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[UserExame]', 'U') IS NOT NULL
     DROP TABLE [dbo].[UserExame];
+GO
+IF OBJECT_ID(N'[CandidaturaDBModelStoreContainer].[Inquerito]', 'U') IS NOT NULL
+    DROP TABLE [CandidaturaDBModelStoreContainer].[Inquerito];
 GO
 
 -- --------------------------------------------------
@@ -177,28 +174,28 @@ CREATE TABLE [dbo].[DadosPessoais] (
     [NomePai] varchar(50)  NULL,
     [NomeMae] varchar(50)  NULL,
     [NDI] varchar(50)  NULL,
-    [TipoDocID] varchar(50)  NULL,
-    [Genero] varchar(50)  NULL,
-    [EstadoCivil] varchar(50)  NULL,
-    [Nacionalidade] varchar(10)  NULL,
-    [DistritoNatural] int  NULL,
-    [ConcelhoNatural] int  NULL,
-    [FreguesiaNatural] int  NULL,
+    [TipoDocID] int  NOT NULL,
+    [Genero] int  NOT NULL,
+    [EstadoCivil] int  NOT NULL,
+    [Nacionalidade] varchar(10)  NOT NULL,
+    [DistritoNatural] int  NOT NULL,
+    [ConcelhoNatural] int  NOT NULL,
+    [FreguesiaNatural] int  NOT NULL,
     [Morada] varchar(50)  NULL,
-    [Localidade] int  NULL,
+    [Localidade] int  NOT NULL,
     [UserId] int  NOT NULL,
     [RepFinNIF] varchar(50)  NULL,
     [CCDigitosControlo] varchar(50)  NULL,
     [NSegSoc] varchar(50)  NULL,
     [NIF] varchar(50)  NULL,
-    [DistritoMorada] int  NULL,
-    [ConcelhoMorada] int  NULL,
-    [FreguesiaMorada] int  NULL,
+    [DistritoMorada] int  NOT NULL,
+    [ConcelhoMorada] int  NOT NULL,
+    [FreguesiaMorada] int  NOT NULL,
     [Telefone] varchar(50)  NULL,
     [CodigoPostal4Dig] smallint  NULL,
     [CodigoPostal3Dig] smallint  NULL,
-    [DataCriacao] datetime  NULL,
-    [DataUltimaAtualizacao] datetime  NULL
+    [DataCriacao] datetime  NOT NULL,
+    [DataUltimaAtualizacao] datetime  NOT NULL
 );
 GO
 
@@ -250,22 +247,6 @@ CREATE TABLE [dbo].[Generoes] (
 );
 GO
 
--- Creating table 'Inqueritoes'
-CREATE TABLE [dbo].[Inqueritoes] (
-    [UserId] int  NOT NULL,
-    [SituacaoPai] varchar(50)  NOT NULL,
-    [OutraPai] varchar(50)  NULL,
-    [SituacaoMae] varchar(50)  NOT NULL,
-    [OutraMae] varchar(50)  NULL,
-    [ConhecimentoEscola] varchar(50)  NOT NULL,
-    [Outro] varchar(50)  NULL,
-    [CandidatarOutros] bit  NOT NULL,
-    [ID] int IDENTITY(1,1) NOT NULL,
-    [DataCriacao] datetime  NULL,
-    [DataAtualizacao] datetime  NULL
-);
-GO
-
 -- Creating table 'Localidades'
 CREATE TABLE [dbo].[Localidades] (
     [CodigoDistrito] int  NOT NULL,
@@ -292,7 +273,22 @@ GO
 -- Creating table 'TipoDocumentoIDs'
 CREATE TABLE [dbo].[TipoDocumentoIDs] (
     [ID] int IDENTITY(1,1) NOT NULL,
-    [Nome] varchar(50)  NOT NULL
+    [Nome] varchar(50)  NULL
+);
+GO
+
+-- Creating table 'Users'
+CREATE TABLE [dbo].[Users] (
+    [ID] int IDENTITY(1,1) NOT NULL,
+    [NomeCompleto] varchar(50)  NULL,
+    [Password] varbinary(64)  NULL,
+    [NDI] varchar(50)  NULL,
+    [Militar] bit  NOT NULL,
+    [DataNascimento] datetime  NULL,
+    [Email] varchar(50)  NULL,
+    [LoginErrorMessage] varchar(50)  NULL,
+    [TipoDocID] int  NULL,
+    [DataCriacao] datetime  NULL
 );
 GO
 
@@ -321,18 +317,18 @@ CREATE TABLE [dbo].[UserExames] (
 );
 GO
 
--- Creating table 'Users'
-CREATE TABLE [dbo].[Users] (
-    [ID] int IDENTITY(1,1) NOT NULL,
-    [NomeCompleto] varchar(50)  NOT NULL,
-    [Password] varbinary(max)  NOT NULL,
-    [NDI] varchar(50)  NOT NULL,
-    [Militar] bit  NOT NULL,
-    [DataNascimento] datetime  NOT NULL,
-    [Email] varchar(50)  NOT NULL,
-    [LoginErrorMessage] varchar(50)  NULL,
-    [TipoDocID] varchar(50)  NOT NULL,
-    [DataCriacao] datetime  NOT NULL
+-- Creating table 'Inqueritoes'
+CREATE TABLE [dbo].[Inqueritoes] (
+    [UserId] int IDENTITY(1,1) NOT NULL,
+    [SituacaoPai] int  NOT NULL,
+    [OutraPai] varchar(50)  NULL,
+    [SituacaoMae] int  NOT NULL,
+    [OutraMae] varchar(50)  NULL,
+    [ConhecimentoEscola] int  NOT NULL,
+    [Outro] varchar(50)  NULL,
+    [CandidatarOutros] bit  NOT NULL,
+    [DataCriacao] datetime  NULL,
+    [DataAtualizacao] datetime  NULL
 );
 GO
 
@@ -346,10 +342,10 @@ ADD CONSTRAINT [PK_Concelhoes]
     PRIMARY KEY CLUSTERED ([Codigo], [CodigoDistrito] ASC);
 GO
 
--- Creating primary key on [Nome] in table 'ConhecimentoEscolas'
+-- Creating primary key on [ID] in table 'ConhecimentoEscolas'
 ALTER TABLE [dbo].[ConhecimentoEscolas]
 ADD CONSTRAINT [PK_ConhecimentoEscolas]
-    PRIMARY KEY CLUSTERED ([Nome] ASC);
+    PRIMARY KEY CLUSTERED ([ID] ASC);
 GO
 
 -- Creating primary key on [ID] in table 'Cursoes'
@@ -376,10 +372,10 @@ ADD CONSTRAINT [PK_Documentoes]
     PRIMARY KEY CLUSTERED ([ID] ASC);
 GO
 
--- Creating primary key on [Nome] in table 'EstadoCivils'
+-- Creating primary key on [ID] in table 'EstadoCivils'
 ALTER TABLE [dbo].[EstadoCivils]
 ADD CONSTRAINT [PK_EstadoCivils]
-    PRIMARY KEY CLUSTERED ([Nome] ASC);
+    PRIMARY KEY CLUSTERED ([ID] ASC);
 GO
 
 -- Creating primary key on [ID] in table 'Exames'
@@ -394,15 +390,9 @@ ADD CONSTRAINT [PK_Freguesias]
     PRIMARY KEY CLUSTERED ([Codigo], [CodigoConcelho], [CodigoDistrito] ASC);
 GO
 
--- Creating primary key on [Nome] in table 'Generoes'
+-- Creating primary key on [ID] in table 'Generoes'
 ALTER TABLE [dbo].[Generoes]
 ADD CONSTRAINT [PK_Generoes]
-    PRIMARY KEY CLUSTERED ([Nome] ASC);
-GO
-
--- Creating primary key on [ID] in table 'Inqueritoes'
-ALTER TABLE [dbo].[Inqueritoes]
-ADD CONSTRAINT [PK_Inqueritoes]
     PRIMARY KEY CLUSTERED ([ID] ASC);
 GO
 
@@ -418,16 +408,22 @@ ADD CONSTRAINT [PK_Pais]
     PRIMARY KEY CLUSTERED ([Sigla] ASC);
 GO
 
--- Creating primary key on [Nome] in table 'Situacaos'
+-- Creating primary key on [ID] in table 'Situacaos'
 ALTER TABLE [dbo].[Situacaos]
 ADD CONSTRAINT [PK_Situacaos]
-    PRIMARY KEY CLUSTERED ([Nome] ASC);
+    PRIMARY KEY CLUSTERED ([ID] ASC);
 GO
 
--- Creating primary key on [Nome] in table 'TipoDocumentoIDs'
+-- Creating primary key on [ID] in table 'TipoDocumentoIDs'
 ALTER TABLE [dbo].[TipoDocumentoIDs]
 ADD CONSTRAINT [PK_TipoDocumentoIDs]
-    PRIMARY KEY CLUSTERED ([Nome] ASC);
+    PRIMARY KEY CLUSTERED ([ID] ASC);
+GO
+
+-- Creating primary key on [ID] in table 'Users'
+ALTER TABLE [dbo].[Users]
+ADD CONSTRAINT [PK_Users]
+    PRIMARY KEY CLUSTERED ([ID] ASC);
 GO
 
 -- Creating primary key on [ID] in table 'UserCursoes'
@@ -448,10 +444,10 @@ ADD CONSTRAINT [PK_UserExames]
     PRIMARY KEY CLUSTERED ([ID] ASC);
 GO
 
--- Creating primary key on [ID] in table 'Users'
-ALTER TABLE [dbo].[Users]
-ADD CONSTRAINT [PK_Users]
-    PRIMARY KEY CLUSTERED ([ID] ASC);
+-- Creating primary key on [UserId], [SituacaoPai], [SituacaoMae], [ConhecimentoEscola], [CandidatarOutros] in table 'Inqueritoes'
+ALTER TABLE [dbo].[Inqueritoes]
+ADD CONSTRAINT [PK_Inqueritoes]
+    PRIMARY KEY CLUSTERED ([UserId], [SituacaoPai], [SituacaoMae], [ConhecimentoEscola], [CandidatarOutros] ASC);
 GO
 
 -- --------------------------------------------------
@@ -502,7 +498,7 @@ ALTER TABLE [dbo].[Inqueritoes]
 ADD CONSTRAINT [FK_Inquerito_ConhecimentoEscola]
     FOREIGN KEY ([ConhecimentoEscola])
     REFERENCES [dbo].[ConhecimentoEscolas]
-        ([Nome])
+        ([ID])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
@@ -532,7 +528,7 @@ ALTER TABLE [dbo].[DadosPessoais]
 ADD CONSTRAINT [FK_DadosPessoais_EstadoCivil]
     FOREIGN KEY ([EstadoCivil])
     REFERENCES [dbo].[EstadoCivils]
-        ([Nome])
+        ([ID])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
@@ -559,15 +555,15 @@ GO
 
 -- Creating foreign key on [FreguesiaMorada], [ConcelhoMorada], [DistritoMorada] in table 'DadosPessoais'
 ALTER TABLE [dbo].[DadosPessoais]
-ADD CONSTRAINT [FK_DadosPessoais_Freguesia_Morada]
+ADD CONSTRAINT [FK_DadosPessoais_FreguesiaMorada]
     FOREIGN KEY ([FreguesiaMorada], [ConcelhoMorada], [DistritoMorada])
     REFERENCES [dbo].[Freguesias]
         ([Codigo], [CodigoConcelho], [CodigoDistrito])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
--- Creating non-clustered index for FOREIGN KEY 'FK_DadosPessoais_Freguesia_Morada'
-CREATE INDEX [IX_FK_DadosPessoais_Freguesia_Morada]
+-- Creating non-clustered index for FOREIGN KEY 'FK_DadosPessoais_FreguesiaMorada'
+CREATE INDEX [IX_FK_DadosPessoais_FreguesiaMorada]
 ON [dbo].[DadosPessoais]
     ([FreguesiaMorada], [ConcelhoMorada], [DistritoMorada]);
 GO
@@ -577,7 +573,7 @@ ALTER TABLE [dbo].[DadosPessoais]
 ADD CONSTRAINT [FK_DadosPessoais_Genero]
     FOREIGN KEY ([Genero])
     REFERENCES [dbo].[Generoes]
-        ([Nome])
+        ([ID])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
@@ -607,7 +603,7 @@ ALTER TABLE [dbo].[DadosPessoais]
 ADD CONSTRAINT [FK_DadosPessoais_TipoDocumentoID]
     FOREIGN KEY ([TipoDocID])
     REFERENCES [dbo].[TipoDocumentoIDs]
-        ([Nome])
+        ([ID])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
@@ -615,6 +611,15 @@ GO
 CREATE INDEX [IX_FK_DadosPessoais_TipoDocumentoID]
 ON [dbo].[DadosPessoais]
     ([TipoDocID]);
+GO
+
+-- Creating foreign key on [UserId] in table 'DadosPessoais'
+ALTER TABLE [dbo].[DadosPessoais]
+ADD CONSTRAINT [FK_DadosPessoais_User]
+    FOREIGN KEY ([UserId])
+    REFERENCES [dbo].[Users]
+        ([ID])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
 -- Creating foreign key on [DocumentoId] in table 'UserDocumentoes'
@@ -649,41 +654,32 @@ GO
 
 -- Creating foreign key on [SituacaoMae] in table 'Inqueritoes'
 ALTER TABLE [dbo].[Inqueritoes]
-ADD CONSTRAINT [FK_Inquerito_Situacao_Mae]
+ADD CONSTRAINT [FK_Inquerito_SituacaoMae]
     FOREIGN KEY ([SituacaoMae])
     REFERENCES [dbo].[Situacaos]
-        ([Nome])
+        ([ID])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
--- Creating non-clustered index for FOREIGN KEY 'FK_Inquerito_Situacao_Mae'
-CREATE INDEX [IX_FK_Inquerito_Situacao_Mae]
+-- Creating non-clustered index for FOREIGN KEY 'FK_Inquerito_SituacaoMae'
+CREATE INDEX [IX_FK_Inquerito_SituacaoMae]
 ON [dbo].[Inqueritoes]
     ([SituacaoMae]);
 GO
 
 -- Creating foreign key on [SituacaoPai] in table 'Inqueritoes'
 ALTER TABLE [dbo].[Inqueritoes]
-ADD CONSTRAINT [FK_Inquerito_Situacao_Pai]
+ADD CONSTRAINT [FK_Inquerito_SituacaoPai]
     FOREIGN KEY ([SituacaoPai])
     REFERENCES [dbo].[Situacaos]
-        ([Nome])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_Inquerito_Situacao_Pai'
-CREATE INDEX [IX_FK_Inquerito_Situacao_Pai]
-ON [dbo].[Inqueritoes]
-    ([SituacaoPai]);
-GO
-
--- Creating foreign key on [UserId] in table 'DadosPessoais'
-ALTER TABLE [dbo].[DadosPessoais]
-ADD CONSTRAINT [FK_DadosPessoais_User]
-    FOREIGN KEY ([UserId])
-    REFERENCES [dbo].[Users]
         ([ID])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_Inquerito_SituacaoPai'
+CREATE INDEX [IX_FK_Inquerito_SituacaoPai]
+ON [dbo].[Inqueritoes]
+    ([SituacaoPai]);
 GO
 
 -- Creating foreign key on [UserId] in table 'Inqueritoes'
@@ -693,27 +689,6 @@ ADD CONSTRAINT [FK_Inquerito_User]
     REFERENCES [dbo].[Users]
         ([ID])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_Inquerito_User'
-CREATE INDEX [IX_FK_Inquerito_User]
-ON [dbo].[Inqueritoes]
-    ([UserId]);
-GO
-
--- Creating foreign key on [TipoDocID] in table 'Users'
-ALTER TABLE [dbo].[Users]
-ADD CONSTRAINT [FK_User_TipoDocumentoID]
-    FOREIGN KEY ([TipoDocID])
-    REFERENCES [dbo].[TipoDocumentoIDs]
-        ([Nome])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_User_TipoDocumentoID'
-CREATE INDEX [IX_FK_User_TipoDocumentoID]
-ON [dbo].[Users]
-    ([TipoDocID]);
 GO
 
 -- Creating foreign key on [UserId] in table 'UserCursoes'

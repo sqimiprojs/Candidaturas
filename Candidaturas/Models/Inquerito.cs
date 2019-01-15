@@ -15,14 +15,13 @@ namespace Candidaturas.Models
     public partial class Inquerito
     {
         public int UserId { get; set; }
-        public string SituacaoPai { get; set; }
+        public int SituacaoPai { get; set; }
         public string OutraPai { get; set; }
-        public string SituacaoMae { get; set; }
+        public int SituacaoMae { get; set; }
         public string OutraMae { get; set; }
-        public string ConhecimentoEscola { get; set; }
+        public int ConhecimentoEscola { get; set; }
         public string Outro { get; set; }
         public bool CandidatarOutros { get; set; }
-        public int ID { get; set; }
         public Nullable<System.DateTime> DataCriacao { get; set; }
         public Nullable<System.DateTime> DataAtualizacao { get; set; }
     

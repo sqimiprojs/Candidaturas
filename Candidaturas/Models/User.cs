@@ -22,23 +22,22 @@ namespace Candidaturas.Models
             this.UserDocumentoes = new HashSet<UserDocumento>();
             this.UserExames = new HashSet<UserExame>();
         }
-
+    
         public int ID { get; set; }
         public string NomeCompleto { get; set; }
         public byte[] Password { get; set; }
         public string NDI { get; set; }
         public bool Militar { get; set; }
-        public System.DateTime DataNascimento { get; set; }
+        public Nullable<System.DateTime> DataNascimento { get; set; }
         public string Email { get; set; }
         public string LoginErrorMessage { get; set; }
-        public string TipoDocID { get; set; }
-        public System.DateTime DataCriacao { get; set; }
+        public Nullable<int> TipoDocID { get; set; }
+        public Nullable<System.DateTime> DataCriacao { get; set; }
         public string PasswordInput { get; set; }
 
         public virtual DadosPessoai DadosPessoai { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Inquerito> Inqueritoes { get; set; }
-        public virtual TipoDocumentoID TipoDocumentoID { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserCurso> UserCursoes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

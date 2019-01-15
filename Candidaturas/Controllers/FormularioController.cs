@@ -12,7 +12,7 @@ namespace Candidaturas.Controllers
     public class FormularioController : Controller
     {
         
-        string generoEscolhido = null;
+        int? generoEscolhido = null;
         int? tipoDocIdEscolhido = null;
         int? distritoNaturalEscolhido = null;
         int? concelhoNaturalEscolhido = null;
@@ -21,12 +21,12 @@ namespace Candidaturas.Controllers
         int? concelhoMoradaEscolhido = null;
         int? freguesiaMoradaEscolhida = null;
         int? localidadeEscolhida = null;
-        string estadoCivilEscolhido = null;
+        int? estadoCivilEscolhido = null;
         string nacionalidadeEscolhida = null;
 
-        string situacaoPaiEscolhido = null;
-        string situacaoMaeEscolhido = null;
-        string conhecimentoEscolaEscolhido = null;
+        int? situacaoPaiEscolhido = null;
+        int? situacaoMaeEscolhido = null;
+        int? conhecimentoEscolaEscolhido = null;
 
         List<Exame> exames;
         List<CursoDisplay> cursos;
@@ -43,7 +43,7 @@ namespace Candidaturas.Controllers
             {
                 ViewBag.DadosPessoais = dadosPessoaisUser;
 
-                generoEscolhido = dadosPessoaisUser.Genero.ToString();
+                generoEscolhido = dadosPessoaisUser.Genero;
                 distritoNaturalEscolhido = dadosPessoaisUser.DistritoNatural;
                 concelhoNaturalEscolhido = dadosPessoaisUser.ConcelhoNatural;
                 freguesiaNaturalEscolhida = dadosPessoaisUser.FreguesiaNatural;
@@ -53,11 +53,11 @@ namespace Candidaturas.Controllers
                 estadoCivilEscolhido = dadosPessoaisUser.EstadoCivil;
                 nacionalidadeEscolhida = dadosPessoaisUser.Nacionalidade;
                 localidadeEscolhida = dadosPessoaisUser.Localidade;
-                tipoDocIdEscolhido = Int32.Parse(dadosPessoaisUser.TipoDocID);
+                tipoDocIdEscolhido = dadosPessoaisUser.TipoDocID;
             }
             else
             {
-                int tipoDocId = Int32.Parse(db.Users.Where(dp => dp.ID == userId).Select(dp => dp.TipoDocID).FirstOrDefault());
+                int? tipoDocId = db.Users.Where(dp => dp.ID == userId).Select(dp => dp.TipoDocID).FirstOrDefault();
 
                 tipoDocIdEscolhido = tipoDocId;
             }
@@ -76,9 +76,9 @@ namespace Candidaturas.Controllers
 
             IEnumerable<SelectListItem> generos = db.Generoes.OrderBy(dp => dp.Nome).Select(c => new SelectListItem
             {
-                Value = c.Nome,
+                Value = c.ID.ToString(),
                 Text = c.Nome,
-                Selected = c.Nome == generoEscolhido
+                Selected = c.ID == generoEscolhido
 
             });
             ViewBag.Genero = generos.ToList();
@@ -139,18 +139,18 @@ namespace Candidaturas.Controllers
 
             IEnumerable<SelectListItem> tiposDocumentosId = db.TipoDocumentoIDs.OrderBy(dp => dp.Nome).Select(c => new SelectListItem
             {
-                Value = c.Nome,
+                Value = c.ID.ToString(),
                 Text = c.Nome,
-                Selected = c.Nome == tipoDocIdEscolhido.ToString()
+                Selected = c.ID == tipoDocIdEscolhido
 
             });
             ViewBag.TipoDocID = tiposDocumentosId.ToList();
 
             IEnumerable<SelectListItem> estadosCivis = db.EstadoCivils.OrderBy(dp => dp.Nome).Select(c => new SelectListItem
             {
-                Value = c.Nome,
+                Value = c.ID.ToString(),
                 Text = c.Nome,
-                Selected = c.Nome == estadoCivilEscolhido
+                Selected = c.ID == estadoCivilEscolhido
 
             });
             ViewBag.EstadoCivil = estadosCivis.ToList();
@@ -276,7 +276,7 @@ namespace Candidaturas.Controllers
                         dadosPessoaisModel.UserId = userId;
 
                         //obter dígitos de controlo do cartão de cidadão
-                        if (dadosPessoaisModel.TipoDocID == "Cartão do Cidadão" || dadosPessoaisModel.TipoDocID == "Bilhete de Identidade")
+                        if (dadosPessoaisModel.TipoDocID == 4 || dadosPessoaisModel.TipoDocID == 2)
                         {
                             int idx = dadosPessoaisModel.NDI.IndexOf("-") + 1;
                             int length = dadosPessoaisModel.NDI.Length;
@@ -297,7 +297,7 @@ namespace Candidaturas.Controllers
                         }
                         else
                         {
-                            DateTime? dataCriacao = dadosPessoaisUser.DataCriacao;
+                            DateTime dataCriacao = dadosPessoaisUser.DataCriacao;
                             dbModel.DadosPessoais.Remove(dadosPessoaisUser);
                             dadosPessoaisUser = dadosPessoaisModel;
                             dadosPessoaisUser.DataCriacao = dataCriacao;
@@ -359,23 +359,23 @@ namespace Candidaturas.Controllers
 
             IEnumerable<SelectListItem> situacoesPai = db.Situacaos.Select(c => new SelectListItem
             {
-                Value = c.Nome,
+                Value = c.ID.ToString(),
                 Text = c.Nome,
-                Selected = c.Nome == situacaoPaiEscolhido
+                Selected = c.ID == situacaoPaiEscolhido
             });
 
             IEnumerable<SelectListItem> situacoesMae = db.Situacaos.Select(c => new SelectListItem
             {
-                Value = c.Nome,
+                Value = c.ID.ToString(),
                 Text = c.Nome,
-                Selected = c.Nome == situacaoMaeEscolhido
+                Selected = c.ID == situacaoMaeEscolhido
             });
 
             IEnumerable<SelectListItem> conhecimentosEscola = db.ConhecimentoEscolas.Select(c => new SelectListItem
             {
-                Value = c.Nome,
+                Value = c.ID.ToString(),
                 Text = c.Nome,
-                Selected = c.Nome == conhecimentoEscolaEscolhido
+                Selected = c.ID == conhecimentoEscolaEscolhido
             });
 
             ViewBag.SituacaoPai = situacoesPai.ToList();
@@ -419,21 +419,6 @@ namespace Candidaturas.Controllers
                         Inquerito inqueritoUser = dbModel.Inqueritoes.Where(dp => dp.UserId == userId).FirstOrDefault();
 
                         inqueritoModel.UserId = userId;
-
-                        if (inqueritoModel.SituacaoMae == null)
-                        {
-                            inqueritoModel.SituacaoMae = String.Empty;
-                        }
-
-                        if (inqueritoModel.SituacaoPai == null)
-                        {
-                            inqueritoModel.SituacaoPai = String.Empty;
-                        }
-
-                        if (inqueritoModel.ConhecimentoEscola == null)
-                        {
-                            inqueritoModel.ConhecimentoEscola = String.Empty;
-                        }
 
                         if (inqueritoUser == null)
                         {

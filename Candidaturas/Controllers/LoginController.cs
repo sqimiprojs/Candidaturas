@@ -34,7 +34,7 @@ namespace Candidaturas.Controllers
                 if (userDetails == null)
                 {
                     userModel.LoginErrorMessage = "Username ou password errado.";
-                    return View("~/Views/Login/Index.cshtml");
+                    return RedirectToAction("Index", "Login");
                 }
                 else
                 {
