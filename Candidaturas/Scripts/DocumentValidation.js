@@ -1,12 +1,16 @@
 ﻿$(document).ready(function () {
+    checkNational();
+    $("#NIF").change(function () {
+        var nif = $("#NIF").val();
+        if (validarNIF(nif)) {
+            $("#NIFWarning").text("");
+            $("#NIFWarning").hide();
+        }
+        else {
+             $("#NIFWarning").text("Nº de Identificação fiscal inválido");
+             $("#NIFWarning").show();
+        }
 
-    $("#NDI").blur(function () {
-        var number = $("#NDI").val();
-        
-        if (number !== "") {
-            validarTipoDocId(number);
-        }        
-        mostrarPlaceholderFormatoCCouBI();
     });
 
     $("#Email").blur(function () {
@@ -15,49 +19,86 @@
     });
 
     $("#TipoDocID").change(function () {
-        var number = $("#NDI").val();
-        if (number !== "") {
-            validarTipoDocId(number);
-        } 
-        mostrarPlaceholderFormatoCCouBI();
+
+        var docType = $("#TipoDocID").val();
+        if (docType !== "") {
+            validarDoc(docType);
+        }
     });
+
+    $('#Militar').click(function () {
+        changeLabel();
+    });
+
+    $("#NDI").change(function () {
+
+        var docType = $("#TipoDocID").val();
+        if (docType !== "") {
+            validarDoc(docType);
+        }
+    });
+
     $("#DataNascimento").change(function () {
         validarIdd();
     });
 
-    function validarTipoDocId(number) {
-        var chosenValue = $("#TipoDocID").val();
+    $("#CodigoPostal4Dig").change(function () {
+        var cp4 = $("#CodigoPostal4Dig").val();
 
-        if (chosenValue === "Cartão de Cidadão") {
-            if (validarCC(number) && validarDigitosCC(number)) {
-                $("#NDIWarning").hide();
-                return true;
-            }
-            else {
-                $("#NDIWarning").text("Cartão de Cidadão inválido");
-                $("#NDIWarning").show();
-                return false;
-            }
-        }
+        limitarCodPostal4Dig(cp4);
+    });
 
-        if (chosenValue === "Bilhete de Identidade") {
-            if (validarBI(number) && validarDigitosBI(number)) {
-                $("#NDIWarning").hide();
-                return true;
-            }
-            else {
-                $("#NDIWarning").text("Bilhete de Identidade inválido");
-                $("#NDIWarning").show();
-                return false;
-            }
-        }
-    
-        if ($("#NDIWarning").is(":visible")) {
+    $("#CodigoPostal3Dig").change(function () {
+        var cp3 = $("#CodigoPostal3Dig").val();
+
+        limitarCodPostal3Dig(cp3);
+    });
+
+    $("#Nacionalidade").change(function () {
+
+        checkNational();
+    });
+
+
+    function validacaoCC(number) {
+        if (validarCC(number) && validarDigitosCC(number)) {
+            $("#NDIWarning").text("");
             $("#NDIWarning").hide();
-        }
             return true;
         }
+        else {
+            $("#NDIWarning").text("Nº Cartão de Cidadão inválido");
+            $("#NDIWarning").show();
+            return false;
+        }
+    }
 
+    function validacaoBI(number) {
+        if (validarBI(number) && validarDigitosBI(number)) {
+            $("#NDIWarning").text("");
+            $("#NDIWarning").hide();
+            return true;
+        }
+        else {
+            $("#NDIWarning").text("Nº Bilhete de Identidade inválido");
+            $("#NDIWarning").show();
+            return false;
+        }
+    }
+
+    function validarDoc(docType) {
+        var number = $("#NDI").val();
+        if (number === "") {
+            mostrarPlaceholderFormatoCCouBI(docType);
+            return false;
+        }
+        if (docType === 2) {
+            return validacaoBI(number);
+        }
+        else if (docType === 4) {
+            return validacaoCC(number);
+        }
+    }
 
     function validarCC(value) {
         var re = new RegExp("^[0-9]{8}[ -]*[0-9][A-Za-z]{2}[0-9]$");
@@ -106,7 +147,6 @@
             sum += valor;
             secondDigit = !secondDigit;
         }
-
         return (sum % 10) === 0;
     }
 
@@ -151,24 +191,23 @@
         return res;
     }
 
-    function validarBI(value)
-    {
+    function validarBI(value) {
         var re = new RegExp("^[0-9]{8}[ -]*[0-9]$");
         return re.test(value);
     }
 
     //mostrar formato do CC caso seleccionar esse
-    function mostrarPlaceholderFormatoCCouBI() {
-        var chosenValue = $("#TipoDocID").val();
-
-        if (chosenValue === "Cartão de Cidadão") {
+    function mostrarPlaceholderFormatoCCouBI(docType) {
+        $("#NDIWarning").text("");
+        $("#NDIWarning").hide();
+        if (docType === 4) {
             $("#NDI").prop("placeholder", "DDDDDDDD-DCCD");
         }
-        else if (chosenValue === "Bilhete de Identidade") {
+        else if (docType === 2) {
             $("#NDI").prop("placeholder", "DDDDDDDD-D");
         }
         else {
-            $('#NDI').prop('placeholder',"");
+            $('#NDI').prop('placeholder', "");
         }
     }
 
@@ -197,13 +236,6 @@
     }
 
     //muda a label do switch
-    $('#Militar').click(function () {
-        changeLabel();
-    });
-
-    $(document).ready(function () {
-        changeLabel();
-    });
 
     function changeLabel() {
         validarIdd();
@@ -221,10 +253,10 @@
         return re.test(String(email).toLowerCase());
     }
 
-function validarEmail() {
+    function validarEmail() {
         var email = $("#Email").val();
         if (email !== "") {
-            
+
             if (regexEmail(email)) {
                 $("#EmailWarning").hide();
                 return true;
@@ -247,8 +279,8 @@ function validarEmail() {
         var email = $("#Email").val();
         var emailExists = true;
         var valid = true;
-        
-        if (email != "") {
+
+        if (email !== "") {
             var check = $.ajax({
                 url: '@Url.Action("checkEmail", "User")',
                 data: {
@@ -256,7 +288,7 @@ function validarEmail() {
                 },
                 type: "POST",
                 success: function (exists) {
-                    if (exists == "True") {
+                    if (exists === "True") {
                         $("#EmailWarning").text("Este email já se encontra em uso.");
                         $("#EmailWarning").show();
                         emailExists = false;
@@ -302,4 +334,56 @@ function validarEmail() {
         }
     }
 
+    /* Formulario */
+    function validarNIF(nif) {
+
+        if (!['1', '2', '3', '5', '6', '8'].includes(nif.substr(0, 1)) &&
+            !['45', '70', '71', '72', '77', '79', '90', '91', '98', '99'].includes(nif.substr(0, 2)))
+            return false;
+        let total = nif[0] * 9 + nif[1] * 8 + nif[2] * 7 + nif[3] * 6 + nif[4] * 5 + nif[5] * 4 + nif[6] * 3 + nif[7] * 2;
+
+        let modulo11 = total - parseInt(total / 11) * 11;
+        let comparador = modulo11 == 1 || modulo11 == 0 ? 0 : 11 - modulo11;
+        return nif[8] == comparador;
+    }
+
+    //limita 4 digitos
+    function limitarCodPostal4Dig(cp4) {
+        if (cp4.length <= "4") {
+            $("#CPWarning").hide();
+            return true;
+        }
+        else {
+            $("#CPWarning").text("Código postal inválido");
+            $("#CodigoPostal4Dig").val($("#CodigoPostal4Dig").val().substr(0, 4));
+            $("#CPWarning").show();
+            return false;
+        }
+    }
+
+    //limita 3 digitos
+    function limitarCodPostal3Dig(cp3) {
+        if (cp3.length <= "3") {
+            $("#CPWarning").hide();
+            return true;
+        }
+        else {
+            $("#CPWarning").text("Código postal inválido");
+            $("#CodigoPostal3Dig").val($("#CodigoPostal3Dig").val().substr(0, 3));
+            $("#CPWarning").show();
+            return false;
+        }
+    }
+    function checkNational() {
+        var nac = $("#Nacionalidade").val();
+        if (nac.trim() === "PT") {
+            $("#NIF").prop('required', true);
+            $("label[for='NIF']").addClass('required');
+
+        }
+        else {
+            $("#NIF").prop('required', false);
+            $("label[for='NIF']").removeClass('required');
+        }
+    }
 });

@@ -51,7 +51,6 @@ namespace Candidaturas.Controllers
                                 userModel.Password = mySHA256.ComputeHash(Encoding.UTF8.GetBytes(newPassword));
                                 userModel.DataCriacao = System.DateTime.Now;
                                 dbModel.Users.Add(userModel);
-                                /**/
                                 dbModel.SaveChanges();
 
                                 ModelState.Clear();
