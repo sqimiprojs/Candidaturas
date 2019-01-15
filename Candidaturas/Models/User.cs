@@ -17,7 +17,6 @@ namespace Candidaturas.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public User()
         {
-            this.Inqueritoes = new HashSet<Inquerito>();
             this.UserCursoes = new HashSet<UserCurso>();
             this.UserDocumentoes = new HashSet<UserDocumento>();
             this.UserExames = new HashSet<UserExame>();
@@ -36,8 +35,7 @@ namespace Candidaturas.Models
         public string PasswordInput { get; set; }
 
         public virtual DadosPessoai DadosPessoai { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Inquerito> Inqueritoes { get; set; }
+        public virtual Inquerito Inquerito { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserCurso> UserCursoes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

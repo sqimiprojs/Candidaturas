@@ -19,7 +19,7 @@ namespace Candidaturas.Controllers
         public ActionResult Authorize(Candidaturas.Models.User userModel)
         {
 
-            using (CandidaturaDBEntities db = new CandidaturaDBEntities())
+            using (CandidaturaDBEntities1 db = new CandidaturaDBEntities1())
             {
                 //TODO Tratar cado de password vir null
                 byte[] hashedUserPassword = new byte[0];

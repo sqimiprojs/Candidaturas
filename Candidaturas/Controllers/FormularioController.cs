@@ -36,7 +36,7 @@ namespace Candidaturas.Controllers
         public void getDadosPessoais(int userId)
         {
             ViewBag.Title = "Dados Pessoais";
-            CandidaturaDBEntities db = new CandidaturaDBEntities();
+            CandidaturaDBEntities1 db = new CandidaturaDBEntities1();
             DadosPessoai dadosPessoaisUser = db.DadosPessoais.Where(dp => dp.UserId == userId).FirstOrDefault();
 
             if (dadosPessoaisUser != null)
@@ -72,7 +72,7 @@ namespace Candidaturas.Controllers
         //obtém os dados a serem preenchidos nas drops
         public void getDataForDropdownLists(int? distritoNatural, int? concelhoNatural, int? distritoMorada, int? concelhoMorada)
         {
-            CandidaturaDBEntities db = new CandidaturaDBEntities();
+            CandidaturaDBEntities1 db = new CandidaturaDBEntities1();
 
             IEnumerable<SelectListItem> generos = db.Generoes.OrderBy(dp => dp.Nome).Select(c => new SelectListItem
             {
@@ -196,7 +196,7 @@ namespace Candidaturas.Controllers
         //actualiza lista de concelhos consoante o distrito seleccionado
         public JsonResult updateConcelhos(int distrito)
         {
-            CandidaturaDBEntities db = new CandidaturaDBEntities();
+            CandidaturaDBEntities1 db = new CandidaturaDBEntities1();
 
             var concelhos = db.Concelhoes.Where(dp => dp.CodigoDistrito == distrito).OrderBy(dp => dp.Nome).Select(c => new
             {
@@ -218,7 +218,7 @@ namespace Candidaturas.Controllers
         //actualiza lista de freguesias consoante o concelho seleccionado
         public JsonResult updateFreguesias(int distrito, int concelho)
         {
-            CandidaturaDBEntities db = new CandidaturaDBEntities();
+            CandidaturaDBEntities1 db = new CandidaturaDBEntities1();
 
             var freguesias = db.Freguesias.Where(dp => dp.CodigoDistrito == distrito && dp.CodigoConcelho == concelho).OrderBy(dp => dp.Nome).Select(c => new
             {
@@ -240,7 +240,7 @@ namespace Candidaturas.Controllers
         //actualiza lista de localidades consoante o distrito seleccionado
         public JsonResult updateLocalidades(int distrito, int concelho)
         {
-            CandidaturaDBEntities db = new CandidaturaDBEntities();
+            CandidaturaDBEntities1 db = new CandidaturaDBEntities1();
 
             var localidades = db.Localidades.Where(dp => dp.CodigoDistrito == distrito && dp.CodigoConcelho == concelho).OrderBy(dp => dp.Nome).Select(c => new
             {
@@ -267,7 +267,7 @@ namespace Candidaturas.Controllers
             {
                 int userId = (int)Session["userID"];
 
-                using (CandidaturaDBEntities dbModel = new CandidaturaDBEntities())
+                using (CandidaturaDBEntities1 dbModel = new CandidaturaDBEntities1())
                 {
                     try
                     {
@@ -339,7 +339,7 @@ namespace Candidaturas.Controllers
         //obtém os dados preenchdios pelo utilizador para mostrar no ecrã
         public void getDadosPessoaisInquerito(int userId)
         {
-            CandidaturaDBEntities db = new CandidaturaDBEntities();
+            CandidaturaDBEntities1 db = new CandidaturaDBEntities1();
             Inquerito inqueritoUser = db.Inqueritoes.Where(dp => dp.UserId == userId).FirstOrDefault();
 
             if (inqueritoUser != null)
@@ -355,7 +355,7 @@ namespace Candidaturas.Controllers
         //obtém os dados a serem preenchidos nas drops
         public void getDataForDropdownListsInquerito()
         {
-            CandidaturaDBEntities db = new CandidaturaDBEntities();
+            CandidaturaDBEntities1 db = new CandidaturaDBEntities1();
 
             IEnumerable<SelectListItem> situacoesPai = db.Situacaos.Select(c => new SelectListItem
             {
@@ -410,7 +410,7 @@ namespace Candidaturas.Controllers
                 {
                 int userId = (int)Session["userID"];
 
-                using (CandidaturaDBEntities dbModel = new CandidaturaDBEntities())
+                using (CandidaturaDBEntities1 dbModel = new CandidaturaDBEntities1())
                 {
 
                     try
@@ -463,7 +463,7 @@ namespace Candidaturas.Controllers
         }
 
         //obtém os exames seleccionados pelo utilizador
-        public void getSelectedExames(CandidaturaDBEntities db, int userId)
+        public void getSelectedExames(CandidaturaDBEntities1 db, int userId)
         {
             List<int> examesEscolhidos = db.UserExames.Where(dp => dp.UserId == userId).Select(dp => dp.ExameId).ToList();
 
@@ -475,7 +475,7 @@ namespace Candidaturas.Controllers
         }
 
         //obtém os cursos seleccionados pelo utilizador
-        public void getSelectedCursos(CandidaturaDBEntities db, int userId)
+        public void getSelectedCursos(CandidaturaDBEntities1 db, int userId)
         {
             List<int> cursosEscolhidos = db.UserCursoes.Where(dp => dp.UserId == userId).OrderBy(dp => dp.Prioridade).Select(dp => dp.CursoId).ToList();
 
@@ -491,7 +491,7 @@ namespace Candidaturas.Controllers
         }
 
         //obtém os dados a serem preenchidos nas drops (exames, cursos)
-        public void getDataForDropdownLists(CandidaturaDBEntities db)
+        public void getDataForDropdownLists(CandidaturaDBEntities1 db)
         {
 
             IEnumerable<SelectListItem> exames = db.Exames.Select(c => new SelectListItem
@@ -520,7 +520,7 @@ namespace Candidaturas.Controllers
 
             if (Session["userID"] != null)
             {
-                CandidaturaDBEntities db = new CandidaturaDBEntities();
+                CandidaturaDBEntities1 db = new CandidaturaDBEntities1();
                 int userId = (int)Session["userID"];
 
                 getDataForDropdownLists(db);
@@ -545,7 +545,7 @@ namespace Candidaturas.Controllers
 
                 if (exameEscolhido != 0)
                 {
-                    using (CandidaturaDBEntities dbModel = new CandidaturaDBEntities())
+                    using (CandidaturaDBEntities1 dbModel = new CandidaturaDBEntities1())
                     {
 
                         try
@@ -612,7 +612,7 @@ namespace Candidaturas.Controllers
 
                 if (cursoEscolhido != 0)
                 {
-                    using (CandidaturaDBEntities dbModel = new CandidaturaDBEntities())
+                    using (CandidaturaDBEntities1 dbModel = new CandidaturaDBEntities1())
                     {
 
                         try
@@ -690,7 +690,7 @@ namespace Candidaturas.Controllers
             {
                 int userId = (int)Session["userID"];
 
-                using (CandidaturaDBEntities dbModel = new CandidaturaDBEntities())
+                using (CandidaturaDBEntities1 dbModel = new CandidaturaDBEntities1())
                 {
                     try
                     {
@@ -731,7 +731,7 @@ namespace Candidaturas.Controllers
             {
                 int userId = (int)Session["userID"];
 
-                using (CandidaturaDBEntities dbModel = new CandidaturaDBEntities())
+                using (CandidaturaDBEntities1 dbModel = new CandidaturaDBEntities1())
                 {
                     try
                     {
@@ -783,7 +783,7 @@ namespace Candidaturas.Controllers
             {
                 int userId = (int)Session["userID"];
 
-                using (CandidaturaDBEntities dbModel = new CandidaturaDBEntities())
+                using (CandidaturaDBEntities1 dbModel = new CandidaturaDBEntities1())
                 {
                     try
                     {
@@ -838,7 +838,7 @@ namespace Candidaturas.Controllers
             {
                 int userId = (int)Session["userID"];
 
-                using (CandidaturaDBEntities dbModel = new CandidaturaDBEntities())
+                using (CandidaturaDBEntities1 dbModel = new CandidaturaDBEntities1())
                 {
                     try
                     {

@@ -12,7 +12,7 @@ namespace Candidaturas.Controllers
     {
         public void getDataForDropdownLists()
         {
-            CandidaturaDBEntities db = new CandidaturaDBEntities();
+            CandidaturaDBEntities1 db = new CandidaturaDBEntities1();
 
             IEnumerable<SelectListItem> tiposDocumentosId = db.TipoDocumentoIDs.Select(c => new SelectListItem
             {
@@ -39,7 +39,7 @@ namespace Candidaturas.Controllers
 
             if (response.Success)
             {
-                using (CandidaturaDBEntities dbModel = new CandidaturaDBEntities())
+                using (CandidaturaDBEntities1 dbModel = new CandidaturaDBEntities1())
                 {
                     if (!dbModel.Users.Any(u => u.Email == userModel.Email))
                     {
@@ -99,7 +99,7 @@ namespace Candidaturas.Controllers
         //Verifica a existência do email na base de dados
         public Boolean checkEmail(String email)
         {
-            CandidaturaDBEntities db = new CandidaturaDBEntities();
+            CandidaturaDBEntities1 db = new CandidaturaDBEntities1();
 
             if (!db.Users.Any(u => u.Email == email))
             {
@@ -119,7 +119,7 @@ namespace Candidaturas.Controllers
         [HttpPost]
         public ActionResult RecoverPassword(User userModel)
         {
-            CandidaturaDBEntities db = new CandidaturaDBEntities();
+            CandidaturaDBEntities1 db = new CandidaturaDBEntities1();
             string email = userModel.Email;
 
             User user = db.Users.Where(u => u.Email == email).FirstOrDefault();

@@ -13,10 +13,10 @@ namespace Candidaturas.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class CandidaturaDBEntities : DbContext
+    public partial class CandidaturaDBEntities1 : DbContext
     {
-        public CandidaturaDBEntities()
-            : base("name=CandidaturaDBEntities")
+        public CandidaturaDBEntities1()
+            : base("name=CandidaturaDBEntities1")
         {
         }
     
@@ -35,6 +35,7 @@ namespace Candidaturas.Models
         public virtual DbSet<Exame> Exames { get; set; }
         public virtual DbSet<Freguesia> Freguesias { get; set; }
         public virtual DbSet<Genero> Generoes { get; set; }
+        public virtual DbSet<Inquerito> Inqueritoes { get; set; }
         public virtual DbSet<Localidade> Localidades { get; set; }
         public virtual DbSet<Pai> Pais { get; set; }
         public virtual DbSet<Situacao> Situacaos { get; set; }
@@ -43,6 +44,5 @@ namespace Candidaturas.Models
         public virtual DbSet<UserCurso> UserCursoes { get; set; }
         public virtual DbSet<UserDocumento> UserDocumentoes { get; set; }
         public virtual DbSet<UserExame> UserExames { get; set; }
-        public virtual DbSet<Inquerito> Inqueritoes { get; set; }
     }
 }
