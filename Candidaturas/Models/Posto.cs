@@ -12,18 +12,16 @@ namespace Candidaturas.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Pai
+    public partial class Posto
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Pai()
-        {
-            this.DadosPessoais = new HashSet<DadosPessoai>();
-        }
-    
-        public string Sigla { get; set; }
+        public int Código { get; set; }
         public string Nome { get; set; }
+        public string Abreviatura { get; set; }
+        public string RamoMilitar { get; set; }
+        public string CategoriaMilitar { get; set; }
+        public int Ordem { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DadosPessoai> DadosPessoais { get; set; }
+        public virtual Categoria Categoria { get; set; }
+        public virtual Ramo Ramo { get; set; }
     }
 }

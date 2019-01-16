@@ -16,7 +16,7 @@ namespace Candidaturas.Controllers
 
 
         [HttpPost]
-        public ActionResult Authorize(Candidaturas.Models.User userModel)
+        public ActionResult Authorize(Login model)
         {
 
             using (CandidaturaDBEntities1 db = new CandidaturaDBEntities1())
@@ -26,14 +26,14 @@ namespace Candidaturas.Controllers
 
                 using (SHA256 mySHA256 = SHA256.Create())
                 {
-                    hashedUserPassword = mySHA256.ComputeHash(Encoding.UTF8.GetBytes(userModel.PasswordInput));
+                    hashedUserPassword = mySHA256.ComputeHash(Encoding.UTF8.GetBytes(model.passwordInput));
                 }
 
-                var userDetails = db.Users.Where(x => x.Email == userModel.Email && x.Password == hashedUserPassword).FirstOrDefault();
+                var userDetails = db.Users.Where(x => x.Email == model.user.Email && x.Password == hashedUserPassword).FirstOrDefault();
 
                 if (userDetails == null)
                 {
-                    userModel.LoginErrorMessage = "Username ou password errado.";
+                    model.user.LoginErrorMessage = "Username ou password errado.";
                     return RedirectToAction("Index", "Login");
                 }
                 else

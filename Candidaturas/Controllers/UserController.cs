@@ -27,13 +27,15 @@ namespace Candidaturas.Controllers
         // GET: User
         public ActionResult NewUser()
         {
-            User userModel = new User();
+            UserDados model = new UserDados();
+            model.user = new User();
+            model.dadosPessoais = new DadosPessoai();
             getDataForDropdownLists();
-            return View(userModel);
+            return View(model);
         }
 
         [HttpPost]
-        public ActionResult NewUser(User userModel)
+        public ActionResult NewUser(UserDados model)
         {
             CaptchaResponse response = CaptchaValidator.ValidateCaptcha(Request["g-recaptcha-response"]);
 
@@ -41,16 +43,21 @@ namespace Candidaturas.Controllers
             {
                 using (CandidaturaDBEntities1 dbModel = new CandidaturaDBEntities1())
                 {
-                    if (!dbModel.Users.Any(u => u.Email == userModel.Email))
+                    if (!dbModel.Users.Any(u => u.Email == model.user.Email))
                     {
                         try
                         {
                             string newPassword = Password.GeneratePassword().ToString();
                             using (SHA256 mySHA256 = SHA256.Create())
                             {
-                                userModel.Password = mySHA256.ComputeHash(Encoding.UTF8.GetBytes(newPassword));
-                                userModel.DataCriacao = System.DateTime.Now;
-                                dbModel.Users.Add(userModel);
+                                model.user.Password = mySHA256.ComputeHash(Encoding.UTF8.GetBytes(newPassword));
+                                model.user.DataCriacao = System.DateTime.Now;
+                                                                
+                                model.dadosPessoais.DataCriacao = System.DateTime.Now;
+                                model.dadosPessoais.DataUltimaAtualizacao = System.DateTime.Now;
+
+                                dbModel.Users.Add(model.user);
+                                dbModel.DadosPessoais.Add(model.dadosPessoais);
                                 /**/
                                 dbModel.SaveChanges();
 
@@ -59,7 +66,7 @@ namespace Candidaturas.Controllers
                                 string subject = "Portal de Candidaturas à Base Naval - Palavra-passe de Acesso";
                                 string body = "A sua palavra-passe de acesso ao portal de candidaturas é: " + newPassword;
 
-                                Email.SendEmail(userModel.Email, subject, body);
+                                Email.SendEmail(model.user.Email, subject, body);
 
                                 ViewBag.Subtitle = "Criação de Conta";
 

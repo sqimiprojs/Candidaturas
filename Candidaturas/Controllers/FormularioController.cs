@@ -23,6 +23,8 @@ namespace Candidaturas.Controllers
         int? localidadeEscolhida = null;
         int? estadoCivilEscolhido = null;
         string nacionalidadeEscolhida = null;
+        string nomeCompleto = null;
+        string ndi = null;
 
         int? situacaoPaiEscolhido = null;
         int? situacaoMaeEscolhido = null;
@@ -54,19 +56,10 @@ namespace Candidaturas.Controllers
                 nacionalidadeEscolhida = dadosPessoaisUser.Nacionalidade;
                 localidadeEscolhida = dadosPessoaisUser.Localidade;
                 tipoDocIdEscolhido = dadosPessoaisUser.TipoDocID;
-            }
-            else
-            {
-                int? tipoDocId = db.Users.Where(dp => dp.ID == userId).Select(dp => dp.TipoDocID).FirstOrDefault();
-
-                tipoDocIdEscolhido = tipoDocId;
+                nomeCompleto = dadosPessoaisUser.NomeColoquial;
+                ndi = dadosPessoaisUser.NDI;
             }
 
-            string nomeCompleto = db.Users.Where(dp => dp.ID == userId).Select(dp => dp.NomeCompleto).FirstOrDefault();
-            string ndi = db.Users.Where(dp => dp.ID == userId).Select(dp => dp.NDI).FirstOrDefault();
-
-            ViewBag.NomeCompleto = nomeCompleto;
-            ViewBag.NDI = ndi;
         }
 
         //obtém os dados a serem preenchidos nas drops
@@ -306,10 +299,10 @@ namespace Candidaturas.Controllers
                         }
 
                         //actualiza nome completo
-                        User userData = dbModel.Users.Where(dp => dp.ID == userId).FirstOrDefault();
-                        userData.NomeCompleto = dadosPessoaisModel.NomeColoquial;
-                        userData.TipoDocID = dadosPessoaisModel.TipoDocID;
-                        userData.NDI = dadosPessoaisModel.NDI;
+                        //User userData = dbModel.Users.Where(dp => dp.ID == userId).FirstOrDefault();
+                        //userData.NomeCompleto = dadosPessoaisModel.NomeColoquial;
+                        //userData.TipoDocID = dadosPessoaisModel.TipoDocID;
+                        //userData.NDI = dadosPessoaisModel.NDI;
 
                         dbModel.SaveChanges();
 

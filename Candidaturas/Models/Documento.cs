@@ -26,6 +26,7 @@ namespace Candidaturas.Models
         public byte[] Ficheiro { get; set; }
         public string Tipo { get; set; }
     
+        public virtual DocumentoBinario DocumentoBinario { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserDocumento> UserDocumentoes { get; set; }
     }

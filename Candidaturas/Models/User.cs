@@ -23,16 +23,10 @@ namespace Candidaturas.Models
         }
     
         public int ID { get; set; }
-        public string NomeCompleto { get; set; }
         public byte[] Password { get; set; }
-        public string NDI { get; set; }
-        public bool Militar { get; set; }
-        public Nullable<System.DateTime> DataNascimento { get; set; }
         public string Email { get; set; }
         public string LoginErrorMessage { get; set; }
-        public Nullable<int> TipoDocID { get; set; }
-        public Nullable<System.DateTime> DataCriacao { get; set; }
-        public string PasswordInput { get; set; }
+        public System.DateTime DataCriacao { get; set; }
 
         public virtual DadosPessoai DadosPessoai { get; set; }
         public virtual Inquerito Inquerito { get; set; }

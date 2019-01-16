@@ -186,12 +186,23 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CandidaturasModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\Categoria.cs">
+      <DependentUpon>CandidaturasModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Concelho.cs">
       <DependentUpon>CandidaturasModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ConhecimentoEscola.cs">
       <DependentUpon>CandidaturasModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DocumentoBinario.cs">
+      <DependentUpon>CandidaturasModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Login.cs" />
+    <Compile Include="Models\sysdiagram.cs">
+      <DependentUpon>CandidaturasModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UserDados.cs" />
     <Compile Include="Models\Curso.cs">
       <DependentUpon>CandidaturasModel.tt</DependentUpon>
     </Compile>
@@ -224,6 +235,12 @@
       <DependentUpon>CandidaturasModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Pai.cs">
+      <DependentUpon>CandidaturasModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Posto.cs">
+      <DependentUpon>CandidaturasModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Ramo.cs">
       <DependentUpon>CandidaturasModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Situacao.cs">
@@ -269,6 +286,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\CriacaoConta\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
