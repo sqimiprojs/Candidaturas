@@ -2,7 +2,7 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<script type="text/javascript" src="~/Scripts/documentValidation.js"></script>
 @using (Html.BeginForm("DadosPessoais", "Formulario", FormMethod.Post, new { @id = "formDadosPessoais", onsubmit = "finalValidation()" }))
 {
     @Html.AntiForgeryToken()
@@ -95,9 +95,9 @@
             @Html.LabelFor(model => model.CodigoPostal4Dig, "Código Postal", htmlAttributes: new { @class = "control-label col-md-2 required" })
             <div class="col-md-10">
                 <div class="form-inline">
-                    @Html.EditorFor(model => model.CodigoPostal4Dig, new { htmlAttributes = new { @type = "number", @class = "form-control", @required = "required", @style = "width:40%", @placeholder = "1234", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.CodigoPostal4Dig) } })
+                    @Html.EditorFor(model => model.CodigoPostal4Dig, new { htmlAttributes = new { @type = "number", @class = "form-control", @required = "required", @style = "width:40%", @placeholder = "NNNN", maxlength = "10", min = "0", max = "9999", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.CodigoPostal4Dig) } })
                     -
-                    @Html.EditorFor(model => model.CodigoPostal3Dig, new { htmlAttributes = new { @type = "number", @class = "form-control", @required = "required", @style = "width:20%", @placeholder = "123", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.CodigoPostal3Dig) } })
+                    @Html.EditorFor(model => model.CodigoPostal3Dig, new { htmlAttributes = new { @type = "number", @class = "form-control", @required = "required", @style = "width:20%", @placeholder = "NNN", maxlength = "3", min= "0", max="999", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.CodigoPostal3Dig) } })
                 </div>
                 @Html.ValidationMessageFor(model => model.CodigoPostal4Dig, "", new { @class = "text-danger" })
                 @Html.ValidationMessageFor(model => model.CodigoPostal3Dig, "", new { @class = "text-danger" })
@@ -179,7 +179,7 @@
         <h4 class="candidaturasHeader">Documento de Identificação</h4>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.TipoDocID, "Tipo", htmlAttributes: new { @class = "control-label col-md-2 required" })
+            @Html.LabelFor(model => model.TipoDocID, "Documento de Identificação", htmlAttributes: new { @class = "control-label col-md-2 required" })
             <div class="col-md-10">
                 @Html.DropDownListFor(model => model.TipoDocID, ViewBag.TipoDocID as IEnumerable<SelectListItem>, "Escolha uma opção...", new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.TipoDocID, "", new { @class = "text-danger" })
@@ -187,7 +187,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.NDI, "Número", htmlAttributes: new { @class = "control-label col-md-2 required" })
+            @Html.LabelFor(model => model.NDI, "Nº de Identificação", htmlAttributes: new { @class = "control-label col-md-2 required" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.NDI, new { htmlAttributes = new { @class = "form-control", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.NDI) } })
                 @Html.ValidationMessageFor(model => model.NDI, "", new { @class = "text-danger" })
@@ -202,7 +202,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.NIF, "Número", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.NIF, new { htmlAttributes = new { @class = "form-control", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.NIF) } })
+                @Html.EditorFor(model => model.NIF, new { htmlAttributes = new { @class = "form-control", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.NIF)} })
                 @Html.ValidationMessageFor(model => model.NIF, "", new { @class = "text-danger" })
                 <span id="NIFWarning" for="NIF" class="text-danger"></span>
             </div>
@@ -243,359 +243,12 @@
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 <!--<link rel="stylesheet" type="text/css" href="~/Content/Candidaturas.css">-->
-<script type="text/javascript">
-    $("#NIF").blur(function () {
-        validarNIF();
-        validarNacionalidade();
-    });
-
-    $("#NDI").blur(function () {
-        validarCCouBI();
-        mostrarPlaceholderFormatoCCouBI();
-    });
-
-    $("#TipoDocID").change(function () {
-        validarCCouBI();
-        mostrarPlaceholderFormatoCCouBI();
-        validarNacionalidade();
-    });
-
-    $("#Nacionalidade").change(function () {
-        validarNacionalidade();
-    });
-
-    $("#CodigoPostal4Dig").change(function () {
-        limitarCodPostal4Dig();
-    });
-
-    $("#CodigoPostal3Dig").change(function () {
-        limitarCodPostal3Dig();
-    });
-
-    //limita 4 digitos
-    function limitarCodPostal4Dig() {
-        var cp4 = $("#CodigoPostal4Dig").val();
-
-        if (cp4 == "") {
-            $("#CPWarning").hide();
-            return true;
-        }
-
-        if (cp4.length != 4) {
-            $("#CPWarning").text("Introduziu digítos a mais, por favor verifique.");
-            $("#CodigoPostal4Dig").val($("#CodigoPostal4Dig").val().substr(0, 4));
-            $("#CPWarning").show();
-            return false;
-        }
-
-        $("#CPWarning").hide();
-        return true;
-    }
-
-    //limita 3 digitos
-    function limitarCodPostal3Dig() {
-        var cp3 = $("#CodigoPostal3Dig").val();
-
-        if (cp3 == "") {
-            $("#CPWarning").hide();
-            return true;
-        }
-
-        if (cp3.length != 3) {
-            $("#CPWarning").text("Introduziu digítos a mais, por favor verifique.");
-            $("#CodigoPostal3Dig").val($("#CodigoPostal3Dig").val().substr(0, 3));
-            $("#CPWarning").show();
-            return false;
-        }
-
-        $("#CPWarning").hide();
-        return true;
-    }
-
-    //validar NIF
-    function validarNIF() {
-        var nif = $("#NIF").val();
-
-        if (nif == "") {
-            $("#NIFWarning").hide();
-            return true;
-        }
-
-        if (!['1', '2', '3', '5', '6', '8'].includes(nif.substr(0, 1)) &&
-            !['45', '70', '71', '72', '77', '79', '90', '91', '98', '99'].includes(nif.substr(0, 2))) {
-            $("#NIFWarning").text("Nº de identificação fiscal inválido.");
-            $("#NIFWarning").show();
-            return false;
-        }
-            
-
-        let total = nif[0] * 9 + nif[1] * 8 + nif[2] * 7 + nif[3] * 6 + nif[4] * 5 + nif[5] * 4 + nif[6] * 3 + nif[7] * 2;
-
-        let modulo11 = total - parseInt(total / 11) * 11;
-
-        if (modulo11 == 1 || modulo11 == 0)
-            comparador = 0;
-        else
-            comparador = 11 - modulo11;
-
-        if (nif[8] != comparador) {
-            $("#NIFWarning").text("Nº de identificação fiscal inválido.");
-            $("#NIFWarning").show();
-            return false;
-        }
-
-        $("#NIFWarning").hide();
-        return true;
-    }
-
-    //validar nacionalidade se for Portugal (PT) 
-    $(document).ready(function () {
-        var nacionalidade = $("#Nacionalidade").val();
-
-        if (nacionalidade == "PT") { 
-            $("label[for='NIF']").last().addClass("required");
-        }
-        else {
-            $("label[for='NIF']").removeClass("required");
-        }
-    });
-
-    function validarNacionalidade() {
-        var nacionalidade = $("#Nacionalidade").val();
-
-        if (nacionalidade == "PT") {
-            var tipoDocID = $("#TipoDocID").val();
-
-            var NIF = $("#NIF").val();
-
-            $("label[for='NIF']").last().addClass("required");
-
-            if (validarDocumentoEscolhido(tipoDocID) && NIFNaoVazio(NIF)) {
-                $("#NacWarning").hide();
-                return true;
-            }
-            else {
-                $("#NacWarning").text("Deve escolher cartão de cidadão ou bilhete de identidade e indicar NIF válido.");
-                $("#NacWarning").show();
-                return false;
-            }
-        }
-        else {
-            if ($("#NacWarning").is(":visible")) {
-                $("#NacWarning").hide();
-            }
-            $("label[for='NIF']").removeClass("required");
-
-            return true;
-        }
-    }
-
-    function validarDocumentoEscolhido(tipoDocID) {
-        return tipoDocID == "Cartão do Cidadão" || tipoDocID == "Bilhete de Identidade";
-    }
-
-    function NIFNaoVazio(nif) {
-        return nif != "";
-    }
-
-    //mostrar formato do CC caso seleccionar esse
-    function mostrarPlaceholderFormatoCCouBI() {
-        var chosenValue = $('#TipoDocID').val();
-
-        if (chosenValue == "Cartão do Cidadão") {
-            $('#NDI').attr("placeholder", "DDDDDDDD-CAAT");
-        }
-        else if (chosenValue == "Bilhete de Identidade") {
-            $('#NDI').attr("placeholder", "DDDDDDDD-C");
-        }
-        else {
-            $('#NDI').removeAttr('placeholder');
-        }
-    }
-
-    //validar Cartão de Cidadão ou Bilhete de Identidade
-    function validarCCouBI() {
-        debugger 
-        var chosenValue = $('#TipoDocID').val();
-
-        if (chosenValue == "Cartão do Cidadão") {
-            var term = $('#NDI').val();
-
-            if (term != "") {
-                if (regexCC() && validarDigitosCC()) {
-                    $('#NDIWarning').hide();
-                    return true;
-                }
-                else {
-                    $('#NDIWarning').text("Cartão de cidadão ou bilhete de identidade inválido.");
-                    $('#NDIWarning').show();
-                    return false;
-                }
-            }
-        }
-        if (chosenValue = "Bilhete de Identidade") {
-            var term = $('#NDI').val();
-
-            if (term != "") {
-                if (regexBI() && validarDigitosBI()) {
-                    $('#NDIWarning').hide();
-                    return true;
-                }
-                else {
-                    $('#NDIWarning').text("Cartão de cidadão ou bilhete de identidade inválido.");
-                    $('#NDIWarning').show();
-                    return false;
-                }
-            }
-        }
-        else {
-            if ($("#NDIWarning").is(":visible")) {
-                $("#NDIWarning").hide();
-            }
-            return true;
-        }
-    }
-
-    function validarDigitosBI() {
-        var bi = $('#NDI').val();
-        var firstEight = bi.substring(0, 8);
-        var lastDigit = bi[bi.length - 1];
-        var sum = 0;
-        var i;
-
-        for (i = 0; i < firstEight.length; i++) {
-            sum += firstEight[firstEight.length - (i + 1)] * (i + 2);
-        }
-
-        var res = sum % 11;
-
-        if (res == 0 || res == 1) {
-            res = 0;
-        }
-        else {
-            res = 11 - res;
-        }
-
-        return res == lastDigit;
-    }
-
-    function validarDigitosCC() {
-        var cc = $('#NDI').val();
-        var aux = cc.replace('-', '');
-        var sum = 0;
-        var secondDigit = false;
-        var i = 0;
-
-        for (i = aux.length - 1; i >= 0; i--) {
-            var digit = aux[i];
-            var valor = getNumberFromChar(digit);
-
-            if (secondDigit) {
-                valor *= 2;
-                if (valor > 9) {
-                    valor -= 9;
-                }
-            }
-            sum += valor;
-            secondDigit = !secondDigit;
-        }
-        return (sum % 10) == 0;
-    }
-
-    function getNumberFromChar(char) {
-        var res = 0;
-
-        if (isNaN(char)) {
-            switch (char) {
-                case 'A': res = 10; break;
-                case 'B': res = 11; break;
-                case 'C': res = 12; break;
-                case 'D': res = 13; break;
-                case 'E': res = 14; break;
-                case 'F': res = 15; break;
-                case 'G': res = 16; break;
-                case 'H': res = 17; break;
-                case 'I': res = 18; break;
-                case 'J': res = 19; break;
-                case 'K': res = 20; break;
-                case 'L': res = 21; break;
-                case 'M': res = 22; break;
-                case 'N': res = 23; break;
-                case 'O': res = 24; break;
-                case 'P': res = 25; break;
-                case 'Q': res = 26; break;
-                case 'R': res = 27; break;
-                case 'S': res = 28; break;
-                case 'T': res = 29; break;
-                case 'U': res = 30; break;
-                case 'V': res = 31; break;
-                case 'W': res = 32; break;
-                case 'X': res = 33; break;
-                case 'Y': res = 34; break;
-                case 'Z': res = 35; break;
-            }
-        }
-        else {
-            res = parseInt(char);
-        }
-
-        return res;
-    }
-
-    function regexCC() {
-        var term = $('#NDI').val();
-        var re = new RegExp("^[0-9]{8}[ -]*[0-9][A-Za-z]{2}[0-9]$");
-
-        return re.test(term);
-    }
-
-    function regexBI() {
-        var term = $('#NDI').val();
-        var re = new RegExp("^[0-9]{8}[ -]*[0-9]$");
-
-        return re.test(term);
-    }
-
-    function finalValidation() {
-        var valid = true;
-
-        if (!validarCCouBI()) {
-            valid = false;
-        }
-
-        if (!validarNIF()) {
-            valid = false;
-        }
-
-        if (!validarNacionalidade()) {
-            valid = false;
-        }
-
-        if (!valid) {
-            event.preventDefault();
-            return false;
-        }
-    }
-
-    //verifica se houve alterações na tab Dados Pessoais
-    var dadosPessoaisChanged = false;
-
-    var warningMessage = "Voçê efectuou alterações na tab Dados Pessoais e não guardou as alterações. Tem a certeza que deseja sair?";
-
-    $('#formDadosPessoais input').change(function () {
-        dadosPessoaisChanged = true;
-    });
-    $('#formDadosPessoais select').change(function () {
-        dadosPessoaisChanged = true;
-    });
-
+<script type="text/javascript">    
     //altera os concelhos consoante o distrito escolhido
     function changeConcelhos(isNatural) {
-
         if (isNatural) {
             var distritoNaturalEscolhido = $('#DistritoNatural').val();
             var codigoDistrito = parseInt(distritoNaturalEscolhido);
-
             $.ajax({
                 url: '@Url.Action("UpdateConcelhos", "Formulario")',
                 data: {
@@ -607,12 +260,10 @@
                     $select.empty();
                     $select.append('<option value="">Escolha uma opção...</option>');
                     $select.prop('disabled', false);
-
                     var $select2 = $('#FreguesiaNatural');
                     $select2.empty();
                     $select2.append('<option value="">Escolha uma opção...</option>');
                     $select2.prop('disabled', true);
-
                     $.each(concelhos, function (i, concelho) {
                         $('<option>', {
                             value: concelho.ID
@@ -626,7 +277,6 @@
         else {
             var distritoMoradaEscolhido = $('#DistritoMorada').val();
             var codigoDistrito = parseInt(distritoMoradaEscolhido);
-
             $.ajax({
                 url: '@Url.Action("UpdateConcelhos", "Formulario")',
                 data: {
@@ -638,17 +288,14 @@
                     $select.empty();
                     $select.append('<option value="">Escolha uma opção...</option>');
                     $select.prop('disabled', false);
-
                     var $select2 = $('#FreguesiaMorada');
                     $select2.empty();
                     $select2.append('<option value="">Escolha uma opção...</option>');
                     $select2.prop('disabled', true);
-
                     var $select3 = $('#Localidade');
                     $select3.empty();
                     $select3.append('<option value="">Escolha uma opção...</option>');
                     $select3.prop('disabled', true);
-
                     $.each(concelhos, function (i, concelho) {
                         $('<option>', {
                             value: concelho.ID
@@ -658,18 +305,14 @@
                 error: function (e) { console.log(e); }
             })
         }
-
     }
-
     //altera as freguesias consoante o concelho escolhido
     function changeFreguesias(isNatural) {
-
         if (isNatural) {
             var distritoNaturalEscolhido = $('#DistritoNatural').val();
             var codigoDistrito = parseInt(distritoNaturalEscolhido);
             var concelhoNaturalEscolhido = $('#ConcelhoNatural').val();
             var codigoConcelho = parseInt(concelhoNaturalEscolhido);
-
             $.ajax({
                 url: '@Url.Action("UpdateFreguesias", "Formulario")',
                 data: {
@@ -682,7 +325,6 @@
                     $select.empty();
                     $select.append('<option value="">Escolha uma opção...</option>');
                     $select.prop('disabled', false);
-
                     $.each(freguesias, function (i, freguesia) {
                         $('<option>', {
                             value: freguesia.ID
@@ -697,7 +339,6 @@
             var codigoDistrito = parseInt(distritoMoradaEscolhido);
             var concelhoMoradaEscolhido = $('#ConcelhoMorada').val();
             var codigoConcelho = parseInt(concelhoMoradaEscolhido);
-
             $.ajax({
                 url: '@Url.Action("UpdateFreguesias", "Formulario")',
                 data: {
@@ -710,12 +351,10 @@
                     $select.empty();
                     $select.append('<option value="">Escolha uma opção...</option>');
                     $select.prop('disabled', false);
-
                     var $select2 = $('#Localidade');
                     $select2.empty();
                     $select2.append('<option value="">Escolha uma opção...</option>');
                     $select2.prop('disabled', true);
-
                     $.each(freguesias, function (i, freguesia) {
                         $('<option>', {
                             value: freguesia.ID
@@ -728,14 +367,12 @@
             changeLocalidades();
         }
     }
-
     //altera as localidades consoante o distrito escolhido
     function changeLocalidades() {
         var distritoMoradaEscolhido = $('#DistritoMorada').val();
         var codigoDistrito = parseInt(distritoMoradaEscolhido);
         var concelhoMoradaEscolhido = $('#ConcelhoMorada').val();
         var codigoConcelho = parseInt(concelhoMoradaEscolhido);
-
         $.ajax({
             url: '@Url.Action("UpdateLocalidades", "Formulario")',
             data: {
@@ -748,13 +385,12 @@
                 $select.empty();
                 $select.append('<option value="">Escolha uma opção...</option>');
                 $select.prop('disabled', false);
-
                 $.each(localidades, function (i, localidade) {
                     $('<option>', {
                         value: localidade.ID
                     }).html(localidade.Name).appendTo($select);
                 });
-                
+
             },
             error: function (e) { console.log(e); }
         })
