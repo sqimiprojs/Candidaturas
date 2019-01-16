@@ -10,13 +10,6 @@ namespace Candidaturas.Controllers
     public class HomeController : Controller
     {
         List<Documento> documentos;
-        // GET: Home
-        public ActionResult Index()
-        {
-            return View();
-        }
-
-
 
         // GET: Welcome
         public ActionResult Welcome()
@@ -66,19 +59,17 @@ namespace Candidaturas.Controllers
 
                                 doc.Descricao = documento.Descricao;
                                 doc.Nome = fileName;
-                                doc.Ficheiro = data;
                                 doc.Tipo = fileType;
+                                doc.UserID = userId;
 
                                 dbModel.Documentoes.Add(doc);
                                 dbModel.SaveChanges();
 
-                                //criar userDocumento (relação entre user e documento)
-                                UserDocumento userDocumento = new UserDocumento();
+                                //criar Documento e o Binario
+                                DocumentoBinario DocBin = new DocumentoBinario();
 
-                                userDocumento.UserId = userId;
-                                userDocumento.DocumentoId = doc.ID;
-
-                                dbModel.UserDocumentoes.Add(userDocumento);
+                                DocBin.DocID = doc.ID;
+                                DocBin.DocBinario = data;
                                 dbModel.SaveChanges();
                             }
                             else
@@ -104,7 +95,7 @@ namespace Candidaturas.Controllers
                 }
                 ModelState.Clear();
 
-                return View("~/Views/Home/Welcome.cshtml");
+                return RedirectToAction("Welcome", "Home");
             }
             else
             {
@@ -114,9 +105,11 @@ namespace Candidaturas.Controllers
 
         public void getSelectedDocumentos(CandidaturaDBEntities1 db, int userId)
         {
-            List<int> documentosEscolhidos = db.UserDocumentoes.Where(dp => dp.UserId == userId).Select(dp => dp.DocumentoId).ToList();
+            List<int> documentosUploaded = db.Documentoes
+                                        .Where(dp => dp.UserID == userId)
+                                        .Select(dp => dp.ID).ToList();
 
-            foreach (int documento in documentosEscolhidos)
+            foreach (int documento in documentosUploaded)
             {
                 Documento doc = db.Documentoes.Where(dp => dp.ID == documento).FirstOrDefault();
                 documentos.Add(doc);
@@ -134,11 +127,8 @@ namespace Candidaturas.Controllers
                 {
                     try
                     {
-                        UserDocumento ud = dbModel.UserDocumentoes.Where(dp => dp.DocumentoId == id).Where(dp => dp.UserId == userId).FirstOrDefault();
-                        dbModel.UserDocumentoes.Remove(ud);
-
-                        Documento doc = dbModel.Documentoes.Where(dp => dp.ID == id).FirstOrDefault();
-                        dbModel.Documentoes.Remove(doc);
+                        Documento ud = dbModel.Documentoes.Where(dp => dp.ID == id).FirstOrDefault();
+                        dbModel.Documentoes.Remove(ud);
 
                         dbModel.SaveChanges();
                     }
@@ -158,7 +148,7 @@ namespace Candidaturas.Controllers
                 }
 
 
-                return View("~/Views/Home/Welcome.cshtml");
+                return RedirectToAction("Welcome", "Home");
             }
             else
             {
@@ -176,6 +166,7 @@ namespace Candidaturas.Controllers
                     try
                     {
                         Documento doc = dbModel.Documentoes.Where(dp => dp.ID == id).FirstOrDefault();
+                        DocumentoBinario docbin = dbModel.DocumentoBinarios.Where(dp => dp.DocID == id).FirstOrDefault();
 
                         Response.Clear();
                         Response.Buffer = true;
@@ -183,7 +174,7 @@ namespace Candidaturas.Controllers
                         Response.Cache.SetCacheability(System.Web.HttpCacheability.NoCache);
                         Response.ContentType = doc.Tipo;
                         Response.AppendHeader("Content-Disposition", "attachment; filename=" + doc.Nome);
-                        Response.BinaryWrite(doc.Ficheiro);
+                        Response.BinaryWrite(docbin.DocBinario);
                         Response.Flush();
                         Response.End();
                     }
