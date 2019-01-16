@@ -17,6 +17,7 @@ namespace Candidaturas.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Categoria()
         {
+            this.DadosPessoais = new HashSet<DadosPessoai>();
             this.Postoes = new HashSet<Posto>();
         }
     
@@ -24,6 +25,8 @@ namespace Candidaturas.Models
         public string Nome { get; set; }
         public short Ordem { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DadosPessoai> DadosPessoais { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Posto> Postoes { get; set; }
     }

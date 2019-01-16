@@ -17,12 +17,15 @@ namespace Candidaturas.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Ramo()
         {
+            this.DadosPessoais = new HashSet<DadosPessoai>();
             this.Postoes = new HashSet<Posto>();
         }
     
         public string Sigla { get; set; }
         public string Nome { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DadosPessoai> DadosPessoais { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Posto> Postoes { get; set; }
     }
