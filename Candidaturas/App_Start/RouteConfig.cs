@@ -21,7 +21,12 @@ namespace Candidaturas
                 defaults: new { controller = "User", action = "NewUser" }
             );
 
-                       
+            routes.MapRoute(
+                name: "Welcome",
+                url: "Home/{action}",
+                defaults: new { controller = "Home", action = "Welcome" }
+            );
+
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",

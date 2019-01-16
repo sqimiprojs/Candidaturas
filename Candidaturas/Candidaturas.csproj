@@ -151,7 +151,6 @@
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\User\NewUser.cshtml" />
@@ -161,7 +160,6 @@
     <Compile Include="CaptchaResponse.cs" />
     <Compile Include="CaptchaValidator.cs" />
     <Compile Include="Constants.cs" />
-    <Compile Include="Controllers\DocumentosController.cs" />
     <Compile Include="Controllers\FormularioController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
@@ -186,64 +184,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CandidaturasModel.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Models\Concelho.cs">
-      <DependentUpon>CandidaturasModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\ConhecimentoEscola.cs">
-      <DependentUpon>CandidaturasModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Curso.cs">
-      <DependentUpon>CandidaturasModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\CursoDisplay.cs" />
-    <Compile Include="Models\DadosPessoai.cs">
-      <DependentUpon>CandidaturasModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Distrito.cs">
-      <DependentUpon>CandidaturasModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Documento.cs">
-      <DependentUpon>CandidaturasModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\EstadoCivil.cs">
-      <DependentUpon>CandidaturasModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Exame.cs">
-      <DependentUpon>CandidaturasModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Freguesia.cs">
-      <DependentUpon>CandidaturasModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Genero.cs">
-      <DependentUpon>CandidaturasModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Inquerito.cs">
-      <DependentUpon>CandidaturasModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Localidade.cs">
-      <DependentUpon>CandidaturasModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Pai.cs">
-      <DependentUpon>CandidaturasModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Situacao.cs">
-      <DependentUpon>CandidaturasModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\TipoDocumentoID.cs">
-      <DependentUpon>CandidaturasModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\User.cs">
-      <DependentUpon>CandidaturasModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\UserCurso.cs">
-      <DependentUpon>CandidaturasModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\UserDocumento.cs">
-      <DependentUpon>CandidaturasModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\UserExame.cs">
-      <DependentUpon>CandidaturasModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Password.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -256,7 +197,6 @@
     <Content Include="Views\Formulario\DadosPessoais.cshtml" />
     <Content Include="Views\Formulario\Inquerito.cshtml" />
     <Content Include="Views\Formulario\Opcoes.cshtml" />
-    <Content Include="Views\Documentos\Index.cshtml" />
     <Content Include="Views\User\RecoverPassword.cshtml" />
     <Content Include="Views\Shared\Success.cshtml" />
     <Content Include="Views\Home\Welcome.cshtml" />
