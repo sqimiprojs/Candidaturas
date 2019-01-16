@@ -111,6 +111,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Models\Candidaturas.edmx.sql" />
     <EntityDeploy Include="Models\CandidaturasModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>CandidaturasModel.Designer.cs</LastGenOutput>
@@ -126,7 +127,6 @@
       <DependentUpon>CandidaturasModel.edmx</DependentUpon>
       <LastGenOutput>CandidaturasModel.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Models\CandidaturasModel.edmx.sql" />
     <Content Include="Models\CandidaturasModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>CandidaturasModel.edmx</DependentUpon>
@@ -151,6 +151,7 @@
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\User\NewUser.cshtml" />
@@ -193,6 +194,12 @@
     <Compile Include="Models\ConhecimentoEscola.cs">
       <DependentUpon>CandidaturasModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DocModel.cs" />
+    <Compile Include="Models\DocumentoBinario.cs">
+      <DependentUpon>CandidaturasModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Login.cs" />
+    <Compile Include="Models\UserDados.cs" />
     <Compile Include="Models\Curso.cs">
       <DependentUpon>CandidaturasModel.tt</DependentUpon>
     </Compile>
@@ -203,11 +210,7 @@
     <Compile Include="Models\Distrito.cs">
       <DependentUpon>CandidaturasModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\DocModel.cs" />
     <Compile Include="Models\Documento.cs">
-      <DependentUpon>CandidaturasModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\DocumentoBinario.cs">
       <DependentUpon>CandidaturasModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\EstadoCivil.cs">
@@ -228,7 +231,6 @@
     <Compile Include="Models\Localidade.cs">
       <DependentUpon>CandidaturasModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Login.cs" />
     <Compile Include="Models\Pai.cs">
       <DependentUpon>CandidaturasModel.tt</DependentUpon>
     </Compile>
@@ -250,7 +252,6 @@
     <Compile Include="Models\UserCurso.cs">
       <DependentUpon>CandidaturasModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\UserDados.cs" />
     <Compile Include="Models\UserExame.cs">
       <DependentUpon>CandidaturasModel.tt</DependentUpon>
     </Compile>
@@ -266,6 +267,7 @@
     <Content Include="Views\Formulario\DadosPessoais.cshtml" />
     <Content Include="Views\Formulario\Inquerito.cshtml" />
     <Content Include="Views\Formulario\Opcoes.cshtml" />
+    <Content Include="Views\Documentos\Index.cshtml" />
     <Content Include="Views\User\RecoverPassword.cshtml" />
     <Content Include="Views\Shared\Success.cshtml" />
     <Content Include="Views\Home\Welcome.cshtml" />
@@ -278,7 +280,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Doc\" />
+    <Folder Include="Views\CriacaoConta\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
