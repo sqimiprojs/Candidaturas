@@ -50,7 +50,7 @@ namespace Candidaturas.Controllers
                             string newPassword = Password.GeneratePassword().ToString();
                             using (SHA256 mySHA256 = SHA256.Create())
                             {
-<<<<<<< HEAD
+
                                 model.user.Password = mySHA256.ComputeHash(Encoding.UTF8.GetBytes(newPassword));
                                 model.user.DataCriacao = System.DateTime.Now;
                                                                 
@@ -59,12 +59,7 @@ namespace Candidaturas.Controllers
 
                                 dbModel.Users.Add(model.user);
                                 dbModel.DadosPessoais.Add(model.dadosPessoais);
-                                /**/
-=======
-                                userModel.Password = mySHA256.ComputeHash(Encoding.UTF8.GetBytes(newPassword));
-                                userModel.DataCriacao = System.DateTime.Now;
-                                dbModel.Users.Add(userModel);
->>>>>>> master
+
                                 dbModel.SaveChanges();
 
                                 ModelState.Clear();
