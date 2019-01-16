@@ -18,7 +18,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.NomeColoquial, "Nome Coloquial", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.NomeColoquial, new { htmlAttributes = new { @class = "form-control", @Value = (ViewBag.DadosPessoais == null ? ViewBag.NomeCompleto : ViewBag.DadosPessoais.NomeColoquial) } })
+                @Html.EditorFor(model => model.NomeColoquial, new { htmlAttributes = new { @class = "form-control", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.NomeColoquial) } })
                 @Html.ValidationMessageFor(model => model.NomeColoquial, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -181,7 +181,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.TipoDocID, "Documento de Identificação", htmlAttributes: new { @class = "control-label col-md-2 required" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.TipoDocID, ViewBag.TipoDocID as SelectList, "Escolha uma opção...", new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.TipoDocID, ViewBag.TipoDocID as IEnumerable<SelectListItem>, "Escolha uma opção...", new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.TipoDocID, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -189,7 +189,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.NDI, "Nº de Identificação", htmlAttributes: new { @class = "control-label col-md-2 required" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.NDI, new { htmlAttributes = new { @class = "form-control", @Value = (ViewBag.DadosPessoais == null ? ViewBag.NDI : ViewBag.DadosPessoais.NDI) } })
+                @Html.EditorFor(model => model.NDI, new { htmlAttributes = new { @class = "form-control", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.NDI) } })
                 @Html.ValidationMessageFor(model => model.NDI, "", new { @class = "text-danger" })
                 <span id="NDIWarning" for="NDI" class="text-danger"></span>
             </div>
