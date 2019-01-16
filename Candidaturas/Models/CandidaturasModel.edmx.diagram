@@ -4,29 +4,30 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="250e609452dc4d698827c7b86c033fb1" Name="Diagram1" ZoomLevel="72">
-        <EntityTypeShape EntityType="CandidaturaDBModel.Categoria" Width="1.5" PointX="13.75" PointY="13.875" />
-        <EntityTypeShape EntityType="CandidaturaDBModel.Concelho" Width="1.5" PointX="10.375" PointY="13.875" />
-        <EntityTypeShape EntityType="CandidaturaDBModel.ConhecimentoEscola" Width="1.5" PointX="6.75" PointY="4" />
-        <EntityTypeShape EntityType="CandidaturaDBModel.Curso" Width="1.5" PointX="15" PointY="3.875" />
-        <EntityTypeShape EntityType="CandidaturaDBModel.DadosPessoai" Width="1.5" PointX="6.125" PointY="8.875" />
-        <EntityTypeShape EntityType="CandidaturaDBModel.Distrito" Width="1.5" PointX="10.25" PointY="16.375" />
-        <EntityTypeShape EntityType="CandidaturaDBModel.Documento" Width="1.5" PointX="13.25" PointY="6.75" />
-        <EntityTypeShape EntityType="CandidaturaDBModel.DocumentoBinario" Width="1.5" PointX="15.375" PointY="6.875" />
-        <EntityTypeShape EntityType="CandidaturaDBModel.EstadoCivil" Width="1.5" PointX="3.75" PointY="9" />
-        <EntityTypeShape EntityType="CandidaturaDBModel.Exame" Width="1.5" PointX="15.5" PointY="9.25" />
-        <EntityTypeShape EntityType="CandidaturaDBModel.Freguesia" Width="1.5" PointX="8.5" PointY="13.875" />
-        <EntityTypeShape EntityType="CandidaturaDBModel.Genero" Width="1.5" PointX="3.75" PointY="15.375" />
-        <EntityTypeShape EntityType="CandidaturaDBModel.Inquerito" Width="1.5" PointX="8.5" PointY="4" />
-        <EntityTypeShape EntityType="CandidaturaDBModel.Localidade" Width="1.5" PointX="10.5" PointY="11.625" />
-        <EntityTypeShape EntityType="CandidaturaDBModel.Pai" Width="1.5" PointX="3.75" PointY="13.5" />
-        <EntityTypeShape EntityType="CandidaturaDBModel.Posto" Width="1.5" PointX="16.5" PointY="15.125" />
-        <EntityTypeShape EntityType="CandidaturaDBModel.Ramo" Width="1.5" PointX="19.375" PointY="15.625" />
-        <EntityTypeShape EntityType="CandidaturaDBModel.Situacao" Width="1.5" PointX="8.5" PointY="1.625" />
-        <EntityTypeShape EntityType="CandidaturaDBModel.TipoDocumentoID" Width="1.5" PointX="3.875" PointY="11.375" />
-        <EntityTypeShape EntityType="CandidaturaDBModel.User" Width="1.5" PointX="11" PointY="7.875" />
-        <EntityTypeShape EntityType="CandidaturaDBModel.UserCurso" Width="1.5" PointX="13.375" PointY="4.125" />
-        <EntityTypeShape EntityType="CandidaturaDBModel.UserExame" Width="1.5" PointX="13.25" PointY="9.5" />
+      <Diagram DiagramId="250e609452dc4d698827c7b86c033fb1" Name="Diagram1" ZoomLevel="63">
+        <EntityTypeShape EntityType="CandidaturaDBModel.Categoria" Width="1.5" PointX="3.75" PointY="29.375" />
+        <EntityTypeShape EntityType="CandidaturaDBModel.Concelho" Width="1.5" PointX="1.5" PointY="0.875" />
+        <EntityTypeShape EntityType="CandidaturaDBModel.ConhecimentoEscola" Width="1.5" PointX="0.75" PointY="7.375" />
+        <EntityTypeShape EntityType="CandidaturaDBModel.Curso" Width="1.5" PointX="0.75" PointY="24.625" />
+        <EntityTypeShape EntityType="CandidaturaDBModel.DadosPessoai" Width="1.5" PointX="6" PointY="8.625" />
+        <EntityTypeShape EntityType="CandidaturaDBModel.Distrito" Width="1.5" PointX="1.5" PointY="18.125" />
+        <EntityTypeShape EntityType="CandidaturaDBModel.Documento" Width="1.5" PointX="3" PointY="32.5" />
+        <EntityTypeShape EntityType="CandidaturaDBModel.DocumentoBinario" Width="1.5" PointX="5.25" PointY="33" />
+        <EntityTypeShape EntityType="CandidaturaDBModel.EstadoCivil" Width="1.5" PointX="3.75" PointY="27.125" />
+        <EntityTypeShape EntityType="CandidaturaDBModel.Exame" Width="1.5" PointX="0.75" PointY="27.5" />
+        <EntityTypeShape EntityType="CandidaturaDBModel.Freguesia" Width="1.5" PointX="3.75" PointY="0.75" />
+        <EntityTypeShape EntityType="CandidaturaDBModel.Genero" Width="1.5" PointX="3.75" PointY="24.75" />
+        <EntityTypeShape EntityType="CandidaturaDBModel.Inquerito" Width="1.5" PointX="3" PointY="7.625" />
+        <EntityTypeShape EntityType="CandidaturaDBModel.Localidade" Width="1.5" PointX="3.75" PointY="36" />
+        <EntityTypeShape EntityType="CandidaturaDBModel.Pai" Width="1.5" PointX="3.75" PointY="18.375" />
+        <EntityTypeShape EntityType="CandidaturaDBModel.Posto" Width="1.5" PointX="3.75" PointY="20.875" />
+        <EntityTypeShape EntityType="CandidaturaDBModel.Ramo" Width="1.5" PointX="1.5" PointY="21.375" />
+        <EntityTypeShape EntityType="CandidaturaDBModel.Situacao" Width="1.5" PointX="0.75" PointY="4.75" />
+        <EntityTypeShape EntityType="CandidaturaDBModel.TipoDocumentoID" Width="1.5" PointX="3.75" PointY="4.375" />
+        <EntityTypeShape EntityType="CandidaturaDBModel.User" Width="1.5" PointX="0.75" PointY="12" />
+        <EntityTypeShape EntityType="CandidaturaDBModel.UserCurso" Width="1.5" PointX="3" PointY="12.375" />
+        <EntityTypeShape EntityType="CandidaturaDBModel.UserExame" Width="1.5" PointX="3" PointY="15.375" />
+        <AssociationConnector Association="CandidaturaDBModel.FK_DadosPessoais_Categoria" />
         <AssociationConnector Association="CandidaturaDBModel.FK_Posto_Categoria" />
         <AssociationConnector Association="CandidaturaDBModel.FK_Concelho_Distrito" />
         <AssociationConnector Association="CandidaturaDBModel.FK_Freguesia_Distrito_Concelho" />
@@ -38,6 +39,8 @@
         <AssociationConnector Association="CandidaturaDBModel.FK_DadosPessoais_FreguesiaMorada" />
         <AssociationConnector Association="CandidaturaDBModel.FK_DadosPessoais_Genero" />
         <AssociationConnector Association="CandidaturaDBModel.FK_DadosPessoais_Pais" />
+        <AssociationConnector Association="CandidaturaDBModel.FK_DadosPessoais_Posto" />
+        <AssociationConnector Association="CandidaturaDBModel.FK_DadosPessoais_Ramo" />
         <AssociationConnector Association="CandidaturaDBModel.FK_DadosPessoais_TipoDocumentoID" />
         <AssociationConnector Association="CandidaturaDBModel.FK_DadosPessoais_User" />
         <AssociationConnector Association="CandidaturaDBModel.FK_Documento_User" />

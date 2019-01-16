@@ -1,80 +1,80 @@
-﻿@model Candidaturas.Models.Documento
+﻿@model Candidaturas.Models.DocModel
 @{
     ViewBag.Title = "Home";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-    <div class="row">
-        <div class="col-sm-6">
-            <h2>Bem - Vindo Candidato n'25</h2>
-        </div>
-        <div class="col-sm-6">
-            @Html.ActionLink("Preencher Cadidatura", "DadosPessoais", "Formulario", null, new { @class = "btn btn-default" })
-        </div>
+<div class="row">
+    <div class="col-sm-6">
+        <h2>Bem - Vindo Candidato n'25</h2>
     </div>
+    <div class="col-sm-6">
+        @Html.ActionLink("Preencher Cadidatura", "DadosPessoais", "Formulario", null, new { @class = "btn btn-default" })
+    </div>
+</div>
 
-    <div class="row">
-        <h2>Adicionar Ficheiros</h2>
-        @using (Html.BeginForm("UploadDocumento", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
-        {
-            @Html.AntiForgeryToken()
+<div class="row">
+    <h2>Adicionar Ficheiros</h2>
+    @using (Html.BeginForm("UploadDocumento", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
 
-            <div class="form-horizontal" style="margin-top: 20px;">
+        <div class="form-horizontal" style="margin-top: 20px;">
 
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Descricao, "Adicionar Descrição", htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.Descricao, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.Descricao, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Ficheiro, "Seleccionar Documento", htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        <input type="file" name="file" id="FicheiroInput" />
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <span id="errorLabel" class="text-danger" style="display:none;margin-top:auto;">Por favor insira um ficheiro pdf ou jpeg válido.</span>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Enviar Documento" class="btn btn-default" />
-                    </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.DocumentoInfo.Descricao, "Adicionar Descrição", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.DocumentoInfo.Descricao, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.DocumentoInfo.Descricao, "", new { @class = "text-danger" })
                 </div>
             </div>
-        }
-    </div>
-    @if (ViewBag.DocumentosEscolhidos != null)
-    {
-        <div class="row">
-            <table class="table" style="margin-top: 40px;width:60% !important;">
-                <tr>
-                    <th style="font-weight:bold">Nome</th>
-                    <th style="font-weight:bold">Descrição</th>
-                    <th></th>
-                    <th></th>
-                </tr>
-                @foreach (var documento in @ViewBag.DocumentosEscolhidos)
-                {
-                    <tr>
-                        <td>@documento.Nome</td>
-                        <td>@documento.Descricao</td>
-                        <td>
-                            <a class="glyphicon glyphicon-download" onclick="location.href='@Url.Action("DownloadDocumento", "Home", new { id = (int)documento.ID })'"><span style="padding-left: 5px;">Download</span></a>
-                        </td>
-                        <td>
-                            <a class="glyphicon glyphicon-remove-circle" onclick="location.href='@Url.Action("RemoveDocumento", "Home", new { id = (int)documento.ID })'"><span style="padding-left: 5px;">Remover</span></a>
-                        </td>
-                    </tr>
-                }
-            </table>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.DocumentoInfo.Nome, "Seleccionar Documento", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <input type="file" name="file" id="FicheiroInput" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <span id="errorLabel" class="text-danger" style="display:none;margin-top:auto;">Por favor insira um ficheiro pdf ou jpeg válido.</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Enviar Documento" class="btn btn-default" />
+                </div>
+            </div>
         </div>
     }
+</div>
+@if (ViewBag.DocumentosUser != null)
+{
+    <div class="row">
+        <table class="table" style="margin-top: 40px;width:60% !important;">
+            <tr>
+                <th style="font-weight:bold">Nome</th>
+                <th style="font-weight:bold">Descrição</th>
+                <th></th>
+                <th></th>
+            </tr>
+            @foreach (var documento in @ViewBag.DocumentosUser)
+            {
+                <tr>
+                    <td>@documento.DocumentoInfo.Nome</td>
+                    <td>@documento.DocumentoInfo.Descricao</td>
+                    <td>
+                        <a class="glyphicon glyphicon-download" onclick="location.href='@Url.Action("DownloadDocumento", "Home", new { id = (int)documento.DocumentoInfo.ID })'"><span style="padding-left: 5px;">Download</span></a>
+                    </td>
+                    <td>
+                        <a class="glyphicon glyphicon-remove-circle" onclick="location.href='@Url.Action("RemoveDocumento", "Home", new { id = (int)documento.DocumentoInfo.ID })'"><span style="padding-left: 5px;">Remover</span></a>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+}

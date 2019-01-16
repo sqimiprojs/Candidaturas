@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 01/16/2019 11:57:25
+-- Date Created: 01/16/2019 13:51:29
 -- Generated from EDMX file: C:\Users\fabio\Documents\GitHub\Candidaturas\Candidaturas\Models\CandidaturasModel.edmx
 -- --------------------------------------------------
 
@@ -231,16 +231,6 @@ CREATE TABLE [dbo].[Distritoes] (
 );
 GO
 
--- Creating table 'Documentoes'
-CREATE TABLE [dbo].[Documentoes] (
-    [ID] int IDENTITY(1,1) NOT NULL,
-    [UserID] int  NOT NULL,
-    [Nome] varchar(50)  NULL,
-    [Descricao] varchar(50)  NULL,
-    [Tipo] varchar(50)  NULL
-);
-GO
-
 -- Creating table 'DocumentoBinarios'
 CREATE TABLE [dbo].[DocumentoBinarios] (
     [DocID] int  NOT NULL,
@@ -369,6 +359,17 @@ CREATE TABLE [dbo].[UserExames] (
 );
 GO
 
+-- Creating table 'Documentoes'
+CREATE TABLE [dbo].[Documentoes] (
+    [ID] int IDENTITY(1,1) NOT NULL,
+    [UserID] int  NOT NULL,
+    [Nome] varchar(50)  NULL,
+    [Descricao] varchar(50)  NULL,
+    [Tipo] varchar(50)  NULL,
+    [UploadTime] datetime  NOT NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -407,12 +408,6 @@ GO
 ALTER TABLE [dbo].[Distritoes]
 ADD CONSTRAINT [PK_Distritoes]
     PRIMARY KEY CLUSTERED ([Codigo] ASC);
-GO
-
--- Creating primary key on [ID] in table 'Documentoes'
-ALTER TABLE [dbo].[Documentoes]
-ADD CONSTRAINT [PK_Documentoes]
-    PRIMARY KEY CLUSTERED ([ID] ASC);
 GO
 
 -- Creating primary key on [DocID] in table 'DocumentoBinarios'
@@ -502,6 +497,12 @@ GO
 -- Creating primary key on [ID] in table 'UserExames'
 ALTER TABLE [dbo].[UserExames]
 ADD CONSTRAINT [PK_UserExames]
+    PRIMARY KEY CLUSTERED ([ID] ASC);
+GO
+
+-- Creating primary key on [ID] in table 'Documentoes'
+ALTER TABLE [dbo].[Documentoes]
+ADD CONSTRAINT [PK_Documentoes]
     PRIMARY KEY CLUSTERED ([ID] ASC);
 GO
 
@@ -692,30 +693,6 @@ ADD CONSTRAINT [FK_DadosPessoais_User]
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
--- Creating foreign key on [UserID] in table 'Documentoes'
-ALTER TABLE [dbo].[Documentoes]
-ADD CONSTRAINT [FK_Documento_User]
-    FOREIGN KEY ([UserID])
-    REFERENCES [dbo].[Users]
-        ([ID])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_Documento_User'
-CREATE INDEX [IX_FK_Documento_User]
-ON [dbo].[Documentoes]
-    ([UserID]);
-GO
-
--- Creating foreign key on [DocID] in table 'DocumentoBinarios'
-ALTER TABLE [dbo].[DocumentoBinarios]
-ADD CONSTRAINT [FK_DocumentoBinario_Documento]
-    FOREIGN KEY ([DocID])
-    REFERENCES [dbo].[Documentoes]
-        ([ID])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
 -- Creating foreign key on [ExameId] in table 'UserExames'
 ALTER TABLE [dbo].[UserExames]
 ADD CONSTRAINT [FK_ExameUE]
@@ -813,6 +790,30 @@ GO
 CREATE INDEX [IX_FK_UserExame_User]
 ON [dbo].[UserExames]
     ([UserId]);
+GO
+
+-- Creating foreign key on [UserID] in table 'Documentoes'
+ALTER TABLE [dbo].[Documentoes]
+ADD CONSTRAINT [FK_Documento_User]
+    FOREIGN KEY ([UserID])
+    REFERENCES [dbo].[Users]
+        ([ID])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_Documento_User'
+CREATE INDEX [IX_FK_Documento_User]
+ON [dbo].[Documentoes]
+    ([UserID]);
+GO
+
+-- Creating foreign key on [DocID] in table 'DocumentoBinarios'
+ALTER TABLE [dbo].[DocumentoBinarios]
+ADD CONSTRAINT [FK_DocumentoBinario_Documento]
+    FOREIGN KEY ([DocID])
+    REFERENCES [dbo].[Documentoes]
+        ([ID])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
 -- --------------------------------------------------

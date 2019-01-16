@@ -9,29 +9,26 @@ namespace Candidaturas.Controllers
 {
     public class HomeController : Controller
     {
-        List<Documento> documentos;
+        
 
         // GET: Welcome
         public ActionResult Welcome()
         {
-            documentos = new List<Documento>();
-
             CandidaturaDBEntities1 db = new CandidaturaDBEntities1();
-
+            List<DocModel> DocumentosUser;
             if (Session["userID"] != null)
             {
                 int userId = (int)Session["userID"];
 
-                getSelectedDocumentos(db, userId);
-
-                ViewBag.DocumentosEscolhidos = documentos;
+                DocumentosUser = getSelectedDocumentos(db, userId);
+                ViewBag.DocumentosUser = DocumentosUser;
             }
             
             return View("~/Views/Home/Welcome.cshtml");
         }
 
         [HttpPost]
-        public ActionResult UploadDocumento(Documento documento, System.Web.HttpPostedFileBase file)
+        public ActionResult UploadDocumento(DocModel docMod, System.Web.HttpPostedFileBase file)
         {
             if (Session["userID"] != null)
             {
@@ -47,7 +44,7 @@ namespace Candidaturas.Controllers
                             {
                                 file.InputStream.Seek(0, SeekOrigin.Begin);
 
-                                var fileName = Path.GetFileName(file.FileName);
+                                string fileName = Path.GetFileName(file.FileName);
                                 var fileType = file.ContentType;
 
                                 MemoryStream target = new MemoryStream();
@@ -55,21 +52,25 @@ namespace Candidaturas.Controllers
                                 byte[] data = target.ToArray();
 
                                 //criar documento
-                                Documento doc = new Documento();
-
-                                doc.Descricao = documento.Descricao;
-                                doc.Nome = fileName;
-                                doc.Tipo = fileType;
-                                doc.UserID = userId;
+                                Documento doc = new Documento
+                                {
+                                    Descricao = docMod.DocumentoInfo.Descricao,
+                                    Nome = fileName,
+                                    Tipo = fileType,
+                                    UserID = userId,
+                                    UploadTime = System.DateTime.Now
+                                };
 
                                 dbModel.Documentoes.Add(doc);
                                 dbModel.SaveChanges();
 
                                 //criar Documento e o Binario
-                                DocumentoBinario DocBin = new DocumentoBinario();
-
-                                DocBin.DocID = doc.ID;
-                                DocBin.DocBinario = data;
+                                DocumentoBinario DocBin = new DocumentoBinario
+                                {
+                                    DocID = doc.ID,
+                                    DocBinario = data
+                                };
+                                dbModel.DocumentoBinarios.Add(DocBin);
                                 dbModel.SaveChanges();
                             }
                             else
@@ -103,17 +104,19 @@ namespace Candidaturas.Controllers
             }
         }
 
-        public void getSelectedDocumentos(CandidaturaDBEntities1 db, int userId)
+        public List<DocModel> getSelectedDocumentos(CandidaturaDBEntities1 db, int userId)
         {
             List<int> documentosUploaded = db.Documentoes
                                         .Where(dp => dp.UserID == userId)
                                         .Select(dp => dp.ID).ToList();
-
+            List<DocModel> dm = new List<DocModel>();
             foreach (int documento in documentosUploaded)
             {
-                Documento doc = db.Documentoes.Where(dp => dp.ID == documento).FirstOrDefault();
-                documentos.Add(doc);
+                DocModel doc= new DocModel();
+                doc.DocumentoInfo = db.Documentoes.Where(dp => dp.ID == documento).FirstOrDefault();
+                dm.Add(doc);
             }
+            return dm;
         }
 
         //remove um documento adicionado pelo utilizador

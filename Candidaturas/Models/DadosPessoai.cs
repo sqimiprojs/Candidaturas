@@ -44,12 +44,19 @@ namespace Candidaturas.Models
         public System.DateTime DataUltimaAtualizacao { get; set; }
         public System.DateTime DataNascimento { get; set; }
         public bool Militar { get; set; }
+        public string Ramo { get; set; }
+        public string Categoria { get; set; }
+        public Nullable<int> Posto { get; set; }
+        public string Classe { get; set; }
     
+        public virtual Categoria Categoria1 { get; set; }
         public virtual EstadoCivil EstadoCivil1 { get; set; }
         public virtual Freguesia Freguesia { get; set; }
         public virtual Freguesia Freguesia1 { get; set; }
         public virtual Genero Genero1 { get; set; }
         public virtual Pai Pai { get; set; }
+        public virtual Posto Posto1 { get; set; }
+        public virtual Ramo Ramo1 { get; set; }
         public virtual TipoDocumentoID TipoDocumentoID { get; set; }
         public virtual User User { get; set; }
     }

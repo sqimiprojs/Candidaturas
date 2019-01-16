@@ -14,6 +14,12 @@ namespace Candidaturas.Models
     
     public partial class Posto
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Posto()
+        {
+            this.DadosPessoais = new HashSet<DadosPessoai>();
+        }
+    
         public int Código { get; set; }
         public string Nome { get; set; }
         public string Abreviatura { get; set; }
@@ -22,6 +28,8 @@ namespace Candidaturas.Models
         public int Ordem { get; set; }
     
         public virtual Categoria Categoria { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DadosPessoai> DadosPessoais { get; set; }
         public virtual Ramo Ramo { get; set; }
     }
 }

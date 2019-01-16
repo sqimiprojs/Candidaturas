@@ -203,6 +203,7 @@
     <Compile Include="Models\Distrito.cs">
       <DependentUpon>CandidaturasModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DocModel.cs" />
     <Compile Include="Models\Documento.cs">
       <DependentUpon>CandidaturasModel.tt</DependentUpon>
     </Compile>
@@ -277,6 +278,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Doc\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

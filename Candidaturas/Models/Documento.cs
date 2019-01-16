@@ -19,6 +19,7 @@ namespace Candidaturas.Models
         public string Nome { get; set; }
         public string Descricao { get; set; }
         public string Tipo { get; set; }
+        public System.DateTime UploadTime { get; set; }
     
         public virtual User User { get; set; }
         public virtual DocumentoBinario DocumentoBinario { get; set; }
