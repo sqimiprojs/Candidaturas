@@ -20,7 +20,7 @@ namespace Candidaturas.Controllers
                 Text = c.Nome
             });
 
-            ViewBag.TipoDocID = tiposDocumentosId.ToList();
+            ViewBag.TipoDocID = tiposDocumentosId;
         }
 
         [HttpGet]
@@ -90,7 +90,9 @@ namespace Candidaturas.Controllers
                             throw raise;
                         }
                     }
-                    return View();
+                    getDataForDropdownLists();
+
+                    return View(model);
                 }
             }
             else
