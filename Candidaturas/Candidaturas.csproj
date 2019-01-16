@@ -184,7 +184,73 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CandidaturasModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\Categoria.cs">
+      <DependentUpon>CandidaturasModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Concelho.cs">
+      <DependentUpon>CandidaturasModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ConhecimentoEscola.cs">
+      <DependentUpon>CandidaturasModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Curso.cs">
+      <DependentUpon>CandidaturasModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\CursoDisplay.cs" />
+    <Compile Include="Models\DadosPessoai.cs">
+      <DependentUpon>CandidaturasModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Distrito.cs">
+      <DependentUpon>CandidaturasModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Documento.cs">
+      <DependentUpon>CandidaturasModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DocumentoBinario.cs">
+      <DependentUpon>CandidaturasModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EstadoCivil.cs">
+      <DependentUpon>CandidaturasModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Exame.cs">
+      <DependentUpon>CandidaturasModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Freguesia.cs">
+      <DependentUpon>CandidaturasModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Genero.cs">
+      <DependentUpon>CandidaturasModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Inquerito.cs">
+      <DependentUpon>CandidaturasModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Localidade.cs">
+      <DependentUpon>CandidaturasModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Pai.cs">
+      <DependentUpon>CandidaturasModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Posto.cs">
+      <DependentUpon>CandidaturasModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Ramo.cs">
+      <DependentUpon>CandidaturasModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Situacao.cs">
+      <DependentUpon>CandidaturasModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TipoDocumentoID.cs">
+      <DependentUpon>CandidaturasModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\User.cs">
+      <DependentUpon>CandidaturasModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UserCurso.cs">
+      <DependentUpon>CandidaturasModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UserExame.cs">
+      <DependentUpon>CandidaturasModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Password.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
