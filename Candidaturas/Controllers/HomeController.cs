@@ -12,7 +12,6 @@ namespace Candidaturas.Controllers
         
 
         // GET: Welcome
-        [Authorize]
         public ActionResult Welcome()
         {
             CandidaturaDBEntities1 db = new CandidaturaDBEntities1();
