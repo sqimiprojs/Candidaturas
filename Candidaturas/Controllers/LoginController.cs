@@ -61,10 +61,10 @@ namespace Candidaturas.Controllers
         public ActionResult PDFGen()
         {
             // Create a MigraDoc document
-            Document document = MigraDocument.CreateDocument();
+            Document document = MigraDocument.CreateDocument("blank", "Comprovativo de Candidatura", "Fábio Lourenço");
 
             //string ddl = MigraDoc.DocumentObjectModel.IO.DdlWriter.WriteToString(document);
-            MigraDoc.DocumentObjectModel.IO.DdlWriter.WriteToFile(document, "MigraDoc.mdddl");
+            //MigraDoc.DocumentObjectModel.IO.DdlWriter.WriteToFile(document, "MigraDoc.mdddl");
 
             MigraDoc.Rendering.DocumentRenderer renderer = new DocumentRenderer(document);
             PdfDocumentRenderer PDFRenderer = new PdfDocumentRenderer(true, PdfSharp.Pdf.PdfFontEmbedding.Always)
@@ -74,19 +74,17 @@ namespace Candidaturas.Controllers
 
             PDFRenderer.RenderDocument();
             PDFRenderer.DocumentRenderer = renderer;
-
-            // Save the document...
-            string filename = "HelloMigraDoc.pdf";
-            //PDFRenderer.PdfDocument.Save(filename);
-            // ...and start a viewer.
-            //Process.Start(filename);
-
+                        
+            string filename = document.Info.Title+".pdf";
+            
             // Send PDF to browser
             MemoryStream PDFStream = new MemoryStream();
             PDFRenderer.PdfDocument.Save(PDFStream, false);
             Response.Clear();
-            Response.ContentType = "application/pdf";
-            Response.AddHeader("content-length", PDFStream.Length.ToString());
+            Response.GetType();
+            Response.ContentType = document.GetType().ToString();
+            Response.Cache.SetCacheability(System.Web.HttpCacheability.Private);
+            Response.AppendHeader("Content-Disposition", "attachment; filename=" + filename);
             Response.BinaryWrite(PDFStream.ToArray());
             Response.Flush();
             PDFStream.Close();

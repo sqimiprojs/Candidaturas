@@ -176,7 +176,7 @@ namespace Candidaturas.Controllers
                         Response.Clear();
                         Response.Buffer = true;
                         Response.Charset = "";
-                        Response.Cache.SetCacheability(System.Web.HttpCacheability.NoCache);
+                        Response.Cache.SetCacheability(System.Web.HttpCacheability.Private);
                         Response.ContentType = doc.Tipo;
                         Response.AppendHeader("Content-Disposition", "attachment; filename=" + doc.Nome);
                         Response.BinaryWrite(docbin.DocBinario);

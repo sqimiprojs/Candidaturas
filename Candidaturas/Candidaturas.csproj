@@ -144,6 +144,7 @@
     <Content Include="Content\img\favicon.ico" />
     <Content Include="Content\img\marinha.png" />
     <Content Include="Content\img\uiTabsArrow.png" />
+    <Content Include="Content\img\logotipo.jpg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <EntityDeploy Include="Models\CandidaturasModel.edmx">

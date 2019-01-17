@@ -4,24 +4,164 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Web;
+using MigraDoc.DocumentObjectModel.Shapes;
 
 namespace Candidaturas
 {
     public class MigraDocument
     {
+        public static Document CreateDocument(string nome, string descricao, string autor)
+        {
+            // Create a new MigraDoc document
+            Document PDFdocument = new Document();
+            PDFdocument.Info.Title = nome;
+            PDFdocument.Info.Subject = descricao;
+            PDFdocument.Info.Author = autor;
+
+            
+            DefineStyles(PDFdocument);
+            CreateHeaderFooter(PDFdocument);
+            CreateComprovativo(PDFdocument);
+            CreatePage(PDFdocument);
+
+            return PDFdocument;
+        }
 
         /// <summary>
-        /// Defines the cover page.
+        /// Defines the styles used in the document.
         /// </summary>
-        /// 
-        public static void DefineCover(Document document)
+        public static void DefineStyles(Document document)
         {
+            // Get the predefined style Normal.
+            Style style = document.Styles["Normal"];
+            // Because all styles are derived from Normal, the next line changes the 
+            // font of the whole document. Or, more exactly, it changes the font of
+            // all styles and paragraphs that do not redefine the font.
+            style.Font.Name = "Times New Roman";
+
+            // Heading1 to Heading9 are predefined styles with an outline level. An outline level
+            // other than OutlineLevel.BodyText automatically creates the outline (or bookmarks) 
+            // in PDF.
+
+            style = document.Styles["Heading1"];
+            style.Font.Name = "Tahoma";
+            style.Font.Size = 14;
+            style.Font.Bold = true;
+            style.Font.Color = Colors.DarkBlue;
+            style.ParagraphFormat.PageBreakBefore = true;
+            style.ParagraphFormat.SpaceAfter = 6;
+
+            style = document.Styles["Heading2"];
+            style.Font.Size = 12;
+            style.Font.Bold = true;
+            style.ParagraphFormat.PageBreakBefore = false;
+            style.ParagraphFormat.SpaceBefore = 6;
+            style.ParagraphFormat.SpaceAfter = 6;
+
+            style = document.Styles["Heading3"];
+            style.Font.Size = 10;
+            style.Font.Bold = true;
+            style.Font.Italic = true;
+            style.ParagraphFormat.SpaceBefore = 6;
+            style.ParagraphFormat.SpaceAfter = 3;
+
+            style = document.Styles[StyleNames.Header];
+            style.ParagraphFormat.AddTabStop("16cm", TabAlignment.Right);
+            style.ParagraphFormat.Alignment = ParagraphAlignment.Right;
+
+            style = document.Styles[StyleNames.Footer];
+            style.ParagraphFormat.AddTabStop("8cm", TabAlignment.Center);
+            style.ParagraphFormat.Alignment = ParagraphAlignment.Center;
+
+            // Create a new style called TextBox based on style Normal
+            style = document.Styles.AddStyle("TextBox", "Normal");
+            style.ParagraphFormat.Alignment = ParagraphAlignment.Justify;
+            style.ParagraphFormat.Borders.Width = 2.5;
+            style.ParagraphFormat.Borders.Distance = "3pt";
+            style.ParagraphFormat.Shading.Color = Colors.SkyBlue;
+
+            // Create a new style called TOC based on style Normal
+            style = document.Styles.AddStyle("TOC", "Normal");
+            style.ParagraphFormat.AddTabStop("16cm", TabAlignment.Right, TabLeader.Dots);
+            style.ParagraphFormat.Font.Color = Colors.Blue;
+        }
+
+        static void CreateHeaderFooter(Document document)
+        {
+            Section page1 = document.AddSection();
+            //page1.PageSetup.OddAndEvenPagesHeaderFooter = false;
+            //page1.PageSetup.StartingNumber = 1;
+
+            HeaderFooter head = page1.Headers.Primary;
+            HeaderFooter foot = page1.Footers.Primary;
+
+
+            string ImgPath = ((new System.Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath).Replace("bin/Candidaturas.DLL", "Content/img/logotipo.jpg");
+            Image logo = head.AddImage(ImgPath);
+            logo.LockAspectRatio = true;
+            logo.Width = "1.5cm";
+            logo.Top = ShapePosition.Top;
+            logo.Left = ShapePosition.Left;
+            logo.WrapFormat.Style = WrapStyle.Through;
+
+            Paragraph hp = head.AddParagraph("\t Concurso de Admissão de Cadetes da Marinha - " + DateTime.Now.Year.ToString());
+            head.Style = "Header";
+
+            Paragraph fp = foot.AddParagraph("Escola Naval · " + DateTime.Now.Year.ToString());
+            foot.Style = "Footer";         
+
+            // Add paragraph to footer for odd pages.
+            // Add clone of paragraph to footer for odd pages. Cloning is necessary because an object must
+            // not belong to more than one other object. If you forget cloning an exception is thrown.
+            page1.Footers.EvenPage.Add(fp.Clone());
+        }
+
+        public static void CreateComprovativo(Document document)
+        {
+            Section page1 = document.Section;
+            Paragraph title = page1.AddParagraph("Comprovativo de Candidatura");
+            title.Style = "Heading1";
+            Paragraph cod = page1.AddParagraph("Código de Candidato: #123#-Fixed");
+            cod.Style = "Heading3";
+            page1.AddParagraph();
+            page1.AddParagraph();
+            Paragraph Text1 = page1.AddParagraph("Eu, abaixo assinado, #NOMECompleto#, filho de #Pai# e de #Mae#, natural de #DistritoNatural?#, #ConcelhoNatural?#" +
+                ", residente em #Morada#, #CodPostal#, #Localidade#, #Concelho#, freguesia de #Freguesia#, distrito de #Distrito#, nascido em #datanasc, #EstadoCivil#" +
+                "Nacionalidade ## com o #Tipo de Documento# nº #NumeroDocumento# válido até #datavalidade#, número de Contribuinte #NIF#, e ?contacto? #número de tel#," +
+                " declaro por minha honra que nunca fui abatido ao Corpo de Alunos da Academia Militar ou Academia da Força Aérea por motivos disciplinares ou por " +
+                "incapacidade para o serviço militar e que nunca fui excluído dos cursos da Escola Naval.");
+            page1.AddParagraph();
+            page1.AddParagraph();
+            page1.AddParagraph();
+
+            Paragraph Text2 = page1.AddParagraph("Desejo ser admitido aos cursos de:");
+            page1.AddParagraph();
+            page1.AddParagraph("1. - #Curso#");
+            page1.AddParagraph("2. - #Curso#");
+            page1.AddParagraph("3. - #Curso#");
+            page1.AddParagraph();
+            Paragraph Text3 = page1.AddParagraph("Mais declaro que tomei conhecimento das condições de admissão, das datas de realização das provas de verificação dos " +
+                "pré-requisitos de natureza física e médica e da data limite de entrega do certificado de classificações para acesso ao Ensino Superior e que todas as " +
+                "declarações prestadas são verdadeiras.");
+            page1.AddParagraph();
+            page1.AddParagraph();
+            Paragraph Text4 = page1.AddParagraph();
+            Text4.AddFormattedText("Data: ", TextFormat.Bold);
+            Text4.AddText(DateTime.Now.Date.ToString()+"\t\t");
+            Text4.AddFormattedText("Assinatura: ", TextFormat.Bold);
+            Text4.AddText("______________________________________________________");
+        }
+
+        public static void CreatePage(Document document)
+        {
+            
+            //Create a Page
             Section section = document.AddSection();
             Paragraph paragraph = section.AddParagraph();
             paragraph.Format.SpaceAfter = "3cm";
+            
 
             string ImgPath = ((new System.Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath).Replace("bin/Candidaturas.DLL", "Content/img/marinha.png");
-            //section.AddImage("../../Content / img / marinha.png");
             section.AddImage(ImgPath);
 
             paragraph = section.AddParagraph("A sample document that demonstrates the\ncapabilities of MigraDoc");
@@ -34,40 +174,13 @@ namespace Candidaturas
             paragraph.AddDateField();
         }
 
-        /// <summary>
-        /// Defines page setup, headers, and footers.
-        /// </summary>
-        static void DefineContentSection(Document document)
-        {
-            Section section = document.AddSection();
-            section.PageSetup.OddAndEvenPagesHeaderFooter = true;
-            section.PageSetup.StartingNumber = 1;
-
-            HeaderFooter header = section.Headers.Primary;
-            header.AddParagraph("\tOdd Page Header");
-
-            header = section.Headers.EvenPage;
-            header.AddParagraph("Even Page Header");
-
-            // Create a paragraph with centered page number. See definition of style "Footer".
-            Paragraph paragraph = new Paragraph();
-            paragraph.AddTab();
-            paragraph.AddPageField();
-
-            // Add paragraph to footer for odd pages.
-            section.Footers.Primary.Add(paragraph);
-            // Add clone of paragraph to footer for odd pages. Cloning is necessary because an object must
-            // not belong to more than one other object. If you forget cloning an exception is thrown.
-            section.Footers.EvenPage.Add(paragraph.Clone());
-        }
 
         public static void DefineParagraphs(Document document)
         {
             Paragraph paragraph = document.LastSection.AddParagraph("Paragraph Layout Overview", "Heading1");
             paragraph.AddBookmark("Paragraphs");
 
-
-
+            
             DemonstrateAlignment(document);
             DemonstrateIndent(document);
             DemonstrateFormattedText(document);
@@ -197,19 +310,5 @@ namespace Candidaturas
             paragraph.AddText(FillerText);
         }
 
-        public static Document CreateDocument()
-        {
-            // Create a new MigraDoc document
-            Document PDFdocument = new Document();
-            PDFdocument.Info.Title = "Hello, MigraDoc";
-            PDFdocument.Info.Subject = "Demonstrates an excerpt of the capabilities of MigraDoc.";
-            PDFdocument.Info.Author = "Stefan Lange";
-            DefineCover(PDFdocument);
-            DefineContentSection(PDFdocument);
-            DefineParagraphs(PDFdocument);
-
-
-            return PDFdocument;
-        }
     }
 }
