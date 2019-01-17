@@ -222,9 +222,11 @@ namespace Candidaturas.Controllers
                 }
 
                 this.getDataForDropdownLists(distritoNaturalEscolhido, concelhoNaturalEscolhido, distritoMoradaEscolhido, concelhoMoradaEscolhido, ramoEscolhido, categoriaEscolhida);
+
+                return View("~/Views/Formulario/DadosPessoais.cshtml");
             }
 
-            return View("~/Views/Formulario/DadosPessoais.cshtml");
+            return View("~/Views/Login/Index.cshtml");
         }
 
         [HttpPost]
