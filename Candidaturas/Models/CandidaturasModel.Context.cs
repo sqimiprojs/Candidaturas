@@ -36,7 +36,6 @@ namespace Candidaturas.Models
         public virtual DbSet<Exame> Exames { get; set; }
         public virtual DbSet<Freguesia> Freguesias { get; set; }
         public virtual DbSet<Genero> Generoes { get; set; }
-        public virtual DbSet<Inquerito> Inqueritoes { get; set; }
         public virtual DbSet<Localidade> Localidades { get; set; }
         public virtual DbSet<Pai> Pais { get; set; }
         public virtual DbSet<Posto> Postoes { get; set; }
@@ -47,5 +46,6 @@ namespace Candidaturas.Models
         public virtual DbSet<UserCurso> UserCursoes { get; set; }
         public virtual DbSet<UserExame> UserExames { get; set; }
         public virtual DbSet<DadosPessoai> DadosPessoais { get; set; }
+        public virtual DbSet<Inquerito> Inqueritoes { get; set; }
     }
 }

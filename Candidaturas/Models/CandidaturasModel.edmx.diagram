@@ -16,7 +16,6 @@
         <EntityTypeShape EntityType="CandidaturaDBModel.Exame" Width="1.5" PointX="10.25" PointY="15.875" />
         <EntityTypeShape EntityType="CandidaturaDBModel.Freguesia" Width="1.5" PointX="20.875" PointY="14.25" />
         <EntityTypeShape EntityType="CandidaturaDBModel.Genero" Width="1.5" PointX="16.875" PointY="11.75" />
-        <EntityTypeShape EntityType="CandidaturaDBModel.Inquerito" Width="1.5" PointX="12.625" PointY="11.75" />
         <EntityTypeShape EntityType="CandidaturaDBModel.Localidade" Width="1.5" PointX="25.5" PointY="13.125" />
         <EntityTypeShape EntityType="CandidaturaDBModel.Pai" Width="1.5" PointX="18.625" PointY="11.125" />
         <EntityTypeShape EntityType="CandidaturaDBModel.Posto" Width="1.5" PointX="23.25" PointY="18.625" />
@@ -30,14 +29,10 @@
         <AssociationConnector Association="CandidaturaDBModel.FK_Concelho_Distrito" />
         <AssociationConnector Association="CandidaturaDBModel.FK_Freguesia_Distrito_Concelho" />
         <AssociationConnector Association="CandidaturaDBModel.FK_Localidade_Distrito_Concelho" />
-        <AssociationConnector Association="CandidaturaDBModel.FK_Inquerito_ConhecimentoEscola" />
         <AssociationConnector Association="CandidaturaDBModel.FK_UserCurso_Curso" />
         <AssociationConnector Association="CandidaturaDBModel.FK_Documento_User" />
         <AssociationConnector Association="CandidaturaDBModel.FK_DocumentoBinario_Documento" />
         <AssociationConnector Association="CandidaturaDBModel.FK_ExameUE" />
-        <AssociationConnector Association="CandidaturaDBModel.FK_Inquerito_SituacaoMae" />
-        <AssociationConnector Association="CandidaturaDBModel.FK_Inquerito_SituacaoPai" />
-        <AssociationConnector Association="CandidaturaDBModel.FK_Inquerito_User" />
         <AssociationConnector Association="CandidaturaDBModel.FK_Posto_Ramo" />
         <AssociationConnector Association="CandidaturaDBModel.FK_UserCurso_User" />
         <AssociationConnector Association="CandidaturaDBModel.FK_UserExame_User" />
@@ -52,6 +47,11 @@
         <AssociationConnector Association="CandidaturaDBModel.FK_DadosPessoais_Ramo" />
         <AssociationConnector Association="CandidaturaDBModel.FK_DadosPessoais_TipoDocumentoID" />
         <AssociationConnector Association="CandidaturaDBModel.FK_DadosPessoais_User" />
+        <EntityTypeShape EntityType="CandidaturaDBModel.Inquerito" Width="1.5" PointX="12.625" PointY="11.75" />
+        <AssociationConnector Association="CandidaturaDBModel.FK_Inquerito_ConhecimentoEscola" />
+        <AssociationConnector Association="CandidaturaDBModel.FK_Inquerito_SituacaoMae" />
+        <AssociationConnector Association="CandidaturaDBModel.FK_Inquerito_SituacaoPai" />
+        <AssociationConnector Association="CandidaturaDBModel.FK_Inquerito_User" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

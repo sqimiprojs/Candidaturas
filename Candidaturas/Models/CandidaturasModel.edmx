@@ -138,7 +138,7 @@
           <Key>
             <PropertyRef Name="UserId" />
           </Key>
-          <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
           <Property Name="SituacaoPai" Type="int" Nullable="false" />
           <Property Name="OutraPai" Type="varchar" MaxLength="50" />
           <Property Name="SituacaoMae" Type="int" Nullable="false" />
@@ -680,7 +680,6 @@
           <EntitySet Name="Exames" EntityType="CandidaturaDBModel.Exame" />
           <EntitySet Name="Freguesias" EntityType="CandidaturaDBModel.Freguesia" />
           <EntitySet Name="Generoes" EntityType="CandidaturaDBModel.Genero" />
-          <EntitySet Name="Inqueritoes" EntityType="CandidaturaDBModel.Inquerito" />
           <EntitySet Name="Localidades" EntityType="CandidaturaDBModel.Localidade" />
           <EntitySet Name="Pais" EntityType="CandidaturaDBModel.Pai" />
           <EntitySet Name="Postoes" EntityType="CandidaturaDBModel.Posto" />
@@ -706,10 +705,6 @@
             <End Role="Concelho" EntitySet="Concelhoes" />
             <End Role="Localidade" EntitySet="Localidades" />
           </AssociationSet>
-          <AssociationSet Name="FK_Inquerito_ConhecimentoEscola" Association="CandidaturaDBModel.FK_Inquerito_ConhecimentoEscola">
-            <End Role="ConhecimentoEscola" EntitySet="ConhecimentoEscolas" />
-            <End Role="Inquerito" EntitySet="Inqueritoes" />
-          </AssociationSet>
           <AssociationSet Name="FK_UserCurso_Curso" Association="CandidaturaDBModel.FK_UserCurso_Curso">
             <End Role="Curso" EntitySet="Cursoes" />
             <End Role="UserCurso" EntitySet="UserCursoes" />
@@ -725,18 +720,6 @@
           <AssociationSet Name="FK_ExameUE" Association="CandidaturaDBModel.FK_ExameUE">
             <End Role="Exame" EntitySet="Exames" />
             <End Role="UserExame" EntitySet="UserExames" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Inquerito_SituacaoMae" Association="CandidaturaDBModel.FK_Inquerito_SituacaoMae">
-            <End Role="Situacao" EntitySet="Situacaos" />
-            <End Role="Inquerito" EntitySet="Inqueritoes" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Inquerito_SituacaoPai" Association="CandidaturaDBModel.FK_Inquerito_SituacaoPai">
-            <End Role="Situacao" EntitySet="Situacaos" />
-            <End Role="Inquerito" EntitySet="Inqueritoes" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Inquerito_User" Association="CandidaturaDBModel.FK_Inquerito_User">
-            <End Role="User" EntitySet="Users" />
-            <End Role="Inquerito" EntitySet="Inqueritoes" />
           </AssociationSet>
           <AssociationSet Name="FK_Posto_Ramo" Association="CandidaturaDBModel.FK_Posto_Ramo">
             <End Role="Ramo" EntitySet="Ramoes" />
@@ -790,6 +773,23 @@
           <AssociationSet Name="FK_DadosPessoais_User" Association="CandidaturaDBModel.FK_DadosPessoais_User">
             <End Role="User" EntitySet="Users" />
             <End Role="DadosPessoai" EntitySet="DadosPessoais" />
+          </AssociationSet>
+          <EntitySet Name="Inqueritoes" EntityType="CandidaturaDBModel.Inquerito" />
+          <AssociationSet Name="FK_Inquerito_ConhecimentoEscola" Association="CandidaturaDBModel.FK_Inquerito_ConhecimentoEscola">
+            <End Role="ConhecimentoEscola" EntitySet="ConhecimentoEscolas" />
+            <End Role="Inquerito" EntitySet="Inqueritoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inquerito_SituacaoMae" Association="CandidaturaDBModel.FK_Inquerito_SituacaoMae">
+            <End Role="Situacao" EntitySet="Situacaos" />
+            <End Role="Inquerito" EntitySet="Inqueritoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inquerito_SituacaoPai" Association="CandidaturaDBModel.FK_Inquerito_SituacaoPai">
+            <End Role="Situacao" EntitySet="Situacaos" />
+            <End Role="Inquerito" EntitySet="Inqueritoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inquerito_User" Association="CandidaturaDBModel.FK_Inquerito_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Inquerito" EntitySet="Inqueritoes" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Categoria">
@@ -898,25 +898,6 @@
           <Property Name="Nome" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="DadosPessoais" Relationship="CandidaturaDBModel.FK_DadosPessoais_Genero" FromRole="Genero" ToRole="DadosPessoai" />
         </EntityType>
-        <EntityType Name="Inquerito">
-          <Key>
-            <PropertyRef Name="UserId" />
-          </Key>
-          <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="SituacaoPai" Type="Int32" Nullable="false" />
-          <Property Name="OutraPai" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="SituacaoMae" Type="Int32" Nullable="false" />
-          <Property Name="OutraMae" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="ConhecimentoEscola" Type="Int32" Nullable="false" />
-          <Property Name="Outro" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="CandidatarOutros" Type="Boolean" Nullable="false" />
-          <Property Name="DataCriacao" Type="DateTime" Precision="3" />
-          <Property Name="DataAtualizacao" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="ConhecimentoEscola1" Relationship="CandidaturaDBModel.FK_Inquerito_ConhecimentoEscola" FromRole="Inquerito" ToRole="ConhecimentoEscola" />
-          <NavigationProperty Name="Situacao" Relationship="CandidaturaDBModel.FK_Inquerito_SituacaoMae" FromRole="Inquerito" ToRole="Situacao" />
-          <NavigationProperty Name="Situacao1" Relationship="CandidaturaDBModel.FK_Inquerito_SituacaoPai" FromRole="Inquerito" ToRole="Situacao" />
-          <NavigationProperty Name="User" Relationship="CandidaturaDBModel.FK_Inquerito_User" FromRole="Inquerito" ToRole="User" />
-        </EntityType>
         <EntityType Name="Localidade">
           <Key>
             <PropertyRef Name="CodigoDistrito" />
@@ -968,7 +949,7 @@
           <Property Name="Nome" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Inqueritoes" Relationship="CandidaturaDBModel.FK_Inquerito_SituacaoMae" FromRole="Situacao" ToRole="Inquerito" />
           <NavigationProperty Name="Inqueritoes1" Relationship="CandidaturaDBModel.FK_Inquerito_SituacaoPai" FromRole="Situacao" ToRole="Inquerito" />
-        </EntityType>
+          </EntityType>
         <EntityType Name="TipoDocumentoID">
           <Key>
             <PropertyRef Name="ID" />
@@ -987,10 +968,10 @@
           <Property Name="LoginErrorMessage" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="DataCriacao" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Documentoes" Relationship="CandidaturaDBModel.FK_Documento_User" FromRole="User" ToRole="Documento" />
-          <NavigationProperty Name="Inquerito" Relationship="CandidaturaDBModel.FK_Inquerito_User" FromRole="User" ToRole="Inquerito" />
           <NavigationProperty Name="UserCursoes" Relationship="CandidaturaDBModel.FK_UserCurso_User" FromRole="User" ToRole="UserCurso" />
           <NavigationProperty Name="UserExames" Relationship="CandidaturaDBModel.FK_UserExame_User" FromRole="User" ToRole="UserExame" />
           <NavigationProperty Name="DadosPessoai" Relationship="CandidaturaDBModel.FK_DadosPessoais_User" FromRole="User" ToRole="DadosPessoai" />
+          <NavigationProperty Name="Inquerito" Relationship="CandidaturaDBModel.FK_Inquerito_User" FromRole="User" ToRole="Inquerito" />
         </EntityType>
         <EntityType Name="UserCurso">
           <Key>
@@ -1065,18 +1046,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Inquerito_ConhecimentoEscola">
-          <End Type="CandidaturaDBModel.ConhecimentoEscola" Role="ConhecimentoEscola" Multiplicity="1" />
-          <End Type="CandidaturaDBModel.Inquerito" Role="Inquerito" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ConhecimentoEscola">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Inquerito">
-              <PropertyRef Name="ConhecimentoEscola" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_UserCurso_Curso">
           <End Type="CandidaturaDBModel.Curso" Role="Curso" Multiplicity="1" />
           <End Type="CandidaturaDBModel.UserCurso" Role="UserCurso" Multiplicity="*" />
@@ -1124,42 +1093,6 @@
             </Principal>
             <Dependent Role="UserExame">
               <PropertyRef Name="ExameId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Inquerito_SituacaoMae">
-          <End Type="CandidaturaDBModel.Situacao" Role="Situacao" Multiplicity="1" />
-          <End Type="CandidaturaDBModel.Inquerito" Role="Inquerito" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Situacao">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Inquerito">
-              <PropertyRef Name="SituacaoMae" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Inquerito_SituacaoPai">
-          <End Type="CandidaturaDBModel.Situacao" Role="Situacao" Multiplicity="1" />
-          <End Type="CandidaturaDBModel.Inquerito" Role="Inquerito" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Situacao">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Inquerito">
-              <PropertyRef Name="SituacaoPai" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Inquerito_User">
-          <End Type="CandidaturaDBModel.User" Role="User" Multiplicity="1" />
-          <End Type="CandidaturaDBModel.Inquerito" Role="Inquerito" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Inquerito">
-              <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1377,6 +1310,73 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Inquerito">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="SituacaoPai" Type="Int32" Nullable="false" />
+          <Property Name="OutraPai" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SituacaoMae" Type="Int32" Nullable="false" />
+          <Property Name="OutraMae" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ConhecimentoEscola" Type="Int32" Nullable="false" />
+          <Property Name="Outro" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CandidatarOutros" Type="Boolean" Nullable="false" />
+          <Property Name="DataCriacao" Type="DateTime" Precision="3" />
+          <Property Name="DataAtualizacao" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="ConhecimentoEscola1" Relationship="CandidaturaDBModel.FK_Inquerito_ConhecimentoEscola" FromRole="Inquerito" ToRole="ConhecimentoEscola" />
+          <NavigationProperty Name="Situacao" Relationship="CandidaturaDBModel.FK_Inquerito_SituacaoMae" FromRole="Inquerito" ToRole="Situacao" />
+          <NavigationProperty Name="Situacao1" Relationship="CandidaturaDBModel.FK_Inquerito_SituacaoPai" FromRole="Inquerito" ToRole="Situacao" />
+          <NavigationProperty Name="User" Relationship="CandidaturaDBModel.FK_Inquerito_User" FromRole="Inquerito" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_Inquerito_ConhecimentoEscola">
+          <End Type="CandidaturaDBModel.ConhecimentoEscola" Role="ConhecimentoEscola" Multiplicity="1" />
+          <End Type="CandidaturaDBModel.Inquerito" Role="Inquerito" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ConhecimentoEscola">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Inquerito">
+              <PropertyRef Name="ConhecimentoEscola" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inquerito_SituacaoMae">
+          <End Type="CandidaturaDBModel.Situacao" Role="Situacao" Multiplicity="1" />
+          <End Type="CandidaturaDBModel.Inquerito" Role="Inquerito" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Situacao">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Inquerito">
+              <PropertyRef Name="SituacaoMae" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inquerito_SituacaoPai">
+          <End Type="CandidaturaDBModel.Situacao" Role="Situacao" Multiplicity="1" />
+          <End Type="CandidaturaDBModel.Inquerito" Role="Inquerito" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Situacao">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Inquerito">
+              <PropertyRef Name="SituacaoPai" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inquerito_User">
+          <End Type="CandidaturaDBModel.User" Role="User" Multiplicity="1" />
+          <End Type="CandidaturaDBModel.Inquerito" Role="Inquerito" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Inquerito">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1477,22 +1477,6 @@
               <MappingFragment StoreEntitySet="Genero">
                 <ScalarProperty Name="Nome" ColumnName="Nome" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Inqueritoes">
-            <EntityTypeMapping TypeName="CandidaturaDBModel.Inquerito">
-              <MappingFragment StoreEntitySet="Inquerito">
-                <ScalarProperty Name="DataAtualizacao" ColumnName="DataAtualizacao" />
-                <ScalarProperty Name="DataCriacao" ColumnName="DataCriacao" />
-                <ScalarProperty Name="CandidatarOutros" ColumnName="CandidatarOutros" />
-                <ScalarProperty Name="Outro" ColumnName="Outro" />
-                <ScalarProperty Name="ConhecimentoEscola" ColumnName="ConhecimentoEscola" />
-                <ScalarProperty Name="OutraMae" ColumnName="OutraMae" />
-                <ScalarProperty Name="SituacaoMae" ColumnName="SituacaoMae" />
-                <ScalarProperty Name="OutraPai" ColumnName="OutraPai" />
-                <ScalarProperty Name="SituacaoPai" ColumnName="SituacaoPai" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1617,6 +1601,22 @@
                 <ScalarProperty Name="Apelidos" ColumnName="Apelidos" />
                 <ScalarProperty Name="Nomes" ColumnName="Nomes" />
                 <ScalarProperty Name="NomeColoquial" ColumnName="NomeColoquial" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Inqueritoes">
+            <EntityTypeMapping TypeName="CandidaturaDBModel.Inquerito">
+              <MappingFragment StoreEntitySet="Inquerito">
+                <ScalarProperty Name="DataAtualizacao" ColumnName="DataAtualizacao" />
+                <ScalarProperty Name="DataCriacao" ColumnName="DataCriacao" />
+                <ScalarProperty Name="CandidatarOutros" ColumnName="CandidatarOutros" />
+                <ScalarProperty Name="Outro" ColumnName="Outro" />
+                <ScalarProperty Name="ConhecimentoEscola" ColumnName="ConhecimentoEscola" />
+                <ScalarProperty Name="OutraMae" ColumnName="OutraMae" />
+                <ScalarProperty Name="SituacaoMae" ColumnName="SituacaoMae" />
+                <ScalarProperty Name="OutraPai" ColumnName="OutraPai" />
+                <ScalarProperty Name="SituacaoPai" ColumnName="SituacaoPai" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
               </MappingFragment>
             </EntityTypeMapping>

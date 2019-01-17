@@ -444,7 +444,6 @@ namespace Candidaturas.Controllers
 
                     try
                     {
-
                         Inquerito inqueritoUser = dbModel.Inqueritoes.Where(dp => dp.UserId == userId).FirstOrDefault();
 
                         inqueritoModel.UserId = userId;
