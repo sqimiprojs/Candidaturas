@@ -301,12 +301,36 @@
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 <!--<link rel="stylesheet" type="text/css" href="~/Content/Candidaturas.css">-->
 <script type="text/javascript">   
-    window.onload = showMilitar();
+    window.onload = handleDisablesAndRequired();
+
+    function handleDisablesAndRequired() {
+        showMilitar();
+        disabledCampos();
+    }
+
+    function disabledCampos() {
+        var morada = @ViewData["dm"];
+        if (morada != 0) {
+            var $concelho = $('#ConcelhoMorada');
+            $concelho.prop('disabled', false);
+            var $freguesia = $('#FreguesiaMorada');
+            $freguesia.prop('disabled', false);
+            var $localidade = $('#Localidade');
+            $localidade.prop('disabled', false);
+        }
+
+        var natural = @ViewData["dn"];
+        if (natural != 0) {
+            var $concelhoN = $('#ConcelhoNatural');
+            $concelhoN.prop('disabled', false);
+            var $freguesiaN = $('#FreguesiaNatural');
+            $freguesiaN.prop('disabled', false);
+        }
+    }
 
     function showMilitar() {
         var mil = @ViewData["mil"];
         if (mil == false) {
-            console.log(mil);
             $("#militar").hide();
         } else {
             var $nim = $('#NIM');

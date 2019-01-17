@@ -51,9 +51,25 @@ namespace Candidaturas.Controllers
 
                 generoEscolhido = dadosPessoaisUser.Genero;
                 distritoNaturalEscolhido = dadosPessoaisUser.DistritoNatural;
+                if(distritoNaturalEscolhido == null)
+                {
+                    ViewData["dn"] = 0;
+                }
+                else
+                {
+                    ViewData["dn"] = 1;
+                }
                 concelhoNaturalEscolhido = dadosPessoaisUser.ConcelhoNatural;
                 freguesiaNaturalEscolhida = dadosPessoaisUser.FreguesiaNatural;
                 distritoMoradaEscolhido = dadosPessoaisUser.DistritoMorada;
+                if (distritoMoradaEscolhido == null)
+                {
+                    ViewData["dm"] = 0;
+                }
+                else
+                {
+                    ViewData["dm"] = 1;
+                }
                 concelhoMoradaEscolhido = dadosPessoaisUser.ConcelhoMorada;
                 freguesiaMoradaEscolhida = dadosPessoaisUser.FreguesiaMorada;
                 estadoCivilEscolhido = dadosPessoaisUser.EstadoCivil;
