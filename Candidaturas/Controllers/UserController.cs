@@ -21,6 +21,30 @@ namespace Candidaturas.Controllers
             });
 
             ViewBag.TipoDocID = tiposDocumentosId;
+
+            IEnumerable<SelectListItem> ramos = db.Ramoes.Select(c => new SelectListItem
+            {
+                Value = c.Sigla,
+                Text = c.Nome
+            });
+
+            ViewBag.Ramo = ramos;
+
+            IEnumerable<SelectListItem> categorias = db.Categorias.Select(c => new SelectListItem
+            {
+                Value = c.Sigla,
+                Text = c.Nome
+            });
+
+            ViewBag.Categoria = categorias;
+
+            IEnumerable<SelectListItem> postos = db.Postoes.Select(c => new SelectListItem
+            {
+                Value = c.Código.ToString(),
+                Text = c.Nome
+            });
+
+            ViewBag.Posto = postos;
         }
 
         [HttpGet]
@@ -103,6 +127,28 @@ namespace Candidaturas.Controllers
 
                 return View();
             }
+        }
+
+        [HttpPost]
+        //actualiza lista de postos consoante o ramo e categoria seleccionados
+        public JsonResult updatePostos(string ramo, string categoria)
+        {
+            CandidaturaDBEntities1 db = new CandidaturaDBEntities1();
+
+            var postos = db.Postoes.Where(dp => dp.RamoMilitar == ramo && dp.CategoriaMilitar == categoria).OrderBy(dp => dp.Nome).Select(c => new
+            {
+                ID = c.Código,
+                Name = c.Nome
+            }).ToList();
+
+            JsonResult jsonPostos = new JsonResult
+            {
+                Data = postos.ToList(),
+
+                ContentType = "application / json"
+            };
+
+            return jsonPostos;
         }
 
         [HttpPost]

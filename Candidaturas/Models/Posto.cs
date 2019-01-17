@@ -28,8 +28,8 @@ namespace Candidaturas.Models
         public int Ordem { get; set; }
     
         public virtual Categoria Categoria { get; set; }
+        public virtual Ramo Ramo { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DadosPessoai> DadosPessoais { get; set; }
-        public virtual Ramo Ramo { get; set; }
     }
 }
