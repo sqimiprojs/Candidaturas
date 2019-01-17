@@ -28,6 +28,7 @@ namespace Candidaturas.Models
         public string LoginErrorMessage { get; set; }
         public System.DateTime DataCriacao { get; set; }
     
+        public virtual DadosPessoai DadosPessoai { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Documento> Documentoes { get; set; }
         public virtual Inquerito Inquerito { get; set; }
@@ -35,6 +36,5 @@ namespace Candidaturas.Models
         public virtual ICollection<UserCurso> UserCursoes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserExame> UserExames { get; set; }
-        public virtual DadosPessoai DadosPessoai { get; set; }
     }
 }

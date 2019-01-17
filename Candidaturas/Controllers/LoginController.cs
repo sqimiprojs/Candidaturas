@@ -8,6 +8,7 @@ using System.Diagnostics;
 using MigraDoc.Rendering;
 using MigraDoc.DocumentObjectModel;
 using System.Drawing;
+using System.Reflection;
 
 namespace Candidaturas.Controllers
 {
@@ -64,18 +65,19 @@ namespace Candidaturas.Controllers
         public static void DefineCover(Document document)
         {
             Section section = document.AddSection();
-
             Paragraph paragraph = section.AddParagraph();
             paragraph.Format.SpaceAfter = "3cm";
 
-            //Image ima = section.AddImage("../../Content/img/marinha.png");
+            string ImgPath = ((new System.Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath).Replace("bin/Candidaturas.DLL", "Content/img/marinha.png");
+            //section.AddImage("../../Content / img / marinha.png");
+            section.AddImage(ImgPath);
 
             paragraph = section.AddParagraph("A sample document that demonstrates the\ncapabilities of MigraDoc");
             paragraph.Format.Font.Size = 16;
             paragraph.Format.Font.Color = Colors.DarkRed;
             paragraph.Format.SpaceBefore = "8cm";
             paragraph.Format.SpaceAfter = "3cm";
-
+            paragraph = section.AddParagraph(ImgPath);
             paragraph = section.AddParagraph("Rendering date: ");
             paragraph.AddDateField();
         }
@@ -111,6 +113,8 @@ namespace Candidaturas.Controllers
         {
             Paragraph paragraph = document.LastSection.AddParagraph("Paragraph Layout Overview", "Heading1");
             paragraph.AddBookmark("Paragraphs");
+
+            
 
             DemonstrateAlignment(document);
             DemonstrateIndent(document);
@@ -258,7 +262,7 @@ namespace Candidaturas.Controllers
 
         public ActionResult PDFGen()
         {
-            
+            //file:///C:/Users/fabio/Documents/GitHub/Candidaturas/Candidaturas/bin/Candidaturas.DLL
             string Filepath = System.IO.Path.GetDirectoryName("C:\\Users\\fabio\\Documents\\GitHub\\Candidaturas\\Candidaturas\\Content\\WordTestFile.docx");
 
             // Create a MigraDoc document
@@ -277,7 +281,7 @@ namespace Candidaturas.Controllers
             renderer.PdfDocument.Save(filename);
             // ...and start a viewer.
             Process.Start(filename);
-            return Content(Filepath);
+            return Content("File");
         }
     }
 }
