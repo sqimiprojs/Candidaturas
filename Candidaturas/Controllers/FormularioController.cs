@@ -25,6 +25,10 @@ namespace Candidaturas.Controllers
         string nacionalidadeEscolhida = null;
         string nomeCompleto = null;
         string ndi = null;
+        DateTime dataNascimento = System.DateTime.Now;
+        string ramoEscolhido = null;
+        string categoriaEscolhida = null;
+        int? postoEscolhido = null;
 
         int? situacaoPaiEscolhido = null;
         int? situacaoMaeEscolhido = null;
@@ -58,12 +62,23 @@ namespace Candidaturas.Controllers
                 tipoDocIdEscolhido = dadosPessoaisUser.TipoDocID;
                 nomeCompleto = dadosPessoaisUser.NomeColoquial;
                 ndi = dadosPessoaisUser.NDI;
-            }
+                if(dadosPessoaisUser.Militar == false)
+                {
+                    ViewData["mil"] = "false";
+                } else
+                {
+                    ViewData["mil"] = "true";
+                    ramoEscolhido = dadosPessoaisUser.Ramo;
+                    categoriaEscolhida = dadosPessoaisUser.Categoria;
+                    postoEscolhido = dadosPessoaisUser.Posto;
+                }
+                
+            }            
 
         }
 
         //obtém os dados a serem preenchidos nas drops
-        public void getDataForDropdownLists(int? distritoNatural, int? concelhoNatural, int? distritoMorada, int? concelhoMorada)
+        public void getDataForDropdownLists(int? distritoNatural, int? concelhoNatural, int? distritoMorada, int? concelhoMorada, string ramoEscolhido, string categoriaEscolhida)
         {
             CandidaturaDBEntities1 db = new CandidaturaDBEntities1();
 
@@ -166,6 +181,33 @@ namespace Candidaturas.Controllers
             });
             ViewBag.Localidade = localidades.ToList();
 
+            IEnumerable<SelectListItem> ramos = db.Ramoes.OrderBy(dp => dp.Sigla).Select(c => new SelectListItem
+            {
+                Value = c.Sigla,
+                Text = c.Nome,
+                Selected = c.Sigla == ramoEscolhido
+
+            });
+            ViewBag.Ramo = ramos.ToList();
+
+            IEnumerable<SelectListItem> categorias = db.Categorias.OrderBy(dp => dp.Sigla).Select(c => new SelectListItem
+            {
+                Value = c.Sigla,
+                Text = c.Nome,
+                Selected = c.Sigla == categoriaEscolhida
+
+            });
+            ViewBag.Categoria = categorias.ToList();
+
+            IEnumerable<SelectListItem> postos = db.Postoes.Where(dp => dp.RamoMilitar == ramoEscolhido && dp.CategoriaMilitar == categoriaEscolhida).OrderBy(dp => dp.Código).Select(c => new SelectListItem
+            {
+                Value = c.Código.ToString(),
+                Text = c.Nome,
+                Selected = c.Código == postoEscolhido
+
+            });
+            ViewBag.Posto = postos.ToList();
+
         }
         // GET: DadosPessoais
         public ActionResult DadosPessoais()
@@ -179,7 +221,7 @@ namespace Candidaturas.Controllers
                     this.getDadosPessoais(userId);
                 }
 
-                this.getDataForDropdownLists(distritoNaturalEscolhido, concelhoNaturalEscolhido, distritoMoradaEscolhido, concelhoMoradaEscolhido);
+                this.getDataForDropdownLists(distritoNaturalEscolhido, concelhoNaturalEscolhido, distritoMoradaEscolhido, concelhoMoradaEscolhido, ramoEscolhido, categoriaEscolhida);
             }
 
             return View("~/Views/Formulario/DadosPessoais.cshtml");
@@ -297,12 +339,6 @@ namespace Candidaturas.Controllers
                             dadosPessoaisUser.DataUltimaAtualizacao = System.DateTime.Now;
                             dbModel.DadosPessoais.Add(dadosPessoaisUser);
                         }
-
-                        //actualiza nome completo
-                        //User userData = dbModel.Users.Where(dp => dp.ID == userId).FirstOrDefault();
-                        //userData.NomeCompleto = dadosPessoaisModel.NomeColoquial;
-                        //userData.TipoDocID = dadosPessoaisModel.TipoDocID;
-                        //userData.NDI = dadosPessoaisModel.NDI;
 
                         dbModel.SaveChanges();
 
