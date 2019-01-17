@@ -22,9 +22,11 @@ namespace Candidaturas.Controllers
 
                 DocumentosUser = getSelectedDocumentos(db, userId);
                 ViewBag.DocumentosUser = DocumentosUser;
+
+                return View("~/Views/Home/Welcome.cshtml");
             }
             
-            return View("~/Views/Home/Welcome.cshtml");
+            return View("~/Views/Login/Index.cshtml");
         }
 
         [HttpPost]

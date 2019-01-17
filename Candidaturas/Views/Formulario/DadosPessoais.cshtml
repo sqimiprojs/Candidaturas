@@ -64,6 +64,15 @@
         </div>
 
         <div class="form-group">
+            @Html.LabelFor(model => model.DataNascimento, "Data de Nascimento", htmlAttributes: new { @class = "control-label col-md-2 required" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.DataNascimento, new { htmlAttributes = new { @class = "form-control", type = "date", @required = "required", @Value = ViewBag.DadosPessoais.DataNascimento.ToString("yyyy-MM-dd") } })
+                @Html.ValidationMessageFor(model => model.DataNascimento, "", new { @class = "text-danger" })
+                <span id="DtNascWarning" for="NIF" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
             @Html.LabelFor(model => model.EstadoCivil, "Estado Civil", htmlAttributes: new { @class = "control-label col-md-2 required" })
             <div class="col-md-10">
                 @Html.DropDownListFor(model => model.EstadoCivil, ViewBag.EstadoCivil as SelectList, "Escolha uma opção...", new { @class = "form-control", @required = "required" })
@@ -97,7 +106,7 @@
                 <div class="form-inline">
                     @Html.EditorFor(model => model.CodigoPostal4Dig, new { htmlAttributes = new { @type = "number", @class = "form-control", @required = "required", @style = "width:40%", @placeholder = "NNNN", maxlength = "10", min = "0", max = "9999", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.CodigoPostal4Dig) } })
                     -
-                    @Html.EditorFor(model => model.CodigoPostal3Dig, new { htmlAttributes = new { @type = "number", @class = "form-control", @required = "required", @style = "width:20%", @placeholder = "NNN", maxlength = "3", min= "0", max="999", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.CodigoPostal3Dig) } })
+                    @Html.EditorFor(model => model.CodigoPostal3Dig, new { htmlAttributes = new { @type = "number", @class = "form-control", @required = "required", @style = "width:20%", @placeholder = "NNN", maxlength = "3", min = "0", max = "999", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.CodigoPostal3Dig) } })
                 </div>
                 @Html.ValidationMessageFor(model => model.CodigoPostal4Dig, "", new { @class = "text-danger" })
                 @Html.ValidationMessageFor(model => model.CodigoPostal3Dig, "", new { @class = "text-danger" })
@@ -202,7 +211,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.NIF, "Número", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.NIF, new { htmlAttributes = new { @class = "form-control", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.NIF)} })
+                @Html.EditorFor(model => model.NIF, new { htmlAttributes = new { @class = "form-control", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.NIF) } })
                 @Html.ValidationMessageFor(model => model.NIF, "", new { @class = "text-danger" })
                 <span id="NIFWarning" for="NIF" class="text-danger"></span>
             </div>
@@ -230,6 +239,54 @@
 
         <hr class="dadosPessoaisHr" />
 
+        <div id="militar">
+
+            <h4 class="candidaturasHeader">Militar</h4>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.NIM, "Número", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.NIM, new { htmlAttributes = new { @class = "form-control", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.NIM) } })
+                    @Html.ValidationMessageFor(model => model.NIM, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Ramo, "Ramo", htmlAttributes: new { @class = "control-label col-md-2 " })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.Ramo, ViewBag.Ramo as SelectList, "Escolha uma opção...", new { @class = "form-control", @onchange = "resetPostos()" })
+                    @Html.ValidationMessageFor(model => model.Ramo, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Categoria, "Categoria", htmlAttributes: new { @class = "control-label col-md-2 " })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.Categoria, ViewBag.Categoria as SelectList, "Escolha uma opção...", new { @class = "form-control", @onchange = "changePostos()" })
+                    @Html.ValidationMessageFor(model => model.Categoria, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Posto, "Posto", htmlAttributes: new { @class = "control-label col-md-2 " })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.Posto, ViewBag.Posto as SelectList, "Escolha uma opção...", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Posto, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Classe, "Classe", htmlAttributes: new { @class = "control-label col-md-2 " })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Classe, new { htmlAttributes = new { @class = "form-control", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.Classe) } })
+                    @Html.ValidationMessageFor(model => model.Classe, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <hr class="dadosPessoaisHr" />
+
+        </div>
+
         <div class="form-group">
             <div class="col-md-offset-4 col-md-10 ">
                 <input class="btn btn-default" type="submit" value="Guardar" />
@@ -243,7 +300,49 @@
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 <!--<link rel="stylesheet" type="text/css" href="~/Content/Candidaturas.css">-->
-<script type="text/javascript">    
+<script type="text/javascript">   
+    window.onload = handleDisablesAndRequired();
+
+    function handleDisablesAndRequired() {
+        showMilitar();
+        disabledCampos();
+    }
+
+    function disabledCampos() {
+        var morada = @ViewData["dm"];
+        if (morada != 0) {
+            var $concelho = $('#ConcelhoMorada');
+            $concelho.prop('disabled', false);
+            var $freguesia = $('#FreguesiaMorada');
+            $freguesia.prop('disabled', false);
+            var $localidade = $('#Localidade');
+            $localidade.prop('disabled', false);
+        }
+
+        var natural = @ViewData["dn"];
+        if (natural != 0) {
+            var $concelhoN = $('#ConcelhoNatural');
+            $concelhoN.prop('disabled', false);
+            var $freguesiaN = $('#FreguesiaNatural');
+            $freguesiaN.prop('disabled', false);
+        }
+    }
+
+    function showMilitar() {
+        var mil = @ViewData["mil"];
+        if (mil == false) {
+            $("#militar").hide();
+        } else {
+            var $nim = $('#NIM');
+            $nim.prop('required', true);
+            var $ramo = $('#Ramo');
+            $ramo.prop('required', true);
+            var $categoria = $('#Categoria');
+            $categoria.prop('required', true);
+            var $posto = $('#Posto');
+            $posto.prop('required', true);
+        }
+    }
     //altera os concelhos consoante o distrito escolhido
     function changeConcelhos(isNatural) {
         if (isNatural) {
@@ -395,6 +494,40 @@
             error: function (e) { console.log(e); }
         })
     }
+
+    //altera os postos consoante o ramo e categoria escolhido
+    function changePostos() {
+        var ramoEscolhido = $('#Ramo').val();
+        var categoriaEscolhida = $('#Categoria').val();
+        $.ajax({
+            url: '@Url.Action("UpdatePostos", "User")',
+            data: {
+                ramo: ramoEscolhido,
+                categoria: categoriaEscolhida
+            },
+            type: "POST",
+            success: function (postos) {
+                var $select = $('#Posto');
+                $select.empty();
+                $select.append('<option value="">Escolha uma opção...</option>');
+                $select.prop('disabled', false);
+                $.each(postos, function (i, posto) {
+                    $('<option>', {
+                        value: posto.ID
+                    }).html(posto.Name).appendTo($select);
+                });
+            },
+            error: function (e) { console.log(e); }
+        })
+    }
+
+    function resetPostos() {
+        var $posto = $('#Posto');
+        $posto.empty();
+        $posto.append('<option value="">Escolha uma opção...</option>');
+        $posto.prop('disabled', true);
+    }
+
 </script>
 <style>
     .dadosPessoaisHr {
