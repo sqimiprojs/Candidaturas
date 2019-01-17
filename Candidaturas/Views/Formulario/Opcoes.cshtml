@@ -73,6 +73,16 @@
                 </tr>
             }
         </table>
+
+        <table class="table">
+            <h4 class="candidaturasHeader">Exames Necessários</h4>
+            @foreach (String exame in Model.ExamesNecessários)
+            {
+                <tr>
+                    <td>@exame</td>
+                </tr>
+            }
+        </table>
     </div>
     
 </div>

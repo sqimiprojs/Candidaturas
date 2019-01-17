@@ -36,6 +36,7 @@ namespace Candidaturas.Controllers
 
         List<Exame> exames;
         List<CursoDisplay> cursos;
+        List<String> examesNecessarios;
 
         /*-Dados Pessoais-*/
         //obtém os dados preenchdios pelo utilizador para mostrar no ecrã
@@ -533,6 +534,16 @@ namespace Candidaturas.Controllers
                 cd.prioridade = db.UserCursoes.Where(dp => dp.CursoId == curso && dp.UserId == userId).Select(dp => dp.Prioridade).FirstOrDefault();
                 cd.ID = db.Cursoes.Where(dp => dp.ID == curso).Select(dp => dp.ID).First();
                 cursos.Add(cd);
+
+                Curso cursoSel = db.Cursoes.Where(dp => dp.ID == curso).FirstOrDefault();
+                List<String> exames = cursoSel.Exames.Select(dp => dp.Nome).ToList();
+                foreach(String exame in exames)
+                {
+                    if(!examesNecessarios.Exists(x => x == exame))
+                    {
+                        examesNecessarios.Add(exame);
+                    }                    
+                }                
             }
         }
 
@@ -563,6 +574,7 @@ namespace Candidaturas.Controllers
             ViewBag.Title = "Opcoes";
             exames = new List<Exame>();
             cursos = new List<CursoDisplay>();
+            examesNecessarios = new List<String>();
 
             if (Session["userID"] != null)
             {
@@ -572,13 +584,16 @@ namespace Candidaturas.Controllers
                 getDataForDropdownLists(db);
                 getSelectedExames(db, userId);
                 getSelectedCursos(db, userId);
+
+                dynamic mymodel = new ExpandoObject();
+                mymodel.ExamesEscolhidos = exames;
+                mymodel.CursosEscolhidos = cursos;
+                mymodel.ExamesNecessários = examesNecessarios;
+
+                return View(mymodel);
             }
 
-            dynamic mymodel = new ExpandoObject();
-            mymodel.ExamesEscolhidos = exames;
-            mymodel.CursosEscolhidos = cursos;
-
-            return View(mymodel);
+            return View("~/Views/Login/Index.cshtml");
         }
         
         //adiciona um exame seleccionado
@@ -668,6 +683,18 @@ namespace Candidaturas.Controllers
                             //ver se já escolheu o curso
                             if (cursoRegistado == null)
                             {
+                                /*Curso curso = dbModel.Cursoes.Where(dp => dp.ID == cursoEscolhido).FirstOrDefault();
+
+                                List<String> exames = curso.Exames.Select(dp => dp.Nome).ToList();
+
+                                foreach(String exame in exames)
+                                {
+                                    if (!examesNecessarios.Exists(x => x == exame))
+                                    {
+                                        examesNecessarios.Add(exame);
+                                    }
+                                }
+                                */
                                 UserCurso userCurso = new UserCurso();
 
                                 userCurso.CursoId = dbModel.Cursoes.Where(dp => dp.ID == cursoEscolhido).FirstOrDefault().ID;
@@ -781,6 +808,14 @@ namespace Candidaturas.Controllers
                 {
                     try
                     {
+                        /*Curso curso = dbModel.Cursoes.Where(dp => dp.ID == id).FirstOrDefault();
+
+                        List<String> exames = curso.Exames.Select(dp => dp.Nome).ToList();
+
+                        foreach (String exame in exames)
+                        {
+                            examesNecessarios.Remove(exame);
+                        }*/
                         //remover curso
                         UserCurso uc = dbModel.UserCursoes.Where(dp => dp.CursoId == id).Where(dp => dp.UserId == userId).FirstOrDefault();
                         dbModel.UserCursoes.Remove(uc);

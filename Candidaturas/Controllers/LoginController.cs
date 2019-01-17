@@ -64,7 +64,7 @@ namespace Candidaturas.Controllers
             Document document = MigraDocument.CreateDocument();
 
             //string ddl = MigraDoc.DocumentObjectModel.IO.DdlWriter.WriteToString(document);
-            MigraDoc.DocumentObjectModel.IO.DdlWriter.WriteToFile(document, "MigraDoc.mdddl");
+            //MigraDoc.DocumentObjectModel.IO.DdlWriter.WriteToFile(document, "MigraDoc.mdddl");
 
             MigraDoc.Rendering.DocumentRenderer renderer = new DocumentRenderer(document);
             PdfDocumentRenderer PDFRenderer = new PdfDocumentRenderer(true, PdfSharp.Pdf.PdfFontEmbedding.Always)

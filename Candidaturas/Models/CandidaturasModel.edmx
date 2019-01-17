@@ -36,6 +36,14 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Nome" Type="varchar" MaxLength="100" Nullable="false" />
         </EntityType>
+        <EntityType Name="CursoExame">
+          <Key>
+            <PropertyRef Name="CursoID" />
+            <PropertyRef Name="ExameID" />
+          </Key>
+          <Property Name="CursoID" Type="int" Nullable="false" />
+          <Property Name="ExameID" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="DadosPessoais">
           <Key>
             <PropertyRef Name="UserId" />
@@ -235,6 +243,30 @@
             </Principal>
             <Dependent Role="Concelho">
               <PropertyRef Name="CodigoDistrito" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CursoExame_Curso">
+          <End Role="Curso" Type="Self.Curso" Multiplicity="1" />
+          <End Role="CursoExame" Type="Self.CursoExame" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Curso">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CursoExame">
+              <PropertyRef Name="CursoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CursoExame_Exame">
+          <End Role="Exame" Type="Self.Exame" Multiplicity="1" />
+          <End Role="CursoExame" Type="Self.CursoExame" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Exame">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CursoExame">
+              <PropertyRef Name="ExameID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -545,6 +577,7 @@
           <EntitySet Name="Concelho" EntityType="Self.Concelho" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ConhecimentoEscola" EntityType="Self.ConhecimentoEscola" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Curso" EntityType="Self.Curso" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CursoExame" EntityType="Self.CursoExame" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DadosPessoais" EntityType="Self.DadosPessoais" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Distrito" EntityType="Self.Distrito" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Documento" EntityType="Self.Documento" Schema="dbo" store:Type="Tables" />
@@ -566,6 +599,14 @@
           <AssociationSet Name="FK_Concelho_Distrito" Association="Self.FK_Concelho_Distrito">
             <End Role="Distrito" EntitySet="Distrito" />
             <End Role="Concelho" EntitySet="Concelho" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CursoExame_Curso" Association="Self.FK_CursoExame_Curso">
+            <End Role="Curso" EntitySet="Curso" />
+            <End Role="CursoExame" EntitySet="CursoExame" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CursoExame_Exame" Association="Self.FK_CursoExame_Exame">
+            <End Role="Exame" EntitySet="Exame" />
+            <End Role="CursoExame" EntitySet="CursoExame" />
           </AssociationSet>
           <AssociationSet Name="FK_DadosPessoais_Categoria" Association="Self.FK_DadosPessoais_Categoria">
             <End Role="Categoria" EntitySet="Categoria" />
@@ -791,6 +832,10 @@
             <End Role="User" EntitySet="Users" />
             <End Role="UserExame" EntitySet="UserExames" />
           </AssociationSet>
+          <AssociationSet Name="CursoExame" Association="CandidaturaDBModel.CursoExame">
+            <End Role="Curso" EntitySet="Cursoes" />
+            <End Role="Exame" EntitySet="Exames" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Categoria">
           <Key>
@@ -829,6 +874,7 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Nome" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="UserCursoes" Relationship="CandidaturaDBModel.FK_UserCurso_Curso" FromRole="Curso" ToRole="UserCurso" />
+          <NavigationProperty Name="Exames" Relationship="CandidaturaDBModel.CursoExame" FromRole="Curso" ToRole="Exame" />
         </EntityType>
         <EntityType Name="DadosPessoai">
           <Key>
@@ -925,6 +971,7 @@
           <Property Name="Nome" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Código" Type="Int32" Nullable="false" />
           <NavigationProperty Name="UserExames" Relationship="CandidaturaDBModel.FK_ExameUE" FromRole="Exame" ToRole="UserExame" />
+          <NavigationProperty Name="Cursoes" Relationship="CandidaturaDBModel.CursoExame" FromRole="Exame" ToRole="Curso" />
         </EntityType>
         <EntityType Name="Freguesia">
           <Key>
@@ -1377,6 +1424,10 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="CursoExame">
+          <End Type="CandidaturaDBModel.Curso" Role="Curso" Multiplicity="*" />
+          <End Type="CandidaturaDBModel.Exame" Role="Exame" Multiplicity="*" />
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1621,6 +1672,14 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <AssociationSetMapping Name="CursoExame" TypeName="CandidaturaDBModel.CursoExame" StoreEntitySet="CursoExame">
+            <EndProperty Name="Exame">
+              <ScalarProperty Name="ID" ColumnName="ExameID" />
+            </EndProperty>
+            <EndProperty Name="Curso">
+              <ScalarProperty Name="ID" ColumnName="CursoID" />
+            </EndProperty>
+          </AssociationSetMapping>
         </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>
