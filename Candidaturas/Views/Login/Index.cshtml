@@ -23,6 +23,7 @@
     </style>
 </head>
 <body>
+    <div class="row">@Html.ActionLink("Gerar PDF - Test", "PDFGen", "Login" )</div>
     <div id="login-div" class="form-group">
         <img src="~/Content/img/marinha.png" alt="Logo Marinha" />
         @using (Html.BeginForm("Authorize", "Login", FormMethod.Post))
