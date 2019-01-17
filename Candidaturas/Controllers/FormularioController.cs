@@ -210,6 +210,7 @@ namespace Candidaturas.Controllers
 
         }
         // GET: DadosPessoais
+        [Authorize]
         public ActionResult DadosPessoais()
         {
             if (Session["userID"] != null)
