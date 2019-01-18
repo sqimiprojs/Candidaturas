@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Web;
 using MigraDoc.DocumentObjectModel.Shapes;
+using Candidaturas.Models;
 
 namespace Candidaturas
 {
@@ -18,7 +19,7 @@ namespace Candidaturas
             PDFdocument.Info.Subject = descricao;
             PDFdocument.Info.Author = autor;
 
-            
+
             DefineStyles(PDFdocument);
             CreateHeaderFooter(PDFdocument);
             CreateComprovativo(PDFdocument);
@@ -45,11 +46,12 @@ namespace Candidaturas
 
             style = document.Styles["Heading1"];
             style.Font.Name = "Tahoma";
-            style.Font.Size = 14;
+            style.Font.Size = 16;
             style.Font.Bold = true;
-            style.Font.Color = Colors.DarkBlue;
             style.ParagraphFormat.PageBreakBefore = true;
             style.ParagraphFormat.SpaceAfter = 6;
+            style.ParagraphFormat.Alignment = ParagraphAlignment.Center;
+            style.ParagraphFormat.Font.Color = Colors.Black;
 
             style = document.Styles["Heading2"];
             style.Font.Size = 12;
@@ -57,6 +59,8 @@ namespace Candidaturas
             style.ParagraphFormat.PageBreakBefore = false;
             style.ParagraphFormat.SpaceBefore = 6;
             style.ParagraphFormat.SpaceAfter = 6;
+            style.ParagraphFormat.Alignment = ParagraphAlignment.Center;
+            style.ParagraphFormat.Font.Color = Colors.Black;
 
             style = document.Styles["Heading3"];
             style.Font.Size = 10;
@@ -64,6 +68,8 @@ namespace Candidaturas
             style.Font.Italic = true;
             style.ParagraphFormat.SpaceBefore = 6;
             style.ParagraphFormat.SpaceAfter = 3;
+            style.ParagraphFormat.Alignment = ParagraphAlignment.Center;
+            style.ParagraphFormat.Font.Color = Colors.Black;
 
             style = document.Styles[StyleNames.Header];
             style.ParagraphFormat.AddTabStop("16cm", TabAlignment.Right);
@@ -72,6 +78,18 @@ namespace Candidaturas
             style = document.Styles[StyleNames.Footer];
             style.ParagraphFormat.AddTabStop("8cm", TabAlignment.Center);
             style.ParagraphFormat.Alignment = ParagraphAlignment.Center;
+            style.ParagraphFormat.Font.Color = Colors.DarkGray;
+
+
+            // Create a new style called LongText based on style Normal
+            style = document.Styles.AddStyle("LongText", "Normal");
+            style.ParagraphFormat.Alignment = ParagraphAlignment.Justify;
+            style.ParagraphFormat.Font.Color = Colors.Black;
+
+            // Create a new style called Centered Text based on style Normal
+            style = document.Styles.AddStyle("CenterText", "Normal");
+            style.ParagraphFormat.Alignment = ParagraphAlignment.Center;
+            style.ParagraphFormat.Font.Color = Colors.Black;
 
             // Create a new style called TextBox based on style Normal
             style = document.Styles.AddStyle("TextBox", "Normal");
@@ -86,7 +104,7 @@ namespace Candidaturas
             style.ParagraphFormat.Font.Color = Colors.Blue;
         }
 
-        static void CreateHeaderFooter(Document document)
+        public static void CreateHeaderFooter(Document document)
         {
             Section page1 = document.AddSection();
             //page1.PageSetup.OddAndEvenPagesHeaderFooter = false;
@@ -107,7 +125,7 @@ namespace Candidaturas
             Paragraph hp = head.AddParagraph("\t Concurso de Admissão de Cadetes da Marinha - " + DateTime.Now.Year.ToString());
             head.Style = "Header";
 
-            Paragraph fp = foot.AddParagraph("Escola Naval · " + DateTime.Now.Year.ToString());
+            Paragraph fp = foot.AddParagraph("Escola Naval - " + DateTime.Now.Year.ToString());
             foot.Style = "Footer";         
 
             // Add paragraph to footer for odd pages.
@@ -118,38 +136,35 @@ namespace Candidaturas
 
         public static void CreateComprovativo(Document document)
         {
-            Section page1 = document.Section;
-            Paragraph title = page1.AddParagraph("Comprovativo de Candidatura");
-            title.Style = "Heading1";
-            Paragraph cod = page1.AddParagraph("Código de Candidato: #123#-Fixed");
-            cod.Style = "Heading3";
-            page1.AddParagraph();
-            page1.AddParagraph();
-            Paragraph Text1 = page1.AddParagraph("Eu, abaixo assinado, #NOMECompleto#, filho de #Pai# e de #Mae#, natural de #DistritoNatural?#, #ConcelhoNatural?#" +
+            Section page1 = document.LastSection;
+            Paragraph title = page1.AddParagraph("\n\nComprovativo de Candidatura", "Heading1");
+
+            Paragraph cod = page1.AddParagraph("\nCódigo de Candidato: #123#-Fixed","Heading3");
+
+            DadosPessoai candidato = GetInfoCandidato(2);
+
+            Paragraph Text1 = page1.AddParagraph("\n\nEu, abaixo assinado, #NOMECompleto#, filho de #Pai# e de #Mae#, natural de #DistritoNatural?#, #ConcelhoNatural?#" +
                 ", residente em #Morada#, #CodPostal#, #Localidade#, #Concelho#, freguesia de #Freguesia#, distrito de #Distrito#, nascido em #datanasc, #EstadoCivil#" +
                 "Nacionalidade ## com o #Tipo de Documento# nº #NumeroDocumento# válido até #datavalidade#, número de Contribuinte #NIF#, e ?contacto? #número de tel#," +
                 " declaro por minha honra que nunca fui abatido ao Corpo de Alunos da Academia Militar ou Academia da Força Aérea por motivos disciplinares ou por " +
-                "incapacidade para o serviço militar e que nunca fui excluído dos cursos da Escola Naval.");
-            page1.AddParagraph();
-            page1.AddParagraph();
-            page1.AddParagraph();
+                "incapacidade para o serviço militar e que nunca fui excluído dos cursos da Escola Naval.", "LongText");
 
-            Paragraph Text2 = page1.AddParagraph("Desejo ser admitido aos cursos de:");
+            Paragraph Text2 = page1.AddParagraph("\n\n\nDesejo ser admitido aos cursos de:", "LongText");
             page1.AddParagraph();
             page1.AddParagraph("1. - #Curso#");
             page1.AddParagraph("2. - #Curso#");
             page1.AddParagraph("3. - #Curso#");
-            page1.AddParagraph();
-            Paragraph Text3 = page1.AddParagraph("Mais declaro que tomei conhecimento das condições de admissão, das datas de realização das provas de verificação dos " +
+
+            Paragraph Text3 = page1.AddParagraph("\nMais declaro que tomei conhecimento das condições de admissão, das datas de realização das provas de verificação dos " +
                 "pré-requisitos de natureza física e médica e da data limite de entrega do certificado de classificações para acesso ao Ensino Superior e que todas as " +
-                "declarações prestadas são verdadeiras.");
-            page1.AddParagraph();
-            page1.AddParagraph();
+                "declarações prestadas são verdadeiras.", "LongText");
+
             Paragraph Text4 = page1.AddParagraph();
-            Text4.AddFormattedText("Data: ", TextFormat.Bold);
-            Text4.AddText(DateTime.Now.Date.ToString()+"\t\t");
+            Text4.AddFormattedText("\n\nData: ", TextFormat.Bold);
+            Text4.AddText(DateTime.Now.Date.ToString("dd/MM/yyyy") +"\t\t");
             Text4.AddFormattedText("Assinatura: ", TextFormat.Bold);
-            Text4.AddText("______________________________________________________");
+            Text4.AddText("______________________________________");
+            Text4.Style = "CenterText";
         }
 
         public static void CreatePage(Document document)
@@ -187,7 +202,7 @@ namespace Candidaturas
             DemonstrateBordersAndShading(document);
         }
 
-        static void DemonstrateAlignment(Document document)
+        private static void DemonstrateAlignment(Document document)
         {
             string FillerText = "TextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTexto";
             document.LastSection.AddParagraph("Alignment", "Heading2");
@@ -217,7 +232,7 @@ namespace Candidaturas
             paragraph.AddText(FillerText);
         }
 
-        static void DemonstrateIndent(Document document)
+        private static void DemonstrateIndent(Document document)
         {
             string FillerText = "TextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTexto";
             document.LastSection.AddParagraph("Indent", "Heading2");
@@ -248,7 +263,7 @@ namespace Candidaturas
             paragraph.AddText(FillerText);
         }
 
-        static void DemonstrateFormattedText(Document document)
+        private static void DemonstrateFormattedText(Document document)
         {
             string FillerText = "TextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTexto";
             document.LastSection.AddParagraph("Formatted Text", "Heading2");
@@ -283,7 +298,7 @@ namespace Candidaturas
             paragraph.AddText(".");
         }
 
-        static void DemonstrateBordersAndShading(Document document)
+        private static void DemonstrateBordersAndShading(Document document)
         {
             string FillerText = "TextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTexto";
             document.LastSection.AddPageBreak();

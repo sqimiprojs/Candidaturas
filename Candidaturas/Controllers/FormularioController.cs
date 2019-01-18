@@ -29,7 +29,7 @@ namespace Candidaturas.Controllers
         string ramoEscolhido = null;
         string categoriaEscolhida = null;
         int? postoEscolhido = null;
-
+        DadosPessoai DadosPessoaisEscolhidos = new DadosPessoai();
         int? situacaoPaiEscolhido = null;
         int? situacaoMaeEscolhido = null;
         int? conhecimentoEscolaEscolhido = null;
