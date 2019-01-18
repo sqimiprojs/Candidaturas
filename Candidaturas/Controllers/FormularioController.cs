@@ -36,34 +36,9 @@ namespace Candidaturas.Controllers
                 ViewBag.DadosPessoais = dadosPessoaisUser;
 
                 DadosPessoaisEscolha = dadosPessoaisUser;
-                if(DadosPessoaisEscolha.DistritoNatural == null)
-                {
-                    ViewData["dn"] = 0;
-                }
-                else
-                {
-                    ViewData["dn"] = 1;
-                }
-                
-                if (DadosPessoaisEscolha.DistritoMorada == null)
-                {
-                    ViewData["dm"] = 0;
-                }
-                else
-                {
-                    ViewData["dm"] = 1;
-                }
-                if(DadosPessoaisEscolha.Militar == false)
-                {
-                    ViewData["mil"] = "false";
-                } else
-                {
-                    ViewData["mil"] = "true";
-                    DadosPessoaisEscolha.Ramo= dadosPessoaisUser.Ramo;
-                    DadosPessoaisEscolha.Categoria = dadosPessoaisUser.Categoria;
-                    DadosPessoaisEscolha.Posto= dadosPessoaisUser.Posto;
-                }
-                
+                ViewData["dn"] = dadosPessoaisUser.DistritoNatural != null;
+                ViewData["dm"] = dadosPessoaisUser.DistritoMorada != null;
+                ViewData["mil"] = dadosPessoaisUser.Militar;               
             }            
 
         }
@@ -367,10 +342,7 @@ namespace Candidaturas.Controllers
             if (inqueritoUser != null)
             {
                 ViewBag.Inquerito = inqueritoUser;
-
-                situacaoPaiEscolhido = inqueritoUser.SituacaoPai;
-                situacaoMaeEscolhido = inqueritoUser.SituacaoMae;
-                conhecimentoEscolaEscolhido = inqueritoUser.ConhecimentoEscola;
+                InqEscolha = inqueritoUser;
             }
         }
 
@@ -383,26 +355,25 @@ namespace Candidaturas.Controllers
             {
                 Value = c.ID.ToString(),
                 Text = c.Nome,
-                Selected = c.ID == situacaoPaiEscolhido
+                Selected = c.ID == InqEscolha.SituacaoPai
             });
+            ViewBag.SituacaoPai = situacoesPai;
 
             IEnumerable<SelectListItem> situacoesMae = db.Situacaos.Select(c => new SelectListItem
             {
                 Value = c.ID.ToString(),
                 Text = c.Nome,
-                Selected = c.ID == situacaoMaeEscolhido
+                Selected = c.ID == InqEscolha.SituacaoMae
             });
+            ViewBag.SituacaoMae = situacoesMae;
 
             IEnumerable<SelectListItem> conhecimentosEscola = db.ConhecimentoEscolas.Select(c => new SelectListItem
             {
                 Value = c.ID.ToString(),
                 Text = c.Nome,
-                Selected = c.ID == conhecimentoEscolaEscolhido
+                Selected = c.ID == InqEscolha.ConhecimentoEscola
             });
-
-            ViewBag.SituacaoPai = situacoesPai.ToList();
-            ViewBag.SituacaoMae = situacoesMae.ToList();
-            ViewBag.ConhecimentoEscola = conhecimentosEscola.ToList();
+            ViewBag.ConhecimentoEscola = conhecimentosEscola;
         }
 
         
