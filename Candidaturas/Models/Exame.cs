@@ -18,6 +18,7 @@ namespace Candidaturas.Models
         public Exame()
         {
             this.UserExames = new HashSet<UserExame>();
+            this.Cursoes = new HashSet<Curso>();
         }
     
         public int ID { get; set; }
@@ -26,5 +27,7 @@ namespace Candidaturas.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserExame> UserExames { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Curso> Cursoes { get; set; }
     }
 }
