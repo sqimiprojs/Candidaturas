@@ -61,7 +61,7 @@ namespace Candidaturas.Controllers
         public ActionResult PDFGen()
         {
             // Create a MigraDoc document
-            Document document = MigraDocument.CreateDocument("blank", "Comprovativo de Candidatura", "Fábio Lourenço");
+            Document document = MigraDocument.CreateDocument("blank", "Comprovativo de Candidatura", "Fábio Lourenço", 1);
 
             //string ddl = MigraDoc.DocumentObjectModel.IO.DdlWriter.WriteToString(document);
             //MigraDoc.DocumentObjectModel.IO.DdlWriter.WriteToFile(document, "MigraDoc.mdddl");

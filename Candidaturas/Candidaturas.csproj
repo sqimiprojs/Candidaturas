@@ -292,6 +292,7 @@
     <Compile Include="Models\Freguesia.cs">
       <DependentUpon>CandidaturasModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\FullDadosPessoais.cs" />
     <Compile Include="Models\Genero.cs">
       <DependentUpon>CandidaturasModel.tt</DependentUpon>
     </Compile>

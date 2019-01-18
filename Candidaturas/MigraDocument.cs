@@ -11,7 +11,7 @@ namespace Candidaturas
 {
     public class MigraDocument
     {
-        public static Document CreateDocument(string nome, string descricao, string autor)
+        public static Document CreateDocument(string nome, string descricao, string autor, int tipo)
         {
             // Create a new MigraDoc document
             Document PDFdocument = new Document();
@@ -22,8 +22,15 @@ namespace Candidaturas
 
             DefineStyles(PDFdocument);
             CreateHeaderFooter(PDFdocument);
-            CreateComprovativo(PDFdocument);
-            CreatePage(PDFdocument);
+            switch (tipo)
+            {
+                case 1:
+                    CreateComprovativo(PDFdocument);
+                    break;
+                default:
+                    break;
+            }
+           
 
             return PDFdocument;
         }
@@ -31,7 +38,7 @@ namespace Candidaturas
         /// <summary>
         /// Defines the styles used in the document.
         /// </summary>
-        public static void DefineStyles(Document document)
+        private static void DefineStyles(Document document)
         {
             // Get the predefined style Normal.
             Style style = document.Styles["Normal"];
@@ -104,7 +111,7 @@ namespace Candidaturas
             style.ParagraphFormat.Font.Color = Colors.Blue;
         }
 
-        public static void CreateHeaderFooter(Document document)
+        private static void CreateHeaderFooter(Document document)
         {
             Section page1 = document.AddSection();
             //page1.PageSetup.OddAndEvenPagesHeaderFooter = false;
@@ -134,26 +141,33 @@ namespace Candidaturas
             page1.Footers.EvenPage.Add(fp.Clone());
         }
 
-        public static void CreateComprovativo(Document document)
+        private static void CreateComprovativo(Document document)
         {
             Section page1 = document.LastSection;
             Paragraph title = page1.AddParagraph("\n\nComprovativo de Candidatura", "Heading1");
 
             Paragraph cod = page1.AddParagraph("\nCódigo de Candidato: #123#-Fixed","Heading3");
 
-            //DadosPessoai candidato = GetInfoCandidato(2);
+            FullDadosPessoais c = GetInfoCandidato(11);
 
-            Paragraph Text1 = page1.AddParagraph("\n\nEu, abaixo assinado, #NOMECompleto#, filho de #Pai# e de #Mae#, natural de #DistritoNatural?#, #ConcelhoNatural?#" +
-                ", residente em #Morada#, #CodPostal#, #Localidade#, #Concelho#, freguesia de #Freguesia#, distrito de #Distrito#, nascido em #datanasc, #EstadoCivil#" +
-                "Nacionalidade ## com o #Tipo de Documento# nº #NumeroDocumento# válido até #datavalidade#, número de Contribuinte #NIF#, e ?contacto? #número de tel#," +
-                " declaro por minha honra que nunca fui abatido ao Corpo de Alunos da Academia Militar ou Academia da Força Aérea por motivos disciplinares ou por " +
-                "incapacidade para o serviço militar e que nunca fui excluído dos cursos da Escola Naval.", "LongText");
+            string mensagem = String.Format("\n\nEu, abaixo assinado, {0}, filho de {1} e de {2}, natural de {3}, {4}," +
+                " residente em {5}, {6}-{7}, {8}, {9}, freguesia de {10}, distrito de {11}, nascido em {12}, {13}, " +
+                "nacionalidade {14} com o {15} nº {16} válido até {17}, número de Contribuinte {18}," +
+                " e ?contacto? {19}, declaro por minha honra que nunca fui abatido ao Corpo de Alunos da Academia Militar " +
+                "ou Academia da Força Aérea por motivos disciplinares ou por incapacidade para o serviço militar e que nunca fui excluído dos cursos da Escola Naval.",
+                c.NomeColoquial, c.NomePai, c.NomeMae, c.DistritoNatural, c.ConcelhoNatural, c.Morada, c.CodigoPostal4Dig, c.CodigoPostal3Dig, 
+                c.Localidade, c.ConcelhoMorada, c.FreguesiaMorada, c.DistritoNatural, c.DataNascimento, c.EstadoCivil, c.Nacionalidade, c.TipoDocumento, c.NDI, "validade cartao", c.NIF, c.Telefone );
+
+            Paragraph Text1 = page1.AddParagraph(mensagem, "LongText");
 
             Paragraph Text2 = page1.AddParagraph("\n\n\nDesejo ser admitido aos cursos de:", "LongText");
-            page1.AddParagraph();
-            page1.AddParagraph("1. - #Curso#");
-            page1.AddParagraph("2. - #Curso#");
-            page1.AddParagraph("3. - #Curso#");
+
+            string listagem;
+            List<CursoDisplay> cursos = GetInfoCursosCandidato(11);
+            foreach (CursoDisplay curso in cursos) {
+                listagem = String.Format("\n\t{0}. - {1}", curso.prioridade, curso.nome);
+                page1.AddParagraph(listagem, "LongText");
+            }
 
             Paragraph Text3 = page1.AddParagraph("\nMais declaro que tomei conhecimento das condições de admissão, das datas de realização das provas de verificação dos " +
                 "pré-requisitos de natureza física e médica e da data limite de entrega do certificado de classificações para acesso ao Ensino Superior e que todas as " +
@@ -167,163 +181,67 @@ namespace Candidaturas
             Text4.Style = "CenterText";
         }
 
-        public static void CreatePage(Document document)
+        private static FullDadosPessoais GetInfoCandidato(int userId)
         {
-            
-            //Create a Page
-            Section section = document.AddSection();
-            Paragraph paragraph = section.AddParagraph();
-            paragraph.Format.SpaceAfter = "3cm";
-            
+            CandidaturaDBEntities1 db = new CandidaturaDBEntities1();
+            DadosPessoai dadosPessoaisUser = db.DadosPessoais
+                                            .Where(dp => dp.UserId == userId)
+                                            .FirstOrDefault();
 
-            string ImgPath = ((new System.Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath).Replace("bin/Candidaturas.DLL", "Content/img/marinha.png");
-            section.AddImage(ImgPath);
-
-            paragraph = section.AddParagraph("A sample document that demonstrates the\ncapabilities of MigraDoc");
-            paragraph.Format.Font.Size = 16;
-            paragraph.Format.Font.Color = Colors.DarkRed;
-            paragraph.Format.SpaceBefore = "8cm";
-            paragraph.Format.SpaceAfter = "3cm";
-            paragraph = section.AddParagraph(ImgPath);
-            paragraph = section.AddParagraph("Rendering date: ");
-            paragraph.AddDateField();
+            FullDadosPessoais alldata = new FullDadosPessoais();
+                alldata.NomeColoquial = dadosPessoaisUser.NomeColoquial;
+                alldata.NomePai = dadosPessoaisUser.NomePai;
+                alldata.NomeMae = dadosPessoaisUser.NomeMae;
+                alldata.NDI = dadosPessoaisUser.NDI;
+                alldata.TipoDocumento = db.TipoDocumentoIDs.Where(dp => dp.ID == dadosPessoaisUser.TipoDocID).OrderBy(dp => dp.Nome).Select(dp => dp.Nome).FirstOrDefault();
+                alldata.Genero = db.Generoes.Where(dp => dadosPessoaisUser.Genero == dp.ID).Select(dp => dp.Nome).FirstOrDefault();
+                alldata.EstadoCivil = db.EstadoCivils.Where(dp => dp.ID == dadosPessoaisUser.EstadoCivil).OrderBy(dp => dp.Nome).Select(dp => dp.Nome).FirstOrDefault();
+                alldata.Nacionalidade = db.Pais.Where(dp => dp.Sigla == dadosPessoaisUser.Nacionalidade).OrderBy(dp => dp.Nome).Select(dp => dp.Nome).FirstOrDefault();
+                alldata.DistritoNatural = db.Distritoes.Where(dp => dadosPessoaisUser.DistritoNatural == dp.Codigo).Select(dp => dp.Nome).FirstOrDefault();
+                alldata.ConcelhoNatural = db.Concelhoes.Where(dp => dp.CodigoDistrito == dadosPessoaisUser.DistritoNatural && dp.Codigo == dadosPessoaisUser.ConcelhoNatural).Select(dp => dp.Nome).FirstOrDefault();
+                alldata.FreguesiaNatural = db.Freguesias.Where(dp => dp.CodigoConcelho == dadosPessoaisUser.ConcelhoNatural && dp.CodigoDistrito == dadosPessoaisUser.DistritoNatural && dp.Codigo == dadosPessoaisUser.FreguesiaNatural).Select(dp => dp.Nome).FirstOrDefault();
+                alldata.Morada = dadosPessoaisUser.Morada;
+                alldata.Localidade = db.Localidades.Where(dp => dp.CodigoConcelho == dadosPessoaisUser.ConcelhoMorada && dp.CodigoDistrito == dadosPessoaisUser.DistritoMorada && dp.Codigo == dadosPessoaisUser.Localidade).Select(dp => dp.Nome).FirstOrDefault();
+                alldata.RepFinNIF = dadosPessoaisUser.RepFinNIF;
+                alldata.CCDigitosControlo = dadosPessoaisUser.CCDigitosControlo;
+                alldata.NSegSoc = dadosPessoaisUser.NSegSoc;
+                alldata.NIF = dadosPessoaisUser.NIF;
+                alldata.DistritoMorada = db.Distritoes.Where(dp => dp.Codigo == dadosPessoaisUser.DistritoMorada).Select(dp => dp.Nome).FirstOrDefault();
+                alldata.ConcelhoMorada = db.Concelhoes.Where(dp => dp.CodigoDistrito == dadosPessoaisUser.DistritoMorada && dp.Codigo == dadosPessoaisUser.ConcelhoMorada).Select(dp => dp.Nome).FirstOrDefault();
+                alldata.FreguesiaMorada = db.Freguesias.Where(dp => dp.CodigoConcelho == dadosPessoaisUser.ConcelhoMorada && dp.CodigoDistrito == dadosPessoaisUser.DistritoMorada && dp.Codigo == dadosPessoaisUser.FreguesiaMorada).OrderBy(dp => dp.Nome).Select(dp => dp.Nome).FirstOrDefault();
+                alldata.Telefone = dadosPessoaisUser.Telefone;
+                alldata.CodigoPostal4Dig = dadosPessoaisUser.CodigoPostal4Dig.ToString();
+                alldata.CodigoPostal3Dig = dadosPessoaisUser.CodigoPostal3Dig.ToString();
+                alldata.DataNascimento = dadosPessoaisUser.DataNascimento.ToString("dd/MM/yyyy");
+                alldata.Ramo = db.Ramoes.Where(dp => dp.Sigla == dadosPessoaisUser.Ramo).OrderBy(dp => dp.Sigla).Select(dp => dp.Nome).FirstOrDefault();
+                alldata.Categoria = db.Categorias.Where(dp => dp.Sigla == dadosPessoaisUser.Categoria).OrderBy(dp => dp.Sigla).Select(dp => dp.Nome).FirstOrDefault();
+                alldata.Posto = db.Postoes.Where(dp => dp.RamoMilitar == dadosPessoaisUser.Ramo && dp.CategoriaMilitar == dadosPessoaisUser.Categoria && dp.Código == dadosPessoaisUser.Posto).OrderBy(dp => dp.Código).Select(dp => dp.Nome).FirstOrDefault();
+                alldata.Classe = dadosPessoaisUser.Classe;
+                alldata.NIM = dadosPessoaisUser.NIM;
+            return alldata;
         }
 
-
-        public static void DefineParagraphs(Document document)
+        private static List<CursoDisplay> GetInfoCursosCandidato(int userId)
         {
-            Paragraph paragraph = document.LastSection.AddParagraph("Paragraph Layout Overview", "Heading1");
-            paragraph.AddBookmark("Paragraphs");
+            CandidaturaDBEntities1 db = new CandidaturaDBEntities1();
+            List<UserCurso> ListaCursos = db.UserCursoes
+                                            .Where(dp => dp.UserId == userId)
+                                            .OrderBy(dp => dp.Prioridade)
+                                            .ToList();
 
-            
-            DemonstrateAlignment(document);
-            DemonstrateIndent(document);
-            DemonstrateFormattedText(document);
-            DemonstrateBordersAndShading(document);
+            List<CursoDisplay> listcd = new List<CursoDisplay>();
+            foreach (UserCurso curso in ListaCursos)
+            {
+
+                CursoDisplay cd = new CursoDisplay();
+                cd.nome = db.Cursoes.Where(dp => dp.ID == curso.CursoId).Select(dp => dp.Nome).FirstOrDefault();
+                cd.prioridade = curso.Prioridade;
+                listcd.Add(cd);
+                
+            }
+            return listcd;
         }
-
-        private static void DemonstrateAlignment(Document document)
-        {
-            string FillerText = "TextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTexto";
-            document.LastSection.AddParagraph("Alignment", "Heading2");
-
-            document.LastSection.AddParagraph("Left Aligned", "Heading3");
-
-            Paragraph paragraph = document.LastSection.AddParagraph();
-            paragraph.Format.Alignment = ParagraphAlignment.Left;
-            paragraph.AddText(FillerText);
-
-            document.LastSection.AddParagraph("Right Aligned", "Heading3");
-
-            paragraph = document.LastSection.AddParagraph();
-            paragraph.Format.Alignment = ParagraphAlignment.Right;
-            paragraph.AddText(FillerText);
-
-            document.LastSection.AddParagraph("Centered", "Heading3");
-
-            paragraph = document.LastSection.AddParagraph();
-            paragraph.Format.Alignment = ParagraphAlignment.Center;
-            paragraph.AddText(FillerText);
-
-            document.LastSection.AddParagraph("Justified", "Heading3");
-
-            paragraph = document.LastSection.AddParagraph();
-            paragraph.Format.Alignment = ParagraphAlignment.Justify;
-            paragraph.AddText(FillerText);
-        }
-
-        private static void DemonstrateIndent(Document document)
-        {
-            string FillerText = "TextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTexto";
-            document.LastSection.AddParagraph("Indent", "Heading2");
-
-            document.LastSection.AddParagraph("Left Indent", "Heading3");
-
-            Paragraph paragraph = document.LastSection.AddParagraph();
-            paragraph.Format.LeftIndent = "2cm";
-            paragraph.AddText(FillerText);
-
-            document.LastSection.AddParagraph("Right Indent", "Heading3");
-
-            paragraph = document.LastSection.AddParagraph();
-            paragraph.Format.RightIndent = "1in";
-            paragraph.AddText(FillerText);
-
-            document.LastSection.AddParagraph("First Line Indent", "Heading3");
-
-            paragraph = document.LastSection.AddParagraph();
-            paragraph.Format.FirstLineIndent = "12mm";
-            paragraph.AddText(FillerText);
-
-            document.LastSection.AddParagraph("First Line Negative Indent", "Heading3");
-
-            paragraph = document.LastSection.AddParagraph();
-            paragraph.Format.LeftIndent = "1.5cm";
-            paragraph.Format.FirstLineIndent = "-1.5cm";
-            paragraph.AddText(FillerText);
-        }
-
-        private static void DemonstrateFormattedText(Document document)
-        {
-            string FillerText = "TextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTexto";
-            document.LastSection.AddParagraph("Formatted Text", "Heading2");
-
-            //document.LastSection.AddParagraph("Left Aligned", "Heading3");
-
-            Paragraph paragraph = document.LastSection.AddParagraph();
-            paragraph.AddText("Text can be formatted ");
-            paragraph.AddFormattedText("bold", TextFormat.Bold);
-            paragraph.AddText(", ");
-            paragraph.AddFormattedText("italic", TextFormat.Italic);
-            paragraph.AddText(", or ");
-            paragraph.AddFormattedText("bold & italic", TextFormat.Bold | TextFormat.Italic);
-            paragraph.AddText(".");
-            paragraph.AddLineBreak();
-            paragraph.AddText("You can set the ");
-            FormattedText formattedText = paragraph.AddFormattedText("size ");
-            formattedText.Size = 15;
-            paragraph.AddText("the ");
-            formattedText = paragraph.AddFormattedText("color ");
-            formattedText.Color = Colors.Firebrick;
-            paragraph.AddText("the ");
-            formattedText = paragraph.AddFormattedText("font", new MigraDoc.DocumentObjectModel.Font("Verdana"));
-            paragraph.AddText(".");
-            paragraph.AddLineBreak();
-            paragraph.AddText("You can set the ");
-            formattedText = paragraph.AddFormattedText("subscript");
-            formattedText.Subscript = true;
-            paragraph.AddText(" or ");
-            formattedText = paragraph.AddFormattedText("superscript");
-            formattedText.Superscript = true;
-            paragraph.AddText(".");
-        }
-
-        private static void DemonstrateBordersAndShading(Document document)
-        {
-            string FillerText = "TextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTexto";
-            document.LastSection.AddPageBreak();
-            document.LastSection.AddParagraph("Borders and Shading", "Heading2");
-
-            document.LastSection.AddParagraph("Border around Paragraph", "Heading3");
-
-            Paragraph paragraph = document.LastSection.AddParagraph();
-            paragraph.Format.Borders.Width = 2.5;
-            paragraph.Format.Borders.Color = Colors.Navy;
-            paragraph.Format.Borders.Distance = 3;
-            paragraph.AddText(FillerText);
-
-            document.LastSection.AddParagraph("Shading", "Heading3");
-
-            paragraph = document.LastSection.AddParagraph();
-            paragraph.Format.Shading.Color = Colors.LightCoral;
-            paragraph.AddText(FillerText);
-
-            document.LastSection.AddParagraph("Borders & Shading", "Heading3");
-
-            paragraph = document.LastSection.AddParagraph();
-            paragraph.Style = "TextBox";
-            paragraph.AddText(FillerText);
-        }
-
     }
+
+         
 }

@@ -11,12 +11,6 @@ namespace Candidaturas.Controllers
 {
     public class FormularioController : Controller
     {
-        
-        
-        int? situacaoPaiEscolhido = null;
-        int? situacaoMaeEscolhido = null;
-        int? conhecimentoEscolaEscolhido = null;
-
         DadosPessoai DadosPessoaisEscolha = new DadosPessoai();
         Inquerito InqEscolha = new Inquerito();
 
