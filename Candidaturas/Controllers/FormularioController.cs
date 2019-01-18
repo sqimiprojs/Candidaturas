@@ -12,27 +12,13 @@ namespace Candidaturas.Controllers
     public class FormularioController : Controller
     {
         
-        int? generoEscolhido = null;
-        int? tipoDocIdEscolhido = null;
-        int? distritoNaturalEscolhido = null;
-        int? concelhoNaturalEscolhido = null;
-        int? freguesiaNaturalEscolhida = null;
-        int? distritoMoradaEscolhido = null;
-        int? concelhoMoradaEscolhido = null;
-        int? freguesiaMoradaEscolhida = null;
-        int? localidadeEscolhida = null;
-        int? estadoCivilEscolhido = null;
-        string nacionalidadeEscolhida = null;
-        string nomeCompleto = null;
-        string ndi = null;
-        DateTime dataNascimento = System.DateTime.Now;
-        string ramoEscolhido = null;
-        string categoriaEscolhida = null;
-        int? postoEscolhido = null;
-        DadosPessoai DadosPessoaisEscolhidos = new DadosPessoai();
+        
         int? situacaoPaiEscolhido = null;
         int? situacaoMaeEscolhido = null;
         int? conhecimentoEscolaEscolhido = null;
+
+        DadosPessoai DadosPessoaisEscolha = new DadosPessoai();
+        Inquerito InqEscolha = new Inquerito();
 
         List<Exame> exames;
         List<CursoDisplay> cursos;
@@ -49,9 +35,8 @@ namespace Candidaturas.Controllers
             {
                 ViewBag.DadosPessoais = dadosPessoaisUser;
 
-                generoEscolhido = dadosPessoaisUser.Genero;
-                distritoNaturalEscolhido = dadosPessoaisUser.DistritoNatural;
-                if(distritoNaturalEscolhido == null)
+                DadosPessoaisEscolha = dadosPessoaisUser;
+                if(DadosPessoaisEscolha.DistritoNatural == null)
                 {
                     ViewData["dn"] = 0;
                 }
@@ -59,10 +44,8 @@ namespace Candidaturas.Controllers
                 {
                     ViewData["dn"] = 1;
                 }
-                concelhoNaturalEscolhido = dadosPessoaisUser.ConcelhoNatural;
-                freguesiaNaturalEscolhida = dadosPessoaisUser.FreguesiaNatural;
-                distritoMoradaEscolhido = dadosPessoaisUser.DistritoMorada;
-                if (distritoMoradaEscolhido == null)
+                
+                if (DadosPessoaisEscolha.DistritoMorada == null)
                 {
                     ViewData["dm"] = 0;
                 }
@@ -70,23 +53,15 @@ namespace Candidaturas.Controllers
                 {
                     ViewData["dm"] = 1;
                 }
-                concelhoMoradaEscolhido = dadosPessoaisUser.ConcelhoMorada;
-                freguesiaMoradaEscolhida = dadosPessoaisUser.FreguesiaMorada;
-                estadoCivilEscolhido = dadosPessoaisUser.EstadoCivil;
-                nacionalidadeEscolhida = dadosPessoaisUser.Nacionalidade;
-                localidadeEscolhida = dadosPessoaisUser.Localidade;
-                tipoDocIdEscolhido = dadosPessoaisUser.TipoDocID;
-                nomeCompleto = dadosPessoaisUser.NomeColoquial;
-                ndi = dadosPessoaisUser.NDI;
-                if(dadosPessoaisUser.Militar == false)
+                if(DadosPessoaisEscolha.Militar == false)
                 {
                     ViewData["mil"] = "false";
                 } else
                 {
                     ViewData["mil"] = "true";
-                    ramoEscolhido = dadosPessoaisUser.Ramo;
-                    categoriaEscolhida = dadosPessoaisUser.Categoria;
-                    postoEscolhido = dadosPessoaisUser.Posto;
+                    DadosPessoaisEscolha.Ramo= dadosPessoaisUser.Ramo;
+                    DadosPessoaisEscolha.Categoria = dadosPessoaisUser.Categoria;
+                    DadosPessoaisEscolha.Posto= dadosPessoaisUser.Posto;
                 }
                 
             }            
@@ -94,7 +69,7 @@ namespace Candidaturas.Controllers
         }
 
         //obtém os dados a serem preenchidos nas drops
-        public void getDataForDropdownLists(int? distritoNatural, int? concelhoNatural, int? distritoMorada, int? concelhoMorada, string ramoEscolhido, string categoriaEscolhida)
+        public void getDataForDropdownLists()
         {
             CandidaturaDBEntities1 db = new CandidaturaDBEntities1();
 
@@ -102,7 +77,7 @@ namespace Candidaturas.Controllers
             {
                 Value = c.ID.ToString(),
                 Text = c.Nome,
-                Selected = c.ID == generoEscolhido
+                Selected = c.ID == DadosPessoaisEscolha.Genero
 
             });
             ViewBag.Genero = generos.ToList();
@@ -111,25 +86,25 @@ namespace Candidaturas.Controllers
             {
                 Value = c.Codigo.ToString(),
                 Text = c.Nome,
-                Selected = c.Codigo == distritoNaturalEscolhido
+                Selected = c.Codigo == DadosPessoaisEscolha.DistritoNatural
 
             });
             ViewBag.DistritoNatural = distritosNaturais.ToList();
 
-            IEnumerable<SelectListItem> concelhosNaturais = db.Concelhoes.Where(dp => dp.CodigoDistrito == distritoNatural).OrderBy(dp => dp.Nome).Select(c => new SelectListItem
+            IEnumerable<SelectListItem> concelhosNaturais = db.Concelhoes.Where(dp => dp.CodigoDistrito == DadosPessoaisEscolha.DistritoNatural).OrderBy(dp => dp.Nome).Select(c => new SelectListItem
             {
                 Value = c.Codigo.ToString(),
                 Text = c.Nome,
-                Selected = c.Codigo == concelhoNaturalEscolhido
+                Selected = c.Codigo == DadosPessoaisEscolha.ConcelhoNatural
 
             });
             ViewBag.ConcelhoNatural = concelhosNaturais.ToList();
 
-            IEnumerable<SelectListItem> freguesiasNaturais = db.Freguesias.Where(dp => dp.CodigoConcelho == concelhoNatural && dp.CodigoDistrito == distritoNatural).OrderBy(dp => dp.Nome).Select(c => new SelectListItem
+            IEnumerable<SelectListItem> freguesiasNaturais = db.Freguesias.Where(dp => dp.CodigoConcelho == DadosPessoaisEscolha.ConcelhoNatural && dp.CodigoDistrito == DadosPessoaisEscolha.DistritoNatural).OrderBy(dp => dp.Nome).Select(c => new SelectListItem
             {
                 Value = c.Codigo.ToString(),
                 Text = c.Nome,
-                Selected = c.Codigo == freguesiaNaturalEscolhida
+                Selected = c.Codigo == DadosPessoaisEscolha.FreguesiaNatural
 
             });
             ViewBag.FreguesiaNatural = freguesiasNaturais.ToList();
@@ -138,25 +113,25 @@ namespace Candidaturas.Controllers
             {
                 Value = c.Codigo.ToString(),
                 Text = c.Nome,
-                Selected = c.Codigo == distritoMoradaEscolhido
+                Selected = c.Codigo == DadosPessoaisEscolha.DistritoMorada
 
             });
             ViewBag.DistritoMorada = distritosMoradas.ToList();
 
-            IEnumerable<SelectListItem> concelhosMoradas = db.Concelhoes.Where(dp => dp.CodigoDistrito == distritoMorada).OrderBy(dp => dp.Nome).Select(c => new SelectListItem
+            IEnumerable<SelectListItem> concelhosMoradas = db.Concelhoes.Where(dp => dp.CodigoDistrito == DadosPessoaisEscolha.DistritoMorada).OrderBy(dp => dp.Nome).Select(c => new SelectListItem
             {
                 Value = c.Codigo.ToString(),
                 Text = c.Nome,
-                Selected = c.Codigo == concelhoMoradaEscolhido
+                Selected = c.Codigo == DadosPessoaisEscolha.ConcelhoMorada
 
             });
             ViewBag.ConcelhoMorada = concelhosMoradas.ToList();
 
-            IEnumerable<SelectListItem> freguesiasMoradas = db.Freguesias.Where(dp => dp.CodigoConcelho == concelhoMorada && dp.CodigoDistrito == distritoMorada).OrderBy(dp => dp.Nome).Select(c => new SelectListItem
+            IEnumerable<SelectListItem> freguesiasMoradas = db.Freguesias.Where(dp => dp.CodigoConcelho == DadosPessoaisEscolha.ConcelhoMorada && dp.CodigoDistrito == DadosPessoaisEscolha.DistritoMorada).OrderBy(dp => dp.Nome).Select(c => new SelectListItem
             {
                 Value = c.Codigo.ToString(),
                 Text = c.Nome,
-                Selected = c.Codigo == freguesiaMoradaEscolhida
+                Selected = c.Codigo == DadosPessoaisEscolha.FreguesiaMorada
 
             });
             ViewBag.FreguesiaMorada = freguesiasMoradas.ToList();
@@ -165,7 +140,7 @@ namespace Candidaturas.Controllers
             {
                 Value = c.ID.ToString(),
                 Text = c.Nome,
-                Selected = c.ID == tipoDocIdEscolhido
+                Selected = c.ID == DadosPessoaisEscolha.TipoDocID
 
             });
             ViewBag.TipoDocID = tiposDocumentosId.ToList();
@@ -174,7 +149,7 @@ namespace Candidaturas.Controllers
             {
                 Value = c.ID.ToString(),
                 Text = c.Nome,
-                Selected = c.ID == estadoCivilEscolhido
+                Selected = c.ID == DadosPessoaisEscolha.EstadoCivil
 
             });
             ViewBag.EstadoCivil = estadosCivis.ToList();
@@ -183,16 +158,16 @@ namespace Candidaturas.Controllers
             {
                 Value = c.Sigla,
                 Text = c.Nome,
-                Selected = c.Sigla == nacionalidadeEscolhida
+                Selected = c.Sigla == DadosPessoaisEscolha.Nacionalidade
 
             });
             ViewBag.Nacionalidade = nacionalidades.ToList();
 
-            IEnumerable<SelectListItem> localidades = db.Localidades.Where(dp => dp.CodigoConcelho == concelhoMorada && dp.CodigoDistrito == distritoMorada).OrderBy(dp => dp.Nome).Select(c => new SelectListItem
+            IEnumerable<SelectListItem> localidades = db.Localidades.Where(dp => dp.CodigoConcelho == DadosPessoaisEscolha.ConcelhoMorada && dp.CodigoDistrito == DadosPessoaisEscolha.DistritoMorada).OrderBy(dp => dp.Nome).Select(c => new SelectListItem
             {
                 Value = c.Codigo.ToString(),
                 Text = c.Nome,
-                Selected = c.Codigo == localidadeEscolhida
+                Selected = c.Codigo == DadosPessoaisEscolha.Localidade
 
             });
             ViewBag.Localidade = localidades.ToList();
@@ -201,7 +176,7 @@ namespace Candidaturas.Controllers
             {
                 Value = c.Sigla,
                 Text = c.Nome,
-                Selected = c.Sigla == ramoEscolhido
+                Selected = c.Sigla == DadosPessoaisEscolha.Ramo
 
             });
             ViewBag.Ramo = ramos.ToList();
@@ -210,16 +185,16 @@ namespace Candidaturas.Controllers
             {
                 Value = c.Sigla,
                 Text = c.Nome,
-                Selected = c.Sigla == categoriaEscolhida
+                Selected = c.Sigla == DadosPessoaisEscolha.Categoria
 
             });
             ViewBag.Categoria = categorias.ToList();
 
-            IEnumerable<SelectListItem> postos = db.Postoes.Where(dp => dp.RamoMilitar == ramoEscolhido && dp.CategoriaMilitar == categoriaEscolhida).OrderBy(dp => dp.Código).Select(c => new SelectListItem
+            IEnumerable<SelectListItem> postos = db.Postoes.Where(dp => dp.RamoMilitar == DadosPessoaisEscolha.Ramo && dp.CategoriaMilitar == DadosPessoaisEscolha.Categoria).OrderBy(dp => dp.Código).Select(c => new SelectListItem
             {
                 Value = c.Código.ToString(),
                 Text = c.Nome,
-                Selected = c.Código == postoEscolhido
+                Selected = c.Código == DadosPessoaisEscolha.Posto
 
             });
             ViewBag.Posto = postos.ToList();
@@ -237,7 +212,7 @@ namespace Candidaturas.Controllers
                     this.getDadosPessoais(userId);
                 }
 
-                this.getDataForDropdownLists(distritoNaturalEscolhido, concelhoNaturalEscolhido, distritoMoradaEscolhido, concelhoMoradaEscolhido, ramoEscolhido, categoriaEscolhida);
+                this.getDataForDropdownLists();
 
                 return View("~/Views/Formulario/DadosPessoais.cshtml");
             }

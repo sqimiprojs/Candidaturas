@@ -141,7 +141,7 @@ namespace Candidaturas
 
             Paragraph cod = page1.AddParagraph("\nCódigo de Candidato: #123#-Fixed","Heading3");
 
-            DadosPessoai candidato = GetInfoCandidato(2);
+            //DadosPessoai candidato = GetInfoCandidato(2);
 
             Paragraph Text1 = page1.AddParagraph("\n\nEu, abaixo assinado, #NOMECompleto#, filho de #Pai# e de #Mae#, natural de #DistritoNatural?#, #ConcelhoNatural?#" +
                 ", residente em #Morada#, #CodPostal#, #Localidade#, #Concelho#, freguesia de #Freguesia#, distrito de #Distrito#, nascido em #datanasc, #EstadoCivil#" +
