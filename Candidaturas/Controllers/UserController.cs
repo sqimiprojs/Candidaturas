@@ -95,7 +95,7 @@ namespace Candidaturas.Controllers
 
                                 ViewBag.Subtitle = "Criação de Conta";
 
-                                ViewBag.ConfirmationMessage = "Registo de utilizador efetuado com sucesso. A sua palavra-passe de acesso será enviada para o seu email. Por favor verifique.";
+                                ViewBag.ConfirmationMessage = "Registo de utilizador efetuado com sucesso. A sua palavra-passe de acesso será enviada para o seu email. Por favor verifique a sua caixa de entrada.";
 
                                 return View("~/Views/Shared/Success.cshtml");
                             }

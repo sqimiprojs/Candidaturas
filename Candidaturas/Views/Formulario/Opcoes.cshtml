@@ -20,7 +20,7 @@
         <div class="column">
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
-                    <input id="AddExame" type="submit" value="Adicionar Exame" class="btn btn-default" />
+                    <input id="AddExame" type="submit" value="Adicionar Exame" class="btn btn-outline-primary" />
                 </div>
             </div>
         </div>
@@ -50,7 +50,7 @@
         <div class="column">
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
-                    <input id="AddCurso" type="submit" value="Adicionar Curso" class="btn btn-default" />
+                    <input id="AddCurso" type="submit" value="Adicionar Curso" class="btn btn-outline-primary" />
                 </div>
             </div>
         </div>
@@ -87,7 +87,8 @@
     
 </div>
 <div>
-    @Html.ActionLink("Finalizar Candidatura", "Welcome", "Home", null, new { @class = "btn btn-default" })
+    @Html.ActionLink("Finalizar Candidatura", "Welcome", "Home", null, new { @class = "btn btn-outline-primary" })
+    <div class="row">@Html.ActionLink("Gerar PDF - Test", "PDFGen", "Formulario")</div>
 </div>
 <script>
     $('#Exame').bind('change', function () {

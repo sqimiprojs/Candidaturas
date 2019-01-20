@@ -23,7 +23,6 @@
     </style>
 </head>
 <body>
-    <div class="row">@Html.ActionLink("Gerar PDF - Test", "PDFGen", "Login" )</div>
     <div id="login-div" class="form-group">
         <img src="~/Content/img/marinha.png" alt="Logo Marinha" />
         @using (Html.BeginForm("Authorize", "Login", FormMethod.Post))
@@ -54,7 +53,7 @@
                 <tr>
                     <td></td>
                     <td>
-                        <input type="submit" name="name" value="Login" class="btn btn-default" />
+                        <input type="submit" name="name" value="Login" class="btn btn-outline-primary" />
                         <div style="margin-top:15px; font-size: 15px;">
                             @Html.ActionLink("Criar Nova Conta", "NewUser", "User", null, new { @class = "register-link" }) |
                             @Html.ActionLink("Recuperar Password", "RecoverPassword", "User", null, new { @class = "register-link" })

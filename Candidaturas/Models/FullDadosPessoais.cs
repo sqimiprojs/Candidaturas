@@ -31,10 +31,12 @@ namespace Candidaturas.Models
         public string CodigoPostal4Dig { get; set; }
         public string CodigoPostal3Dig { get; set; }
         public string DataNascimento { get; set; }
+        public bool   Militar { get; set; }
         public string Ramo { get; set; }
         public string Categoria { get; set; }
         public string Posto { get; set; }
         public string Classe { get; set; }
         public string NIM { get; set; }
+        public bool   isFeminino { get; set; }
     }
 }

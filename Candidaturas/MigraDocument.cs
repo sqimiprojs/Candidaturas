@@ -11,7 +11,7 @@ namespace Candidaturas
 {
     public class MigraDocument
     {
-        public static Document CreateDocument(string nome, string descricao, string autor, int tipo)
+        public static Document CreateDocument(string nome, string descricao, string autor, int tipo, int session)
         {
             // Create a new MigraDoc document
             Document PDFdocument = new Document();
@@ -25,7 +25,7 @@ namespace Candidaturas
             switch (tipo)
             {
                 case 1:
-                    CreateComprovativo(PDFdocument);
+                    CreateComprovativo(PDFdocument, session);
                     break;
                 default:
                     break;
@@ -141,29 +141,46 @@ namespace Candidaturas
             page1.Footers.EvenPage.Add(fp.Clone());
         }
 
-        private static void CreateComprovativo(Document document)
+        private static void CreateComprovativo(Document document, int session)
         {
             Section page1 = document.LastSection;
             Paragraph title = page1.AddParagraph("\n\nComprovativo de Candidatura", "Heading1");
 
             Paragraph cod = page1.AddParagraph("\nCódigo de Candidato: #123#-Fixed","Heading3");
 
-            FullDadosPessoais c = GetInfoCandidato(11);
+            FullDadosPessoais c = GetInfoCandidato(session);
 
-            string mensagem = String.Format("\n\nEu, abaixo assinado, {0}, filho de {1} e de {2}, natural de {3}, {4}," +
-                " residente em {5}, {6}-{7}, {8}, {9}, freguesia de {10}, distrito de {11}, nascido em {12}, {13}, " +
-                "nacionalidade {14} com o {15} nº {16} válido até {17}, número de Contribuinte {18}," +
-                " e ?contacto? {19}, declaro por minha honra que nunca fui abatido ao Corpo de Alunos da Academia Militar " +
-                "ou Academia da Força Aérea por motivos disciplinares ou por incapacidade para o serviço militar e que nunca fui excluído dos cursos da Escola Naval.",
-                c.NomeColoquial, c.NomePai, c.NomeMae, c.DistritoNatural, c.ConcelhoNatural, c.Morada, c.CodigoPostal4Dig, c.CodigoPostal3Dig, 
-                c.Localidade, c.ConcelhoMorada, c.FreguesiaMorada, c.DistritoNatural, c.DataNascimento, c.EstadoCivil, c.Nacionalidade, c.TipoDocumento, c.NDI, "validade cartao", c.NIF, c.Telefone );
+            string cmil, cfem;
+
+            if (c.Militar)
+            {
+                cmil= String.Format(" {0}, {1}", c.Ramo, c.Posto);
+            }
+            else
+            {
+                cmil = "";
+            }
+            if (c.isFeminino) {
+                cfem = "a";
+            }
+            else
+            {
+                cfem = "o";
+            }
+            string mensagem = String.Format("\n\nEu, abaixo assinado,{0} {1}, filh{21} de {2} e de {3}, natural de {4}, {5}," +
+                " residente em {6}, {7}-{8}, {9}, {10}, freguesia de {11}, distrito de {12}, nascid{21} em {13}, {14}, " +
+                "nacional de {15} com o {16} nº {17} válido até {18}, número de Contribuinte {19}," +
+                " e contacto {20}, declaro por minha honra que nunca fui abatid{21} ao Corpo de Alunos da Academia Militar " +
+                "ou Academia da Força Aérea por motivos disciplinares ou por incapacidade para o serviço militar e que nunca fui excluíd{21} dos cursos da Escola Naval.",
+                cmil, c.NomeColoquial, c.NomePai, c.NomeMae, c.DistritoNatural, c.ConcelhoNatural, c.Morada, c.CodigoPostal4Dig, c.CodigoPostal3Dig, 
+                c.Localidade, c.ConcelhoMorada, c.FreguesiaMorada, c.DistritoNatural, c.DataNascimento, c.EstadoCivil, c.Nacionalidade, c.TipoDocumento, c.NDI, "validade cartao", c.NIF, c.Telefone, cfem);
 
             Paragraph Text1 = page1.AddParagraph(mensagem, "LongText");
 
             Paragraph Text2 = page1.AddParagraph("\n\n\nDesejo ser admitido aos cursos de:", "LongText");
 
             string listagem;
-            List<CursoDisplay> cursos = GetInfoCursosCandidato(11);
+            List<CursoDisplay> cursos = GetInfoCursosCandidato(session);
             foreach (CursoDisplay curso in cursos) {
                 listagem = String.Format("\n\t{0}. - {1}", curso.prioridade, curso.nome);
                 page1.AddParagraph(listagem, "LongText");
@@ -189,35 +206,38 @@ namespace Candidaturas
                                             .FirstOrDefault();
 
             FullDadosPessoais alldata = new FullDadosPessoais();
-                alldata.NomeColoquial = dadosPessoaisUser.NomeColoquial;
-                alldata.NomePai = dadosPessoaisUser.NomePai;
-                alldata.NomeMae = dadosPessoaisUser.NomeMae;
-                alldata.NDI = dadosPessoaisUser.NDI;
-                alldata.TipoDocumento = db.TipoDocumentoIDs.Where(dp => dp.ID == dadosPessoaisUser.TipoDocID).OrderBy(dp => dp.Nome).Select(dp => dp.Nome).FirstOrDefault();
-                alldata.Genero = db.Generoes.Where(dp => dadosPessoaisUser.Genero == dp.ID).Select(dp => dp.Nome).FirstOrDefault();
-                alldata.EstadoCivil = db.EstadoCivils.Where(dp => dp.ID == dadosPessoaisUser.EstadoCivil).OrderBy(dp => dp.Nome).Select(dp => dp.Nome).FirstOrDefault();
-                alldata.Nacionalidade = db.Pais.Where(dp => dp.Sigla == dadosPessoaisUser.Nacionalidade).OrderBy(dp => dp.Nome).Select(dp => dp.Nome).FirstOrDefault();
-                alldata.DistritoNatural = db.Distritoes.Where(dp => dadosPessoaisUser.DistritoNatural == dp.Codigo).Select(dp => dp.Nome).FirstOrDefault();
-                alldata.ConcelhoNatural = db.Concelhoes.Where(dp => dp.CodigoDistrito == dadosPessoaisUser.DistritoNatural && dp.Codigo == dadosPessoaisUser.ConcelhoNatural).Select(dp => dp.Nome).FirstOrDefault();
-                alldata.FreguesiaNatural = db.Freguesias.Where(dp => dp.CodigoConcelho == dadosPessoaisUser.ConcelhoNatural && dp.CodigoDistrito == dadosPessoaisUser.DistritoNatural && dp.Codigo == dadosPessoaisUser.FreguesiaNatural).Select(dp => dp.Nome).FirstOrDefault();
-                alldata.Morada = dadosPessoaisUser.Morada;
-                alldata.Localidade = db.Localidades.Where(dp => dp.CodigoConcelho == dadosPessoaisUser.ConcelhoMorada && dp.CodigoDistrito == dadosPessoaisUser.DistritoMorada && dp.Codigo == dadosPessoaisUser.Localidade).Select(dp => dp.Nome).FirstOrDefault();
-                alldata.RepFinNIF = dadosPessoaisUser.RepFinNIF;
-                alldata.CCDigitosControlo = dadosPessoaisUser.CCDigitosControlo;
-                alldata.NSegSoc = dadosPessoaisUser.NSegSoc;
-                alldata.NIF = dadosPessoaisUser.NIF;
-                alldata.DistritoMorada = db.Distritoes.Where(dp => dp.Codigo == dadosPessoaisUser.DistritoMorada).Select(dp => dp.Nome).FirstOrDefault();
-                alldata.ConcelhoMorada = db.Concelhoes.Where(dp => dp.CodigoDistrito == dadosPessoaisUser.DistritoMorada && dp.Codigo == dadosPessoaisUser.ConcelhoMorada).Select(dp => dp.Nome).FirstOrDefault();
-                alldata.FreguesiaMorada = db.Freguesias.Where(dp => dp.CodigoConcelho == dadosPessoaisUser.ConcelhoMorada && dp.CodigoDistrito == dadosPessoaisUser.DistritoMorada && dp.Codigo == dadosPessoaisUser.FreguesiaMorada).OrderBy(dp => dp.Nome).Select(dp => dp.Nome).FirstOrDefault();
-                alldata.Telefone = dadosPessoaisUser.Telefone;
-                alldata.CodigoPostal4Dig = dadosPessoaisUser.CodigoPostal4Dig.ToString();
-                alldata.CodigoPostal3Dig = dadosPessoaisUser.CodigoPostal3Dig.ToString();
-                alldata.DataNascimento = dadosPessoaisUser.DataNascimento.ToString("dd/MM/yyyy");
-                alldata.Ramo = db.Ramoes.Where(dp => dp.Sigla == dadosPessoaisUser.Ramo).OrderBy(dp => dp.Sigla).Select(dp => dp.Nome).FirstOrDefault();
-                alldata.Categoria = db.Categorias.Where(dp => dp.Sigla == dadosPessoaisUser.Categoria).OrderBy(dp => dp.Sigla).Select(dp => dp.Nome).FirstOrDefault();
-                alldata.Posto = db.Postoes.Where(dp => dp.RamoMilitar == dadosPessoaisUser.Ramo && dp.CategoriaMilitar == dadosPessoaisUser.Categoria && dp.Código == dadosPessoaisUser.Posto).OrderBy(dp => dp.Código).Select(dp => dp.Nome).FirstOrDefault();
-                alldata.Classe = dadosPessoaisUser.Classe;
-                alldata.NIM = dadosPessoaisUser.NIM;
+            alldata.NomeColoquial = dadosPessoaisUser.NomeColoquial;
+            alldata.NomePai = dadosPessoaisUser.NomePai;
+            alldata.NomeMae = dadosPessoaisUser.NomeMae;
+            alldata.NDI = dadosPessoaisUser.NDI;
+            alldata.TipoDocumento = db.TipoDocumentoIDs.Where(dp => dp.ID == dadosPessoaisUser.TipoDocID).OrderBy(dp => dp.Nome).Select(dp => dp.Nome).FirstOrDefault();
+            alldata.Genero = db.Generoes.Where(dp => dadosPessoaisUser.Genero == dp.ID).Select(dp => dp.Nome).FirstOrDefault();
+            alldata.EstadoCivil = db.EstadoCivils.Where(dp => dp.ID == dadosPessoaisUser.EstadoCivil).OrderBy(dp => dp.Nome).Select(dp => dp.Nome).FirstOrDefault();
+            alldata.Nacionalidade = db.Pais.Where(dp => dp.Sigla == dadosPessoaisUser.Nacionalidade).OrderBy(dp => dp.Nome).Select(dp => dp.Nome).FirstOrDefault();
+            alldata.DistritoNatural = db.Distritoes.Where(dp => dadosPessoaisUser.DistritoNatural == dp.Codigo).Select(dp => dp.Nome).FirstOrDefault();
+            alldata.ConcelhoNatural = db.Concelhoes.Where(dp => dp.CodigoDistrito == dadosPessoaisUser.DistritoNatural && dp.Codigo == dadosPessoaisUser.ConcelhoNatural).Select(dp => dp.Nome).FirstOrDefault();
+            alldata.FreguesiaNatural = db.Freguesias.Where(dp => dp.CodigoConcelho == dadosPessoaisUser.ConcelhoNatural && dp.CodigoDistrito == dadosPessoaisUser.DistritoNatural && dp.Codigo == dadosPessoaisUser.FreguesiaNatural).Select(dp => dp.Nome).FirstOrDefault();
+            alldata.Morada = dadosPessoaisUser.Morada;
+            alldata.Localidade = db.Localidades.Where(dp => dp.CodigoConcelho == dadosPessoaisUser.ConcelhoMorada && dp.CodigoDistrito == dadosPessoaisUser.DistritoMorada && dp.Codigo == dadosPessoaisUser.Localidade).Select(dp => dp.Nome).FirstOrDefault();
+            alldata.RepFinNIF = dadosPessoaisUser.RepFinNIF;
+            alldata.CCDigitosControlo = dadosPessoaisUser.CCDigitosControlo;
+            alldata.NSegSoc = dadosPessoaisUser.NSegSoc;
+            alldata.NIF = dadosPessoaisUser.NIF;
+            alldata.DistritoMorada = db.Distritoes.Where(dp => dp.Codigo == dadosPessoaisUser.DistritoMorada).Select(dp => dp.Nome).FirstOrDefault();
+            alldata.ConcelhoMorada = db.Concelhoes.Where(dp => dp.CodigoDistrito == dadosPessoaisUser.DistritoMorada && dp.Codigo == dadosPessoaisUser.ConcelhoMorada).Select(dp => dp.Nome).FirstOrDefault();
+            alldata.FreguesiaMorada = db.Freguesias.Where(dp => dp.CodigoConcelho == dadosPessoaisUser.ConcelhoMorada && dp.CodigoDistrito == dadosPessoaisUser.DistritoMorada && dp.Codigo == dadosPessoaisUser.FreguesiaMorada).OrderBy(dp => dp.Nome).Select(dp => dp.Nome).FirstOrDefault();
+            alldata.Telefone = dadosPessoaisUser.Telefone;
+            alldata.CodigoPostal4Dig = dadosPessoaisUser.CodigoPostal4Dig.ToString();
+            alldata.CodigoPostal3Dig = dadosPessoaisUser.CodigoPostal3Dig.ToString();
+            alldata.DataNascimento = dadosPessoaisUser.DataNascimento.ToString("dd/MM/yyyy");
+            alldata.Militar = dadosPessoaisUser.Militar;
+            alldata.Ramo = db.Ramoes.Where(dp => dp.Sigla == dadosPessoaisUser.Ramo).OrderBy(dp => dp.Sigla).Select(dp => dp.Nome).FirstOrDefault();
+            alldata.Categoria = db.Categorias.Where(dp => dp.Sigla == dadosPessoaisUser.Categoria).OrderBy(dp => dp.Sigla).Select(dp => dp.Nome).FirstOrDefault();
+            alldata.Posto = db.Postoes.Where(dp => dp.RamoMilitar == dadosPessoaisUser.Ramo && dp.CategoriaMilitar == dadosPessoaisUser.Categoria && dp.Código == dadosPessoaisUser.Posto).OrderBy(dp => dp.Código).Select(dp => dp.Nome).FirstOrDefault();
+            alldata.Classe = dadosPessoaisUser.Classe;
+            alldata.NIM = dadosPessoaisUser.NIM;
+            //para ter feminino nos documentos
+            alldata.isFeminino = db.Generoes.Where(dp => dadosPessoaisUser.Genero == dp.ID).Select(dp => dp.Nome).FirstOrDefault() == "Feminino";
             return alldata;
         }
 

@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Dynamic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Candidaturas.Models;
-
+using MigraDoc.DocumentObjectModel;
+using MigraDoc.Rendering;
 
 namespace Candidaturas.Controllers
 {
@@ -906,7 +908,41 @@ namespace Candidaturas.Controllers
                 return RedirectToAction("LogOut", "Login");
             }
         }
+        
+        public ActionResult PDFGen()
+        {
+            // Create a MigraDoc document
 
+            Document document = MigraDocument.CreateDocument("ComprovativoCandidatura", "Comprovativo de Candidatura", "Fábio Lourenço", 1, (int) Session["userID"]);
 
+            //string ddl = MigraDoc.DocumentObjectModel.IO.DdlWriter.WriteToString(document);
+            //MigraDoc.DocumentObjectModel.IO.DdlWriter.WriteToFile(document, "MigraDoc.mdddl");
+
+            MigraDoc.Rendering.DocumentRenderer renderer = new DocumentRenderer(document);
+            PdfDocumentRenderer PDFRenderer = new PdfDocumentRenderer(true, PdfSharp.Pdf.PdfFontEmbedding.Always)
+            {
+                Document = document
+            };
+
+            PDFRenderer.RenderDocument();
+            PDFRenderer.DocumentRenderer = renderer;
+
+            string filename = document.Info.Title + ".pdf";
+
+            // Send PDF to browser
+            MemoryStream PDFStream = new MemoryStream();
+            PDFRenderer.PdfDocument.Save(PDFStream, false);
+            Response.Clear();
+            Response.GetType();
+            Response.ContentType = document.GetType().ToString();
+            Response.Cache.SetCacheability(System.Web.HttpCacheability.Private);
+            Response.AppendHeader("Content-Disposition", "attachment; filename=" + filename);
+            Response.BinaryWrite(PDFStream.ToArray());
+            Response.Flush();
+            PDFStream.Close();
+            Response.End();
+
+            return RedirectToAction("Welcome", "Home");
+        }
     }
 }

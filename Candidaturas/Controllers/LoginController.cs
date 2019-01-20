@@ -3,13 +3,6 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Web.Mvc;
-using System.IO;
-using System.Diagnostics;
-using MigraDoc.Rendering;
-using MigraDoc.DocumentObjectModel;
-using System.Drawing;
-using System.Reflection;
-using PdfSharp.Pdf;
 
 namespace Candidaturas.Controllers
 {
@@ -57,40 +50,5 @@ namespace Candidaturas.Controllers
             return RedirectToAction("Index", "Login");
         }
 
-
-        public ActionResult PDFGen()
-        {
-            // Create a MigraDoc document
-            Document document = MigraDocument.CreateDocument("blank", "Comprovativo de Candidatura", "Fábio Lourenço", 1);
-
-            //string ddl = MigraDoc.DocumentObjectModel.IO.DdlWriter.WriteToString(document);
-            //MigraDoc.DocumentObjectModel.IO.DdlWriter.WriteToFile(document, "MigraDoc.mdddl");
-
-            MigraDoc.Rendering.DocumentRenderer renderer = new DocumentRenderer(document);
-            PdfDocumentRenderer PDFRenderer = new PdfDocumentRenderer(true, PdfSharp.Pdf.PdfFontEmbedding.Always)
-            {
-                Document = document
-            };
-
-            PDFRenderer.RenderDocument();
-            PDFRenderer.DocumentRenderer = renderer;
-                        
-            string filename = document.Info.Title+".pdf";
-            
-            // Send PDF to browser
-            MemoryStream PDFStream = new MemoryStream();
-            PDFRenderer.PdfDocument.Save(PDFStream, false);
-            Response.Clear();
-            Response.GetType();
-            Response.ContentType = document.GetType().ToString();
-            Response.Cache.SetCacheability(System.Web.HttpCacheability.Private);
-            Response.AppendHeader("Content-Disposition", "attachment; filename=" + filename);
-            Response.BinaryWrite(PDFStream.ToArray());
-            Response.Flush();
-            PDFStream.Close();
-            Response.End();
-            
-            return View();
-        }
     }
 }
