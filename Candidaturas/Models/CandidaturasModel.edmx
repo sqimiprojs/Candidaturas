@@ -83,7 +83,6 @@
           <Property Name="Posto" Type="int" />
           <Property Name="Classe" Type="nvarchar" MaxLength="50" />
           <Property Name="NIM" Type="varchar" MaxLength="50" />
-          <Property Name="FormID" Type="int" />
         </EntityType>
         <EntityType Name="Distrito">
           <Key>
@@ -946,7 +945,6 @@
           <Property Name="Posto" Type="Int32" />
           <Property Name="Classe" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="NIM" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="FormID" Type="Int32" />
           <NavigationProperty Name="Categoria1" Relationship="CandidaturaDBModel.FK_DadosPessoais_Categoria" FromRole="DadosPessoai" ToRole="Categoria" />
           <NavigationProperty Name="EstadoCivil1" Relationship="CandidaturaDBModel.FK_DadosPessoais_EstadoCivil" FromRole="DadosPessoai" ToRole="EstadoCivil" />
           <NavigationProperty Name="Freguesia" Relationship="CandidaturaDBModel.FK_DadosPessoais_Freguesia" FromRole="DadosPessoai" ToRole="Freguesia" />
@@ -1525,7 +1523,6 @@
           <EntitySetMapping Name="DadosPessoais">
             <EntityTypeMapping TypeName="CandidaturaDBModel.DadosPessoai">
               <MappingFragment StoreEntitySet="DadosPessoais">
-                <ScalarProperty Name="FormID" ColumnName="FormID" />
                 <ScalarProperty Name="NIM" ColumnName="NIM" />
                 <ScalarProperty Name="Classe" ColumnName="Classe" />
                 <ScalarProperty Name="Posto" ColumnName="Posto" />

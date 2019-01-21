@@ -154,7 +154,7 @@ namespace Candidaturas
 
             if (c.Militar)
             {
-                cmil= String.Format(" {0}, {1}", c.Ramo, c.Posto);
+                cmil= String.Format(" {0}, {1},", c.Ramo, c.Posto);
             }
             else
             {

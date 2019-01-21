@@ -300,6 +300,10 @@ namespace Candidaturas.Controllers
                             DateTime dataCriacao = dadosPessoaisUser.DataCriacao;
                             dbModel.DadosPessoais.Remove(dadosPessoaisUser);
                             dadosPessoaisUser = dadosPessoaisModel;
+                            if (dadosPessoaisModel.NIM != null)
+                            {
+                                dadosPessoaisUser.Militar = true;
+                            }
                             dadosPessoaisUser.DataCriacao = dataCriacao;
                             dadosPessoaisUser.DataUltimaAtualizacao = System.DateTime.Now;
                             dbModel.DadosPessoais.Add(dadosPessoaisUser);
@@ -661,10 +665,6 @@ namespace Candidaturas.Controllers
                             }
                             else
                             {
-                                //Session["ErrorCurso"] = 1;
-
-                                Session["SelectedTab"] = 3;
-
                                 return View();
                             }
                         }
@@ -685,10 +685,6 @@ namespace Candidaturas.Controllers
                 }
 
                 ModelState.Clear();
-
-                //Session["ErrorCurso"] = 0;
-
-                Session["SelectedTab"] = 3;
 
                 return RedirectToAction("Opcoes", "Formulario");
             }

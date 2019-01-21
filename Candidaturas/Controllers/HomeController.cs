@@ -79,7 +79,7 @@ namespace Candidaturas.Controllers
                             }
                             else
                             {
-                                return View("~/Views/Home/Welcome.cshtml");
+                                return RedirectToAction("Welcome", "Home");
                             }
                         }
 
