@@ -9,68 +9,71 @@
 @Html.AntiForgeryToken()
 
 <div class="row">
-    <div class="column">
-        <h2 class="candidaturasHeader">Exames</h2>
-        <div class="column">
-            @Html.DropDownList("Exame", ViewBag.Exame as SelectList, "Escolha uma opção...", new { @class = "form-control", @name = "ExameARegistar" })
-        </div>
-
-        <input id="SelectedExame" name="SelectedExame" type="hidden" runat="server" />
-
-        <div class="column">
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input id="AddExame" type="submit" value="Adicionar Exame" class="btn btn-outline-primary" />
-                </div>
+    <div class="col">
+        <h2 class="candidaturasHeader">Exames</h2><hr />
+        <div class="form-inline">
+            <div class="col"> 
+                @Html.DropDownList("Exame", ViewBag.Exame as SelectList, "Escolha uma opção...", new { @class = "form-control", @name = "ExameARegistar" })
             </div>
+            <div class="col">
+                <input id="AddExame" type="submit" value="Adicionar Exame" class="btn btn-outline-primary" />
+            </div>
+            <input id="SelectedExame" name="SelectedExame" type="hidden" runat="server" />
         </div>
 
-        <table class="table" style="margin-top: 90px;">
+        <table class="table my-2">
             @foreach (Exame exame in Model.ExamesEscolhidos)
             {
                 <tr>
                     <td>@exame.Nome</td>
                     <td>
-                        <a class="glyphicon glyphicon-remove-circle" onclick="location.href='@Url.Action("RemoverExame", "Formulario", new { id = (int)@exame.ID})'"><span style="padding-left: 5px;">Remover</span></a>
+                        <a class=" fa fa-times-circle badge badge-danger text-light p-2" onclick="location.href='@Url.Action("RemoverExame", "Formulario", new { id = (int)@exame.ID })'"><span> Remover</span></a>
                     </td>
                 </tr>
             }
         </table>
     </div>
-
-
-    <div class="column2">
-        <h2 class="candidaturasHeader">Cursos</h2>
-        <div class="column">
-            @Html.DropDownList("Curso", ViewBag.Curso as SelectList, "Escolha uma opção...", new { @class = "form-control", @name = "CursoARegistar" })
-        </div>
-
-        <input id="SelectedCurso" name="SelectedCurso" type="hidden" runat="server" />
-
-        <div class="column">
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input id="AddCurso" type="submit" value="Adicionar Curso" class="btn btn-outline-primary" />
-                </div>
+    <div class="col">
+        <h2 class="candidaturasHeader">Cursos</h2><hr />
+        <div class="form-inline">
+            <div class="col">
+                @Html.DropDownList("Curso", ViewBag.Curso as SelectList, "Escolha uma opção...", new { @class = "form-control", @name = "CursoARegistar" })
             </div>
+            <div class="col">
+                <input id="AddCurso" type="submit" value="Adicionar Curso" class="btn btn-outline-primary" />
+            </div>
+            <input id="SelectedCurso" name="SelectedCurso" type="hidden" runat="server" />
         </div>
 
-        <table class="table" id="mytable" style="margin-top: 90px;">
-            @foreach (CursoDisplay curso in Model.CursosEscolhidos)
-            {
+        <table class="table my-2" id="mytable">
+            @{ 
+                int numeroCursosEscolhidos = Model.CursosEscolhidos.Count;
+                foreach (CursoDisplay curso in Model.CursosEscolhidos)
+
+                {
                 <tr>
                     <td>@curso.prioridade.</td>
                     <td>@curso.nome</td>
                     <td>
-                        <a class="glyphicon glyphicon-remove-circle" onclick="location.href='@Url.Action("RemoverCurso", "Formulario", new { id = (int)@curso.ID})'"><span class="customSpan">Remover</span></a>
+                        <a class="fa fa-times-circle badge badge-danger text-light p-2 " onclick="location.href='@Url.Action("RemoverCurso", "Formulario", new { id = (int)@curso.ID })'"><span> Remover</span></a>
                     </td>
+
                     <td>
-                        <a class="glyphicon glyphicon-chevron-up" onclick="location.href='@Url.Action("MoverParaCima", "Formulario", new { id = (int)@curso.ID})'"><span class="customSpan">Mais Prioritário</span></a>
+                        @if (curso.prioridade != 1)
+                        {
+                            <a class="fa fa-chevron-up badge badge-light p-2" onclick="location.href='@Url.Action("MoverParaCima", "Formulario", new { id = (int)@curso.ID })'"><span> Mais Prioritário</span></a>
+                        }
                     </td>
+
+
                     <td>
-                        <a class="glyphicon glyphicon-chevron-down" onclick="location.href='@Url.Action("MoverParaBaixo", "Formulario", new { id = (int)@curso.ID})'"><span class="customSpan">Menos Prioritário</span></a>
+                        @if (curso.prioridade != numeroCursosEscolhidos) {
+                            <a class="fa fa-chevron-down badge badge-light p-2" onclick="location.href='@Url.Action("MoverParaBaixo", "Formulario", new { id = (int)@curso.ID })'"><span> Menos Prioritário</span></a>
+                        }
+                            
                     </td>
                 </tr>
+                    } 
             }
         </table>
 
@@ -79,17 +82,17 @@
             @foreach (String exame in Model.ExamesNecessários)
             {
                 <tr>
-                    <td>@exame</td>
+                    <td><span class="text-muted">@exame</span></td>
                 </tr>
             }
         </table>
     </div>
-    
+
 </div>
-<div>
-    @Html.ActionLink("Finalizar Candidatura", "Welcome", "Home", null, new { @class = "btn btn-outline-primary" })
-    <div class="row">@Html.ActionLink("Gerar PDF - Test", "PDFGen", "Formulario")</div>
+<div class="row">
+    @Html.ActionLink("Finalizar Candidatura", "PDFGen", "Formulario", null, new { @class = "btn btn-primary" })
 </div>
+
 <script>
     $('#Exame').bind('change', function () {
         $('#SelectedExame').val($(this).val());
@@ -103,7 +106,7 @@
 
         $("#AddExame").click(function () {
             var hidValue = $("#SelectedExame").val();
-            
+
             if (hidValue != "") {
                 $.ajax({
                     url: '@Url.Action("AdicionarExame", "Formulario")',
@@ -116,7 +119,7 @@
             } else {
                 window.alert("Por favor selecione um exame da lista.");
             }
-            
+
         });
 
         $("#AddCurso").click(function () {
@@ -152,7 +155,7 @@
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 <!--<link rel="stylesheet" type="text/css" href="~/Content/Candidaturas.css">-->
 <style>
-    .column2 {
+    .col2 {
         float: left;
         padding-left: 70px;
     }
@@ -166,7 +169,7 @@
     }
 
     @@media only screen and (max-width: 600px), (min-width: 800px) {
-        .column2 {
+        .col2 {
             width: 50%;
             padding-left: 0px;
         }

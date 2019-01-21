@@ -83,6 +83,7 @@
           <Property Name="Posto" Type="int" />
           <Property Name="Classe" Type="nvarchar" MaxLength="50" />
           <Property Name="NIM" Type="varchar" MaxLength="50" />
+          <Property Name="FormID" Type="int" />
         </EntityType>
         <EntityType Name="Distrito">
           <Key>
@@ -123,6 +124,14 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Nome" Type="varchar" MaxLength="50" />
           <Property Name="Código" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Form">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="FormBin" Type="varbinary(max)" />
+          <Property Name="DataCriação" Type="datetime" />
         </EntityType>
         <EntityType Name="Freguesia">
           <Key>
@@ -436,6 +445,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Form_DadosPessoais">
+          <End Role="DadosPessoais" Type="Self.DadosPessoais" Multiplicity="1" />
+          <End Role="Form" Type="Self.Form" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="DadosPessoais">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Form">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Freguesia_Distrito_Concelho">
           <End Role="Concelho" Type="Self.Concelho" Multiplicity="1" />
           <End Role="Freguesia" Type="Self.Freguesia" Multiplicity="*" />
@@ -584,6 +605,7 @@
           <EntitySet Name="DocumentoBinario" EntityType="Self.DocumentoBinario" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EstadoCivil" EntityType="Self.EstadoCivil" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Exame" EntityType="Self.Exame" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Form" EntityType="Self.Form" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Freguesia" EntityType="Self.Freguesia" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Genero" EntityType="Self.Genero" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Inquerito" EntityType="Self.Inquerito" Schema="dbo" store:Type="Tables" />
@@ -660,6 +682,10 @@
             <End Role="Exame" EntitySet="Exame" />
             <End Role="UserExame" EntitySet="UserExame" />
           </AssociationSet>
+          <AssociationSet Name="FK_Form_DadosPessoais" Association="Self.FK_Form_DadosPessoais">
+            <End Role="DadosPessoais" EntitySet="DadosPessoais" />
+            <End Role="Form" EntitySet="Form" />
+          </AssociationSet>
           <AssociationSet Name="FK_Freguesia_Distrito_Concelho" Association="Self.FK_Freguesia_Distrito_Concelho">
             <End Role="Concelho" EntitySet="Concelho" />
             <End Role="Freguesia" EntitySet="Freguesia" />
@@ -720,6 +746,7 @@
           <EntitySet Name="DocumentoBinarios" EntityType="CandidaturaDBModel.DocumentoBinario" />
           <EntitySet Name="EstadoCivils" EntityType="CandidaturaDBModel.EstadoCivil" />
           <EntitySet Name="Exames" EntityType="CandidaturaDBModel.Exame" />
+          <EntitySet Name="Forms" EntityType="CandidaturaDBModel.Form" />
           <EntitySet Name="Freguesias" EntityType="CandidaturaDBModel.Freguesia" />
           <EntitySet Name="Generoes" EntityType="CandidaturaDBModel.Genero" />
           <EntitySet Name="Inqueritoes" EntityType="CandidaturaDBModel.Inquerito" />
@@ -795,6 +822,10 @@
           <AssociationSet Name="FK_DadosPessoais_User" Association="CandidaturaDBModel.FK_DadosPessoais_User">
             <End Role="User" EntitySet="Users" />
             <End Role="DadosPessoai" EntitySet="DadosPessoais" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Form_DadosPessoais" Association="CandidaturaDBModel.FK_Form_DadosPessoais">
+            <End Role="DadosPessoai" EntitySet="DadosPessoais" />
+            <End Role="Form" EntitySet="Forms" />
           </AssociationSet>
           <AssociationSet Name="FK_Documento_User" Association="CandidaturaDBModel.FK_Documento_User">
             <End Role="User" EntitySet="Users" />
@@ -915,6 +946,7 @@
           <Property Name="Posto" Type="Int32" />
           <Property Name="Classe" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="NIM" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FormID" Type="Int32" />
           <NavigationProperty Name="Categoria1" Relationship="CandidaturaDBModel.FK_DadosPessoais_Categoria" FromRole="DadosPessoai" ToRole="Categoria" />
           <NavigationProperty Name="EstadoCivil1" Relationship="CandidaturaDBModel.FK_DadosPessoais_EstadoCivil" FromRole="DadosPessoai" ToRole="EstadoCivil" />
           <NavigationProperty Name="Freguesia" Relationship="CandidaturaDBModel.FK_DadosPessoais_Freguesia" FromRole="DadosPessoai" ToRole="Freguesia" />
@@ -925,6 +957,7 @@
           <NavigationProperty Name="Ramo1" Relationship="CandidaturaDBModel.FK_DadosPessoais_Ramo" FromRole="DadosPessoai" ToRole="Ramo" />
           <NavigationProperty Name="TipoDocumentoID" Relationship="CandidaturaDBModel.FK_DadosPessoais_TipoDocumentoID" FromRole="DadosPessoai" ToRole="TipoDocumentoID" />
           <NavigationProperty Name="User" Relationship="CandidaturaDBModel.FK_DadosPessoais_User" FromRole="DadosPessoai" ToRole="User" />
+          <NavigationProperty Name="Form" Relationship="CandidaturaDBModel.FK_Form_DadosPessoais" FromRole="DadosPessoai" ToRole="Form" />
         </EntityType>
         <EntityType Name="Distrito">
           <Key>
@@ -972,6 +1005,15 @@
           <Property Name="Código" Type="Int32" Nullable="false" />
           <NavigationProperty Name="UserExames" Relationship="CandidaturaDBModel.FK_ExameUE" FromRole="Exame" ToRole="UserExame" />
           <NavigationProperty Name="Cursoes" Relationship="CandidaturaDBModel.CursoExame" FromRole="Exame" ToRole="Curso" />
+        </EntityType>
+        <EntityType Name="Form">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="FormBin" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="DataCriação" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="DadosPessoai" Relationship="CandidaturaDBModel.FK_Form_DadosPessoais" FromRole="Form" ToRole="DadosPessoai" />
         </EntityType>
         <EntityType Name="Freguesia">
           <Key>
@@ -1314,6 +1356,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Form_DadosPessoais">
+          <End Type="CandidaturaDBModel.DadosPessoai" Role="DadosPessoai" Multiplicity="1" />
+          <End Type="CandidaturaDBModel.Form" Role="Form" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="DadosPessoai">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Form">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Documento_User">
           <End Type="CandidaturaDBModel.User" Role="User" Multiplicity="1" />
           <End Type="CandidaturaDBModel.Documento" Role="Documento" Multiplicity="*" />
@@ -1471,6 +1525,7 @@
           <EntitySetMapping Name="DadosPessoais">
             <EntityTypeMapping TypeName="CandidaturaDBModel.DadosPessoai">
               <MappingFragment StoreEntitySet="DadosPessoais">
+                <ScalarProperty Name="FormID" ColumnName="FormID" />
                 <ScalarProperty Name="NIM" ColumnName="NIM" />
                 <ScalarProperty Name="Classe" ColumnName="Classe" />
                 <ScalarProperty Name="Posto" ColumnName="Posto" />
@@ -1551,6 +1606,15 @@
                 <ScalarProperty Name="Código" ColumnName="Código" />
                 <ScalarProperty Name="Nome" ColumnName="Nome" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Forms">
+            <EntityTypeMapping TypeName="CandidaturaDBModel.Form">
+              <MappingFragment StoreEntitySet="Form">
+                <ScalarProperty Name="DataCriação" ColumnName="DataCriação" />
+                <ScalarProperty Name="FormBin" ColumnName="FormBin" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

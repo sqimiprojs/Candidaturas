@@ -915,9 +915,6 @@ namespace Candidaturas.Controllers
 
             Document document = MigraDocument.CreateDocument("ComprovativoCandidatura", "Comprovativo de Candidatura", "Fábio Lourenço", 1, (int) Session["userID"]);
 
-            //string ddl = MigraDoc.DocumentObjectModel.IO.DdlWriter.WriteToString(document);
-            //MigraDoc.DocumentObjectModel.IO.DdlWriter.WriteToFile(document, "MigraDoc.mdddl");
-
             MigraDoc.Rendering.DocumentRenderer renderer = new DocumentRenderer(document);
             PdfDocumentRenderer PDFRenderer = new PdfDocumentRenderer(true, PdfSharp.Pdf.PdfFontEmbedding.Always)
             {
@@ -929,9 +926,34 @@ namespace Candidaturas.Controllers
 
             string filename = document.Info.Title + ".pdf";
 
-            // Send PDF to browser
+            CandidaturaDBEntities1 dbModel = new CandidaturaDBEntities1();
+            Form formTable = new Form();
+
             MemoryStream PDFStream = new MemoryStream();
-            PDFRenderer.PdfDocument.Save(PDFStream, false);
+            PDFRenderer.PdfDocument.Save(PDFStream, true);
+
+            formTable.UserID= (int) Session["userID"];
+            formTable.FormBin = PDFStream.ToArray();
+            formTable.DataCriação = System.DateTime.Now;
+
+            dbModel.Forms.Add(formTable);
+            dbModel.SaveChanges();
+
+            ModelState.Clear();
+
+            string subject = "Portal de Candidaturas à Base Naval - Formulario Submetido";
+            string body = "O formulário foi submetido com sucesso ";
+
+            Email.SendEmail("sqimi.test@gmail.com", subject, body);
+
+            ViewBag.Subtitle = "Fomulario foi subemetido";
+
+            ViewBag.ConfirmationMessage = "O formulário foi submetido com sucesso ";
+
+            return View("~/Views/Shared/Success.cshtml");
+
+            // Send PDF to browser
+            
             Response.Clear();
             Response.GetType();
             Response.ContentType = document.GetType().ToString();

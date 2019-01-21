@@ -22,6 +22,8 @@ namespace Candidaturas.Controllers
 
                 DocumentosUser = getSelectedDocumentos(db, userId);
                 ViewBag.DocumentosUser = DocumentosUser;
+                ViewBag.Formulario= FormIsCreated(db, userId);
+                
 
                 return View("~/Views/Home/Welcome.cshtml");
             }
@@ -120,6 +122,33 @@ namespace Candidaturas.Controllers
             }
             return dm;
         }
+
+        public bool FormIsCreated(CandidaturaDBEntities1 db, int userId)
+        {
+            return db.Forms.Where(dp => dp.UserID == userId).Any();
+
+        }
+        public ActionResult DownloadFormulario() {
+
+            CandidaturaDBEntities1 db = new CandidaturaDBEntities1();
+            int userId = (int)Session["userID"];
+            byte[] dForm = db.Forms.Where(dp => dp.UserID == userId).Select(dp => dp.FormBin).FirstOrDefault();
+
+            Response.Clear();
+            Response.Buffer = true;
+            Response.Charset = "";
+            Response.Cache.SetCacheability(System.Web.HttpCacheability.Private);
+            Response.ContentType = "application/pdf";
+            Response.AppendHeader("Content-Disposition", "attachment; filename=" + "ComprovativoCandidatura.pdf");
+            Response.BinaryWrite(dForm);
+            Response.Flush();
+            Response.End();
+        
+            return View("~/Views/Home/Welcome.cshtml");
+
+
+        }
+
 
         //remove um documento adicionado pelo utilizador
         public ActionResult RemoveDocumento(int id)

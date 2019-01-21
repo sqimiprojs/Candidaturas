@@ -33,7 +33,7 @@ namespace Candidaturas.Controllers
 
                 if (userDetails == null)
                 {
-                    model.user.LoginErrorMessage = "Username ou password errado.";
+                    TempData["LogError"] = "Email não está registado ou palavra-passe está errada.";
                     return RedirectToAction("Index", "Login");
                 }
                 else

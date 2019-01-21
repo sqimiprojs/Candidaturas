@@ -22,10 +22,12 @@
     <nav class="navbar navbar-dark bg-dark fixed-top">
         @if (Session["userID"] != null)
         {
+            <span class="fa fa-home navbar-brand" style="font-size: 2em;"></span>
             @Html.ActionLink("Escola Naval - Candidaturas", "Welcome", "Home", new { area = "" }, new { @class = "navbar-brand" })
         }
         else
         {
+            <img src="~/Content/img/marinha.png" alt="Logo Marinha" />
             @Html.ActionLink("Escola Naval - Candidaturas", "Index", "Login", new { area = "" }, new { @class = "navbar-brand" })
         }
 
@@ -39,7 +41,7 @@
 
         </div>
     </nav>
-    <div class="container body-content">
+    <div class="container body-content my-4">
         @RenderBody()
     </div>
 

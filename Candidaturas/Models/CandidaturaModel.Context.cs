@@ -35,6 +35,7 @@ namespace Candidaturas.Models
         public virtual DbSet<DocumentoBinario> DocumentoBinarios { get; set; }
         public virtual DbSet<EstadoCivil> EstadoCivils { get; set; }
         public virtual DbSet<Exame> Exames { get; set; }
+        public virtual DbSet<Form> Forms { get; set; }
         public virtual DbSet<Freguesia> Freguesias { get; set; }
         public virtual DbSet<Genero> Generoes { get; set; }
         public virtual DbSet<Inquerito> Inqueritoes { get; set; }

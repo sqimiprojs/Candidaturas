@@ -4,77 +4,92 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="row">
-    <div class="col-sm-6">
-        <h2>Bem - Vindo Candidato n'25</h2>
-    </div>
-    <div class="col-sm-6">
-        @Html.ActionLink("Preencher Cadidatura", "DadosPessoais", "Formulario", null, new { @class = "btn btn-outline-primary" })
+<div class="container">
+    <div class="row my-4 ">
+        <div class="col-sm-6 card text-center align-middle">
+            <h2>Bem - Vindo Candidato n'25</h2>
+        </div>
+        <div class="col-sm-6 ">
+            @if (ViewBag.Formulario)
+            {
+                @Html.ActionLink("Download Comprovativo", "DownloadFormulario", "Home", new { @class = "btn btn-outline-primary" });
+            }
+            else
+            {
+                @Html.ActionLink("Preencher Cadidatura", "DadosPessoais", "Formulario", null, new { @class = "btn btn-primary" });
+            }
+
+        </div>
     </div>
 </div>
+<hr />
+<div class="container">
+    <div class="row">
+        <h3>Documentos</h3>
+    </div>
 
-<div class="row">
-    <h2>Adicionar Ficheiros</h2>
-    @using (Html.BeginForm("UploadDocumento", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
-    {
-        @Html.AntiForgeryToken()
+    <div class="row">
+        <div class="col-4">
+            <div class="container">
+                @using (Html.BeginForm("UploadDocumento", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    @Html.AntiForgeryToken()
 
-        <div class="form-horizontal" style="margin-top: 20px;">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.DocumentoInfo.Nome, "Seleccionar Documento", htmlAttributes: new { @class = "control-label " })
+                        <div class="">
+                            <input type="file" name="file" id="FicheiroInput" />
+                        </div>
+                    </div>
 
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.DocumentoInfo.Descricao, "Adicionar Descrição (opcional)", htmlAttributes: new { @class = "control-label" })
+                        <div class="">
+                            @Html.EditorFor(model => model.DocumentoInfo.Descricao, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.DocumentoInfo.Descricao, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.DocumentoInfo.Descricao, "Adicionar Descrição", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.DocumentoInfo.Descricao, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.DocumentoInfo.Descricao, "", new { @class = "text-danger" })
-                </div>
-            </div>
+                    <div class="form-group">
+                        <div class="">
+                            <span id="errorLabel" class="text-danger" style="display:none;margin-top:auto;">Por favor insira um ficheiro pdf ou jpeg válido.</span>
+                        </div>
+                    </div>
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.DocumentoInfo.Nome, "Seleccionar Documento", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    <input type="file" name="file" id="FicheiroInput" />
-                </div>
-            </div>
+                    <div class="form-group">
+                        <div class="">
+                            <input type="submit" value="Enviar Documento" class="btn btn-primary" />
+                        </div>
+                    </div>
 
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <span id="errorLabel" class="text-danger" style="display:none;margin-top:auto;">Por favor insira um ficheiro pdf ou jpeg válido.</span>
-                </div>
-            </div>
+                }
+            </div></div>
 
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Enviar Documento" class="btn btn-outline-primary" />
-                </div>
+        @if (ViewBag.DocumentosUser != null)
+        {
+        <div class="col">
+            <div class="container">
+                <table class="table">                    
+                    @foreach (var documento in @ViewBag.DocumentosUser)
+                    {
+                        <tr>
+                            <td class="row">
+                                <div class="col-6">@documento.DocumentoInfo.Nome</div>
+                                <div class="col-3"><a class="fa fa-download badge badge-primary text-light p-2" onclick="location.href='@Url.Action("DownloadDocumento", "Home", new { id = (int)documento.DocumentoInfo.ID })'"><span> Download</span></a></div>
+                                <div class="col-3"><a class="fa fa-minus-circle badge badge-danger text-light p-2" onclick="location.href='@Url.Action("RemoveDocumento", "Home", new { id = (int)documento.DocumentoInfo.ID })'"><span> Remover</span></a></div>
+                                @if (documento.DocumentoInfo.Descricao != null) {
+                                    <div class="row my-4 px-5">
+                                        <p class="text-muted">@documento.DocumentoInfo.Descricao</p>
+                                    </div>
+                                }
+
+                            </td>
+                        </tr>
+                    }
+                </table>
             </div>
         </div>
-    }
-</div>
-@if (ViewBag.DocumentosUser != null)
-{
-    <div class="row">
-        <table class="table" style="margin-top: 40px;width:60% !important;">
-            <tr>
-                <th style="font-weight:bold">Nome</th>
-                <th style="font-weight:bold">Descrição</th>
-                <th></th>
-                <th></th>
-            </tr>
-            @foreach (var documento in @ViewBag.DocumentosUser)
-            {
-                <tr>
-                    <td>@documento.DocumentoInfo.Nome</td>
-                    <td>@documento.DocumentoInfo.Descricao</td>
-                    <td>
-                        <a class="glyphicon glyphicon-download" onclick="location.href='@Url.Action("DownloadDocumento", "Home", new { id = (int)documento.DocumentoInfo.ID })'"><span style="padding-left: 5px;">Download</span></a>
-                    </td>
-                    <td>
-                        <a class="glyphicon glyphicon-remove-circle" onclick="location.href='@Url.Action("RemoveDocumento", "Home", new { id = (int)documento.DocumentoInfo.ID })'"><span style="padding-left: 5px;">Remover</span></a>
-                    </td>
-                </tr>
-            }
-        </table>
+        }
     </div>
-}
+</div>
