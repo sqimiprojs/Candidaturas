@@ -20,6 +20,7 @@
     bottom: 0;
     background-color: #ccc;
     transition: .4s;
+    border-radius: .25rem;
 }
 
 .slider:before {
@@ -48,15 +49,6 @@ input[type="checkbox"]:checked + .slider:before {
     transform: translateX(26px);
 }
 
-/* Slider redondo */
-.slider.round {
-    border-radius: 34px;
-}
-
-.slider.round:before {
-    border-radius: 50%;
-}
-
 /*------ ADDED CSS ---------*/
 .on {
     display: none;
@@ -80,20 +72,6 @@ input[type="checkbox"]:checked + .slider.round .off {
     display: none;
 }
 
-/******************* COLUNAS **********************/
-
-.column {
-    float: left;
-    width: 50%;
-}
-
-/* Clear floats after the columns */
-.row:after {
-    content: "";
-    display: table;
-    clear: both;
-}
-
 /******************* ASTERISCO REQUIRED **********************/
 
 .required:after {
@@ -104,11 +82,7 @@ input[type="checkbox"]:checked + .slider.round .off {
 
 /******************** OUTROS ********************************/
 
-.candidaturasHeader {
-    padding-bottom: 20px;
-}
-
-*, h1, h2, h3, h4 {
+*{
     font-family: 'Open Sans', sans-serif;
     font-style: normal;
     font-weight: 400;

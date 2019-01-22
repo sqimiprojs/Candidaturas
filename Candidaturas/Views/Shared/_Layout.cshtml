@@ -23,12 +23,12 @@
         @if (Session["userID"] != null)
         {
             <span class="fa fa-home navbar-brand" style="font-size: 2em;"></span>
-            @Html.ActionLink("Escola Naval - Candidaturas", "Welcome", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            @Html.ActionLink("Escola Naval - Candidaturas", "Welcome", "Home", new { area = "" }, new { @class = "navbar-brand text-light" })
         }
         else
         {
             <img src="~/Content/img/marinha.png" alt="Logo Marinha" />
-            @Html.ActionLink("Escola Naval - Candidaturas", "Index", "Login", new { area = "" }, new { @class = "navbar-brand" })
+            @Html.ActionLink("Escola Naval - Candidaturas", "Index", "Login", new { area = "" }, new { @class = "navbar-brand text-light" })
         }
 
         <div class="navbar-nav mr-auto">
@@ -36,7 +36,7 @@
         <div class="mt-2 mt-md-0">
             @if (Session["userID"] != null)
             {
-                <a class="my-2 my-sm-0" href="@Url.Action("LogOut", "Login")"><span class="fa fa-sign-out"></span> Logout</a>
+                <a class="my-2 my-sm-0 navbar-brand text-primary" href="@Url.Action("LogOut", "Login")"><span class="fa fa-sign-out"></span> Logout</a>
             }
 
         </div>

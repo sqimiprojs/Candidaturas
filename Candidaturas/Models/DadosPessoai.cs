@@ -49,6 +49,7 @@ namespace Candidaturas.Models
         public Nullable<int> Posto { get; set; }
         public string Classe { get; set; }
         public string NIM { get; set; }
+        public Nullable<System.DateTime> DocumentoValidade { get; set; }
     
         public virtual Categoria Categoria1 { get; set; }
         public virtual EstadoCivil EstadoCivil1 { get; set; }

@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 01/21/2019 14:27:20
+-- Date Created: 01/22/2019 16:10:44
 -- Generated from EDMX file: C:\Users\fabio\Documents\GitHub\Candidaturas\Candidaturas\Models\CandidaturasModel.edmx
 -- --------------------------------------------------
 
@@ -249,8 +249,7 @@ CREATE TABLE [dbo].[DadosPessoais] (
     [Categoria] nvarchar(10)  NULL,
     [Posto] int  NULL,
     [Classe] nvarchar(50)  NULL,
-    [NIM] varchar(50)  NULL,
-    [FormID] int  NULL
+    [NIM] varchar(50)  NULL
 );
 GO
 
@@ -297,7 +296,7 @@ GO
 -- Creating table 'Forms'
 CREATE TABLE [dbo].[Forms] (
     [UserID] int  NOT NULL,
-    [FormBin] nvarchar(max)  NULL,
+    [FormBin] varbinary(max)  NULL,
     [DataCriação] datetime  NULL
 );
 GO
