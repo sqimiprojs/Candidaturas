@@ -5,7 +5,7 @@ using System.Web;
 
 namespace Candidaturas.Models
 {
-    public class FullDadosPessoais
+    public class CandidatoFullText
     {
         public string NomeColoquial { get; set; }
         public string NomePai { get; set; }

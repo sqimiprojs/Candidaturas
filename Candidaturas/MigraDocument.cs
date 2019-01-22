@@ -148,7 +148,7 @@ namespace Candidaturas
 
             Paragraph cod = page1.AddParagraph("\nCódigo de Candidato: #123#-Fixed","Heading3");
 
-            FullDadosPessoais c = GetInfoCandidato(session);
+            CandidatoFullText c = GetInfoCandidato(session);
 
             string cmil, cfem;
 
@@ -198,14 +198,14 @@ namespace Candidaturas
             Text4.Style = "CenterText";
         }
 
-        private static FullDadosPessoais GetInfoCandidato(int userId)
+        private static CandidatoFullText GetInfoCandidato(int userId)
         {
             CandidaturaDBEntities1 db = new CandidaturaDBEntities1();
             DadosPessoai dadosPessoaisUser = db.DadosPessoais
                                             .Where(dp => dp.UserId == userId)
                                             .FirstOrDefault();
 
-            FullDadosPessoais alldata = new FullDadosPessoais();
+            CandidatoFullText alldata = new CandidatoFullText();
             alldata.NomeColoquial = dadosPessoaisUser.NomeColoquial;
             alldata.NomePai = dadosPessoaisUser.NomePai;
             alldata.NomeMae = dadosPessoaisUser.NomeMae;
