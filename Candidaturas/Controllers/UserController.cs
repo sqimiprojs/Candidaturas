@@ -88,7 +88,7 @@ namespace Candidaturas.Controllers
 
                                 ModelState.Clear();
 
-                                string subject = "Portal de Candidaturas à Base Naval - Palavra-passe de Acesso";
+                                string subject = "Portal de Candidaturas à Escola Naval - Palavra-passe de Acesso";
                                 string body = "A sua palavra-passe de acesso ao portal de candidaturas é: " + newPassword;
 
                                 Email.SendEmail(model.user.Email, subject, body);
