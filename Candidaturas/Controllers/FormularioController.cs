@@ -942,25 +942,11 @@ namespace Candidaturas.Controllers
 
             Email.SendEmail("sqimi.test@gmail.com", subject, body);
 
-            ViewBag.Subtitle = "Fomulario foi subemetido";
+            ViewBag.Subtitle = "Fomulario foi submetido";
 
             ViewBag.ConfirmationMessage = "O formulário foi submetido com sucesso ";
 
             return View("~/Views/Shared/Success.cshtml");
-
-            // Send PDF to browser
-            
-            Response.Clear();
-            Response.GetType();
-            Response.ContentType = document.GetType().ToString();
-            Response.Cache.SetCacheability(System.Web.HttpCacheability.Private);
-            Response.AppendHeader("Content-Disposition", "attachment; filename=" + filename);
-            Response.BinaryWrite(PDFStream.ToArray());
-            Response.Flush();
-            PDFStream.Close();
-            Response.End();
-
-            return RedirectToAction("Welcome", "Home");
         }
     }
 }

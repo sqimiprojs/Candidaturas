@@ -154,7 +154,7 @@ namespace Candidaturas
 
             if (c.Militar)
             {
-                cmil= String.Format(" {0}, {1},", c.Ramo, c.Posto);
+                cmil= String.Format(" {0}, {1},", c.NIM, c.Posto);
             }
             else
             {
@@ -173,7 +173,7 @@ namespace Candidaturas
                 " e contacto {20}, declaro por minha honra que nunca fui abatid{21} ao Corpo de Alunos da Academia Militar " +
                 "ou Academia da Força Aérea por motivos disciplinares ou por incapacidade para o serviço militar e que nunca fui excluíd{21} dos cursos da Escola Naval.",
                 cmil, c.NomeColoquial, c.NomePai, c.NomeMae, c.DistritoNatural, c.ConcelhoNatural, c.Morada, c.CodigoPostal4Dig, c.CodigoPostal3Dig, 
-                c.Localidade, c.ConcelhoMorada, c.FreguesiaMorada, c.DistritoNatural, c.DataNascimento, c.EstadoCivil, c.Nacionalidade, c.TipoDocumento, c.NDI, c.ValidadeDoc, c.NIF, c.Telefone, cfem);
+                c.Localidade, c.ConcelhoMorada, c.FreguesiaMorada, c.DistritoMorada, c.DataNascimento, c.EstadoCivil, c.Nacionalidade, c.TipoDocumento, c.NDI, c.ValidadeDoc, c.NIF, c.Telefone, cfem);
 
             Paragraph Text1 = page1.AddParagraph(mensagem, "LongText");
 
