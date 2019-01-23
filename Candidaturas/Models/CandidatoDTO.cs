@@ -7,7 +7,6 @@ using System.Xml.Serialization;
 namespace Candidaturas.Models
 {
 
-    [XmlRoot("Candidatos")]
     [Serializable]
     public class CandidatoDTO
     {

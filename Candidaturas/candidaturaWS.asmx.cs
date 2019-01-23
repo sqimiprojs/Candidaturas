@@ -82,7 +82,7 @@ namespace Candidaturas
                 .Where(guy => guy.UserId == user)
                 .Select(data => new UserCursoDTO
                 {
-                    CursoId = data.ID,
+                    CursoId = data.CursoId,
                     Prioridade = data.Prioridade
                 })
                 .ToList();
