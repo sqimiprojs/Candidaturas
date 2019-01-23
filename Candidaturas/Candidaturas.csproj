@@ -131,6 +131,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Candidaturas.css" />
+    <Content Include="Content\img\chapeu.jpg" />
     <Content Include="Content\img\favicon.ico" />
     <Content Include="Content\img\marinha.png" />
     <Content Include="Content\img\uiTabsArrow.png" />
