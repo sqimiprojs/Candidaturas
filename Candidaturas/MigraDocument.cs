@@ -146,7 +146,7 @@ namespace Candidaturas
             Section page1 = document.LastSection;
             Paragraph title = page1.AddParagraph("\n\nComprovativo de Candidatura", "Heading1");
 
-            Paragraph cod = page1.AddParagraph("\nCódigo de Candidato: #123#-Fixed","Heading3");
+            Paragraph cod = page1.AddParagraph("\nCódigo de Candidato: #123#","Heading3");
 
             FullDadosPessoais c = GetInfoCandidato(session);
 
@@ -173,11 +173,12 @@ namespace Candidaturas
                 " e contacto {20}, declaro por minha honra que nunca fui abatid{21} ao Corpo de Alunos da Academia Militar " +
                 "ou Academia da Força Aérea por motivos disciplinares ou por incapacidade para o serviço militar e que nunca fui excluíd{21} dos cursos da Escola Naval.",
                 cmil, c.NomeColoquial, c.NomePai, c.NomeMae, c.DistritoNatural, c.ConcelhoNatural, c.Morada, c.CodigoPostal4Dig, c.CodigoPostal3Dig, 
-                c.Localidade, c.ConcelhoMorada, c.FreguesiaMorada, c.DistritoNatural, c.DataNascimento, c.EstadoCivil, c.Nacionalidade, c.TipoDocumento, c.NDI, "validade cartao", c.NIF, c.Telefone, cfem);
+                c.Localidade, c.ConcelhoMorada, c.FreguesiaMorada, c.DistritoNatural, c.DataNascimento, c.EstadoCivil, c.Nacionalidade, c.TipoDocumento, c.NDI, c.ValidadeDoc, c.NIF, c.Telefone, cfem);
 
             Paragraph Text1 = page1.AddParagraph(mensagem, "LongText");
 
-            Paragraph Text2 = page1.AddParagraph("\n\n\nDesejo ser admitido aos cursos de:", "LongText");
+            string msgAdmissao = String.Format("\n\n\nDesejo ser admitid{0} aos cursos de:", cfem);
+            Paragraph Text2 = page1.AddParagraph(msgAdmissao, "LongText");
 
             string listagem;
             List<CursoDisplay> cursos = GetInfoCursosCandidato(session);
@@ -236,6 +237,7 @@ namespace Candidaturas
             alldata.Posto = db.Postoes.Where(dp => dp.RamoMilitar == dadosPessoaisUser.Ramo && dp.CategoriaMilitar == dadosPessoaisUser.Categoria && dp.Código == dadosPessoaisUser.Posto).OrderBy(dp => dp.Código).Select(dp => dp.Nome).FirstOrDefault();
             alldata.Classe = dadosPessoaisUser.Classe;
             alldata.NIM = dadosPessoaisUser.NIM;
+            alldata.ValidadeDoc = dadosPessoaisUser.DocumentoValidade?.ToString("dd/MM/yyyy");
             //para ter feminino nos documentos
             alldata.isFeminino = db.Generoes.Where(dp => dadosPessoaisUser.Genero == dp.ID).Select(dp => dp.Nome).FirstOrDefault() == "Feminino";
             return alldata;
