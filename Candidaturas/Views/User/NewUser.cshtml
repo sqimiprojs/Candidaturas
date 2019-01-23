@@ -105,6 +105,13 @@
                             @Html.ValidationMessageFor(model => model.dadosPessoais.Ramo, "", new { @class = "text-danger" })
                         </div>
                     </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.dadosPessoais.Classe, "Classe", htmlAttributes: new { @class = "control-label " })
+                        <div class="col">
+                            @Html.EditorFor(model => model.dadosPessoais.Classe, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.dadosPessoais.Classe, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
                 </div>
                 <div class="col">
                     <div class="form-group">
@@ -112,6 +119,13 @@
                         <div class="col">
                             @Html.DropDownListFor(model => model.dadosPessoais.Categoria, ViewBag.Categoria as IEnumerable<SelectListItem>, "Escolha uma opção...", new { @class = "form-control", @required = "required", @onchange = "changePostos()" })
                             @Html.ValidationMessageFor(model => model.dadosPessoais.Categoria, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.dadosPessoais.NIM, "Número de Identificação Militar", htmlAttributes: new { @class = "control-label required" })
+                        <div class="col">
+                            @Html.EditorFor(model => model.dadosPessoais.NIM, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                            @Html.ValidationMessageFor(model => model.dadosPessoais.NIM, "", new { @class = "text-danger" })
                         </div>
                     </div>
                 </div>
@@ -124,27 +138,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.dadosPessoais.Classe, "Classe", htmlAttributes: new { @class = "control-label " })
-                        <div class="col">
-                            @Html.EditorFor(model => model.dadosPessoais.Classe, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.dadosPessoais.Classe, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.dadosPessoais.NIM, "Número de Identificação Militar", htmlAttributes: new { @class = "control-label required" })
-                        <div class="col">
-                            @Html.EditorFor(model => model.dadosPessoais.NIM, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
-                            @Html.ValidationMessageFor(model => model.dadosPessoais.NIM, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                </div>
-
             </div>
         </div>
 
@@ -336,14 +329,15 @@
         function mostrarPlaceholderFormatoCCouBI(docType) {
             $("#NDIWarning").text("");
             $("#NDIWarning").hide();
+            var tag_NDI = $("#dadosPessoais_NDI");
             if (docType === 4) {
-                $("#dadosPessoais_NDI").prop("placeholder", "DDDDDDDD-DCCD");
+                tag_NDI.prop("placeholder", "DDDDDDDD-DCCD");
             }
             else if (docType === 2) {
-                $("#dadosPessoais_NDI").prop("placeholder", "DDDDDDDD-D");
+                tag_NDI.prop("placeholder", "DDDDDDDD-D");
             }
             else {
-                $('#dadosPessoais_NDI').prop('placeholder', "");
+                tag_NDI.prop('placeholder', "");
             }
         }
 

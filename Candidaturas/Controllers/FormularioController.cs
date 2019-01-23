@@ -572,10 +572,6 @@ namespace Candidaturas.Controllers
                             }
                             else
                             {
-                                //Session["ErrorExame"] = 1;
-
-                                Session["SelectedTab"] = 3;
-
                                 return RedirectToAction("Index", "Home");
                             }
                         }
@@ -596,11 +592,6 @@ namespace Candidaturas.Controllers
                 }
 
                 ModelState.Clear();
-
-                //Session["ErrorExame"] = 0;
-
-                Session["SelectedTab"] = 3;
-
                 return RedirectToAction("Index", "Home");
             }
             else
@@ -724,9 +715,7 @@ namespace Candidaturas.Controllers
                         throw raise;
                     }
                 }
-
-                Session["SelectedTab"] = 3;
-
+                
                 return RedirectToAction("Opcoes", "Formulario");
             }
             else
@@ -839,9 +828,6 @@ namespace Candidaturas.Controllers
                         throw raise;
                     }
                 }
-
-                Session["SelectedTab"] = 3;
-
                 return RedirectToAction("Opcoes", "Formulario");
             }
             else
@@ -894,9 +880,6 @@ namespace Candidaturas.Controllers
                         throw raise;
                     }
                 }
-
-                Session["SelectedTab"] = 3;
-
                 return RedirectToAction("Opcoes", "Formulario");
             }
             else
@@ -927,8 +910,8 @@ namespace Candidaturas.Controllers
 
             MemoryStream PDFStream = new MemoryStream();
             PDFRenderer.PdfDocument.Save(PDFStream, true);
-
-            formTable.UserID= (int) Session["userID"];
+            int userID = (int)Session["userID"];
+            formTable.UserID= userID;
             formTable.FormBin = PDFStream.ToArray();
             formTable.DataCriação = System.DateTime.Now;
 
@@ -937,14 +920,16 @@ namespace Candidaturas.Controllers
 
             ModelState.Clear();
 
+            string utilizador = dbModel.Users.Where(dp => userID == dp.ID).Select(dp => dp.Email).FirstOrDefault();
+
             string subject = "Portal de Candidaturas à Base Naval - Formulario Submetido";
             string body = "O formulário foi submetido com sucesso ";
 
             Email.SendEmail("sqimi.test@gmail.com", subject, body);
 
-            ViewBag.Subtitle = "Fomulario foi submetido";
+            ViewBag.Subtitle = "Novo Formulário submetido - Candidatura número:##";
 
-            ViewBag.ConfirmationMessage = "O formulário foi submetido com sucesso ";
+            ViewBag.ConfirmationMessage = "O utilizador com email "+ utilizador + "submeteu um novo formulário com sucesso.";
 
             return View("~/Views/Shared/Success.cshtml");
         }

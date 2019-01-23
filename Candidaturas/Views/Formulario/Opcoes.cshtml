@@ -21,7 +21,7 @@
             <input id="SelectedExame" name="SelectedExame" type="hidden" runat="server" />
         </div>
 
-        <table class="table my-2">
+        <table class="table my-4">
             @foreach (Exame exame in Model.ExamesEscolhidos)
             {
                 <tr>
@@ -45,7 +45,7 @@
             <input id="SelectedCurso" name="SelectedCurso" type="hidden" runat="server" />
         </div>
 
-        <table class="table my-2" id="mytable">
+        <table class="table my-4" id="mytable">
             @{ 
                 int numeroCursosEscolhidos = Model.CursosEscolhidos.Count;
                 foreach (CursoDisplay curso in Model.CursosEscolhidos)
@@ -78,7 +78,7 @@
         </table>
 
         <table class="table">
-            <h4 class="candidaturasHeader">Exames Necessários</h4>
+            <tr><td><h4 class="candidaturasHeader">Exames Necessários</h4></td></tr>
             @foreach (String exame in Model.ExamesNecessários)
             {
                 <tr>
@@ -153,25 +153,3 @@
 
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
-<!--<link rel="stylesheet" type="text/css" href="~/Content/Candidaturas.css">-->
-<style>
-    .col2 {
-        float: left;
-        padding-left: 70px;
-    }
-
-    .table {
-        width: 90% !important;
-    }
-
-    .customSpan {
-        padding-left: 5px;
-    }
-
-    @@media only screen and (max-width: 600px), (min-width: 800px) {
-        .col2 {
-            width: 50%;
-            padding-left: 0px;
-        }
-    }
-</style>
