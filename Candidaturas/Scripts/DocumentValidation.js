@@ -7,8 +7,8 @@
             $("#NIFWarning").hide();
         }
         else {
-             $("#NIFWarning").text("Nº de Identificação fiscal inválido");
-             $("#NIFWarning").show();
+            $("#NIFWarning").text("Numero de Identificação fiscal inválido");
+            $("#NIFWarning").show();
         }
 
     });
@@ -59,6 +59,10 @@
         checkNational();
     });
 
+    $("#DocumentoValidade").change(function () {
+        validarDocValidade();
+        console.log("asdasdasd");
+    });
 
     function validacaoCC(number) {
         if (validarCC(number) && validarDigitosCC(number)) {
@@ -80,7 +84,7 @@
             return true;
         }
         else {
-            $("#NDIWarning").text("Nº Bilhete de Identidade inválido");
+            $("#NDIWarning").text("Número Bilhete de Identidade inválido");
             $("#NDIWarning").show();
             return false;
         }
@@ -332,9 +336,21 @@
             $("#DtNascWarning").hide();
             return true;
         }
+    }   
+    function validarDocValidade() {
+        var docdate = new Date($('#DocumentoValidade').val());
+        var today = new Date();
+        if (docdate <= today) {
+            $("#DocValWarning").text("A data do documento expirou");
+            $("#DocValWarning").show();
+            return false;
+        }
+        else {
+            $("#DocValWarning").text("");
+            $("#DocValWarning").hide();
+            return true;
+        }
     }
-
-    
 
     /* Formulario */
     function validarNIF(nif) {
