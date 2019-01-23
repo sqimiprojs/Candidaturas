@@ -476,7 +476,7 @@
                 var docdate = new Date($('#dadosPessoais_DocumentoValidade').val());
                 var today = new Date();
                 if (docdate <= today) {
-                    $("#DocValWarning").text("A data do documento expirou");
+                    $("#DocValWarning").text("A validade do documento expirou");
                     $("#DocValWarning").show();
                     return false;
                 }

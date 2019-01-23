@@ -311,7 +311,7 @@
         var isMil = $('#Militar').is(':checked');
         var dtNasc = new Date($('#DataNascimento').val());
         var idd = new Date().getFullYear() - dtNasc.getFullYear();
-
+        
         if (dtNasc >= new Date()) {
             $("#DtNascWarning").text("Data de nascimento não pode ser no futuro.");
             $("#DtNascWarning").show();
@@ -333,6 +333,8 @@
             return true;
         }
     }
+
+    
 
     /* Formulario */
     function validarNIF(nif) {

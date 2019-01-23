@@ -101,6 +101,12 @@ input[type="checkbox"]:checked + .slider.round .off {
     float: left;
 }
 
+hr {
+    width: 85%;
+    align-content :flex-start;
+}
+
+
 .header h1 {
     position: relative;
     top: 15px;
