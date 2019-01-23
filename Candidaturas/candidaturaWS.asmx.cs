@@ -97,7 +97,7 @@ namespace Candidaturas
 
             return dape;
         }
-
+        
         [WebMethod]
         public List<CandidatoDTO> GetAllCandidates()
         {
