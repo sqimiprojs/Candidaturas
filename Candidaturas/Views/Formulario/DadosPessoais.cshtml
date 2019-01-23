@@ -209,7 +209,7 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.DocumentoValidade, "Validade do Documento", htmlAttributes: new { @class = "control-label required" })
                 <div class="col">
-                    @Html.EditorFor(model => model.DocumentoValidade, new { htmlAttributes = new { @class = "form-control", type = "date", @required = "required", @Value = ViewBag.DadosPessoais.DocumentoValidade.ToString("yyyy-MM-dd") } })
+                    @Html.EditorFor(model => model.DocumentoValidade, new { htmlAttributes = new { @class = "form-control", type = "date", @required = "required", @Value = ViewBag.DadosPessoais.DocumentoValidade.ToString("dd-MM-yyyy") } })
                     @Html.ValidationMessageFor(model => model.DocumentoValidade, "", new { @class = "text-danger" })
                     <span id="DocValWarning" for="Validade do Documento" class="text-danger"></span>
                 </div>
@@ -242,9 +242,9 @@
                     @Html.ValidationMessageFor(model => model.NSegSoc, "", new { @class = "text-danger" })
                 </div>
             </div>
-            <hr />
+            
             <div id="militar">
-
+                <hr />
                 <h4 class="candidaturasHeader">Militar</h4>
 
                 <div class="form-group">
