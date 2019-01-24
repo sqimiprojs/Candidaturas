@@ -17,6 +17,7 @@ namespace Candidaturas.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public User()
         {
+            this.Candidatoes = new HashSet<Candidato>();
             this.Documentoes = new HashSet<Documento>();
             this.UserCursoes = new HashSet<UserCurso>();
             this.UserExames = new HashSet<UserExame>();
@@ -28,6 +29,8 @@ namespace Candidaturas.Models
         public string LoginErrorMessage { get; set; }
         public System.DateTime DataCriacao { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Candidato> Candidatoes { get; set; }
         public virtual DadosPessoai DadosPessoai { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Documento> Documentoes { get; set; }
