@@ -22,8 +22,16 @@ namespace Candidaturas.Controllers
 
                 DocumentosUser = getSelectedDocumentos(db, userId);
                 ViewBag.DocumentosUser = DocumentosUser;
-                ViewBag.Formulario= FormIsCreated(db, userId);
-                
+                ViewBag.Formulario = FormIsCreated(db, userId);
+
+                Candidato candidato = db.Candidatoes.Where(u => u.UserID == userId).FirstOrDefault();
+                ViewBag.Candidato = false;
+
+                if(candidato != null)
+                {
+                    ViewBag.Candidato = true;
+                    ViewBag.NumeroCandidato = candidato.Numero;
+                }
 
                 return View("~/Views/Home/Welcome.cshtml");
             }
