@@ -948,7 +948,10 @@ namespace Candidaturas.Controllers
                 string utilizador = dbModel.Users.Where(dp => userID == dp.ID).Select(dp => dp.Email).FirstOrDefault();
 
                 string subject = "Portal de Candidaturas à Escola Naval - Formulario ";
-                string body = "O utilizador com email " + utilizador + " submeteu um novo formulário com sucesso.";
+
+                int numeroCandidato = dbModel.Candidatoes.Where(u => u.UserID == userID).Select(dp => dp.Numero).FirstOrDefault();
+
+                string body = "O utilizador com email " + utilizador + ", e número de candidato " + numeroCandidato + " submeteu um novo formulário com sucesso.";
 
                 Email.SendEmail("sqimi.test@gmail.com", subject, body);
 
