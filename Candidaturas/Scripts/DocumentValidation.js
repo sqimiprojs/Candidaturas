@@ -1,5 +1,4 @@
 ﻿$(document).ready(function () {
-    checkNational();
     $("#NIF").change(function () {
         var nif = $("#NIF").val();
         if (validarNIF(nif)) {
@@ -18,27 +17,28 @@
         verificarEmail();
     });
 
-    $("#TipoDocID").change(function () {
-
-        var docType = $("#TipoDocID").val();
+    $("#TipoDoc").change(function () {
+        var docType = $("#TipoDoc").val();
         if (docType !== "") {
             validarDoc(docType);
+            console.log("Validar");
         }
-    });
-
-    $('#Militar').click(function () {
-        changeLabel();
     });
 
     $("#NDI").change(function () {
-
-        var docType = $("#TipoDocID").val();
+        var docType = $("#TipoDoc").val();
         if (docType !== "") {
             validarDoc(docType);
+
+            console.log("Validar");
         }
     });
 
-    $("#DataNascimento").change(function () {
+    $("#DocVali").change(function () {
+        validarDocValidade();
+    });
+    
+    $("#DtNasc").change(function () {
         validarIdd();
     });
 
@@ -50,41 +50,36 @@
 
     $("#CodigoPostal3Dig").change(function () {
         var cp3 = $("#CodigoPostal3Dig").val();
-
         limitarCodPostal3Dig(cp3);
     });
 
     $("#Nacionalidade").change(function () {
-
         checkNational();
     });
 
-    $("#DocumentoValidade").change(function () {
-        validarDocValidade();
-        console.log("asdasdasd");
-    });
+    
 
-    function validacaoCC(number) {
+    function HideShowCCWarning(number) {
         if (validarCC(number) && validarDigitosCC(number)) {
             $("#NDIWarning").text("");
             $("#NDIWarning").hide();
             return true;
         }
         else {
-            $("#NDIWarning").text("Nº Cartão de Cidadão inválido");
+            $("#NDIWarning").text("Número de Cartão de Cidadão inválido");
             $("#NDIWarning").show();
             return false;
         }
     }
 
-    function validacaoBI(number) {
+    function HideShowBIWarning(number) {
         if (validarBI(number) && validarDigitosBI(number)) {
             $("#NDIWarning").text("");
             $("#NDIWarning").hide();
             return true;
         }
         else {
-            $("#NDIWarning").text("Número Bilhete de Identidade inválido");
+            $("#NDIWarning").text("Número de Bilhete de Identidade inválido");
             $("#NDIWarning").show();
             return false;
         }
@@ -96,17 +91,12 @@
             mostrarPlaceholderFormatoCCouBI(docType);
             return false;
         }
-        if (docType === 2) {
-            return validacaoBI(number);
+        if (docType == 2) {
+            return HideShowBIWarning(number);
         }
-        else if (docType === 4) {
-            return validacaoCC(number);
+        else if (docType == 4) {
+            return HideShowCCWarning(number);
         }
-    }
-
-    function validarCC(value) {
-        var re = new RegExp("^[0-9]{8}[ -]*[0-9][A-Za-z]{2}[0-9]$");
-        return re.test(value);
     }
 
     function validarDigitosBI(value) {
@@ -122,14 +112,24 @@
 
         var res = sum % 11;
 
-        if (res === 0 || res === 1) {
+        if (res == 0 || res == 1) {
             res = 0;
         }
         else {
             res = 11 - res;
         }
 
-        return res === lastDigit;
+        return res == lastDigit;
+    }
+
+    function validarBI(value) {
+        var re = new RegExp("^[0-9]{8}[ -]*[0-9]$");
+        return re.test(value);
+    }
+
+    function validarCC(value) {
+        var re = new RegExp("^[0-9]{8}[ -]*[0-9][A-Za-z]{2}[0-9]$");
+        return re.test(value);
     }
 
     function validarDigitosCC(value) {
@@ -151,7 +151,7 @@
             sum += valor;
             secondDigit = !secondDigit;
         }
-        return (sum % 10) === 0;
+        return (sum % 10) == 0;
     }
 
     function getNumberFromChar(char) {
@@ -195,59 +195,19 @@
         return res;
     }
 
-    function validarBI(value) {
-        var re = new RegExp("^[0-9]{8}[ -]*[0-9]$");
-        return re.test(value);
-    }
 
     //mostrar formato do CC caso seleccionar esse
     function mostrarPlaceholderFormatoCCouBI(docType) {
         $("#NDIWarning").text("");
         $("#NDIWarning").hide();
-        if (docType === 4) {
+        if (docType == 4) {
             $("#NDI").prop("placeholder", "DDDDDDDD-DCCD");
         }
-        else if (docType === 2) {
+        else if (docType == 2) {
             $("#NDI").prop("placeholder", "DDDDDDDD-D");
         }
         else {
             $('#NDI').prop('placeholder', "");
-        }
-    }
-
-    function validacaoFinal() {
-        var valid = true;
-
-        if (!validarTipoDocId()) {
-            valid = false;
-        }
-
-        if (!validarEmail()) {
-            valid = false;
-        }
-
-        if (!verificarEmail()) {
-            valid = false;
-        }
-        if (!validarIdd()) {
-            valid = false;
-        }
-
-        if (!valid) {
-            event.preventDefault();
-            return false;
-        }
-    }
-
-    //muda a label do switch
-
-    function changeLabel() {
-        validarIdd();
-        if (!$("#Militar").is(':checked')) {
-            $("#switchLabel").text("Não");
-        }
-        else {
-            $("#switchLabel").text("Sim");
         }
     }
 
@@ -266,7 +226,7 @@
                 return true;
             }
             else {
-                $("#EmailWarning").text("Email com formato inválido.");
+                $("#EmailWarning").text("Email com formato inválido");
                 $("#EmailWarning").show();
                 return false;
             }
@@ -293,7 +253,7 @@
                 type: "POST",
                 success: function (exists) {
                     if (exists === "True") {
-                        $("#EmailWarning").text("Este email já se encontra em uso.");
+                        $("#EmailWarning").text("Este email já se encontra em uso");
                         $("#EmailWarning").show();
                         emailExists = false;
                     }
@@ -313,21 +273,21 @@
 
     function validarIdd() {
         var isMil = $('#Militar').is(':checked');
-        var dtNasc = new Date($('#DataNascimento').val());
+        var dtNasc = new Date($('#DtNasc').val());
         var idd = new Date().getFullYear() - dtNasc.getFullYear();
         
         if (dtNasc >= new Date()) {
-            $("#DtNascWarning").text("Data de nascimento não pode ser no futuro.");
+            $("#DtNascWarning").text("Data de nascimento não pode ser no futuro");
             $("#DtNascWarning").show();
             return false;
         }
         else if (!isMil && idd >= 22) {
-            $("#DtNascWarning").text("Tem de ter 22 anos para fazer a candidatura.");
+            $("#DtNascWarning").text("Tem de ter 22 anos para fazer a candidatura");
             $("#DtNascWarning").show();
             return false;
         }
         else if (isMil && idd >= 24) {
-            $("#DtNascWarning").text("Tem de ter 24 anos para fazer a candidatura.");
+            $("#DtNascWarning").text("Tem de ter 24 anos para fazer a candidatura");
             $("#DtNascWarning").show();
             return false;
         }
@@ -336,18 +296,19 @@
             $("#DtNascWarning").hide();
             return true;
         }
-    }   
+    }
+
     function validarDocValidade() {
-        var docdate = new Date($('#DocumentoValidade').val());
+        var docdate = new Date($('#DocVali').val());
         var today = new Date();
         if (docdate <= today) {
-            $("#DocValWarning").text("A data do documento expirou");
-            $("#DocValWarning").show();
+            $("#DocValiWarning").text("O documento expirou");
+            $("#DocValiWarning").show();
             return false;
         }
         else {
-            $("#DocValWarning").text("");
-            $("#DocValWarning").hide();
+            $("#DocValiWarning").text("");
+            $("#DocValiWarning").hide();
             return true;
         }
     }
@@ -392,9 +353,10 @@
             return false;
         }
     }
+
     function checkNational() {
         var nac = $("#Nacionalidade").val();
-        if (nac.trim() === "PT") {
+        if (nac === "PT") {
             $("#NIF").prop('required', true);
             $("label[for='NIF']").addClass('required');
 
@@ -402,6 +364,30 @@
         else {
             $("#NIF").prop('required', false);
             $("label[for='NIF']").removeClass('required');
+        }
+    }
+
+    function validacaoFinal() {
+        var valid = true;
+
+        if (!validarTipoDocId()) {
+            valid = false;
+        }
+
+        if (!validarEmail()) {
+            valid = false;
+        }
+
+        if (!verificarEmail()) {
+            valid = false;
+        }
+        if (!validarIdd()) {
+            valid = false;
+        }
+
+        if (!valid) {
+            event.preventDefault();
+            return false;
         }
     }
 });
