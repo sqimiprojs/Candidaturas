@@ -170,6 +170,9 @@ namespace Candidaturas.Controllers
                         Form ud = dbModel.Forms.Where(dp => dp.UserID == userId).FirstOrDefault();
                         dbModel.Forms.Remove(ud);
 
+                        Candidato candidato = dbModel.Candidatoes.Where(dp => dp.UserID == userId).FirstOrDefault();
+                        dbModel.Candidatoes.Remove(candidato);
+
                         dbModel.SaveChanges();
                     }
                     catch (System.Data.Entity.Validation.DbEntityValidationException dbEx)
