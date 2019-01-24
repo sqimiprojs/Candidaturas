@@ -145,22 +145,22 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.Nacionalidade, "País", htmlAttributes: new { @class = "control-label" })
                 <div class="col">
-                    @Html.DropDownListFor(model => model.Nacionalidade, ViewBag.Nacionalidade as SelectList, "Escolha uma opção...", new { @class = "form-control" })
+                    @Html.DropDownListFor(model => model.Nacionalidade, ViewBag.Nacionalidade as SelectList, "Escolha uma opção...", new { @class = "form-control", @onchange = "enableDistrito()" })
                     @Html.ValidationMessageFor(model => model.Nacionalidade, "", new { @class = "text-danger" })
                     <span id="NacWarning" for="NIF" class="text-danger"></span>
                 </div>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.DistritoNatural, "Distrito", htmlAttributes: new { @class = "control-label" })
+                @Html.LabelFor(model => model.DistritoNatural, "Distrito", htmlAttributes: new { @class = "control-label disabled" })
                 <div class="col">
-                    @Html.DropDownListFor(model => model.DistritoNatural, ViewBag.DistritoNatural as SelectList, "Escolha uma opção...", new { @class = "form-control", @onchange = "changeConcelhos(true)" })
+                    @Html.DropDownListFor(model => model.DistritoNatural, ViewBag.DistritoNatural as SelectList, "Escolha uma opção...", new { @class = "form-control", @onchange = "changeConcelhos(true)", disabled = "disabled" })
                     @Html.ValidationMessageFor(model => model.DistritoNatural, "", new { @class = "text-danger" })
                 </div>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.ConcelhoNatural, "Concelho", htmlAttributes: new { @id = "conc", @class = "control-label  disabled" })
+                @Html.LabelFor(model => model.ConcelhoNatural, "Concelho", htmlAttributes: new { @id = "conc", @class = "control-label disabled" })
                 <div class="col">
                     @Html.DropDownListFor(model => model.ConcelhoNatural, ViewBag.ConcelhoNatural as SelectList, "Escolha uma opção...", new { @class = "form-control", @onchange = "changeFreguesias(true)", disabled = "disabled" })
                     @Html.ValidationMessageFor(model => model.ConcelhoNatural, "", new { @class = "text-danger" })
@@ -289,14 +289,11 @@
             <input class="btn btn-outline-primary" type="submit" value="Guardar" />
         </div>
     </div>
-       
-        
-        }
-
-        <script src="~/Scripts/jquery.validate.min.js"></script>
-        <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
-        <!--<link rel="stylesheet" type="text/css" href="~/Content/Candidaturas.css">-->
-        <script type="text/javascript">
+}
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<!--<link rel="stylesheet" type="text/css" href="~/Content/Candidaturas.css">-->
+<script type="text/javascript">
     //truque para usar boolean values de C# em JS
     var True = true, False = false;
     window.onload = handleDisablesAndRequired();
@@ -318,6 +315,8 @@
             $('#ConcelhoNatural').prop('disabled', false);
             $('#FreguesiaNatural').prop('disabled', false);
         }
+
+        enableDistrito();
     }
 
     function showMilitar() {
@@ -330,6 +329,17 @@
             $("#militar").hide();
         }
     }
+
+    function enableDistrito() {
+        var nacionalidade = $('#Nacionalidade').val();
+        if (nacionalidade == "PT") {
+            $('#DistritoNatural').prop('disabled', false);
+        }
+        else {
+            $('#DistritoNatural').prop('disabled', true);
+        }
+    }
+
     //altera os concelhos consoante o distrito escolhido
     function changeConcelhos(isNatural) {
         if (isNatural) {
