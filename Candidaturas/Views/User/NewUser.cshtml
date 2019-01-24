@@ -98,7 +98,7 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.dadosPessoais.Ramo, "Ramo", htmlAttributes: new { @class = "control-label required" })
                         <div class="col">
-                            @Html.DropDownListFor(model => model.dadosPessoais.Ramo, ViewBag.Ramo as IEnumerable<SelectListItem>, "Escolha uma opção...", new { @class = "form-control", @required = "required", @onchange = "resetPostos()" })
+                            @Html.DropDownListFor(model => model.dadosPessoais.Ramo, ViewBag.Ramo as IEnumerable<SelectListItem>, "Escolha uma opção...", new { @class = "form-control", @required = "required", @onchange = "changePostos()" })
                             @Html.ValidationMessageFor(model => model.dadosPessoais.Ramo, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -171,32 +171,31 @@
     function toogleMilitar(bool) {
         if (bool) {
             $("#militar").show();
-            var $nim = $('#dadosPessoais_NIM');
-            $nim.prop('required', true);
-            var $ramo = $('#dadosPessoais_Ramo');
-            $ramo.prop('required', true);
-            var $categoria = $('#dadosPessoais_Categoria');
-            $categoria.prop('required', true);
-            var $posto = $('#dadosPessoais_Posto');
-            $posto.prop('required', true);
         } else {
             $("#militar").hide();
-            var $nim = $('#dadosPessoais_NIM');
-            $nim.prop('required', false);
-            var $ramo = $('#dadosPessoais_Ramo');
-            $ramo.prop('required', false);
-            var $categoria = $('#dadosPessoais_Categoria');
-            $categoria.prop('required', false);
-            var $posto = $('#dadosPessoais_Posto');
-            $posto.prop('required', false);
         }
+        var $nim = $('#dadosPessoais_NIM');
+        $nim.prop('required', bool);
+        var $ramo = $('#dadosPessoais_Ramo');
+        $ramo.prop('required', bool);
+        var $categoria = $('#dadosPessoais_Categoria');
+        $categoria.prop('required', bool);
+        var $posto = $('#dadosPessoais_Posto');
+        $posto.prop('required', bool);
     }
 
     //altera os postos consoante o ramo e categoria escolhido
     function changePostos() {
         var ramoEscolhido = $('#dadosPessoais_Ramo').val();
         var categoriaEscolhida = $('#dadosPessoais_Categoria').val();
-        $.ajax({
+        if (categoriaEscolhida == "" || ramoEscolhido == "" || ramoEscolhido == "MIL") {
+            var $posto = $('#dadosPessoais_Posto');
+            $posto.empty();
+            $posto.append('<option value="">Escolha uma opção...</option>');
+            $posto.prop('disabled', true);
+        }
+        else {
+            $.ajax({
             url: '@Url.Action("UpdatePostos", "User")',
             data: {
                 ramo: ramoEscolhido,
@@ -216,6 +215,8 @@
             },
             error: function (e) { console.log(e); }
         })
+        }
+        
     }
 
     function resetPostos() {
