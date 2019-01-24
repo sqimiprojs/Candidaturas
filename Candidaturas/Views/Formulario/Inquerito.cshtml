@@ -61,11 +61,10 @@
         @Html.LabelFor(model => model.CandidatarOutros, "Candidatou-se a outros Estabelecimentos de Ensino?", htmlAttributes: new { @class = "control-label" })
         <div class="col">
             <label class="switch">
-                @Html.CheckBoxFor(model => model.CandidatarOutros, new { @class = "form-control" })
+                @Html.CheckBoxFor(model => model.CandidatarOutros, new { @class = "form-control", @id="TickOutros" })
                 <div class="slider"></div>
             </label>
             <span id="switchLabel"></span>
-            @Html.ValidationMessageFor(model => model.CandidatarOutros, "", new { @class = "text-danger" })
         </div>
     </div>
 
@@ -78,41 +77,20 @@
 
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
-<!--<link rel="stylesheet" type="text/css" href="~/Content/Candidaturas.css">-->
-
-@if (ViewBag.Inquerito != null)
-{
-    <script type="text/javascript">
-    $(document).ready(function () {
-
-        var candidatarOutros = '@ViewBag.Inquerito.CandidatarOutros';
-
-        if (candidatarOutros == 'True') {
-            $("#CandidatarOutros").prop('checked', true);
-            $("#switchLabel").text("Sim");
-        }
-        else {
-            $("#CandidatarOutros").prop('checked', false);
-            $("#switchLabel").text("Não");
-        }
-
-        if ($("#situacaoPai").val() == "Outra") {
-            $("#situacaoPaiOutra").show();
-        }
-
-        if ($("#situacaoMae").val() == "Outra") {
-            $("#situacaoMaeOutra").show();
-        }
-
-        if ($("#conhecimentoEscola").val() == "Outros") {
-            $("#conhecimentoEscolaOutro").show();
-        }
-
-    });
-    </script>
-}
 
 <script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#situacaoPai").change(function () {
+            console.log($("#situacaoPai").val());
+            if ($("#situacaoPai").val() === 5) {
+                $("#situacaoPaiOutra").show();
+            }
+            else {
+                $("#situacaoPaiOutra").hide();
+            }
+        });
+    });
 
     //verifica se houve alterações na tab Inquérito
     var inqueritoChanged = false;
@@ -126,45 +104,25 @@
         checkOther();
 
     });
-
-    //Show & Hide of Outra fields
+   
+    
+    
     function checkOther() {
-        if ($("#situacaoPai").val() == "Outra") {
-            $("#situacaoPaiOutra").show();
-        } else {
-            $("#situacaoPaiOutra").hide();
-        }
+        
 
-        if ($("#situacaoMae").val() == "Outra") {
+        if ($("#situacaoMae").val() === 5) {
             $("#situacaoMaeOutra").show();
         } else {
             $("#situacaoMaeOutra").hide();
         }
 
-        if ($("#conhecimentoEscola").val() == "Outros") {
+        if ($("#conhecimentoEscola").val() === 6) {
             $("#conhecimentoEscolaOutro").show();
         } else {
             $("#conhecimentoEscolaOutro").hide();
         }
     }
-
-    //muda a label do switch
-    $('#CandidatarOutros').click(function () {
-        changeLabel();
-    });
-
-    $(document).ready(function () {
-        changeLabel();
-    });
-
-    function changeLabel() {
-        if (!$("#CandidatarOutros").is(':checked')) {
-            $("#switchLabel").text("Não");
-        }
-        else {
-            $("#switchLabel").text("Sim");
-        }
-    }
+    
 </script>
 <style>
     #switchLabel {

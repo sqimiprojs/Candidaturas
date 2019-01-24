@@ -172,24 +172,17 @@
         if (bool) {
             $("#militar").show();
             var $nim = $('#dadosPessoais_NIM');
-            $nim.prop('required', true);
-            var $ramo = $('#dadosPessoais_Ramo');
-            $ramo.prop('required', true);
-            var $categoria = $('#dadosPessoais_Categoria');
-            $categoria.prop('required', true);
-            var $posto = $('#dadosPessoais_Posto');
-            $posto.prop('required', true);
+           
         } else {
             $("#militar").hide();
-            var $nim = $('#dadosPessoais_NIM');
-            $nim.prop('required', false);
-            var $ramo = $('#dadosPessoais_Ramo');
-            $ramo.prop('required', false);
-            var $categoria = $('#dadosPessoais_Categoria');
-            $categoria.prop('required', false);
-            var $posto = $('#dadosPessoais_Posto');
-            $posto.prop('required', false);
         }
+        $nim.prop('required', bool);
+        var $ramo = $('#dadosPessoais_Ramo');
+        $ramo.prop('required', bool);
+        var $categoria = $('#dadosPessoais_Categoria');
+        $categoria.prop('required', bool);
+        var $posto = $('#dadosPessoais_Posto');
+        $posto.prop('required', bool);
     }
 
     //altera os postos consoante o ramo e categoria escolhido
