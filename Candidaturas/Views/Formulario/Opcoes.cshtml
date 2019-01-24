@@ -10,9 +10,65 @@
 
 <div class="row">
     <div class="col">
+        <h2 class="candidaturasHeader">Cursos</h2><hr />
+        <div class="form-inline">
+            <div class="col">
+                @Html.DropDownList("Curso", ViewBag.Curso as SelectList, "Escolha uma opção...", new { @class = "form-control", @name = "CursoARegistar" })
+            </div>
+            <div class="col">
+                <input id="AddCurso" type="submit" value="Adicionar Curso" class="btn btn-outline-primary" />
+            </div>
+            <input id="SelectedCurso" name="SelectedCurso" type="hidden" runat="server" />
+        </div>
+
+        <table class="table my-4" id="mytable">
+            @{
+                int numeroCursosEscolhidos = Model.CursosEscolhidos.Count;
+                foreach (CursoDisplay curso in Model.CursosEscolhidos)
+
+                {
+                    <tr>
+                        <td>@curso.prioridade.</td>
+                        <td>@curso.nome</td>
+                        <td>
+                            <a class="fa fa-times-circle badge badge-danger text-light p-2 " onclick="location.href='@Url.Action("RemoverCurso", "Formulario", new { id = (int)@curso.ID })'"><span> Remover</span></a>
+                        </td>
+
+                        <td>
+                            @if (curso.prioridade != 1)
+                            {
+                                <a class="fa fa-chevron-up badge badge-light p-2" onclick="location.href='@Url.Action("MoverParaCima", "Formulario", new { id = (int)@curso.ID })'"><span> Mais Prioritário</span></a>
+                            }
+                        </td>
+
+
+                        <td>
+                            @if (curso.prioridade != numeroCursosEscolhidos)
+                            {
+                                <a class="fa fa-chevron-down badge badge-light p-2" onclick="location.href='@Url.Action("MoverParaBaixo", "Formulario", new { id = (int)@curso.ID })'"><span> Menos Prioritário</span></a>
+                            }
+
+                        </td>
+                    </tr>
+                }
+            }
+        </table>
+
+        <table class="table">
+            <tr><td><h4 class="candidaturasHeader">Exames Necessários</h4></td></tr>
+            @foreach (String exame in Model.ExamesNecessários)
+            {
+                <tr>
+                    <td><span class="text-muted">@exame</span></td>
+                </tr>
+            }
+        </table>
+    </div>
+
+    <div class="col">
         <h2 class="candidaturasHeader">Exames</h2><hr />
         <div class="form-inline">
-            <div class="col"> 
+            <div class="col">
                 @Html.DropDownList("Exame", ViewBag.Exame as SelectList, "Escolha uma opção...", new { @class = "form-control", @name = "ExameARegistar" })
             </div>
             <div class="col">
@@ -29,60 +85,6 @@
                     <td>
                         <a class=" fa fa-times-circle badge badge-danger text-light p-2" onclick="location.href='@Url.Action("RemoverExame", "Formulario", new { id = (int)@exame.ID })'"><span> Remover</span></a>
                     </td>
-                </tr>
-            }
-        </table>
-    </div>
-    <div class="col">
-        <h2 class="candidaturasHeader">Cursos</h2><hr />
-        <div class="form-inline">
-            <div class="col">
-                @Html.DropDownList("Curso", ViewBag.Curso as SelectList, "Escolha uma opção...", new { @class = "form-control", @name = "CursoARegistar" })
-            </div>
-            <div class="col">
-                <input id="AddCurso" type="submit" value="Adicionar Curso" class="btn btn-outline-primary" />
-            </div>
-            <input id="SelectedCurso" name="SelectedCurso" type="hidden" runat="server" />
-        </div>
-
-        <table class="table my-4" id="mytable">
-            @{ 
-                int numeroCursosEscolhidos = Model.CursosEscolhidos.Count;
-                foreach (CursoDisplay curso in Model.CursosEscolhidos)
-
-                {
-                <tr>
-                    <td>@curso.prioridade.</td>
-                    <td>@curso.nome</td>
-                    <td>
-                        <a class="fa fa-times-circle badge badge-danger text-light p-2 " onclick="location.href='@Url.Action("RemoverCurso", "Formulario", new { id = (int)@curso.ID })'"><span> Remover</span></a>
-                    </td>
-
-                    <td>
-                        @if (curso.prioridade != 1)
-                        {
-                            <a class="fa fa-chevron-up badge badge-light p-2" onclick="location.href='@Url.Action("MoverParaCima", "Formulario", new { id = (int)@curso.ID })'"><span> Mais Prioritário</span></a>
-                        }
-                    </td>
-
-
-                    <td>
-                        @if (curso.prioridade != numeroCursosEscolhidos) {
-                            <a class="fa fa-chevron-down badge badge-light p-2" onclick="location.href='@Url.Action("MoverParaBaixo", "Formulario", new { id = (int)@curso.ID })'"><span> Menos Prioritário</span></a>
-                        }
-                            
-                    </td>
-                </tr>
-                    } 
-            }
-        </table>
-
-        <table class="table">
-            <tr><td><h4 class="candidaturasHeader">Exames Necessários</h4></td></tr>
-            @foreach (String exame in Model.ExamesNecessários)
-            {
-                <tr>
-                    <td><span class="text-muted">@exame</span></td>
                 </tr>
             }
         </table>
