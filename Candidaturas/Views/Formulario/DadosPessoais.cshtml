@@ -3,7 +3,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <script type="text/javascript" src="~/Scripts/documentValidation.js"></script>
-@using (Html.BeginForm("DadosPessoais", "Formulario", FormMethod.Post, new { @id = "formDadosPessoais", onsubmit = "validacaoFinal()" }))
+@using (Html.BeginForm("DadosPessoais", "Formulario", FormMethod.Post, new { @id = "formDadosPessoais"}))
 {
     @Html.AntiForgeryToken()
 
@@ -24,7 +24,7 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.Nomes, "Nomes", htmlAttributes: new { @class = "control-label required" })
                 <div class="col">
-                    @Html.EditorFor(model => model.Nomes, new { htmlAttributes = new { @class = "form-control", @required = "required", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.Nomes) } })
+                    @Html.EditorFor(model => model.Nomes, new { htmlAttributes = new { @class = "form-control", @required = "required", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.Nomes), data_val_required = "Campo obrigatório" } })
                     @Html.ValidationMessageFor(model => model.Nomes, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -32,7 +32,7 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.Apelidos, "Apelidos", htmlAttributes: new { @class = "control-label required" })
                 <div class="col">
-                    @Html.EditorFor(model => model.Apelidos, new { htmlAttributes = new { @class = "form-control", @required = "required", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.Apelidos) } })
+                    @Html.EditorFor(model => model.Apelidos, new { htmlAttributes = new { @class = "form-control", @required = "required", data_val_required = "Campo obrigatório", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.Apelidos) } })
                     @Html.ValidationMessageFor(model => model.Apelidos, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -56,7 +56,7 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.Genero, "Género", htmlAttributes: new { @class = "control-label required" })
                 <div class="col">
-                    @Html.DropDownListFor(model => model.Genero, ViewBag.Genero as SelectList, "Escolha uma opção...", new { @class = "form-control", @required = "required" })
+                    @Html.DropDownListFor(model => model.Genero, ViewBag.Genero as SelectList, "Escolha uma opção...", new { @class = "form-control", data_val_required = "Campo obrigatório", @required = "required" })
                     @Html.ValidationMessageFor(model => model.Genero, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -64,16 +64,15 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.DataNascimento, "Data de Nascimento", htmlAttributes: new { @class = "control-label required" })
                 <div class="col">
-                    @Html.EditorFor(model => model.DataNascimento, new { htmlAttributes = new { @class = "form-control", type = "date", @required = "required", @Value = ViewBag.DadosPessoais.DataNascimento.ToString("yyyy-MM-dd") } })
-                    @Html.ValidationMessageFor(model => model.DataNascimento, "", new { @class = "text-danger" })
-                    <span id="DtNascWarning" for="NIF" class="text-danger"></span>
+                    @Html.EditorFor(model => model.DataNascimento, new { htmlAttributes = new { @class = "form-control", type = "date", data_val_required = "Campo obrigatório", @required = "required", @Value = ViewBag.DadosPessoais.DataNascimento.ToString("yyyy-MM-dd") } })
+                    @Html.ValidationMessageFor(model => model.DataNascimento, "", new { @class = "text-danger", @id = "DtNascWarning" })
                 </div>
             </div>
 
             <div class="form-group">
                 @Html.LabelFor(model => model.EstadoCivil, "Estado Civil", htmlAttributes: new { @class = "control-label required" })
                 <div class="col">
-                    @Html.DropDownListFor(model => model.EstadoCivil, ViewBag.EstadoCivil as SelectList, "Escolha uma opção...", new { @class = "form-control", @required = "required" })
+                    @Html.DropDownListFor(model => model.EstadoCivil, ViewBag.EstadoCivil as SelectList, "Escolha uma opção...", new { @class = "form-control", data_val_required = "Campo obrigatório", @required = "required" })
                     @Html.ValidationMessageFor(model => model.EstadoCivil, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -92,7 +91,7 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.Morada, "Morada", htmlAttributes: new { @class = "control-label required" })
                 <div class="col">
-                    @Html.EditorFor(model => model.Morada, new { htmlAttributes = new { @class = "form-control", @required = "required", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.Morada) } })
+                    @Html.EditorFor(model => model.Morada, new { htmlAttributes = new { @class = "form-control", data_val_required = "Campo obrigatório", @required = "required", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.Morada) } })
                     @Html.ValidationMessageFor(model => model.Morada, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -101,20 +100,18 @@
                 @Html.LabelFor(model => model.CodigoPostal4Dig, "Código Postal", htmlAttributes: new { @class = "control-label required" })
                 <div class="col">
                     <div class="form-inline">
-                        @Html.EditorFor(model => model.CodigoPostal4Dig, new { htmlAttributes = new { @type = "number", @class = "form-control", @required = "required", @style = "width:40%", @placeholder = "NNNN", maxlength = "10", min = "0", max = "9999", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.CodigoPostal4Dig) } })
+                        @Html.EditorFor(model => model.CodigoPostal4Dig, new { htmlAttributes = new { @type = "number", data_val_required = "Campo obrigatório", @class = "form-control", @required = "required", @style = "width:40%", @placeholder = "NNNN", maxlength = "10", min = "0", max = "9999", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.CodigoPostal4Dig) } })
                         -
                         @Html.EditorFor(model => model.CodigoPostal3Dig, new { htmlAttributes = new { @type = "number", @class = "form-control", @required = "required", @style = "width:20%", @placeholder = "NNN", maxlength = "3", min = "0", max = "999", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.CodigoPostal3Dig) } })
                     </div>
-                    @Html.ValidationMessageFor(model => model.CodigoPostal4Dig, "", new { @class = "text-danger" })
-                    @Html.ValidationMessageFor(model => model.CodigoPostal3Dig, "", new { @class = "text-danger" })
-                    <span id="CPWarning" for="CodigoPostalDig" class="text-danger"></span>
+                    @Html.ValidationMessageFor(model => model.CodigoPostal4Dig, "", new { @class = "text-danger", @id = "CPWarning" })
                 </div>
             </div>
 
             <div class="form-group">
                 @Html.LabelFor(model => model.DistritoMorada, "Distrito", htmlAttributes: new { @class = "control-label required " })
                 <div class="col">
-                    @Html.DropDownListFor(model => model.DistritoMorada, ViewBag.DistritoMorada as SelectList, "Escolha uma opção...", new { @class = "form-control", @required = "required", @onchange = "changeConcelhos(false)" })
+                    @Html.DropDownListFor(model => model.DistritoMorada, ViewBag.DistritoMorada as SelectList, "Escolha uma opção...", new { @class = "form-control", data_val_required = "Campo obrigatório", @required = "required", @onchange = "changeConcelhos(false)" })
                     @Html.ValidationMessageFor(model => model.DistritoMorada, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -122,7 +119,7 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.ConcelhoMorada, "Concelho", htmlAttributes: new { @class = "control-label required  disabled" })
                 <div class="col">
-                    @Html.DropDownListFor(model => model.ConcelhoMorada, ViewBag.ConcelhoMorada as SelectList, "Escolha uma opção...", new { @class = "form-control", @required = "required", @onchange = "changeFreguesias(false)", disabled = "disabled" })
+                    @Html.DropDownListFor(model => model.ConcelhoMorada, ViewBag.ConcelhoMorada as SelectList, "Escolha uma opção...", new { @class = "form-control", data_val_required = "Campo obrigatório", @required = "required", @onchange = "changeFreguesias(false)", disabled = "disabled" })
                     @Html.ValidationMessageFor(model => model.ConcelhoMorada, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -130,7 +127,7 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.FreguesiaMorada, "Freguesia", htmlAttributes: new { @class = "control-label required  disabled" })
                 <div class="col">
-                    @Html.DropDownListFor(model => model.FreguesiaMorada, ViewBag.FreguesiaMorada as SelectList, "Escolha uma opção...", new { @class = "form-control", @required = "required", disabled = "disabled" })
+                    @Html.DropDownListFor(model => model.FreguesiaMorada, ViewBag.FreguesiaMorada as SelectList, "Escolha uma opção...", new { @class = "form-control", data_val_required = "Campo obrigatório", @required = "required", disabled = "disabled" })
                     @Html.ValidationMessageFor(model => model.FreguesiaMorada, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -138,7 +135,7 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.Localidade, "Localidade", htmlAttributes: new { @class = "control-label required  disabled" })
                 <div class="col">
-                    @Html.DropDownListFor(model => model.Localidade, ViewBag.Localidade as SelectList, "Escolha uma opção...", new { @class = "form-control", @required = "required", disabled = "disabled" })
+                    @Html.DropDownListFor(model => model.Localidade, ViewBag.Localidade as SelectList, "Escolha uma opção...", new { @class = "form-control", data_val_required = "Campo obrigatório", @required = "required", disabled = "disabled" })
                     @Html.ValidationMessageFor(model => model.Localidade, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -192,7 +189,7 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.TipoDocID, "Documento de Identificação", htmlAttributes: new { @class = "control-label required" })
                 <div class="col">
-                    @Html.DropDownListFor(model => model.TipoDocID, ViewBag.TipoDocID as SelectList, "Escolha uma opção...", new { @class = "form-control" })
+                    @Html.DropDownListFor(model => model.TipoDocID, ViewBag.TipoDocID as SelectList, "Escolha uma opção...", new { @class = "form-control", data_val_required = "Campo obrigatório" })
                     @Html.ValidationMessageFor(model => model.TipoDocID, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -200,18 +197,16 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.NDI, "Número do Documento", htmlAttributes: new { @class = "control-label required" })
                 <div class="col">
-                    @Html.EditorFor(model => model.NDI, new { htmlAttributes = new { @class = "form-control", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.NDI) } })
-                    @Html.ValidationMessageFor(model => model.NDI, "", new { @class = "text-danger" })
-                    <span id="NDIWarning" for="NDI" class="text-danger"></span>
+                    @Html.EditorFor(model => model.NDI, new { htmlAttributes = new { @class = "form-control", data_val_required = "Campo obrigatório", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.NDI) } })
+                    @Html.ValidationMessageFor(model => model.NDI, "", new { @class = "text-danger", @id="NDIWarning" })
                 </div>
             </div>
 
             <div class="form-group">
                 @Html.LabelFor(model => model.DocumentoValidade, "Validade do Documento", htmlAttributes: new { @class = "control-label required" })
                 <div class="col">
-                    @Html.EditorFor(model => model.DocumentoValidade, new { htmlAttributes = new { @class = "form-control", type = "date", @required = "required", @Value = ViewBag.DadosPessoais.DocumentoValidade.ToString("yyyy-MM-dd") } })
-                    @Html.ValidationMessageFor(model => model.DocumentoValidade, "", new { @class = "text-danger" })
-                    <span id="DocValWarning" for="Validade do Documento" class="text-danger"></span>
+                    @Html.EditorFor(model => model.DocumentoValidade, new { htmlAttributes = new { @class = "form-control", type = "date", data_val_required = "Campo obrigatório", @required = "required", @Value = ViewBag.DadosPessoais.DocumentoValidade.ToString("yyyy-MM-dd")} })
+                    @Html.ValidationMessageFor(model => model.DocumentoValidade, "", new { @class = "text-danger", @id = "DocValWarning" })
                 </div>
             </div>
             <hr />
@@ -220,8 +215,7 @@
                 @Html.LabelFor(model => model.NIF, "Número", htmlAttributes: new { @class = "control-label" })
                 <div class="col">
                     @Html.EditorFor(model => model.NIF, new { htmlAttributes = new { @class = "form-control", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.NIF) } })
-                    @Html.ValidationMessageFor(model => model.NIF, "", new { @class = "text-danger" })
-                    <span id="NIFWarning" for="NIF" class="text-danger"></span>
+                    @Html.ValidationMessageFor(model => model.NIF, "", new { @class = "text-danger",  @id = "NIFWarning" })
                 </div>
             </div>
 

@@ -32,8 +32,7 @@
                     @Html.LabelFor(model => model.dadosPessoais.DataNascimento, "Data de Nascimento", htmlAttributes: new { @class = "control-label required" })
                     <div class="col">
                         @Html.EditorFor(model => model.dadosPessoais.DataNascimento, new { htmlAttributes = new { @class = "form-control", type = "date", @required = "required" } })
-                        @Html.ValidationMessageFor(model => model.dadosPessoais.DataNascimento, "", new { @class = "text-danger" })
-                        <span id="DtNascWarning" for="Data de Nascimento" class="text-danger"></span>
+                        @Html.ValidationMessageFor(model => model.dadosPessoais.DataNascimento, "", new { @class = "text-danger", @id="DtNascWarning" })
                     </div>
                 </div>
             </div>
@@ -42,8 +41,7 @@
                     @Html.LabelFor(model => model.user.Email, "Email", htmlAttributes: new { @class = "control-label required" })
                     <div class="col-">
                         @Html.EditorFor(model => model.user.Email, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
-                        @Html.ValidationMessageFor(model => model.user.Email, "", new { @class = "text-danger" })
-                        <span id="EmailWarning" for="Email" class="text-danger"></span>
+                        @Html.ValidationMessageFor(model => model.user.Email, "", new { @class = "text-danger",@id= "EmailWarning" })
                     </div>
                 </div>
             </div>
@@ -65,8 +63,7 @@
                     @Html.LabelFor(model => model.dadosPessoais.NDI, "Número do Documento", htmlAttributes: new { @class = "control-label required" })
                     <div class="col">
                         @Html.EditorFor(model => model.dadosPessoais.NDI, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
-                        @Html.ValidationMessageFor(model => model.dadosPessoais.NDI, "", new { @class = "text-danger" })
-                        <span id="NDIWarning" for="NDI" class="text-danger"></span>
+                        @Html.ValidationMessageFor(model => model.dadosPessoais.NDI, "", new { @class = "text-danger", @id="NDIWarning" })
                     </div>
                 </div>
             </div>
@@ -75,8 +72,7 @@
                     @Html.LabelFor(model => model.dadosPessoais.DocumentoValidade, "Validade do Documento", htmlAttributes: new { @class = "control-label required" })
                     <div class="col">
                         @Html.EditorFor(model => model.dadosPessoais.DocumentoValidade, new { htmlAttributes = new { @class = "form-control", type = "date", @required = "required" } })
-                        @Html.ValidationMessageFor(model => model.dadosPessoais.DocumentoValidade, "", new { @class = "text-danger" })
-                        <span id="DocValWarning" for="Validade do Documento" class="text-danger"></span>
+                        @Html.ValidationMessageFor(model => model.dadosPessoais.DocumentoValidade, "", new { @class = "text-danger", @id= "DocValWarning"})
                     </div>
                 </div>
             </div>

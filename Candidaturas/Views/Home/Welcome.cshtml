@@ -12,11 +12,12 @@
         <div class="col-sm-6 ">
             @if (ViewBag.Formulario)
             {
-                @Html.ActionLink("Download Comprovativo", "DownloadFormulario", "Home", new { @class = "btn btn-outline-primary" });
+                @Html.ActionLink("Download Comprovativo", "DownloadFormulario", "Home", new { @class = "btn btn-primary" });
+                @Html.ActionLink("Alterar Candidatura", "RepeatFormulario", "Home", new { @class = "btn btn-outline-primary mx-2" });
             }
             else
             {
-                @Html.ActionLink("Preencher Cadidatura", "DadosPessoais", "Formulario", null, new { @class = "btn btn-primary" });
+                @Html.ActionLink("Preencher Cadidatura", "DadosPessoais", "Formulario", null, new { @class = "btn btn-primary"});
             }
 
         </div>

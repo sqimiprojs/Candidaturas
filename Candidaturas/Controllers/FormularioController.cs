@@ -922,14 +922,14 @@ namespace Candidaturas.Controllers
 
             string utilizador = dbModel.Users.Where(dp => userID == dp.ID).Select(dp => dp.Email).FirstOrDefault();
 
-            string subject = "Portal de Candidaturas à Base Naval - Formulario Submetido";
-            string body = "O formulário foi submetido com sucesso ";
+            string subject = "Portal de Candidaturas à Escola Naval - Formulario ";
+            string body = "O utilizador com email " + utilizador + " submeteu um novo formulário com sucesso."; 
 
             Email.SendEmail("sqimi.test@gmail.com", subject, body);
 
-            ViewBag.Subtitle = "Novo Formulário submetido - Candidatura número:##";
+            ViewBag.Subtitle = "Novo Formulário submetido - ";
 
-            ViewBag.ConfirmationMessage = "O utilizador com email "+ utilizador + "submeteu um novo formulário com sucesso.";
+            ViewBag.ConfirmationMessage = "O formulário foi submetido com sucesso.";
 
             return View("~/Views/Shared/Success.cshtml");
         }
