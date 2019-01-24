@@ -359,11 +359,12 @@
         if (nac === "PT") {
             $("#NIF").prop('required', true);
             $("label[for='NIF']").addClass('required');
-
+            $('#DistritoNatural').prop('disabled', false);
         }
         else {
             $("#NIF").prop('required', false);
             $("label[for='NIF']").removeClass('required');
+            $('#DistritoNatural').prop('disabled', true);
         }
     }
 
