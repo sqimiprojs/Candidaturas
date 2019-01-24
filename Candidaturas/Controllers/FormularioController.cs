@@ -620,18 +620,6 @@ namespace Candidaturas.Controllers
                             //ver se já escolheu o curso
                             if (cursoRegistado == null)
                             {
-                                /*Curso curso = dbModel.Cursoes.Where(dp => dp.ID == cursoEscolhido).FirstOrDefault();
-
-                                List<String> exames = curso.Exames.Select(dp => dp.Nome).ToList();
-
-                                foreach(String exame in exames)
-                                {
-                                    if (!examesNecessarios.Exists(x => x == exame))
-                                    {
-                                        examesNecessarios.Add(exame);
-                                    }
-                                }
-                                */
                                 UserCurso userCurso = new UserCurso();
 
                                 userCurso.CursoId = dbModel.Cursoes.Where(dp => dp.ID == cursoEscolhido).FirstOrDefault().ID;
@@ -735,14 +723,6 @@ namespace Candidaturas.Controllers
                 {
                     try
                     {
-                        /*Curso curso = dbModel.Cursoes.Where(dp => dp.ID == id).FirstOrDefault();
-
-                        List<String> exames = curso.Exames.Select(dp => dp.Nome).ToList();
-
-                        foreach (String exame in exames)
-                        {
-                            examesNecessarios.Remove(exame);
-                        }*/
                         //remover curso
                         UserCurso uc = dbModel.UserCursoes.Where(dp => dp.CursoId == id).Where(dp => dp.UserId == userId).FirstOrDefault();
                         dbModel.UserCursoes.Remove(uc);
@@ -887,51 +867,102 @@ namespace Candidaturas.Controllers
                 return RedirectToAction("LogOut", "Login");
             }
         }
-        
-        public ActionResult PDFGen()
+
+        public ActionResult SubmeterCandidatura()
         {
-            // Create a MigraDoc document
-
-            Document document = MigraDocument.CreateDocument("ComprovativoCandidatura", "Comprovativo de Candidatura", "Fábio Lourenço", 1, (int) Session["userID"]);
-
-            MigraDoc.Rendering.DocumentRenderer renderer = new DocumentRenderer(document);
-            PdfDocumentRenderer PDFRenderer = new PdfDocumentRenderer(true, PdfSharp.Pdf.PdfFontEmbedding.Always)
+            if (Session["userID"] != null)
             {
-                Document = document
-            };
+                CandidaturaDBEntities1 dbModel = new CandidaturaDBEntities1();
 
-            PDFRenderer.RenderDocument();
-            PDFRenderer.DocumentRenderer = renderer;
+                int userID = (int)Session["userID"];
 
-            string filename = document.Info.Title + ".pdf";
+                if (!dbModel.Candidatoes.Any(u => u.UserID == userID))
+                {
+                    try
+                    {
+                        Candidato candidato = new Candidato();
+                        candidato.UserID = userID;
+                        candidato.Sincronizado = false;
 
-            CandidaturaDBEntities1 dbModel = new CandidaturaDBEntities1();
-            Form formTable = new Form();
+                        DateTime now = System.DateTime.Now;
 
-            MemoryStream PDFStream = new MemoryStream();
-            PDFRenderer.PdfDocument.Save(PDFStream, true);
-            int userID = (int)Session["userID"];
-            formTable.UserID= userID;
-            formTable.FormBin = PDFStream.ToArray();
-            formTable.DataCriação = System.DateTime.Now;
+                        string edicao = dbModel.Edicaos.Where(dp => now >= dp.DataInicio && now <= dp.DataFim).Select(dp => dp.Sigla).FirstOrDefault();
 
-            dbModel.Forms.Add(formTable);
-            dbModel.SaveChanges();
+                        candidato.Edicao = edicao;
 
-            ModelState.Clear();
+                        dbModel.Candidatoes.Add(candidato);
+                        dbModel.SaveChanges();
+                    }
+                    catch (System.Data.Entity.Validation.DbEntityValidationException dbEx)
+                    {
+                        Exception raise = dbEx;
+                        foreach (var validationErrors in dbEx.EntityValidationErrors)
+                        {
+                            foreach (var validationError in validationErrors.ValidationErrors)
+                            {
+                                string message = string.Format("{0}:{1}", validationErrors.Entry.Entity.ToString(), validationError.ErrorMessage);
+                                raise = new InvalidOperationException(message, raise);
+                            }
+                        }
+                        throw raise;
+                    }
+                }
+                else
+                {
+                    Candidato candidato = dbModel.Candidatoes.Where(u => u.UserID == userID).FirstOrDefault();
+                    candidato.Sincronizado = false;
 
-            string utilizador = dbModel.Users.Where(dp => userID == dp.ID).Select(dp => dp.Email).FirstOrDefault();
+                    dbModel.Candidatoes.Add(candidato);
+                    dbModel.SaveChanges();
+                }
 
-            string subject = "Portal de Candidaturas à Escola Naval - Formulario ";
-            string body = "O utilizador com email " + utilizador + " submeteu um novo formulário com sucesso."; 
+                // Create a MigraDoc document
 
-            Email.SendEmail("sqimi.test@gmail.com", subject, body);
+                Document document = MigraDocument.CreateDocument("ComprovativoCandidatura", "Comprovativo de Candidatura", "Fábio Lourenço", 1, (int)Session["userID"]);
 
-            ViewBag.Subtitle = "Novo Formulário submetido - ";
+                MigraDoc.Rendering.DocumentRenderer renderer = new DocumentRenderer(document);
+                PdfDocumentRenderer PDFRenderer = new PdfDocumentRenderer(true, PdfSharp.Pdf.PdfFontEmbedding.Always)
+                {
+                    Document = document
+                };
 
-            ViewBag.ConfirmationMessage = "O formulário foi submetido com sucesso.";
+                PDFRenderer.RenderDocument();
+                PDFRenderer.DocumentRenderer = renderer;
 
-            return View("~/Views/Shared/Success.cshtml");
+                string filename = document.Info.Title + ".pdf";
+
+                Form formTable = new Form();
+
+                MemoryStream PDFStream = new MemoryStream();
+                PDFRenderer.PdfDocument.Save(PDFStream, true);
+
+                formTable.UserID = userID;
+                formTable.FormBin = PDFStream.ToArray();
+                formTable.DataCriação = System.DateTime.Now;
+
+                dbModel.Forms.Add(formTable);
+                dbModel.SaveChanges();
+
+                ModelState.Clear();
+
+                string utilizador = dbModel.Users.Where(dp => userID == dp.ID).Select(dp => dp.Email).FirstOrDefault();
+
+                string subject = "Portal de Candidaturas à Escola Naval - Formulario ";
+                string body = "O utilizador com email " + utilizador + " submeteu um novo formulário com sucesso.";
+
+                Email.SendEmail("sqimi.test@gmail.com", subject, body);
+
+                ViewBag.Subtitle = "Novo Formulário submetido - ";
+
+                ViewBag.ConfirmationMessage = "O formulário foi submetido com sucesso.";
+
+                return View("~/Views/Shared/Success.cshtml");
+            }
+            else
+            {
+                return RedirectToAction("LogOut", "Login");
+            }
         }
+
     }
 }
