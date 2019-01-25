@@ -44,7 +44,6 @@
 
     $("#CodigoPostal4Dig").change(function () {
         var cp4 = $("#CodigoPostal4Dig").val();
-
         limitarCodPostal4Dig(cp4);
     });
 

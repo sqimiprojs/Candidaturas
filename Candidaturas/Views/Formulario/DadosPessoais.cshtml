@@ -14,9 +14,9 @@
             <h4 class="candidaturasHeader">Informação Pessoal</h4>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.NomeColoquial, "Nome Coloquial", htmlAttributes: new { @class = "control-label" })
+                @Html.LabelFor(model => model.NomeColoquial, "Nome Coloquial", htmlAttributes: new { @class = "control-label required" })
                 <div class="col">
-                    @Html.EditorFor(model => model.NomeColoquial, new { htmlAttributes = new { @class = "form-control", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.NomeColoquial) } })
+                    @Html.EditorFor(model => model.NomeColoquial, new { htmlAttributes = new { @class = "form-control", @required = "required", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.NomeColoquial) } })
                     @Html.ValidationMessageFor(model => model.NomeColoquial, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -300,6 +300,7 @@
     function handleDisablesAndRequired() {
         showMilitar();
         disabledCampos();
+
     }
 
     function disabledCampos() {

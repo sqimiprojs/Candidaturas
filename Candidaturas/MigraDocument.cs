@@ -124,7 +124,7 @@ namespace Candidaturas
             string ImgPath = ((new System.Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath).Replace("bin/Candidaturas.DLL", "Content/img/logotipo.jpg");
             Image logo = head.AddImage(ImgPath);
             logo.LockAspectRatio = true;
-            logo.Width = "3cm";
+            logo.Width = "2.5cm";
             logo.Top = ShapePosition.Top;
             logo.Left = ShapePosition.Left;
             logo.WrapFormat.Style = WrapStyle.Through;
@@ -146,34 +146,26 @@ namespace Candidaturas
             Section page1 = document.LastSection;
             Paragraph title = page1.AddParagraph("\n\nComprovativo de Candidatura", "Heading1");
 
-            Paragraph cod = page1.AddParagraph("\nCódigo de Candidato: #123#","Heading3");
-
             CandidatoFullText c = GetInfoCandidato(session);
+            Paragraph cod = page1.AddParagraph("\nCódigo de Candidato: "+c.CandidatoNumber,"Heading3");
 
-            string cmil, cfem;
+            string cmil = c.Militar == true ? String.Format(" {0}, {1},", c.NIM, c.Posto) : "";
 
-            if (c.Militar)
-            {
-                cmil= String.Format(" {0}, {1},", c.NIM, c.Posto);
-            }
-            else
-            {
-                cmil = "";
-            }
-            if (c.isFeminino) {
-                cfem = "a";
-            }
-            else
-            {
-                cfem = "o";
-            }
-            string mensagem = String.Format("\n\nEu, abaixo assinado,{0} {1}, filh{21} de {2} e de {3}, natural de {4}, {5}," +
-                " residente em {6}, {7}-{8} {9}, {10}, freguesia de {11}, distrito de {12}, nascid{21} em {13}, {14}, " +
-                "nacional de {15} com o {16} número {17} válido até {18}, número de Contribuinte {19}," +
-                " e contacto {20}, declaro por minha honra que nunca fui abatid{21} ao Corpo de Alunos da Academia Militar " +
-                "ou Academia da Força Aérea por motivos disciplinares ou por incapacidade para o serviço militar e que nunca fui excluíd{21} dos cursos da Escola Naval.",
-                cmil, c.NomeColoquial, c.NomePai, c.NomeMae, c.DistritoNatural, c.ConcelhoNatural, c.Morada, c.CodigoPostal4Dig, c.CodigoPostal3Dig, 
-                c.Localidade, c.ConcelhoMorada, c.FreguesiaMorada, c.DistritoMorada, c.DataNascimento, c.EstadoCivil, c.Nacionalidade, c.TipoDocumento, c.NDI, c.ValidadeDoc, c.NIF, c.Telefone, cfem);
+            string cfem = c.isFeminino == true ? "a" : "o";
+
+            string cchild = ( c.NomePai!=null && c.NomeMae != null ) ? String.Format(" filh{0} de {1} e de {2},", cfem, c.NomePai, c.NomeMae) : "";
+
+            string cnatural = (c.DistritoNatural != null && c.ConcelhoNatural != null ) ? String.Format("natural de {0}, {1},", c.DistritoNatural, c.ConcelhoNatural) : "";
+
+            string cNIF = c.NIF!= null ? String.Format("número de Contribuinte {0},", c.NIF) : "";
+
+            string ccont = c.Telefone!= null ? String.Format(" e contacto {0},", c.Telefone) : "";
+
+            string mensagem = String.Format("\n\nEu, abaixo assinado,{0} {1}, {2} {3} residente em {4}, {5}-{6} {7}, {8}, freguesia de {9}, distrito de {10}, nascid{19} em {11}, {12}, " +
+                "nacional de {13} com o {14} número {15} válido até {16}, {17} {18} declaro por minha honra que nunca fui abatid{19} ao Corpo de Alunos da Academia Militar " +
+                "ou Academia da Força Aérea por motivos disciplinares ou por incapacidade para o serviço militar e que nunca fui excluíd{19} dos cursos da Escola Naval.",
+                cmil, c.NomeColoquial, cchild, cnatural, c.Morada, c.CodigoPostal4Dig, c.CodigoPostal3Dig, c.Localidade, c.ConcelhoMorada, c.FreguesiaMorada, c.DistritoMorada, c.DataNascimento, c.EstadoCivil,
+                c.Nacionalidade, c.TipoDocumento, c.NDI, c.ValidadeDoc, c.NIF, ccont, cfem);
 
             Paragraph Text1 = page1.AddParagraph(mensagem, "LongText");
 
@@ -240,6 +232,7 @@ namespace Candidaturas
             alldata.ValidadeDoc = dadosPessoaisUser.DocumentoValidade?.ToString("dd/MM/yyyy");
             //para ter feminino nos documentos
             alldata.isFeminino = db.Generoes.Where(dp => dadosPessoaisUser.Genero == dp.ID).Select(dp => dp.Nome).FirstOrDefault() == "Feminino";
+            alldata.CandidatoNumber = db.Candidatoes.Where(dp => dp.UserID == userId).Select(dp => dp.Numero).FirstOrDefault().ToString();
             return alldata;
         }
 
