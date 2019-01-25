@@ -101,7 +101,7 @@ namespace Candidaturas
             // Create a new style called TextBox based on style Normal
             style = document.Styles.AddStyle("TextBox", "Normal");
             style.ParagraphFormat.Alignment = ParagraphAlignment.Justify;
-            style.ParagraphFormat.Borders.Width = 2.5;
+            style.ParagraphFormat.Borders.Width = 2;
             style.ParagraphFormat.Borders.Distance = "3pt";
             style.ParagraphFormat.Shading.Color = Colors.SkyBlue;
 
@@ -124,7 +124,7 @@ namespace Candidaturas
             string ImgPath = ((new System.Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath).Replace("bin/Candidaturas.DLL", "Content/img/logotipo.jpg");
             Image logo = head.AddImage(ImgPath);
             logo.LockAspectRatio = true;
-            logo.Width = "1.5cm";
+            logo.Width = "3cm";
             logo.Top = ShapePosition.Top;
             logo.Left = ShapePosition.Left;
             logo.WrapFormat.Style = WrapStyle.Through;
@@ -168,8 +168,8 @@ namespace Candidaturas
                 cfem = "o";
             }
             string mensagem = String.Format("\n\nEu, abaixo assinado,{0} {1}, filh{21} de {2} e de {3}, natural de {4}, {5}," +
-                " residente em {6}, {7}-{8}, {9}, {10}, freguesia de {11}, distrito de {12}, nascid{21} em {13}, {14}, " +
-                "nacional de {15} com o {16} nº {17} válido até {18}, número de Contribuinte {19}," +
+                " residente em {6}, {7}-{8} {9}, {10}, freguesia de {11}, distrito de {12}, nascid{21} em {13}, {14}, " +
+                "nacional de {15} com o {16} número {17} válido até {18}, número de Contribuinte {19}," +
                 " e contacto {20}, declaro por minha honra que nunca fui abatid{21} ao Corpo de Alunos da Academia Militar " +
                 "ou Academia da Força Aérea por motivos disciplinares ou por incapacidade para o serviço militar e que nunca fui excluíd{21} dos cursos da Escola Naval.",
                 cmil, c.NomeColoquial, c.NomePai, c.NomeMae, c.DistritoNatural, c.ConcelhoNatural, c.Morada, c.CodigoPostal4Dig, c.CodigoPostal3Dig, 

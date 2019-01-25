@@ -956,7 +956,7 @@ namespace Candidaturas.Controllers
                 Email.SendEmail("sqimi.test@gmail.com", subject, body);
 
                 ViewBag.Subtitle = "Novo Formulário submetido - ";
-
+                ViewBag.Goto = "Welcome";
                 ViewBag.ConfirmationMessage = "O formulário foi submetido com sucesso.";
 
                 return View("~/Views/Shared/Success.cshtml");
