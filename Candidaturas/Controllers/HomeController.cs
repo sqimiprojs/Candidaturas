@@ -50,10 +50,12 @@ namespace Candidaturas.Controllers
                 {
                     try
                     {
-                        if (file != null && file.ContentLength > 0)
+                        if (file != null && file.ContentLength > 0 && file.ContentLength < Constants.MaxFile*1024*1024)
                         {
                             if (DocumentValidator.IsJpeg(file) || DocumentValidator.IsPdf(file))
                             {
+                                if (file.FileName.Length < 50) { 
+
                                 file.InputStream.Seek(0, SeekOrigin.Begin);
 
                                 string fileName = Path.GetFileName(file.FileName);
@@ -74,7 +76,6 @@ namespace Candidaturas.Controllers
                                 };
 
                                 dbModel.Documentoes.Add(doc);
-                                dbModel.SaveChanges();
 
                                 //criar Documento e o Binario
                                 DocumentoBinario DocBin = new DocumentoBinario
@@ -84,12 +85,22 @@ namespace Candidaturas.Controllers
                                 };
                                 dbModel.DocumentoBinarios.Add(DocBin);
                                 dbModel.SaveChanges();
+                                }
+                                else
+                                {
+                                    TempData["LogError"] = "Nome do documento muito longo, máximo são 50 caracteres";
+                                }
                             }
                             else
                             {
-                                return RedirectToAction("Welcome", "Home");
+                                TempData["LogError"] = "Documento tem de ser do tipo .jpeg ou .pdf";
+
                             }
                         }
+                        else {
+                            TempData["LogError"] = "Ficheiro com tamanho inválido, máximo é "+Constants.MaxFile+"MB";
+                        }
+                        
 
                     }
                     catch (System.Data.Entity.Validation.DbEntityValidationException dbEx)
@@ -107,7 +118,7 @@ namespace Candidaturas.Controllers
                     }
                 }
                 ModelState.Clear();
-
+                
                 return RedirectToAction("Welcome", "Home");
             }
             else
