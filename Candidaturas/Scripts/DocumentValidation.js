@@ -57,18 +57,6 @@
         checkNational();
     });
 
-    $('.slider').click(function () {
-
-        if ($('#TickOutros').is(':checked')) {
-            $("#switchLabel").text("Não");
-            $("#CandidatarOutros").prop('checked', false);
-        }
-        else {
-            $("#switchLabel").text("Sim");
-            $("#CandidatarOutros").prop('checked', true);
-        }
-    });
-
     function HideShowCCWarning(number) {
         if (validarCC(number) && validarDigitosCC(number)) {
             $("#NDIWarning").text("");
