@@ -957,7 +957,7 @@ namespace Candidaturas.Controllers
 
                 ViewBag.Subtitle = "Novo Formulário submetido - ";
                 ViewBag.Goto = "Welcome";
-                ViewBag.ConfirmationMessage = "O formulário foi submetido com sucesso.";
+                ViewBag.ConfirmationMessage = "O formulário foi submetido com sucesso.\nPoderá agora aceder ao comprovativo de candidatura.";
 
                 return View("~/Views/Shared/Success.cshtml");
             }

@@ -19,7 +19,7 @@
         <div class="col-sm-6 ">
             @if (ViewBag.Candidato)
             {
-                @Html.ActionLink("Download Comprovativo", "DownloadFormulario", "Home", new { @class = "btn btn-primary" });
+                @Html.ActionLink("Descarregar Comprovativo", "DownloadFormulario", "Home", new { @class = "btn btn-primary" });
                 @Html.ActionLink("Alterar Candidatura", "RepeatFormulario", "Home", new { @class = "btn btn-outline-primary mx-2" });
             }
             else
