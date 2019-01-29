@@ -5,3 +5,12 @@
 <h1>Confirmação</h1>
 
 <p>@ViewBag.ConfirmationMessage</p>
+
+@if (ViewBag.Goto == "Index")
+{
+    <a href="/Login/" class="btn btn-primary mx-2">Continuar</a>
+}
+else if (ViewBag.Goto == "Welcome")
+{
+    <a href="/Home/Welcome" class="btn btn-primary mx-2">Continuar</a>
+}

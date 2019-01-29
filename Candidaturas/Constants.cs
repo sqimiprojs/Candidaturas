@@ -13,5 +13,8 @@
 
         //PORT
         public const int Port = 587;
+        
+        //Max File Size
+        public const int MaxFile = 5;//in MB
     }
 }

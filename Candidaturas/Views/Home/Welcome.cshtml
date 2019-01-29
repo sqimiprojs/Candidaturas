@@ -5,8 +5,8 @@
 }
 
 <div class="container">
-    <div class="row my-4 ">
-        <div class="col-sm-6 card text-center align-middle">
+    <div class="row my-4">
+        <div class="col card text-center">
             @if (ViewBag.Candidato)
             {
                 <h2>Bem - Vindo Candidato Nº @ViewBag.NumeroCandidato</h2>
@@ -16,10 +16,10 @@
                 <h2>Bem - Vindo</h2>
             }
         </div>
-        <div class="col-sm-6 ">
+        <div class="col">
             @if (ViewBag.Candidato)
             {
-                @Html.ActionLink("Download Comprovativo", "DownloadFormulario", "Home", new { @class = "btn btn-primary" });
+                @Html.ActionLink("Descarregar Comprovativo", "DownloadFormulario", "Home", new { @class = "btn btn-primary" });
                 @Html.ActionLink("Alterar Candidatura", "RepeatFormulario", "Home", new { @class = "btn btn-outline-primary mx-2" });
             }
             else
@@ -30,79 +30,105 @@
         </div>
     </div>
 </div>
-<hr />
 @if (ViewBag.Candidato)
 {
+    <hr />
     <div class="container">
-        <div class="row">
-            <h3>Documentos</h3>
-        </div>
+        <h3>Envio de Documentos</h3>
+        @using (Html.BeginForm("UploadDocumento", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
 
-        <div class="row">
-            <div class="col-4">
-                <div class="container">
-                    @using (Html.BeginForm("UploadDocumento", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
-                    {
-                        @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                <label for="FicheiroInput" class="btn btn-outline-primary p-3">Seleccionar Documento</label>
+                <input type="file" name="file" id="FicheiroInput" hidden />
+            </div>
+            <span id="myfilename"></span>
+            
+            <div class="form-group" id="docDesc" hidden>
+                @Html.EditorFor(model => model.DocumentoInfo.Descricao, new { htmlAttributes = new { @class = "form-control", @placeholder = "Descrição (opcional)" } })
+            </div>
+            <span class="col text-danger text-center" id="errorFile">
+                @TempData["LogError"]
+            </span>
 
-                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.DocumentoInfo.Nome, "Seleccionar Documento", htmlAttributes: new { @class = "control-label " })
-                            <div class="">
-                                <input type="file" name="file" id="FicheiroInput" />
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.DocumentoInfo.Descricao, "Adicionar Descrição (opcional)", htmlAttributes: new { @class = "control-label" })
-                            <div class="">
-                                @Html.EditorFor(model => model.DocumentoInfo.Descricao, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.DocumentoInfo.Descricao, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="">
-                                <span id="errorLabel" class="text-danger" style="display:none;margin-top:auto;">Por favor insira um ficheiro pdf ou jpeg válido.</span>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="">
-                                <input type="submit" value="Enviar Documento" class="btn btn-primary" />
-                            </div>
-                        </div>
-
-                    }
+            <div class="row my-2">
+                <div class="col">
+                    <input type="submit" value="Enviar Documento" class="btn btn-primary" id="sendFile" hidden />
                 </div>
             </div>
-
-            @if (ViewBag.DocumentosUser != null)
-            {
-                <div class="col">
-                    <div class="container">
-                        <table class="table">
-                            @foreach (var documento in @ViewBag.DocumentosUser)
-                            {
-                                <tr>
-                                    <td class="row">
-                                        <div class="col-6">@documento.DocumentoInfo.Nome</div>
-                                        <div class="col-3"><a class="fa fa-download badge badge-primary text-light p-2" onclick="location.href='@Url.Action("DownloadDocumento", "Home", new { id = (int)documento.DocumentoInfo.ID })'"><span> Download</span></a></div>
-                                        <div class="col-3"><a class="fa fa-minus-circle badge badge-danger text-light p-2" onclick="location.href='@Url.Action("RemoveDocumento", "Home", new { id = (int)documento.DocumentoInfo.ID })'"><span> Remover</span></a></div>
-                                        @if (documento.DocumentoInfo.Descricao != null)
-                                        {
-                                            <div class="row my-4 px-5">
-                                                <p class="text-muted">@documento.DocumentoInfo.Descricao</p>
-                                            </div>
-                                        }
-
-                                    </td>
-                                </tr>
-                            }
-                        </table>
-                    </div>
-                </div>
-            }
-        </div>
+        }
     </div>
+    if (ViewBag.DocumentosUser != null)
+    {
+        <div class="container">
+            <table class="table">
+                @foreach (var documento in @ViewBag.DocumentosUser)
+                {
+                    <tr>
+                        <td>
+                            <div class="row">
+                                <div class="col-6">@documento.DocumentoInfo.Nome</div>
+                                <div class="col"><a class="fa fa-download badge badge-primary text-light p-2" onclick="location.href='@Url.Action("DownloadDocumento", "Home", new { id = (int)documento.DocumentoInfo.ID })'"><span> Download</span></a></div>
+                                <div class="col"><a class="fa fa-minus-circle badge badge-danger text-light p-2" onclick="location.href='@Url.Action("RemoveDocumento", "Home", new { id = (int)documento.DocumentoInfo.ID })'"><span> Remover</span></a></div>
+                            </div>
+                            @if (documento.DocumentoInfo.Descricao != null)
+                            {
+                                <div class="row my-2 px-5">
+                                    <p class="text-muted">@documento.DocumentoInfo.Descricao</p>
+                                </div>
+                            }
+
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    }
+    else
+    {
+        <p> Use esta funcionalidade para enviar guardar ficheiros no portal</p>
+    }
 }
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#FicheiroInput").change(function () {
+            //gets file size in bytes
+            var filesize = this.files[0].size;
+            //gets file name
+            var filename = this.files[0].name;
+            var filetype = this.files[0].type;
+            //gets filename
+            console.log("size:" + filesize + "\nname:" + filename + "\ntype: " + filetype);
+            var isValid = true;
+
+            if (filesize > 5 * 1024 * 1024) {
+                isValid = false;
+                $("#errorFile").text("Ficheiro com tamanho inválido, máximo é 5MB");
+            }
+            if (filename.size > 50) {
+                isValid = false;
+                $("#errorFile").text("Nome do documento muito longo, máximo são 50 caracteres");
+            }
+            if (filetype != "application/pdf" && filetype != "image/jpeg") {
+                isValid = false;
+                $("#errorFile").text("Documento tem de ser do tipo .jpeg ou .pdf");
+            }
+            if (isValid) {
+                $("#errorFile").text("");
+                $('#docDesc').prop('hidden', false);
+                $('#myfilename').text(filename);
+                $('#sendFile').prop('hidden', false);
+            }
+            else {
+                $('#docDesc').prop('hidden', true);
+                $('#myfilename').text("");
+                $('#sendFile').prop('hidden', true);
+            }
+
+        });
+    });
+
+</script>

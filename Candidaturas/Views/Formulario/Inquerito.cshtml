@@ -7,115 +7,166 @@
 @using (Html.BeginForm("Inquerito", "Formulario", FormMethod.Post, new { @id = "formInquerito" }))
 {
     @Html.AntiForgeryToken()
-
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    <div class="form-group">
-        @Html.LabelFor(model => model.SituacaoPai, "Situação do Pai", htmlAttributes: new { @class = "control-label required" })
+<div class=" container col-8">
+    <div class="row">
         <div class="col">
-            @Html.DropDownListFor(model => model.SituacaoPai, ViewBag.SituacaoPai as SelectList, "Escolha uma opção...", new { @class = "form-control", @id = "situacaoPai" })
-            @Html.ValidationMessageFor(model => model.SituacaoPai, "", new { @class = "text-danger" })
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.SituacaoPai, "Situação do Pai", htmlAttributes: new { @class = "control-label required" })
+                <div class="col">
+                    @Html.DropDownListFor(model => model.SituacaoPai, ViewBag.SituacaoPai as SelectList, "Escolha uma opção...", new { @class = "form-control", @id = "situacaoPai" })
+                    @Html.ValidationMessageFor(model => model.SituacaoPai, "", new { @class = "text-danger" })
+                </div>
+            </div>
         </div>
-    </div>
-
-    <div class="form-group" id="situacaoPaiOutra" style="display:none">
-        @Html.LabelFor(model => model.OutraPai, "Outra", htmlAttributes: new { @class = "control-label required" })
         <div class="col">
-            @Html.EditorFor(model => model.OutraPai, new { htmlAttributes = new { @class = "form-control", @Value = (ViewBag.Inquerito == null ? "" : ViewBag.Inquerito.OutraPai) } })
-            @Html.ValidationMessageFor(model => model.OutraPai, "", new { @class = "text-danger" })
+            <div class="form-group" id="situacaoPaiOutra">
+                @Html.LabelFor(model => model.OutraPai, "Outra", htmlAttributes: new { @class = "control-label required disabled" })
+                <div class="col">
+                    @Html.EditorFor(model => model.OutraPai, new { htmlAttributes = new { @class = "form-control ", @Value = (ViewBag.Inquerito == null ? "" : ViewBag.Inquerito.OutraPai) } })
+                    @Html.ValidationMessageFor(model => model.OutraPai, "", new { @class = "text-danger" })
+                </div>
+            </div>
         </div>
     </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.SituacaoMae, "Situação da Mãe", htmlAttributes: new { @class = "control-label required" })
+    <div class="row">
         <div class="col">
-            @Html.DropDownListFor(model => model.SituacaoMae, ViewBag.SituacaoMae as SelectList, "Escolha uma opção...", new { @class = "form-control", @id = "situacaoMae" })
-            @Html.ValidationMessageFor(model => model.SituacaoMae, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.SituacaoMae, "Situação da Mãe", htmlAttributes: new { @class = "control-label required " })
+                <div class="col">
+                    @Html.DropDownListFor(model => model.SituacaoMae, ViewBag.SituacaoMae as SelectList, "Escolha uma opção...", new { @class = "form-control", @id = "situacaoMae" })
+                    @Html.ValidationMessageFor(model => model.SituacaoMae, "", new { @class = "text-danger" })
+                </div>
+            </div>
         </div>
-    </div>
-
-    <div class="form-group" id="situacaoMaeOutra" style="display:none">
-        @Html.LabelFor(model => model.OutraMae, "Outra", htmlAttributes: new { @class = "control-label required" })
         <div class="col">
-            @Html.EditorFor(model => model.OutraMae, new { htmlAttributes = new { @class = "form-control", @Value = (ViewBag.Inquerito == null ? "" : ViewBag.Inquerito.OutraMae) } })
-            @Html.ValidationMessageFor(model => model.OutraMae, "", new { @class = "text-danger" })
+            <div class="form-group" id="situacaoMaeOutra">
+                @Html.LabelFor(model => model.OutraMae, "Outra", htmlAttributes: new { @class = "control-label required" })
+                <div class="col">
+                    @Html.EditorFor(model => model.OutraMae, new { htmlAttributes = new { @class = "form-control", @Value = (ViewBag.Inquerito == null ? "" : ViewBag.Inquerito.OutraMae) } })
+                    @Html.ValidationMessageFor(model => model.OutraMae, "", new { @class = "text-danger" })
+                </div>
+            </div>
         </div>
     </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.ConhecimentoEscola, "Conhecimento da Escola", htmlAttributes: new { @class = "control-label required" })
+    <div class="row">
         <div class="col">
-            @Html.DropDownListFor(model => model.ConhecimentoEscola, ViewBag.ConhecimentoEscola as SelectList, "Escolha uma opção...", new { @class = "form-control", @id = "conhecimentoEscola" })
-            @Html.ValidationMessageFor(model => model.ConhecimentoEscola, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.ConhecimentoEscola, "Conhecimento da Escola", htmlAttributes: new { @class = "control-label required" })
+                <div class="col">
+                    @Html.DropDownListFor(model => model.ConhecimentoEscola, ViewBag.ConhecimentoEscola as SelectList, "Escolha uma opção...", new { @class = "form-control", @id = "conhecimentoEscola" })
+                    @Html.ValidationMessageFor(model => model.ConhecimentoEscola, "", new { @class = "text-danger" })
+                </div>
+            </div>
         </div>
-    </div>
-
-    <div class="form-group" id="conhecimentoEscolaOutro" style="display:none">
-        @Html.LabelFor(model => model.Outro, "Outro", htmlAttributes: new { @class = "control-label" })
         <div class="col">
-            @Html.EditorFor(model => model.Outro, new { htmlAttributes = new { @class = "form-control", @Value = (ViewBag.Inquerito == null ? "" : ViewBag.Inquerito.Outro) } })
-            @Html.ValidationMessageFor(model => model.Outro, "", new { @class = "text-danger" })
+            <div class="form-group" id="conhecimentoEscolaOutro">
+                @Html.LabelFor(model => model.Outro, "Outro", htmlAttributes: new { @class = "control-label disabled required" })
+                <div class="col">
+                    @Html.EditorFor(model => model.Outro, new { htmlAttributes = new { @class = "form-control", @Value = (ViewBag.Inquerito == null ? "" : ViewBag.Inquerito.Outro) } })
+                    @Html.ValidationMessageFor(model => model.Outro, "", new { @class = "text-danger" })
+                </div>
+            </div>
         </div>
     </div>
+    <div class="row">
+        <div class="form-group">
+            @Html.LabelFor(model => model.CandidatarOutros, "Candidatou-se a outros Estabelecimentos de Ensino?", htmlAttributes: new { @class = "control-label" })
+            <div class="col">
+                <label class="switch">
+                    @Html.CheckBoxFor(model => model.CandidatarOutros, new { @class = "form-control", @id = "TickOutros" })
+                    <div class="slider"></div>
+                </label>
+                <span id="switchLabel"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.CandidatarOutros, "Candidatou-se a outros Estabelecimentos de Ensino?", htmlAttributes: new { @class = "control-label" })
-        <div class="col">
-            <label class="switch">
-                @Html.CheckBoxFor(model => model.CandidatarOutros, new { @class = "form-control" })
-                <div class="slider"></div>
-            </label>
-            <span id="switchLabel"></span>
-            @Html.ValidationMessageFor(model => model.CandidatarOutros, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <div class="col-md-offset-2 col">
+                <input type="submit" value="Continuar" class="btn btn-primary" />
+                @Html.ActionLink("Voltar", "DadosPessoais", "Formulário", new { @class = "btn btn-outline-primary mx-2" })
+            </div>
         </div>
     </div>
+</div>
+    
 
-    <div class="form-group">
-        <div class="col-md-offset-2 col">
-            <input type="submit" value="Guardar" class="btn btn-outline-primary" />
-        </div>
-    </div>
 }
 
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
-<!--<link rel="stylesheet" type="text/css" href="~/Content/Candidaturas.css">-->
-
-@if (ViewBag.Inquerito != null)
-{
-    <script type="text/javascript">
-    $(document).ready(function () {
-
-        var candidatarOutros = '@ViewBag.Inquerito.CandidatarOutros';
-
-        if (candidatarOutros == 'True') {
-            $("#CandidatarOutros").prop('checked', true);
-            $("#switchLabel").text("Sim");
-        }
-        else {
-            $("#CandidatarOutros").prop('checked', false);
-            $("#switchLabel").text("Não");
-        }
-
-        if ($("#situacaoPai").val() == "Outra") {
-            $("#situacaoPaiOutra").show();
-        }
-
-        if ($("#situacaoMae").val() == "Outra") {
-            $("#situacaoMaeOutra").show();
-        }
-
-        if ($("#conhecimentoEscola").val() == "Outros") {
-            $("#conhecimentoEscolaOutro").show();
-        }
-
-    });
-    </script>
-}
 
 <script type="text/javascript">
+    window.onload = checkOthers();
+    $(document).ready(function () {
 
+        $("#situacaoPai").change(function () {
+            checkPai();
+        });
+        $("#situacaoMae").change(function () {
+            checkMae();
+        });
+        $("#conhecimentoEscola").change(function () {
+            checkEscola();
+        });
+       
+    });
+
+    function checkPai() {
+        var cp = $("#situacaoPai").val() == 5;
+        console.log(cp);
+        if (cp) {
+            $("#situacaoPaiOutra").show();
+        }
+        else {
+            $("#situacaoPaiOutra").hide();
+        }
+        $("#OutraPai").prop("required", cp);
+    }
+    
+    function checkMae() {
+        var cm = $("#situacaoMae").val() == 5;
+        console.log(cm);
+        if (cm) {
+            $("#situacaoMaeOutra").show();
+        }
+        else {
+            $("#situacaoMaeOutra").hide();
+        }
+        $("#OutraMae").prop("required", cm);
+    }
+
+    function checkEscola() {
+        var ce = $("#conhecimentoEscola").val() == 6;
+        if (ce) {
+            $("#conhecimentoEscolaOutro").show();
+        } else {
+            $("#conhecimentoEscolaOutro").hide();
+        }
+        $("#Outro").prop("required", ce);
+    }
+
+    function checkOthers() {
+        checkPai();
+        checkMae();
+        checkEscola();
+    }
+    $('.slider').click(function () {
+
+        if ($('#TickOutros').is(':checked')) {
+            $("#switchLabel").text("Não");
+            $("#CandidatarOutros").prop('checked', false);
+        }
+        else {
+            $("#switchLabel").text("Sim");
+            $("#CandidatarOutros").prop('checked', true);
+        }
+    });
+    
     //verifica se houve alterações na tab Inquérito
-    var inqueritoChanged = false;
+    /*var inqueritoChanged = false;
 
     $('#formInquerito input').change(function () {
         inqueritoChanged = true;
@@ -123,49 +174,11 @@
     $('#formInquerito select').change(function () {
         inqueritoChanged = true;
 
-        checkOther();
+        checkOthers();
 
-    });
-
-    //Show & Hide of Outra fields
-    function checkOther() {
-        if ($("#situacaoPai").val() == "Outra") {
-            $("#situacaoPaiOutra").show();
-        } else {
-            $("#situacaoPaiOutra").hide();
-        }
-
-        if ($("#situacaoMae").val() == "Outra") {
-            $("#situacaoMaeOutra").show();
-        } else {
-            $("#situacaoMaeOutra").hide();
-        }
-
-        if ($("#conhecimentoEscola").val() == "Outros") {
-            $("#conhecimentoEscolaOutro").show();
-        } else {
-            $("#conhecimentoEscolaOutro").hide();
-        }
-    }
-
-    //muda a label do switch
-    $('#CandidatarOutros').click(function () {
-        changeLabel();
-    });
-
-    $(document).ready(function () {
-        changeLabel();
-    });
-
-    function changeLabel() {
-        if (!$("#CandidatarOutros").is(':checked')) {
-            $("#switchLabel").text("Não");
-        }
-        else {
-            $("#switchLabel").text("Sim");
-        }
-    }
+    });*/
 </script>
+
 <style>
     #switchLabel {
         position: absolute;
@@ -173,5 +186,4 @@
         margin-top: 7px;
         font-weight: bold;
     }
-
 </style>

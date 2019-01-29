@@ -97,21 +97,11 @@ input[type="checkbox"]:checked + .slider.round .off {
     font-weight: 400 !important;
 }
 
-.header img {
-    float: left;
-}
-
 hr {
     width: 85%;
     align-content :flex-start;
 }
 
-
-.header h1 {
-    position: relative;
-    top: 15px;
-    left: 20px;
-}
 /* Set width on the form input elements since they're 100% wide by default */
 input,
 select,

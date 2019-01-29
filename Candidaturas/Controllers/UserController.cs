@@ -94,7 +94,7 @@ namespace Candidaturas.Controllers
                                 Email.SendEmail(model.user.Email, subject, body);
 
                                 ViewBag.Subtitle = "Criação de Conta";
-
+                                ViewBag.Goto = "Index";
                                 ViewBag.ConfirmationMessage = "Registo de utilizador efetuado com sucesso. A sua palavra-passe de acesso será enviada para o seu email. Por favor verifique a sua caixa de entrada.";
 
                                 return View("~/Views/Shared/Success.cshtml");

@@ -39,5 +39,6 @@ namespace Candidaturas.Models
         public string NIM { get; set; }
         public bool   isFeminino { get; set; }
         public string ValidadeDoc { get; set; }
+        public string CandidatoNumber { get; set; }
     }
 }
