@@ -307,9 +307,6 @@
     <Compile Include="Models\Ramo.cs">
       <DependentUpon>CandidaturasModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Repartico.cs">
-      <DependentUpon>CandidaturasModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Situacao.cs">
       <DependentUpon>CandidaturasModel.tt</DependentUpon>
     </Compile>
