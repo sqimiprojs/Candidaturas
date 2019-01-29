@@ -45,6 +45,7 @@ namespace Candidaturas.Models
         public virtual DbSet<Pai> Pais { get; set; }
         public virtual DbSet<Posto> Postoes { get; set; }
         public virtual DbSet<Ramo> Ramoes { get; set; }
+        public virtual DbSet<Repartico> Reparticoes { get; set; }
         public virtual DbSet<Situacao> Situacaos { get; set; }
         public virtual DbSet<TipoDocumentoID> TipoDocumentoIDs { get; set; }
         public virtual DbSet<User> Users { get; set; }
