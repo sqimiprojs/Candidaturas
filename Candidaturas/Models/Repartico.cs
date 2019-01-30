@@ -14,10 +14,22 @@ namespace Candidaturas.Models
     
     public partial class Repartico
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Repartico()
+        {
+            this.DadosPessoais = new HashSet<DadosPessoai>();
+        }
+    
         public int CodigoDistrito { get; set; }
         public int CodigoConcelho { get; set; }
         public int CodigoFreguesia { get; set; }
         public int Codigo { get; set; }
         public string Nome { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DadosPessoai> DadosPessoais { get; set; }
+        public virtual Distrito Distrito { get; set; }
+        public virtual Repartico Reparticoes1 { get; set; }
+        public virtual Repartico Repartico1 { get; set; }
     }
 }

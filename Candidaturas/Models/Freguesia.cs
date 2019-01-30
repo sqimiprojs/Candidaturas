@@ -22,9 +22,9 @@ namespace Candidaturas.Models
         }
     
         public string Nome { get; set; }
-        public int Codigo { get; set; }
-        public int CodigoConcelho { get; set; }
         public int CodigoDistrito { get; set; }
+        public int CodigoConcelho { get; set; }
+        public int Codigo { get; set; }
     
         public virtual Concelho Concelho { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

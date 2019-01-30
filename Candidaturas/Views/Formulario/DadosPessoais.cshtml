@@ -126,7 +126,7 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.FreguesiaMorada, "Freguesia", htmlAttributes: new { @class = "control-label required  disabled" })
                 <div class="col">
-                    @Html.DropDownListFor(model => model.FreguesiaMorada, ViewBag.FreguesiaMorada as SelectList, "Escolha uma opção...", new { @class = "form-control", @required = "required", disabled = "disabled" })
+                    @Html.DropDownListFor(model => model.FreguesiaMorada, ViewBag.FreguesiaMorada as SelectList, "Escolha uma opção...", new { @class = "form-control", @required = "required", @onchange = "changeRepFinNIF()", disabled = "disabled" })
                     @Html.ValidationMessageFor(model => model.FreguesiaMorada, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -222,7 +222,7 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.RepFinNIF, "Repartição de Finanças", htmlAttributes: new { @class = "control-label" })
                 <div class="col">
-                    @Html.EditorFor(model => model.RepFinNIF, new { htmlAttributes = new { @class = "form-control", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.RepFinNIF) } })
+                    @Html.DropDownListFor(model => model.RepFinNIF, ViewBag.RepFinNIF as SelectList, "Escolha uma opção...", new { @class = "form-control", @required = "required" })
                     @Html.ValidationMessageFor(model => model.RepFinNIF, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -309,6 +309,7 @@
             $('#ConcelhoMorada').prop('disabled', false);
             $('#FreguesiaMorada').prop('disabled', false);
             $('#Localidade').prop('disabled', false);
+            $('#RepFinNIF').prop('disabled', false);
         }
 
         if (@ViewData["dn"]) {
@@ -381,6 +382,10 @@
                     $select3.empty();
                     $select3.append('<option value="">Escolha uma opção...</option>');
                     $select3.prop('disabled', true);
+                    var $select4 = $('#RepFinNIF');
+                    $select4.empty();
+                    $select4.append('<option value="">Escolha uma opção...</option>');
+                    $select4.prop('disabled', true);
                     $.each(concelhos, function (i, concelho) {
                         $('<option>', {
                             value: concelho.ID
@@ -440,6 +445,11 @@
                     $select2.empty();
                     $select2.append('<option value="">Escolha uma opção...</option>');
                     $select2.prop('disabled', true);
+                    var $select3 = $('#RepFinNIF');
+                    $select3.empty();
+                    $select3.append('<option value="">Escolha uma opção...</option>');
+                    $select3.prop('disabled', true);
+
                     $.each(freguesias, function (i, freguesia) {
                         $('<option>', {
                             value: freguesia.ID
@@ -474,6 +484,38 @@
                     $('<option>', {
                         value: localidade.ID
                     }).html(localidade.Name).appendTo($select);
+                });
+
+            },
+            error: function (e) { console.log(e); }
+        })
+    }
+
+    function changeRepFinNIF() {
+        var distritoMoradaEscolhido = $('#DistritoMorada').val();
+        var codigoDistrito = parseInt(distritoMoradaEscolhido);
+        var concelhoMoradaEscolhido = $('#ConcelhoMorada').val();
+        var codigoConcelho = parseInt(concelhoMoradaEscolhido);
+        var freguesiaMoradaEscolhido = $('#FreguesiaMorada').val();
+        var codigoFreguesia = parseInt(freguesiaMoradaEscolhido);
+
+        $.ajax({
+            url: '@Url.Action("UpdateReparticoes", "Formulario")',
+            data: {
+                distrito: codigoDistrito,
+                concelho: codigoConcelho,
+                freguesia: codigoFreguesia
+            },
+            type: "POST",
+            success: function (reparticoes) {
+                var $select = $('#RepFinNIF');
+                $select.empty();
+                $select.append('<option value="">Escolha uma opção...</option>');
+                $select.prop('disabled', false);
+                $.each(reparticoes, function (i, reparticao) {
+                    $('<option>', {
+                        value: reparticao.ID
+                    }).html(reparticao.Name).appendTo($select);
                 });
 
             },

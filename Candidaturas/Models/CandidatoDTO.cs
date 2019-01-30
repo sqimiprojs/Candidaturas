@@ -33,7 +33,7 @@ namespace Candidaturas.Models
         public Nullable<int> FreguesiaNatural { get; set; }
         public string Morada { get; set; }
         public Nullable<int> Localidade { get; set; }
-        public string RepFinNIF { get; set; }
+        public Nullable<int> RepFinNIF { get; set; }
         public string CCDigitosControlo { get; set; }
         public string NSegSoc { get; set; }
         public string NIF { get; set; }

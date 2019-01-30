@@ -240,6 +240,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CandidaturaModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CandidaturasModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CandidaturasModel.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Models\Categoria.cs">
       <DependentUpon>CandidaturaModel.tt</DependentUpon>
     </Compile>
@@ -304,9 +309,6 @@
     </Compile>
     <Compile Include="Models\Repartico.cs">
       <DependentUpon>CandidaturaModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Repartico.cs">
-      <DependentUpon>CandidaturasModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Situacao.cs">
       <DependentUpon>CandidaturaModel.tt</DependentUpon>

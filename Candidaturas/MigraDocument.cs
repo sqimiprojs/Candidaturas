@@ -212,7 +212,7 @@ namespace Candidaturas
             alldata.FreguesiaNatural = db.Freguesias.Where(dp => dp.CodigoConcelho == dadosPessoaisUser.ConcelhoNatural && dp.CodigoDistrito == dadosPessoaisUser.DistritoNatural && dp.Codigo == dadosPessoaisUser.FreguesiaNatural).Select(dp => dp.Nome).FirstOrDefault();
             alldata.Morada = dadosPessoaisUser.Morada;
             alldata.Localidade = db.Localidades.Where(dp => dp.CodigoConcelho == dadosPessoaisUser.ConcelhoMorada && dp.CodigoDistrito == dadosPessoaisUser.DistritoMorada && dp.Codigo == dadosPessoaisUser.Localidade).Select(dp => dp.Nome).FirstOrDefault();
-            alldata.RepFinNIF = dadosPessoaisUser.RepFinNIF;
+            alldata.RepFinNIF = db.Reparticoes.Where(dp => dp.CodigoConcelho == dadosPessoaisUser.ConcelhoMorada && dp.CodigoDistrito == dadosPessoaisUser.DistritoMorada && dp.CodigoFreguesia == dadosPessoaisUser.FreguesiaMorada && dp.Codigo == dadosPessoaisUser.RepFinNIF).Select(dp => dp.Nome).FirstOrDefault(); 
             alldata.CCDigitosControlo = dadosPessoaisUser.CCDigitosControlo;
             alldata.NSegSoc = dadosPessoaisUser.NSegSoc;
             alldata.NIF = dadosPessoaisUser.NIF;

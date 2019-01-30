@@ -18,6 +18,7 @@ namespace Candidaturas.Models
         public Distrito()
         {
             this.Concelhoes = new HashSet<Concelho>();
+            this.Reparticoes = new HashSet<Repartico>();
         }
     
         public string Nome { get; set; }
@@ -25,5 +26,7 @@ namespace Candidaturas.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Concelho> Concelhoes { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Repartico> Reparticoes { get; set; }
     }
 }

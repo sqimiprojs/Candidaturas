@@ -171,6 +171,14 @@ namespace Candidaturas.Controllers
             });
             ViewBag.Posto = postos.ToList();
 
+            IEnumerable<SelectListItem> reparticoes = db.Reparticoes.Where(dp => dp.CodigoDistrito == DadosPessoaisEscolha.DistritoMorada && dp.CodigoConcelho == DadosPessoaisEscolha.ConcelhoMorada && dp.CodigoFreguesia == DadosPessoaisEscolha.FreguesiaMorada).OrderBy(dp => dp.Nome).Select(c => new SelectListItem
+            {
+                Value = c.Codigo.ToString(),
+                Text = c.Nome,
+                Selected = c.Codigo == DadosPessoaisEscolha.RepFinNIF
+
+            });
+            ViewBag.RepFinNIF = reparticoes.ToList();
         }
         // GET: DadosPessoais
         public ActionResult DadosPessoais()
@@ -256,6 +264,28 @@ namespace Candidaturas.Controllers
             };
 
             return jsonLocalidades;
+        }
+
+        [HttpPost]
+        //actualiza lista de localidades consoante o distrito seleccionado
+        public JsonResult updateReparticoes(int distrito, int concelho, int freguesia)
+        {
+            CandidaturaDBEntities1 db = new CandidaturaDBEntities1();
+
+            var reparticoes = db.Reparticoes.Where(dp => dp.CodigoDistrito == distrito && dp.CodigoConcelho == concelho && dp.CodigoFreguesia == freguesia).OrderBy(dp => dp.Nome).Select(c => new
+            {
+                ID = c.Codigo,
+                Name = c.Nome
+            }).ToList();
+
+            JsonResult jsonReparticoes = new JsonResult
+            {
+                Data = reparticoes.ToList(),
+
+                ContentType = "application / json"
+            };
+
+            return jsonReparticoes;
         }
 
         [HttpPost]

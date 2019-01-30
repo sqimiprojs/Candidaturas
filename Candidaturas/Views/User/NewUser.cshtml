@@ -83,8 +83,9 @@
                     @Html.CheckBoxFor(model => model.dadosPessoais.Militar, new { htmlAttributes = new { @class = "form-control", @type = "checkbox" } })
                     <span class="slider"></span>
                 </label>
-                <span id="switchLabel"></span>
+                <!-- <span id="switchLabel"></span>-->
                 @Html.ValidationMessageFor(model => model.dadosPessoais.Militar, "", new { @class = "text-danger" })
+
             </div>
         </div>
     </div>

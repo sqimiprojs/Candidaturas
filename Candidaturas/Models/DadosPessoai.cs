@@ -30,7 +30,7 @@ namespace Candidaturas.Models
         public Nullable<int> FreguesiaNatural { get; set; }
         public string Morada { get; set; }
         public Nullable<int> Localidade { get; set; }
-        public string RepFinNIF { get; set; }
+        public Nullable<int> RepFinNIF { get; set; }
         public string CCDigitosControlo { get; set; }
         public string NSegSoc { get; set; }
         public string NIF { get; set; }
@@ -59,6 +59,7 @@ namespace Candidaturas.Models
         public virtual Pai Pai { get; set; }
         public virtual Posto Posto1 { get; set; }
         public virtual Ramo Ramo1 { get; set; }
+        public virtual Repartico Repartico { get; set; }
         public virtual TipoDocumentoID TipoDocumentoID { get; set; }
         public virtual User User { get; set; }
         public virtual Form Form { get; set; }
