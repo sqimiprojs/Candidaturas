@@ -24,7 +24,7 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.Nomes, "Nomes", htmlAttributes: new { @class = "control-label required" })
                 <div class="col">
-                    @Html.EditorFor(model => model.Nomes, new { htmlAttributes = new { @class = "form-control", @required = "required", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.Nomes)} })
+                    @Html.EditorFor(model => model.Nomes, new { htmlAttributes = new { @class = "form-control", @required = "required", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.Nomes) } })
                     @Html.ValidationMessageFor(model => model.Nomes, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -83,6 +83,42 @@
                     @Html.ValidationMessageFor(model => model.Telefone, "", new { @class = "text-danger" })
                 </div>
             </div>
+
+            <hr />
+            <h4 class="candidaturasHeader">Naturalidade</h4>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Nacionalidade, "País", htmlAttributes: new { @class = "control-label required" })
+                <div class="col">
+                    @Html.DropDownListFor(model => model.Nacionalidade, ViewBag.Nacionalidade as SelectList, "Escolha uma opção...", new { @class = "form-control", @required = "required" })
+                    @Html.ValidationMessageFor(model => model.Nacionalidade, "", new { @class = "text-danger" })
+                    <span id="NacWarning" for="NIF" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.DistritoNatural, "Distrito", htmlAttributes: new { @class = "control-label disabled" })
+                <div class="col">
+                    @Html.DropDownListFor(model => model.DistritoNatural, ViewBag.DistritoNatural as SelectList, "Escolha uma opção...", new { @class = "form-control", @onchange = "changeConcelhos(true)", disabled = "disabled" })
+                    @Html.ValidationMessageFor(model => model.DistritoNatural, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ConcelhoNatural, "Concelho", htmlAttributes: new { @id = "conc", @class = "control-label disabled" })
+                <div class="col">
+                    @Html.DropDownListFor(model => model.ConcelhoNatural, ViewBag.ConcelhoNatural as SelectList, "Escolha uma opção...", new { @class = "form-control", @onchange = "changeFreguesias(true)", disabled = "disabled" })
+                    @Html.ValidationMessageFor(model => model.ConcelhoNatural, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.FreguesiaNatural, "Freguesia", htmlAttributes: new { @class = "control-label disabled" })
+                <div class="col">
+                    @Html.DropDownListFor(model => model.FreguesiaNatural, ViewBag.FreguesiaNatural as SelectList, "Escolha uma opção...", new { @class = "form-control", disabled = "disabled" })
+                    @Html.ValidationMessageFor(model => model.FreguesiaNatural, "", new { @class = "text-danger" })
+                </div>
+            </div>
         </div>
         <div class="col">
             <h4 class="candidaturasHeader">Morada</h4>
@@ -132,112 +168,78 @@
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.Localidade, "Localidade", htmlAttributes: new { @class = "control-label required  disabled" })
+                @Html.LabelFor(model => model.Localidade, "Localidade", htmlAttributes: new { @class = "control-label required disabled" })
                 <div class="col">
                     @Html.DropDownListFor(model => model.Localidade, ViewBag.Localidade as SelectList, "Escolha uma opção...", new { @class = "form-control", @required = "required", disabled = "disabled" })
                     @Html.ValidationMessageFor(model => model.Localidade, "", new { @class = "text-danger" })
                 </div>
             </div>
+
             <hr />
-            <h4 class="candidaturasHeader">Naturalidade</h4>
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.Nacionalidade, "País", htmlAttributes: new { @class = "control-label" })
-                <div class="col">
-                    @Html.DropDownListFor(model => model.Nacionalidade, ViewBag.Nacionalidade as SelectList, "Escolha uma opção...", new { @class = "form-control", @onchange = "enableDistrito()" })
-                    @Html.ValidationMessageFor(model => model.Nacionalidade, "", new { @class = "text-danger" })
-                    <span id="NacWarning" for="NIF" class="text-danger"></span>
+            <div class="col">
+
+                <h4 class="candidaturasHeader">Documento de Identificação</h4>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.TipoDocID, "Tipo", htmlAttributes: new { @class = "control-label required" })
+                    <div class="col">
+                        @Html.DropDownListFor(model => model.TipoDocID, ViewBag.TipoDocID as SelectList, "Escolha uma opção...", new { @class = "form-control", @id = "TipoDoc" })
+                        @Html.ValidationMessageFor(model => model.TipoDocID, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.NDI, "Número", htmlAttributes: new { @class = "control-label required" })
+                    <div class="col">
+                        @Html.EditorFor(model => model.NDI, new { htmlAttributes = new { @class = "form-control", @id = "NDI", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.NDI) } })
+                        @Html.ValidationMessageFor(model => model.NDI, "", new { @class = "text-danger", @id = "NDIWarning" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.DocumentoValidade, "Validade", htmlAttributes: new { @class = "control-label required" })
+                    <div class="col">
+                        @Html.EditorFor(model => model.DocumentoValidade, new { htmlAttributes = new { @class = "form-control", type = "date", @id = "DocVali", @required = "required", @Value = ViewBag.DadosPessoais.DocumentoValidade.ToString("yyyy-MM-dd") } })
+                        @Html.ValidationMessageFor(model => model.DocumentoValidade, "", new { @class = "text-danger", @id = "DocValiWarning" })
+                    </div>
+                </div>
+
+                <hr />
+                <h4 class="candidaturasHeader">Identificação Fiscal</h4>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.NIF, "Número", htmlAttributes: new { @class = "control-label" })
+                    <div class="col">
+                        @Html.EditorFor(model => model.NIF, new { htmlAttributes = new { @class = "form-control", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.NIF) } })
+                        @Html.ValidationMessageFor(model => model.NIF, "", new { @class = "text-danger", @id = "NIFWarning" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.RepFinNIF, "Repartição de Finanças", htmlAttributes: new { @class = "control-label disabled" })
+                    <div class="col">
+                        @Html.DropDownListFor(model => model.RepFinNIF, ViewBag.RepFinNIF as SelectList, "Escolha uma opção...", new { @class = "form-control", disabled = "disabled" })
+                        @Html.ValidationMessageFor(model => model.RepFinNIF, "", new { @class = "text-danger" })
+                    </div>
                 </div>
             </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.DistritoNatural, "Distrito", htmlAttributes: new { @class = "control-label disabled" })
-                <div class="col">
-                    @Html.DropDownListFor(model => model.DistritoNatural, ViewBag.DistritoNatural as SelectList, "Escolha uma opção...", new { @class = "form-control", @onchange = "changeConcelhos(true)", disabled = "disabled" })
-                    @Html.ValidationMessageFor(model => model.DistritoNatural, "", new { @class = "text-danger" })
+            <div class="col">
+                <h4 class="candidaturasHeader">Segurança Social</h4>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.NSegSoc, "Número", htmlAttributes: new { @class = "control-label" })
+                    <div class="col">
+                        @Html.EditorFor(model => model.NSegSoc, new { htmlAttributes = new { @class = "form-control", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.NSegSoc) } })
+                        @Html.ValidationMessageFor(model => model.NSegSoc, "", new { @class = "text-danger" })
+                    </div>
                 </div>
+
             </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.ConcelhoNatural, "Concelho", htmlAttributes: new { @id = "conc", @class = "control-label disabled" })
-                <div class="col">
-                    @Html.DropDownListFor(model => model.ConcelhoNatural, ViewBag.ConcelhoNatural as SelectList, "Escolha uma opção...", new { @class = "form-control", @onchange = "changeFreguesias(true)", disabled = "disabled" })
-                    @Html.ValidationMessageFor(model => model.ConcelhoNatural, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.FreguesiaNatural, "Freguesia", htmlAttributes: new { @class = "control-label disabled" })
-                <div class="col">
-                    @Html.DropDownListFor(model => model.FreguesiaNatural, ViewBag.FreguesiaNatural as SelectList, "Escolha uma opção...", new { @class = "form-control", disabled = "disabled" })
-                    @Html.ValidationMessageFor(model => model.FreguesiaNatural, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-
-
         </div>
-    </div>
 
     <hr />
 
-    <div class="row">
-        <div class="col">
-
-            <h4 class="candidaturasHeader">Documento de Identificação</h4>
-            <div class="form-group">
-                @Html.LabelFor(model => model.TipoDocID, "Tipo", htmlAttributes: new { @class = "control-label required" })
-                <div class="col">
-                    @Html.DropDownListFor(model => model.TipoDocID, ViewBag.TipoDocID as SelectList, "Escolha uma opção...", new { @class = "form-control", @id = "TipoDoc"})
-                    @Html.ValidationMessageFor(model => model.TipoDocID, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.NDI, "Número", htmlAttributes: new { @class = "control-label required" })
-                <div class="col">
-                    @Html.EditorFor(model => model.NDI, new { htmlAttributes = new { @class = "form-control", @id = "NDI", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.NDI) } })
-                    @Html.ValidationMessageFor(model => model.NDI, "", new { @class = "text-danger", @id="NDIWarning" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.DocumentoValidade, "Validade", htmlAttributes: new { @class = "control-label required" })
-                <div class="col">
-                    @Html.EditorFor(model => model.DocumentoValidade, new { htmlAttributes = new { @class = "form-control", type = "date", @id = "DocVali", @required = "required", @Value = ViewBag.DadosPessoais.DocumentoValidade.ToString("yyyy-MM-dd")} })
-                    @Html.ValidationMessageFor(model => model.DocumentoValidade, "", new { @class = "text-danger", @id = "DocValiWarning" })
-                </div>
-            </div>
-
-            <hr />
-            <h4 class="candidaturasHeader">Identificação Fiscal</h4>
-            <div class="form-group">
-                @Html.LabelFor(model => model.NIF, "Número", htmlAttributes: new { @class = "control-label" })
-                <div class="col">
-                    @Html.EditorFor(model => model.NIF, new { htmlAttributes = new { @class = "form-control", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.NIF) } })
-                    @Html.ValidationMessageFor(model => model.NIF, "", new { @class = "text-danger",  @id = "NIFWarning" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.RepFinNIF, "Repartição de Finanças", htmlAttributes: new { @class = "control-label" })
-                <div class="col">
-                    @Html.DropDownListFor(model => model.RepFinNIF, ViewBag.RepFinNIF as SelectList, "Escolha uma opção...", new { @class = "form-control", @required = "required" })
-                    @Html.ValidationMessageFor(model => model.RepFinNIF, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-        <div class="col">
-            <h4 class="candidaturasHeader">Segurança Social</h4>
-            <div class="form-group">
-                @Html.LabelFor(model => model.NSegSoc, "Número", htmlAttributes: new { @class = "control-label" })
-                <div class="col">
-                    @Html.EditorFor(model => model.NSegSoc, new { htmlAttributes = new { @class = "form-control", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.NSegSoc) } })
-                    @Html.ValidationMessageFor(model => model.NSegSoc, "", new { @class = "text-danger" })
-                </div>
-            </div>
+    <div class="row">       
             
-            <div id="militar">
+            <div class="col" id="militar">
                 <hr />
                 <h4 class="candidaturasHeader">Informação Militar</h4>
 
@@ -310,13 +312,34 @@
             $('#FreguesiaMorada').prop('disabled', false);
             $('#Localidade').prop('disabled', false);
             $('#RepFinNIF').prop('disabled', false);
+            var distritoMoradaEscolhido = $('#DistritoMorada').val();
+            var codigoDistrito = parseInt(distritoMoradaEscolhido);
+            if (codigoDistrito > 18) {
+                var $select3 = $('#Localidade');
+                $select3.prop('disabled', true);
+                $select3.prop('required', false);
+                $("label[for='Localidade']").removeClass('required');
+            } else {
+                var $select3 = $('#Localidade');
+                $select3.prop('disabled', false);
+                $select3.prop('required', true);
+                $("label[for='Localidade']").addClass('required');
+            }
         }
 
         if (@ViewData["dn"]) {
             $('#ConcelhoNatural').prop('disabled', false);
             $('#FreguesiaNatural').prop('disabled', false);
         }
-        
+
+        var nac = $("#Nacionalidade").val();
+        if (nac === "PT") {
+            $("#NIF").prop('required', true);
+            $("label[for='NIF']").addClass('required');
+            $("#RepFinNIF").prop('required', true);
+            $("label[for='RepFinNIF']").addClass('required');
+            $('#DistritoNatural').prop('disabled', false);
+        }
     }
 
     function showMilitar() {
@@ -394,6 +417,18 @@
                 },
                 error: function (e) { console.log(e); }
             })
+
+            if (codigoDistrito > 18) {
+                var $select3 = $('#Localidade');
+                $select3.prop('disabled', true);
+                $select3.prop('required', false);
+                $("label[for='Localidade']").removeClass('required');
+            } else {
+                var $select3 = $('#Localidade');
+                $select3.prop('disabled', false);
+                $select3.prop('required', true);
+                $("label[for='Localidade']").addClass('required');
+            }
         }
     }
     //altera as freguesias consoante o concelho escolhido
@@ -468,7 +503,9 @@
         var codigoDistrito = parseInt(distritoMoradaEscolhido);
         var concelhoMoradaEscolhido = $('#ConcelhoMorada').val();
         var codigoConcelho = parseInt(concelhoMoradaEscolhido);
-        $.ajax({
+
+        if (codigoDistrito <= 18) {
+               $.ajax({
             url: '@Url.Action("UpdateLocalidades", "Formulario")',
             data: {
                 distrito: codigoDistrito,
@@ -489,6 +526,7 @@
             },
             error: function (e) { console.log(e); }
         })
+        }
     }
 
     function changeRepFinNIF() {

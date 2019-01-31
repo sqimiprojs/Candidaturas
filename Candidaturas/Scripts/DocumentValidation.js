@@ -356,11 +356,15 @@
         if (nac === "PT") {
             $("#NIF").prop('required', true);
             $("label[for='NIF']").addClass('required');
+            $("#RepFinNIF").prop('required', true);
+            $("label[for='RepFinNIF']").addClass('required');
             $('#DistritoNatural').prop('disabled', false);
         }
         else {
             $("#NIF").prop('required', false);
             $("label[for='NIF']").removeClass('required');
+            $("#RepFinNIF").prop('required', false);
+            $("label[for='RepFinNIF']").removeClass('required');
             $('#DistritoNatural').prop('disabled', true);
         }
     }
