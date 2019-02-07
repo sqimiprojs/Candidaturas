@@ -147,6 +147,7 @@ namespace Candidaturas.Controllers
             return db.Forms.Where(dp => dp.UserID == userId).Any();
 
         }
+
         public ActionResult DownloadFormulario() {
 
             CandidaturaDBEntities1 db = new CandidaturaDBEntities1();
@@ -164,8 +165,6 @@ namespace Candidaturas.Controllers
             Response.End();
         
             return View("~/Views/Home/Welcome.cshtml");
-
-
         }
 
         public ActionResult RepeatFormulario()
