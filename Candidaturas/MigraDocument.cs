@@ -229,7 +229,7 @@ namespace Candidaturas
             alldata.Posto = db.Postoes.Where(dp => dp.RamoMilitar == dadosPessoaisUser.Ramo && dp.CategoriaMilitar == dadosPessoaisUser.Categoria && dp.Código == dadosPessoaisUser.Posto).OrderBy(dp => dp.Código).Select(dp => dp.Nome).FirstOrDefault();
             alldata.Classe = dadosPessoaisUser.Classe;
             alldata.NIM = dadosPessoaisUser.NIM;
-            alldata.ValidadeDoc = dadosPessoaisUser.DocumentoValidade?.ToString("dd/MM/yyyy");
+            alldata.ValidadeDoc = dadosPessoaisUser.DocumentoValidade.ToString("dd/MM/yyyy");
             //para ter feminino nos documentos
             alldata.isFeminino = db.Generoes.Where(dp => dadosPessoaisUser.Genero == dp.ID).Select(dp => dp.Nome).FirstOrDefault() == "Feminino";
             alldata.CandidatoNumber = db.Candidatoes.Where(dp => dp.UserID == userId).Select(dp => dp.Numero).FirstOrDefault().ToString();
