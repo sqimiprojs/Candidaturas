@@ -10,10 +10,10 @@
 
 <div class="row">
     <div class="col">
-        <h2 class="candidaturasHeader">Cursos</h2><hr />
+        <h2 class="candidaturasHeader required">Cursos</h2><hr />
         <div class="form-inline">
             <div class="col">
-                @Html.DropDownList("Curso", ViewBag.Curso as SelectList, "Escolha uma opção...", new { @class = "form-control", @name = "CursoARegistar" })
+                @Html.DropDownList("Curso", ViewBag.Curso as SelectList, "Escolha uma opção...", new { @class = "form-control", @name = "CursoARegistar", @required = "required"})
             </div>
             <div class="col">
                 <input id="AddCurso" type="submit" value="Adicionar Curso" class="btn btn-outline-primary" />
@@ -24,6 +24,7 @@
         <table class="table my-4" id="mytable">
             @{
                 int numeroCursosEscolhidos = Model.CursosEscolhidos.Count;
+                @Html.Hidden("numeroCursosEscolhidos", numeroCursosEscolhidos);
                 foreach (CursoDisplay curso in Model.CursosEscolhidos)
 
                 {
@@ -92,11 +93,27 @@
 
 </div>
 <div class="row">
-    @Html.ActionLink("Finalizar Candidatura", "SubmeterCandidatura", "Formulario", null, new { @class = "btn btn-primary" })
+        <input id="BotaoFinalizar"
+               type="button"
+               value="Finalizar Candidatura"
+               class="btn btn-primary"
+               onclick="location.href='@Url.Action("SubmeterCandidatura", "Formulario" )'"
+               />
+
     @Html.ActionLink("Voltar", "Inquerito", "Formulário", new { @class = "btn btn-outline-primary mx-2" })
 </div>
 
 <script>
+    window.onload = disableButton();
+
+
+    function disableButton() {
+        if (@ViewBag.CountCursosEscolhidos < 1) {
+            var $button = $('#BotaoFinalizar');
+            $button.prop('disabled', true);
+        }
+    }
+
     $('#Exame').bind('change', function () {
         $('#SelectedExame').val($(this).val());
     });
@@ -151,6 +168,15 @@
     $('#Curso').change(function () {
         candidaturaChanged = true;
     });
+
+    function ValidacaoCurso() {
+        var valido = true;
+
+        if (numeroCursosEscolhidos != 0) {
+            valido = false;
+        }
+
+    }
 
 </script>
 

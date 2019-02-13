@@ -564,6 +564,7 @@ namespace Candidaturas.Controllers
                 dynamic mymodel = new ExpandoObject();
                 mymodel.ExamesEscolhidos = exames;
                 mymodel.CursosEscolhidos = cursos;
+                ViewBag.CountCursosEscolhidos = cursos.Count;
                 mymodel.ExamesNecessários = examesNecessarios;
 
                 return View(mymodel);
