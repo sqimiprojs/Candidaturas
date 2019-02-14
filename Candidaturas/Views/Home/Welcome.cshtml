@@ -7,7 +7,7 @@
 <div class="container">
     <div class="row my-4">
         <div class="col card text-center">
-            @if (ViewBag.Candidato)
+            @if (ViewBag.Candidato != null &&  ViewBag.Candidato)
             {
                 <h2>Bem - Vindo Candidato Nº @ViewBag.NumeroCandidato</h2>
             }
@@ -17,7 +17,7 @@
             }
         </div>
         <div class="col">
-            @if (ViewBag.Candidato)
+            @if (ViewBag.Candidato != null && ViewBag.Candidato)
             {
                 @Html.ActionLink("Descarregar Comprovativo", "DownloadFormulario", "Home", new { @class = "btn btn-primary" });
                 @Html.ActionLink("Alterar Candidatura", "RepeatFormulario", "Home", new { @class = "btn btn-outline-primary mx-2" });
@@ -30,7 +30,7 @@
         </div>
     </div>
 </div>
-@if (ViewBag.Candidato)
+@if (ViewBag.Candidato != null && ViewBag.Candidato)
 {
     <hr />
     <div class="container">
