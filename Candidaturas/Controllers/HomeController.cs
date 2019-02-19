@@ -13,12 +13,30 @@ namespace Candidaturas.Controllers
         // GET: Home
         public ActionResult Index()
         {
+            CandidaturaDBEntities1 db = new CandidaturaDBEntities1();
+
             if (Session["SelectedTab"] == null)
             {
                 Session["SelectedTab"] = 1;
             }
 
-            return View();
+            if (Session["userID"] != null)
+            {
+                int userId = (int)Session["userID"];
+
+                Candidato candidato = db.Candidatoes.Where(u => u.UserID == userId).FirstOrDefault();
+                ViewBag.Candidato = false;
+
+                if (candidato != null)
+                {
+                    ViewBag.Candidato = true;
+                    ViewBag.NumeroCandidato = candidato.Numero;
+                    Session["SelectedTab"] = 5;
+
+                }
+            }
+
+                return View();
         }
 
         // GET: Welcome
