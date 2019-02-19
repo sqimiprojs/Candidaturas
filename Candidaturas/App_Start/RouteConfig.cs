@@ -13,8 +13,6 @@ namespace Candidaturas
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            
-
             routes.MapRoute(
                 name: "NewUser",
                 url: "User/{action}",
@@ -24,7 +22,7 @@ namespace Candidaturas
             routes.MapRoute(
                 name: "Welcome",
                 url: "Home/{action}",
-                defaults: new { controller = "Home", action = "Welcome" }
+                defaults: new { controller = "Home", action = "Index" }
             );
 
             routes.MapRoute(

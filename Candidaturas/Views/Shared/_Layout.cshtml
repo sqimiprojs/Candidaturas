@@ -22,7 +22,7 @@
         @if (Session["userID"] != null)
         {
             <span class="fa fa-home navbar-brand" style="font-size: 2em;"></span>
-            @Html.ActionLink("Escola Naval - Candidaturas", "Welcome", "Home", new { area = "" }, new { @class = "navbar-brand text-light" })
+            @Html.ActionLink("Escola Naval - Candidaturas", "Index", "Home", new { area = "" }, new { @class = "navbar-brand text-light" })
         }
         else
         {

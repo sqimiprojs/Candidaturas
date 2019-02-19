@@ -39,7 +39,7 @@ namespace Candidaturas.Controllers
                 else
                 {
                     Session["userID"] = userDetails.ID;
-                    return RedirectToAction("Welcome", "Home");
+                    return RedirectToAction("Index", "Home");
                 }
             }
         }

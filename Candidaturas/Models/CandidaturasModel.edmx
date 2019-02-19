@@ -2058,8 +2058,8 @@
     </Options>
     <!-- Diagram content (shape and connector positions) -->
     <Diagrams>
-      <Diagram DiagramId="ee9d11bbaf314255ab195e0d0c4a9b87" Name="Diagram1" ZoomLevel="12">
-        <EntityTypeShape EntityType="CandidaturaDBModel.Candidato" Width="1.5" PointX="3" PointY="18.375" />
+      <Diagram DiagramId="ee9d11bbaf314255ab195e0d0c4a9b87" Name="Diagram1" ZoomLevel="72">
+        <EntityTypeShape EntityType="CandidaturaDBModel.Candidato" Width="1.5" PointX="13.625" PointY="22.25" />
         <EntityTypeShape EntityType="CandidaturaDBModel.Categoria" Width="1.5" PointX="3.75" PointY="1.25" />
         <EntityTypeShape EntityType="CandidaturaDBModel.Concelho" Width="1.5" PointX="1.5" PointY="22" />
         <EntityTypeShape EntityType="CandidaturaDBModel.ConhecimentoEscola" Width="1.5" PointX="0.75" PointY="4.875" />
@@ -2068,10 +2068,10 @@
         <EntityTypeShape EntityType="CandidaturaDBModel.Distrito" Width="1.5" PointX="1.5" PointY="25.25" />
         <EntityTypeShape EntityType="CandidaturaDBModel.Documento" Width="1.5" PointX="3" PointY="29.625" />
         <EntityTypeShape EntityType="CandidaturaDBModel.DocumentoBinario" Width="1.5" PointX="5.25" PointY="30.125" />
-        <EntityTypeShape EntityType="CandidaturaDBModel.Edicao" Width="1.5" PointX="0.75" PointY="28.5" />
+        <EntityTypeShape EntityType="CandidaturaDBModel.Edicao" Width="1.5" PointX="9.5" PointY="22.75" />
         <EntityTypeShape EntityType="CandidaturaDBModel.EstadoCivil" Width="1.5" PointX="3.75" PointY="25" />
         <EntityTypeShape EntityType="CandidaturaDBModel.Exame" Width="1.5" PointX="0.75" PointY="10.5" />
-        <EntityTypeShape EntityType="CandidaturaDBModel.Form" Width="1.5" PointX="8.25" PointY="17.5" />
+        <EntityTypeShape EntityType="CandidaturaDBModel.Form" Width="1.5" PointX="10.125" PointY="19.625" />
         <EntityTypeShape EntityType="CandidaturaDBModel.Freguesia" Width="1.5" PointX="3.75" PointY="22" />
         <EntityTypeShape EntityType="CandidaturaDBModel.Genero" Width="1.5" PointX="3.75" PointY="33.375" />
         <EntityTypeShape EntityType="CandidaturaDBModel.Inquerito" Width="1.5" PointX="3" PointY="13.625" />
@@ -2082,7 +2082,7 @@
         <EntityTypeShape EntityType="CandidaturaDBModel.Repartico" Width="1.5" PointX="3.75" PointY="4.75" />
         <EntityTypeShape EntityType="CandidaturaDBModel.Situacao" Width="1.5" PointX="0.75" PointY="18.375" />
         <EntityTypeShape EntityType="CandidaturaDBModel.TipoDocumentoID" Width="1.5" PointX="3.75" PointY="35.75" />
-        <EntityTypeShape EntityType="CandidaturaDBModel.User" Width="1.5" PointX="0.75" PointY="13.875" />
+        <EntityTypeShape EntityType="CandidaturaDBModel.User" Width="1.5" PointX="14.375" PointY="14.875" />
         <EntityTypeShape EntityType="CandidaturaDBModel.UserCurso" Width="1.5" PointX="9" PointY="14.375" />
         <EntityTypeShape EntityType="CandidaturaDBModel.UserExame" Width="1.5" PointX="3" PointY="10.5" />
         <AssociationConnector Association="CandidaturaDBModel.FK_Candidato_Edicao" />

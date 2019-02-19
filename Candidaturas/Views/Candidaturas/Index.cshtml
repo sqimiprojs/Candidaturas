@@ -3,7 +3,7 @@
 @model dynamic
 
 @{
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = null;
 }
 
 @Html.AntiForgeryToken()
@@ -32,13 +32,13 @@
                         <td>@curso.prioridade.</td>
                         <td>@curso.nome</td>
                         <td>
-                            <a class="fa fa-times-circle badge badge-danger text-light p-2 " onclick="location.href='@Url.Action("RemoverCurso", "Formulario", new { id = (int)@curso.ID })'"><span> Remover</span></a>
+                            <a class="fa fa-times-circle badge badge-danger text-light p-2 " onclick="location.href='@Url.Action("RemoverCurso", "Candidaturas", new { id = (int)@curso.ID })'"><span> Remover</span></a>
                         </td>
 
                         <td>
                             @if (curso.prioridade != 1)
                             {
-                                <a class="fa fa-chevron-up badge badge-light p-2" onclick="location.href='@Url.Action("MoverParaCima", "Formulario", new { id = (int)@curso.ID })'"><span> Mais Prioritário</span></a>
+                                <a class="fa fa-chevron-up badge badge-light p-2" onclick="location.href='@Url.Action("MoverParaCima", "Candidaturas", new { id = (int)@curso.ID })'"><span> Mais Prioritário</span></a>
                             }
                         </td>
 
@@ -46,7 +46,7 @@
                         <td>
                             @if (curso.prioridade != numeroCursosEscolhidos)
                             {
-                                <a class="fa fa-chevron-down badge badge-light p-2" onclick="location.href='@Url.Action("MoverParaBaixo", "Formulario", new { id = (int)@curso.ID })'"><span> Menos Prioritário</span></a>
+                                <a class="fa fa-chevron-down badge badge-light p-2" onclick="location.href='@Url.Action("MoverParaBaixo", "Candidaturas", new { id = (int)@curso.ID })'"><span> Menos Prioritário</span></a>
                             }
 
                         </td>
@@ -84,7 +84,7 @@
                 <tr>
                     <td>@exame.Nome</td>
                     <td>
-                        <a class=" fa fa-times-circle badge badge-danger text-light p-2" onclick="location.href='@Url.Action("RemoverExame", "Formulario", new { id = (int)@exame.ID })'"><span> Remover</span></a>
+                        <a class=" fa fa-times-circle badge badge-danger text-light p-2" onclick="location.href='@Url.Action("RemoverExame", "Candidaturas", new { id = (int)@exame.ID })'"><span> Remover</span></a>
                     </td>
                 </tr>
             }
@@ -97,10 +97,8 @@
                type="button"
                value="Finalizar Candidatura"
                class="btn btn-primary"
-               onclick="location.href='@Url.Action("SubmeterCandidatura", "Formulario" )'"
+               onclick="location.href='@Url.Action("Continuar", "Candidaturas" )'"
                />
-
-    @Html.ActionLink("Voltar", "Inquerito", "Formulário", new { @class = "btn btn-outline-primary mx-2" })
 </div>
 
 <script>
@@ -129,7 +127,7 @@
 
             if (hidValue != "") {
                 $.ajax({
-                    url: '@Url.Action("AdicionarExame", "Formulario")',
+                    url: '@Url.Action("AdicionarExame", "Candidaturas")',
                     type: "post",
                     data: { ExameSeleccionado: hidValue },
                     dataType: "application/json", //type of response
@@ -146,7 +144,7 @@
             var hidValue = $("#SelectedCurso").val();
             if (hidValue != "") {
                 $.ajax({
-                    url: '@Url.Action("AdicionarCurso", "Formulario")',
+                    url: '@Url.Action("AdicionarCurso", "Candidaturas")',
                     type: "post",
                     data: {CursoSeleccionado:hidValue},
                     dataType: "application/json", //type of response

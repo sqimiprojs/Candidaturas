@@ -11,478 +11,39 @@ using MigraDoc.Rendering;
 
 namespace Candidaturas.Controllers
 {
-    public class FormularioController : Controller
+    public class CandidaturasController : Controller
     {
-        DadosPessoai DadosPessoaisEscolha = new DadosPessoai();
-        Inquerito InqEscolha = new Inquerito();
-
         List<Exame> exames;
         List<CursoDisplay> cursos;
         List<String> examesNecessarios;
 
-        /*-Dados Pessoais-*/
-        //obtém os dados preenchdios pelo utilizador para mostrar no ecrã
-        public void getDadosPessoais(int userId)
+        // GET: Candidaturas
+        public ActionResult Index()
         {
-            ViewBag.Title = "Dados Pessoais";
-            CandidaturaDBEntities1 db = new CandidaturaDBEntities1();
-            DadosPessoai dadosPessoaisUser = db.DadosPessoais.Where(dp => dp.UserId == userId).FirstOrDefault();
+            ViewBag.Title = "Opcoes";
+            exames = new List<Exame>();
+            cursos = new List<CursoDisplay>();
+            examesNecessarios = new List<String>();
 
-            if (dadosPessoaisUser != null)
-            {
-                ViewBag.DadosPessoais = dadosPessoaisUser;
-
-                DadosPessoaisEscolha = dadosPessoaisUser;
-                ViewData["dn"] = dadosPessoaisUser.DistritoNatural != null;
-                ViewData["dm"] = dadosPessoaisUser.DistritoMorada != null;
-                ViewData["mil"] = dadosPessoaisUser.Militar;               
-            }            
-
-        }
-
-        //obtém os dados a serem preenchidos nas drops
-        public void getDataForDropdownLists()
-        {
-            CandidaturaDBEntities1 db = new CandidaturaDBEntities1();
-
-            IEnumerable<SelectListItem> generos = db.Generoes.OrderBy(dp => dp.Nome).Select(c => new SelectListItem
-            {
-                Value = c.ID.ToString(),
-                Text = c.Nome,
-                Selected = c.ID == DadosPessoaisEscolha.Genero
-
-            });
-            ViewBag.Genero = generos.ToList();
-
-            IEnumerable<SelectListItem> distritosNaturais = db.Distritoes.OrderBy(dp => dp.Nome).Select(c => new SelectListItem
-            {
-                Value = c.Codigo.ToString(),
-                Text = c.Nome,
-                Selected = c.Codigo == DadosPessoaisEscolha.DistritoNatural
-
-            });
-            ViewBag.DistritoNatural = distritosNaturais.ToList();
-
-            IEnumerable<SelectListItem> concelhosNaturais = db.Concelhoes.Where(dp => dp.CodigoDistrito == DadosPessoaisEscolha.DistritoNatural).OrderBy(dp => dp.Nome).Select(c => new SelectListItem
-            {
-                Value = c.Codigo.ToString(),
-                Text = c.Nome,
-                Selected = c.Codigo == DadosPessoaisEscolha.ConcelhoNatural
-
-            });
-            ViewBag.ConcelhoNatural = concelhosNaturais.ToList();
-
-            IEnumerable<SelectListItem> freguesiasNaturais = db.Freguesias.Where(dp => dp.CodigoConcelho == DadosPessoaisEscolha.ConcelhoNatural && dp.CodigoDistrito == DadosPessoaisEscolha.DistritoNatural).OrderBy(dp => dp.Nome).Select(c => new SelectListItem
-            {
-                Value = c.Codigo.ToString(),
-                Text = c.Nome,
-                Selected = c.Codigo == DadosPessoaisEscolha.FreguesiaNatural
-
-            });
-            ViewBag.FreguesiaNatural = freguesiasNaturais.ToList();
-
-            IEnumerable<SelectListItem> distritosMoradas = db.Distritoes.OrderBy(dp => dp.Nome).Select(c => new SelectListItem
-            {
-                Value = c.Codigo.ToString(),
-                Text = c.Nome,
-                Selected = c.Codigo == DadosPessoaisEscolha.DistritoMorada
-
-            });
-            ViewBag.DistritoMorada = distritosMoradas.ToList();
-
-            IEnumerable<SelectListItem> concelhosMoradas = db.Concelhoes.Where(dp => dp.CodigoDistrito == DadosPessoaisEscolha.DistritoMorada).OrderBy(dp => dp.Nome).Select(c => new SelectListItem
-            {
-                Value = c.Codigo.ToString(),
-                Text = c.Nome,
-                Selected = c.Codigo == DadosPessoaisEscolha.ConcelhoMorada
-
-            });
-            ViewBag.ConcelhoMorada = concelhosMoradas.ToList();
-
-            IEnumerable<SelectListItem> freguesiasMoradas = db.Freguesias.Where(dp => dp.CodigoConcelho == DadosPessoaisEscolha.ConcelhoMorada && dp.CodigoDistrito == DadosPessoaisEscolha.DistritoMorada).OrderBy(dp => dp.Nome).Select(c => new SelectListItem
-            {
-                Value = c.Codigo.ToString(),
-                Text = c.Nome,
-                Selected = c.Codigo == DadosPessoaisEscolha.FreguesiaMorada
-
-            });
-            ViewBag.FreguesiaMorada = freguesiasMoradas.ToList();
-
-            IEnumerable<SelectListItem> tiposDocumentosId = db.TipoDocumentoIDs.OrderBy(dp => dp.Nome).Select(c => new SelectListItem
-            {
-                Value = c.ID.ToString(),
-                Text = c.Nome,
-                Selected = c.ID == DadosPessoaisEscolha.TipoDocID
-
-            });
-            ViewBag.TipoDocID = tiposDocumentosId.ToList();
-
-            IEnumerable<SelectListItem> estadosCivis = db.EstadoCivils.OrderBy(dp => dp.Nome).Select(c => new SelectListItem
-            {
-                Value = c.ID.ToString(),
-                Text = c.Nome,
-                Selected = c.ID == DadosPessoaisEscolha.EstadoCivil
-
-            });
-            ViewBag.EstadoCivil = estadosCivis.ToList();
-
-            IEnumerable<SelectListItem> nacionalidades = db.Pais.OrderBy(dp => dp.Nome).Select(c => new SelectListItem
-            {
-                Value = c.Sigla,
-                Text = c.Nome,
-                Selected = c.Sigla == DadosPessoaisEscolha.Nacionalidade
-
-            });
-            ViewBag.Nacionalidade = nacionalidades.ToList();
-
-            IEnumerable<SelectListItem> localidades = db.Localidades.Where(dp => dp.CodigoConcelho == DadosPessoaisEscolha.ConcelhoMorada && dp.CodigoDistrito == DadosPessoaisEscolha.DistritoMorada).OrderBy(dp => dp.Nome).Select(c => new SelectListItem
-            {
-                Value = c.Codigo.ToString(),
-                Text = c.Nome,
-                Selected = c.Codigo == DadosPessoaisEscolha.Localidade
-
-            });
-            ViewBag.Localidade = localidades.ToList();
-
-            IEnumerable<SelectListItem> ramos = db.Ramoes.OrderBy(dp => dp.Sigla).Select(c => new SelectListItem
-            {
-                Value = c.Sigla,
-                Text = c.Nome,
-                Selected = c.Sigla == DadosPessoaisEscolha.Ramo
-
-            });
-            ViewBag.Ramo = ramos.ToList();
-
-            IEnumerable<SelectListItem> categorias = db.Categorias.OrderBy(dp => dp.Sigla).Select(c => new SelectListItem
-            {
-                Value = c.Sigla,
-                Text = c.Nome,
-                Selected = c.Sigla == DadosPessoaisEscolha.Categoria
-
-            });
-            ViewBag.Categoria = categorias.ToList();
-
-            IEnumerable<SelectListItem> postos = db.Postoes.Where(dp => dp.RamoMilitar == DadosPessoaisEscolha.Ramo && dp.CategoriaMilitar == DadosPessoaisEscolha.Categoria).OrderBy(dp => dp.Código).Select(c => new SelectListItem
-            {
-                Value = c.Código.ToString(),
-                Text = c.Nome,
-                Selected = c.Código == DadosPessoaisEscolha.Posto
-
-            });
-            ViewBag.Posto = postos.ToList();
-
-            IEnumerable<SelectListItem> reparticoes = db.Reparticoes.Where(dp => dp.CodigoDistrito == DadosPessoaisEscolha.DistritoMorada && dp.CodigoConcelho == DadosPessoaisEscolha.ConcelhoMorada && dp.CodigoFreguesia == DadosPessoaisEscolha.FreguesiaMorada).OrderBy(dp => dp.Nome).Select(c => new SelectListItem
-            {
-                Value = c.Codigo.ToString(),
-                Text = c.Nome,
-                Selected = c.Codigo == DadosPessoaisEscolha.RepFinNIF
-
-            });
-            ViewBag.RepFinNIF = reparticoes.ToList();
-        }
-        // GET: DadosPessoais
-        public ActionResult DadosPessoais()
-        {
             if (Session["userID"] != null)
             {
+                CandidaturaDBEntities1 db = new CandidaturaDBEntities1();
                 int userId = (int)Session["userID"];
 
-                if (userId != 0)
-                {
-                    this.getDadosPessoais(userId);
-                }
+                getDataForDropdownLists(db);
+                getSelectedExames(db, userId);
+                getSelectedCursos(db, userId);
 
-                this.getDataForDropdownLists();
+                dynamic mymodel = new ExpandoObject();
+                mymodel.ExamesEscolhidos = exames;
+                mymodel.CursosEscolhidos = cursos;
+                ViewBag.CountCursosEscolhidos = cursos.Count;
+                mymodel.ExamesNecessários = examesNecessarios;
 
-                return View("~/Views/Formulario/DadosPessoais.cshtml");
+                return View(mymodel);
             }
 
             return View("~/Views/Login/Index.cshtml");
-        }
-
-        [HttpPost]
-        //actualiza lista de concelhos consoante o distrito seleccionado
-        public JsonResult updateConcelhos(int distrito)
-        {
-            CandidaturaDBEntities1 db = new CandidaturaDBEntities1();
-
-            var concelhos = db.Concelhoes.Where(dp => dp.CodigoDistrito == distrito).OrderBy(dp => dp.Nome).Select(c => new
-            {
-                ID = c.Codigo,
-                Name = c.Nome
-            }).ToList();
-
-            JsonResult jsonConcelhos = new JsonResult
-            {
-                Data = concelhos.ToList(),
-
-                ContentType = "application / json"
-            };
-
-            return jsonConcelhos;
-        }
-
-        [HttpPost]
-        //actualiza lista de freguesias consoante o concelho seleccionado
-        public JsonResult updateFreguesias(int distrito, int concelho)
-        {
-            CandidaturaDBEntities1 db = new CandidaturaDBEntities1();
-
-            var freguesias = db.Freguesias.Where(dp => dp.CodigoDistrito == distrito && dp.CodigoConcelho == concelho).OrderBy(dp => dp.Nome).Select(c => new
-            {
-                ID = c.Codigo,
-                Name = c.Nome
-            }).ToList();
-
-            JsonResult jsonFreguesias = new JsonResult
-            {
-                Data = freguesias.ToList(),
-
-                ContentType = "application / json"
-            };
-
-            return jsonFreguesias;
-        }
-
-        [HttpPost]
-        //actualiza lista de localidades consoante o distrito seleccionado
-        public JsonResult updateLocalidades(int distrito, int concelho)
-        {
-            CandidaturaDBEntities1 db = new CandidaturaDBEntities1();
-
-            var localidades = db.Localidades.Where(dp => dp.CodigoDistrito == distrito && dp.CodigoConcelho == concelho).OrderBy(dp => dp.Nome).Select(c => new
-            {
-                ID = c.Codigo,
-                Name = c.Nome
-            }).ToList();
-
-            JsonResult jsonLocalidades = new JsonResult
-            {
-                Data = localidades.ToList(),
-
-                ContentType = "application / json"
-            };
-
-            return jsonLocalidades;
-        }
-
-        [HttpPost]
-        //actualiza lista de localidades consoante o distrito seleccionado
-        public JsonResult updateReparticoes(int distrito, int concelho, int freguesia)
-        {
-            CandidaturaDBEntities1 db = new CandidaturaDBEntities1();
-
-            var reparticoes = db.Reparticoes.Where(dp => dp.CodigoDistrito == distrito && dp.CodigoConcelho == concelho && dp.CodigoFreguesia == freguesia).OrderBy(dp => dp.Nome).Select(c => new
-            {
-                ID = c.Codigo,
-                Name = c.Nome
-            }).ToList();
-
-            JsonResult jsonReparticoes = new JsonResult
-            {
-                Data = reparticoes.ToList(),
-
-                ContentType = "application / json"
-            };
-
-            return jsonReparticoes;
-        }
-
-        [HttpPost]
-        public ActionResult DadosPessoais(DadosPessoai dadosPessoaisModel)
-        {
-            if (Session["userID"] == null)
-                return RedirectToAction("LogOut", "Login");
-            else
-            {
-                int userId = (int)Session["userID"];
-
-                using (CandidaturaDBEntities1 dbModel = new CandidaturaDBEntities1())
-                {
-                    try
-                    {
-                        DadosPessoai dadosPessoaisUser = dbModel.DadosPessoais.Where(dp => dp.UserId == userId).FirstOrDefault();
-
-                        dadosPessoaisModel.UserId = userId;
-
-                        //obter dígitos de controlo do cartão de cidadão
-                        if (dadosPessoaisModel.TipoDocID == 4 || dadosPessoaisModel.TipoDocID == 2)
-                        {
-                            int idx = dadosPessoaisModel.NDI.IndexOf("-") + 1;
-                            int length = dadosPessoaisModel.NDI.Length;
-                            string digitosControlo = dadosPessoaisModel.NDI.Substring(idx, length - idx);
-                            dadosPessoaisModel.CCDigitosControlo = digitosControlo;
-                        }
-                        else
-                        {
-                            dadosPessoaisModel.CCDigitosControlo = String.Empty;
-                        }
-
-                        //adicionar ou atualizar
-                        if (dadosPessoaisUser == null)
-                        {
-                            dadosPessoaisModel.DataCriacao = System.DateTime.Now;
-                            dadosPessoaisModel.DataUltimaAtualizacao = System.DateTime.Now;
-                            dbModel.DadosPessoais.Add(dadosPessoaisModel);
-                        }
-                        else
-                        {
-                            DateTime dataCriacao = dadosPessoaisUser.DataCriacao;
-                            dbModel.DadosPessoais.Remove(dadosPessoaisUser);
-                            dadosPessoaisUser = dadosPessoaisModel;
-                            if (dadosPessoaisModel.NIM != null)
-                            {
-                                dadosPessoaisUser.Militar = true;
-                            }
-                            dadosPessoaisUser.DataCriacao = dataCriacao;
-                            dadosPessoaisUser.DataUltimaAtualizacao = System.DateTime.Now;
-                            dbModel.DadosPessoais.Add(dadosPessoaisUser);
-                        }
-
-                        dbModel.SaveChanges();
-
-                    }
-                    catch (System.Data.Entity.Validation.DbEntityValidationException e)
-                    {
-                        foreach (var eve in e.EntityValidationErrors)
-                        {
-                            System.Diagnostics.Debug.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-                                eve.Entry.Entity.GetType().Name, eve.Entry.State);
-                            foreach (var ve in eve.ValidationErrors)
-                            {
-                                System.Diagnostics.Debug.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
-                                    ve.PropertyName, ve.ErrorMessage);
-                            }
-                        }
-                        throw;
-                    }
-                }
-                ModelState.Clear();
-                return RedirectToAction("Inquerito");
-            }
-        }
-
-
-        /*INQUERITO*/
-        //obtém os dados preenchdios pelo utilizador para mostrar no ecrã
-        public void getDadosPessoaisInquerito(int userId)
-        {
-            CandidaturaDBEntities1 db = new CandidaturaDBEntities1();
-            Inquerito inqueritoUser = db.Inqueritoes.Where(dp => dp.UserId == userId).FirstOrDefault();
-
-            if (inqueritoUser != null)
-            {
-                ViewBag.Inquerito = inqueritoUser;
-                InqEscolha = inqueritoUser;
-            }
-        }
-
-        //obtém os dados a serem preenchidos nas drops
-        public void getDataForDropdownListsInquerito()
-        {
-            CandidaturaDBEntities1 db = new CandidaturaDBEntities1();
-
-            IEnumerable<SelectListItem> situacoesPai = db.Situacaos.Select(c => new SelectListItem
-            {
-                Value = c.ID.ToString(),
-                Text = c.Nome,
-                Selected = c.ID == InqEscolha.SituacaoPai
-            });
-            ViewBag.SituacaoPai = situacoesPai;
-
-            IEnumerable<SelectListItem> situacoesMae = db.Situacaos.Select(c => new SelectListItem
-            {
-                Value = c.ID.ToString(),
-                Text = c.Nome,
-                Selected = c.ID == InqEscolha.SituacaoMae
-            });
-            ViewBag.SituacaoMae = situacoesMae;
-
-            IEnumerable<SelectListItem> conhecimentosEscola = db.ConhecimentoEscolas.Select(c => new SelectListItem
-            {
-                Value = c.ID.ToString(),
-                Text = c.Nome,
-                Selected = c.ID == InqEscolha.ConhecimentoEscola
-            });
-            ViewBag.ConhecimentoEscola = conhecimentosEscola;
-        }
-
-        
-        // GET: Inquerito
-        public ActionResult Inquerito()
-        {
-            ViewBag.Title = "Inquerito";
-            if (Session["userID"] != null)
-            {
-                int userId = (int)Session["userID"];
-
-                this.getDadosPessoaisInquerito(userId);
-            }
-
-            this.getDataForDropdownListsInquerito();
-
-            return View("~/Views/Formulario/Inquerito.cshtml");
-        }
-
-        [HttpPost]
-        public ActionResult Inquerito(Inquerito inqueritoModel) { 
-            
-            if (Session["userID"] == null)
-                return RedirectToAction("LogOut", "Login");
-            else
-            {
-                {
-                int userId = (int)Session["userID"];
-
-                using (CandidaturaDBEntities1 dbModel = new CandidaturaDBEntities1())
-                {
-
-                    try
-                    {
-                        Inquerito inqueritoUser = dbModel.Inqueritoes.Where(dp => dp.UserId == userId).FirstOrDefault();
-
-                        inqueritoModel.UserId = userId;
-
-                        if (inqueritoUser == null)
-                        {
-                            inqueritoModel.DataCriacao = System.DateTime.Now;
-                            inqueritoModel.DataAtualizacao = System.DateTime.Now;
-                            dbModel.Inqueritoes.Add(inqueritoModel);
-                        }
-                        else
-                        {
-                            DateTime? dataCriacao = inqueritoUser.DataCriacao;
-                            dbModel.Inqueritoes.Remove(inqueritoUser);
-                            inqueritoUser = inqueritoModel;
-                            inqueritoUser.DataCriacao = dataCriacao;
-                            inqueritoUser.DataAtualizacao = System.DateTime.Now;
-                            dbModel.Inqueritoes.Add(inqueritoUser);
-                        }
-
-                        dbModel.SaveChanges();
-
-                    }
-                    catch (System.Data.Entity.Validation.DbEntityValidationException e)
-                    {
-                        foreach (var eve in e.EntityValidationErrors)
-                        {
-                            System.Diagnostics.Debug.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-                                eve.Entry.Entity.GetType().Name, eve.Entry.State);
-                            foreach (var ve in eve.ValidationErrors)
-                            {
-                                System.Diagnostics.Debug.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
-                                    ve.PropertyName, ve.ErrorMessage);
-                            }
-                        }
-                        throw;
-                    }
-                }
-                ModelState.Clear();
-                
-                return RedirectToAction("Opcoes", "Formulario");
-            }
-            
-            }
         }
 
         //obtém os exames seleccionados pelo utilizador
@@ -543,35 +104,6 @@ namespace Candidaturas.Controllers
             ViewBag.Curso = cursos.ToList();
 
         }
-
-        // GET: Candidaturas
-        public ActionResult Opcoes()
-        {
-            ViewBag.Title = "Opcoes";
-            exames = new List<Exame>();
-            cursos = new List<CursoDisplay>();
-            examesNecessarios = new List<String>();
-
-            if (Session["userID"] != null)
-            {
-                CandidaturaDBEntities1 db = new CandidaturaDBEntities1();
-                int userId = (int)Session["userID"];
-
-                getDataForDropdownLists(db);
-                getSelectedExames(db, userId);
-                getSelectedCursos(db, userId);
-
-                dynamic mymodel = new ExpandoObject();
-                mymodel.ExamesEscolhidos = exames;
-                mymodel.CursosEscolhidos = cursos;
-                ViewBag.CountCursosEscolhidos = cursos.Count;
-                mymodel.ExamesNecessários = examesNecessarios;
-
-                return View(mymodel);
-            }
-
-            return View("~/Views/Login/Index.cshtml");
-        }
         
         //adiciona um exame seleccionado
         public ActionResult adicionarExame()
@@ -623,6 +155,9 @@ namespace Candidaturas.Controllers
                 }
 
                 ModelState.Clear();
+
+                Session["SelectedTab"] = 3;
+
                 return RedirectToAction("Index", "Home");
             }
             else
@@ -696,7 +231,9 @@ namespace Candidaturas.Controllers
 
                 ModelState.Clear();
 
-                return RedirectToAction("Opcoes", "Formulario");
+                Session["SelectedTab"] = 3;
+
+                return RedirectToAction("Index", "Home");
             }
             else
             {
@@ -734,8 +271,10 @@ namespace Candidaturas.Controllers
                         throw raise;
                     }
                 }
-                
-                return RedirectToAction("Opcoes", "Formulario");
+
+                Session["SelectedTab"] = 3;
+
+                return RedirectToAction("Index", "Home");
             }
             else
             {
@@ -787,7 +326,9 @@ namespace Candidaturas.Controllers
                         throw raise;
                     }
                 }
-                return RedirectToAction("Opcoes", "Formulario");
+                Session["SelectedTab"] = 3;
+
+                return RedirectToAction("Index", "Home");
             }
             else
             {
@@ -815,7 +356,9 @@ namespace Candidaturas.Controllers
                         //verificar se existe um curso anterior
                         if (anterior == null)
                         {
-                            return RedirectToAction("Opcoes", "Formulario");
+                            Session["SelectedTab"] = 3;
+
+                            return RedirectToAction("Index", "Home");
                         }
                         else
                         {
@@ -839,7 +382,9 @@ namespace Candidaturas.Controllers
                         throw raise;
                     }
                 }
-                return RedirectToAction("Opcoes", "Formulario");
+                Session["SelectedTab"] = 3;
+
+                return RedirectToAction("Index", "Home");
             }
             else
             {
@@ -867,7 +412,9 @@ namespace Candidaturas.Controllers
                         //verificar se existe um curso seguinte
                         if (seguinte == null)
                         {
-                            return RedirectToAction("Opcoes", "Formulario");
+                            Session["SelectedTab"] = 3;
+
+                            return RedirectToAction("Index", "Home");
                         }
                         else
                         {
@@ -891,7 +438,9 @@ namespace Candidaturas.Controllers
                         throw raise;
                     }
                 }
-                return RedirectToAction("Opcoes", "Formulario");
+                Session["SelectedTab"] = 3;
+
+                return RedirectToAction("Index", "Home");
             }
             else
             {

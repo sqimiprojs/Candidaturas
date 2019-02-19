@@ -1,10 +1,10 @@
 ﻿@model Candidaturas.Models.Inquerito
 
 @{
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = null;
 }
 
-@using (Html.BeginForm("Inquerito", "Formulario", FormMethod.Post, new { @id = "formInquerito" }))
+@using (Html.BeginForm("Inquerito", "Inquerito", FormMethod.Post, new { @id = "formInquerito" }))
 {
     @Html.AntiForgeryToken()
 <div class=" container col-8">
@@ -86,7 +86,7 @@
         <div class="form-group">
             <div class="col-md-offset-2 col">
                 <input type="submit" value="Continuar" class="btn btn-primary" />
-                @Html.ActionLink("Voltar", "DadosPessoais", "Formulário", new { @class = "btn btn-outline-primary mx-2" })
+                
             </div>
         </div>
     </div>
