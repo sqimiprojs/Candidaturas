@@ -540,7 +540,9 @@ namespace Candidaturas.Controllers
                 ViewBag.Goto = "Welcome";
                 ViewBag.ConfirmationMessage = "O formulário foi submetido com sucesso.\nPoderá agora aceder ao comprovativo de candidatura.";
 
-                return View("~/Views/Shared/Success.cshtml");
+                Session["SelectedTab"] = 4;
+
+                return RedirectToAction("Index", "Home");
             }
             else
             {

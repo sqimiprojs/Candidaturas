@@ -131,7 +131,21 @@ namespace Candidaturas.Controllers
                 dm.Add(doc);
             }
             return dm;
-        }        
+        }
+        
+        public ActionResult Continuar()
+        {
+            if (Session["userID"] != null)
+            {
+                Session["SelectedTab"] = 5;
+
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                return RedirectToAction("LogOut", "Login");
+            }
+        }
 
         //remove um documento adicionado pelo utilizador
         public ActionResult RemoveDocumento(int id)
