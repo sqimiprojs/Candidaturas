@@ -17,17 +17,19 @@ namespace Candidaturas.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Exame()
         {
+            this.CursoExames = new HashSet<CursoExame>();
             this.UserExames = new HashSet<UserExame>();
-            this.Cursoes = new HashSet<Curso>();
         }
     
         public int ID { get; set; }
         public string Nome { get; set; }
         public int Código { get; set; }
+        public string Edicao { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<UserExame> UserExames { get; set; }
+        public virtual ICollection<CursoExame> CursoExames { get; set; }
+        public virtual Edicao Edicao1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Curso> Cursoes { get; set; }
+        public virtual ICollection<UserExame> UserExames { get; set; }
     }
 }

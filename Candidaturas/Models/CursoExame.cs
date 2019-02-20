@@ -12,14 +12,14 @@ namespace Candidaturas.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Candidato
+    public partial class CursoExame
     {
-        public int UserID { get; set; }
-        public int Numero { get; set; }
+        public int CursoID { get; set; }
+        public int ExameID { get; set; }
         public string Edicao { get; set; }
-        public bool Sincronizado { get; set; }
     
+        public virtual Curso Curso { get; set; }
         public virtual Edicao Edicao1 { get; set; }
-        public virtual User User { get; set; }
+        public virtual Exame Exame { get; set; }
     }
 }

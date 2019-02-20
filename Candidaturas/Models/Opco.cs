@@ -12,14 +12,14 @@ namespace Candidaturas.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class UserCurso
+    public partial class Opco
     {
         public int ID { get; set; }
-        public int UserId { get; set; }
+        public int CandidaturaId { get; set; }
         public int CursoId { get; set; }
         public int Prioridade { get; set; }
     
+        public virtual Candidatura Candidatura { get; set; }
         public virtual Curso Curso { get; set; }
-        public virtual User User { get; set; }
     }
 }

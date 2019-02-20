@@ -29,7 +29,5 @@ namespace Candidaturas.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DadosPessoai> DadosPessoais { get; set; }
         public virtual Distrito Distrito { get; set; }
-        public virtual Repartico Reparticoes1 { get; set; }
-        public virtual Repartico Repartico1 { get; set; }
     }
 }

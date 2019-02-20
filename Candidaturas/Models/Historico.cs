@@ -12,16 +12,12 @@ namespace Candidaturas.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Documento
+    public partial class Historico
     {
-        public int ID { get; set; }
         public int CandidaturaID { get; set; }
-        public string Nome { get; set; }
-        public string Descricao { get; set; }
-        public string Tipo { get; set; }
-        public System.DateTime UploadTime { get; set; }
+        public string mensagem { get; set; }
+        public System.DateTime timestamp { get; set; }
     
         public virtual Candidatura Candidatura { get; set; }
-        public virtual DocumentoBinario DocumentoBinario { get; set; }
     }
 }

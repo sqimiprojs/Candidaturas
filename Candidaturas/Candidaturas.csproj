@@ -231,7 +231,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="MigraDocument.cs" />
-    <Compile Include="Models\Candidato.cs">
+    <Compile Include="Models\Candidatura.cs">
       <DependentUpon>CandidaturaModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CandidaturaModel.Context.cs">
@@ -252,6 +252,9 @@
     <Compile Include="Models\Categoria.cs">
       <DependentUpon>CandidaturaModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Certificado.cs">
+      <DependentUpon>CandidaturaModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Concelho.cs">
       <DependentUpon>CandidaturaModel.tt</DependentUpon>
     </Compile>
@@ -263,6 +266,9 @@
     </Compile>
     <Compile Include="Models\CursoDisplay.cs" />
     <Compile Include="Models\CandidatoDTO.cs" />
+    <Compile Include="Models\CursoExame.cs">
+      <DependentUpon>CandidaturaModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\DadosPessoai.cs">
       <DependentUpon>CandidaturaModel.tt</DependentUpon>
     </Compile>
@@ -286,13 +292,13 @@
     <Compile Include="Models\Exame.cs">
       <DependentUpon>CandidaturaModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Form.cs">
-      <DependentUpon>CandidaturaModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Freguesia.cs">
       <DependentUpon>CandidaturaModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Genero.cs">
+      <DependentUpon>CandidaturaModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Historico.cs">
       <DependentUpon>CandidaturaModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Inquerito.cs">
@@ -302,6 +308,9 @@
       <DependentUpon>CandidaturaModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Login.cs" />
+    <Compile Include="Models\Opco.cs">
+      <DependentUpon>CandidaturaModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Pai.cs">
       <DependentUpon>CandidaturaModel.tt</DependentUpon>
     </Compile>
@@ -321,9 +330,6 @@
       <DependentUpon>CandidaturaModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\User.cs">
-      <DependentUpon>CandidaturaModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\UserCurso.cs">
       <DependentUpon>CandidaturaModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\UserDados.cs" />

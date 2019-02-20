@@ -17,27 +17,28 @@ namespace Candidaturas.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public User()
         {
-            this.Candidatoes = new HashSet<Candidato>();
-            this.Documentoes = new HashSet<Documento>();
-            this.UserCursoes = new HashSet<UserCurso>();
-            this.UserExames = new HashSet<UserExame>();
+            this.Candidaturas = new HashSet<Candidatura>();
         }
     
         public int ID { get; set; }
         public byte[] Password { get; set; }
         public string Email { get; set; }
-        public string LoginErrorMessage { get; set; }
         public System.DateTime DataCriacao { get; set; }
+        public string NomeColoquial { get; set; }
+        public System.DateTime DataNascimento { get; set; }
+        public int TipoDocID { get; set; }
+        public string NDI { get; set; }
+        public System.DateTime DocumentoValidade { get; set; }
+        public bool Militar { get; set; }
+        public string Ramo { get; set; }
+        public string Categoria { get; set; }
+        public Nullable<int> Posto { get; set; }
+        public string Classe { get; set; }
+        public string NIM { get; set; }
+        public string Edicao { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Candidato> Candidatoes { get; set; }
-        public virtual DadosPessoai DadosPessoai { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Documento> Documentoes { get; set; }
-        public virtual Inquerito Inquerito { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<UserCurso> UserCursoes { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<UserExame> UserExames { get; set; }
+        public virtual ICollection<Candidatura> Candidaturas { get; set; }
+        public virtual Edicao Edicao1 { get; set; }
     }
 }

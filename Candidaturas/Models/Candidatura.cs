@@ -12,23 +12,32 @@ namespace Candidaturas.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Curso
+    public partial class Candidatura
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Curso()
+        public Candidatura()
         {
-            this.CursoExames = new HashSet<CursoExame>();
+            this.Documentoes = new HashSet<Documento>();
             this.Opcoes = new HashSet<Opco>();
+            this.UserExames = new HashSet<UserExame>();
         }
     
-        public int ID { get; set; }
-        public string Nome { get; set; }
+        public int id { get; set; }
+        public int UserId { get; set; }
         public string Edicao { get; set; }
+        public Nullable<System.DateTime> DataAlteracao { get; set; }
     
-        public virtual Edicao Edicao1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CursoExame> CursoExames { get; set; }
+        public virtual ICollection<Documento> Documentoes { get; set; }
+        public virtual User User { get; set; }
+        public virtual Certificado Certificado { get; set; }
+        public virtual DadosPessoai DadosPessoai { get; set; }
+        public virtual Edicao Edicao1 { get; set; }
+        public virtual Historico Historico { get; set; }
+        public virtual Inquerito Inquerito { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Opco> Opcoes { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<UserExame> UserExames { get; set; }
     }
 }

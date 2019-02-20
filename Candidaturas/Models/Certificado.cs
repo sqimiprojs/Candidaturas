@@ -12,12 +12,12 @@ namespace Candidaturas.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Form
+    public partial class Certificado
     {
-        public int UserID { get; set; }
+        public int CandidaturaID { get; set; }
         public byte[] FormBin { get; set; }
         public System.DateTime DataCriação { get; set; }
     
-        public virtual DadosPessoai DadosPessoai { get; set; }
+        public virtual Candidatura Candidatura { get; set; }
     }
 }
