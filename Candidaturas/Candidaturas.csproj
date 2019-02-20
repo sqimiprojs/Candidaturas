@@ -220,6 +220,7 @@
     <Compile Include="Controllers\DadosPessoaisController.cs" />
     <Compile Include="Controllers\CandidaturasController.cs" />
     <Compile Include="Controllers\DocumentosController.cs" />
+    <Compile Include="Controllers\DeclaracaoController.cs" />
     <Compile Include="Controllers\InqueritoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
@@ -354,7 +355,7 @@
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Home\Welcome.cshtml" />
+    <Content Include="Views\Declaracao\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

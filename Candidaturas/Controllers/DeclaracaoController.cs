@@ -7,7 +7,7 @@ using System.Web.Mvc;
 
 namespace Candidaturas.Controllers
 {
-    public class HomeController : Controller
+    public class DeclaracaoController : Controller
     {
 
         // GET: Home
@@ -15,8 +15,6 @@ namespace Candidaturas.Controllers
         {
             CandidaturaDBEntities1 db = new CandidaturaDBEntities1();
 
-            if (Session["SelectedTab"] == null)
-            {
                 if (Session["userID"] != null)
                 {
                     int userId = (int)Session["userID"];
@@ -24,29 +22,16 @@ namespace Candidaturas.Controllers
                     Candidato candidato = db.Candidatoes.Where(u => u.UserID == userId).FirstOrDefault();
                     ViewBag.Candidato = false;
 
-                    if (candidato != null)
-                    {
-                        ViewBag.Candidato = true;
-                        ViewBag.NumeroCandidato = candidato.Numero;
-                        Session["SelectedTab"] = 5;
-                        return RedirectToAction("Index", "Home");
-
-
-                    }
-                    else
-                    {
-                        Session["SelectedTab"] = 1;
-                    }
-                }
-                else
+                if (candidato != null)
                 {
-                    Session["SelectedTab"] = 1;
+                    ViewBag.Candidato = true;
+                    ViewBag.NumeroCandidato = candidato.Numero;
                 }
-            }
+                    return View("~/Views/Declaracao/Index.cshtml");
+                
+                }
 
-           
-
-                return View();
+            return View("~/Views/Login/Index.cshtml");
         }
 
         // GET: Welcome
