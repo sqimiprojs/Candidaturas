@@ -42,8 +42,8 @@
                         <td>
                             <div class="row">
                                 <div class="col-6">@documento.DocumentoInfo.Nome</div>
-                                <div class="col"><a class="fa fa-download badge badge-primary text-light p-2" onclick="location.href='@Url.Action("DownloadDocumento", "Home", new { id = (int)documento.DocumentoInfo.ID })'"><span> Download</span></a></div>
-                                <div class="col"><a class="fa fa-minus-circle badge badge-danger text-light p-2" onclick="location.href='@Url.Action("RemoveDocumento", "Home", new { id = (int)documento.DocumentoInfo.ID })'"><span> Remover</span></a></div>
+                                <div class="col"><a class="fa fa-download badge badge-primary text-light p-2" onclick="location.href='@Url.Action("DownloadDocumento", "Documentos", new { id = (int)documento.DocumentoInfo.ID })'"><span> Download</span></a></div>
+                                <div class="col"><a class="fa fa-minus-circle badge badge-danger text-light p-2" onclick="location.href='@Url.Action("RemoveDocumento", "Documentos", new { id = (int)documento.DocumentoInfo.ID })'"><span> Remover</span></a></div>
                             </div>
                             @if (documento.DocumentoInfo.Descricao != null)
                             {

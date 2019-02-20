@@ -29,7 +29,7 @@ namespace Candidaturas.Controllers
         }
 
         [HttpPost]
-        public ActionResult UploadDocumento(DocModel docMod, System.Web.HttpPostedFileBase file)
+        public ActionResult Upload(DocModel docMod, System.Web.HttpPostedFileBase file)
         {
             if (Session["userID"] != null)
             {
