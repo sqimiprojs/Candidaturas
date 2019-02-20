@@ -9,7 +9,7 @@
 @Html.AntiForgeryToken()
 
 <div class="row">
-    <div class="col">
+    <div class="row">
         <h2 class="candidaturasHeader required">Cursos</h2><hr />
         <div class="form-inline">
             <div class="col">
@@ -21,52 +21,49 @@
             <input id="SelectedCurso" name="SelectedCurso" type="hidden" runat="server" />
         </div>
 
-        <table class="table my-4" id="mytable">
+        <table class="table my-5" id="mytable">
+            <tr>
+                <th>Ordem</th>
+                <th>Nome</th>
+                <th>Exames necessários</th>
+            </tr>
             @{
                 int numeroCursosEscolhidos = Model.CursosEscolhidos.Count;
                 @Html.Hidden("numeroCursosEscolhidos", numeroCursosEscolhidos);
                 foreach (CursoDisplay curso in Model.CursosEscolhidos)
 
                 {
-                    <tr>
-                        <td>@curso.prioridade.</td>
-                        <td>@curso.nome</td>
-                        <td>
-                            <a class="fa fa-times-circle badge badge-danger text-light p-2 " onclick="location.href='@Url.Action("RemoverCurso", "Candidaturas", new { id = (int)@curso.ID })'"><span> Remover</span></a>
-                        </td>
+            <tr>
+                <td>
 
-                        <td>
-                            @if (curso.prioridade != 1)
-                            {
-                                <a class="fa fa-chevron-up badge badge-light p-2" onclick="location.href='@Url.Action("MoverParaCima", "Candidaturas", new { id = (int)@curso.ID })'"><span> Mais Prioritário</span></a>
-                            }
-                        </td>
+                        <a class="fa fa-chevron-up badge badge-light p-2" onclick="location.href='@Url.Action("MoverParaCima", "Candidaturas", new { id = (int)@curso.ID })'"><span></span></a>
+                    
+                    @curso.prioridade.
 
 
-                        <td>
-                            @if (curso.prioridade != numeroCursosEscolhidos)
-                            {
-                                <a class="fa fa-chevron-down badge badge-light p-2" onclick="location.href='@Url.Action("MoverParaBaixo", "Candidaturas", new { id = (int)@curso.ID })'"><span> Menos Prioritário</span></a>
-                            }
+                        <a class="fa fa-chevron-down badge badge-light p-2" onclick="location.href='@Url.Action("MoverParaBaixo", "Candidaturas", new { id = (int)@curso.ID })'"><span></span></a>
+                   
+                </td>
 
-                        </td>
-                    </tr>
+                <td>@curso.nome</td>
+                
+                <td>
+                    @foreach (String exame in curso.Exames)
+                    {
+                        <div>@exame </div>
+                    }
+                </td>
+                
+                <td>
+                    <a class="fa fa-times-circle badge badge-danger text-light p-2 " onclick="location.href='@Url.Action("RemoverCurso", "Candidaturas", new { id = (int)@curso.ID })'"><span> Remover</span></a>
+                </td>
+            </tr>
                 }
-            }
-        </table>
-
-        <table class="table">
-            <tr><td><h4 class="candidaturasHeader">Exames Necessários</h4></td></tr>
-            @foreach (String exame in Model.ExamesNecessários)
-            {
-                <tr>
-                    <td><span class="text-muted">@exame</span></td>
-                </tr>
             }
         </table>
     </div>
 
-    <div class="col">
+    <div class="row">
         <h2 class="candidaturasHeader">Exames</h2><hr />
         <div class="form-inline">
             <div class="col">

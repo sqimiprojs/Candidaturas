@@ -70,6 +70,7 @@ namespace Candidaturas.Controllers
                 cd.nome = db.Cursoes.Where(dp => dp.ID == curso).Select(dp => dp.Nome).First();
                 cd.prioridade = db.UserCursoes.Where(dp => dp.CursoId == curso && dp.UserId == userId).Select(dp => dp.Prioridade).FirstOrDefault();
                 cd.ID = db.Cursoes.Where(dp => dp.ID == curso).Select(dp => dp.ID).First();
+                cd.Exames = (db.Cursoes.Where(dp => dp.ID == curso).FirstOrDefault()).Exames.Select(dp => dp.Nome).ToList();
                 cursos.Add(cd);
 
                 Curso cursoSel = db.Cursoes.Where(dp => dp.ID == curso).FirstOrDefault();

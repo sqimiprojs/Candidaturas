@@ -17,24 +17,32 @@ namespace Candidaturas.Controllers
 
             if (Session["SelectedTab"] == null)
             {
-                Session["SelectedTab"] = 1;
-            }
-
-            if (Session["userID"] != null)
-            {
-                int userId = (int)Session["userID"];
-
-                Candidato candidato = db.Candidatoes.Where(u => u.UserID == userId).FirstOrDefault();
-                ViewBag.Candidato = false;
-
-                if (candidato != null)
+                if (Session["userID"] != null)
                 {
-                    ViewBag.Candidato = true;
-                    ViewBag.NumeroCandidato = candidato.Numero;
-                    Session["SelectedTab"] = 5;
+                    int userId = (int)Session["userID"];
 
+                    Candidato candidato = db.Candidatoes.Where(u => u.UserID == userId).FirstOrDefault();
+                    ViewBag.Candidato = false;
+
+                    if (candidato != null)
+                    {
+                        ViewBag.Candidato = true;
+                        ViewBag.NumeroCandidato = candidato.Numero;
+                        Session["SelectedTab"] = 5;
+
+                    }
+                    else
+                    {
+                        Session["SelectedTab"] = 1;
+                    }
+                }
+                else
+                {
+                    Session["SelectedTab"] = 1;
                 }
             }
+
+           
 
                 return View();
         }
