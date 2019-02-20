@@ -23,9 +23,10 @@
 
         <table class="table my-5" id="mytable">
             <tr>
-                <th>Ordem</th>
-                <th>Nome</th>
-                <th>Exames necessários</th>
+                <th><b>Prioridade</b></th>
+                <th><b>Nome</b></th>
+                <th><b>Exames necessários</b></th>
+                <th></th>
             </tr>
             @{
                 int numeroCursosEscolhidos = Model.CursosEscolhidos.Count;
@@ -36,13 +37,13 @@
             <tr>
                 <td>
 
-                        <a class="fa fa-chevron-up badge badge-light p-2" onclick="location.href='@Url.Action("MoverParaCima", "Candidaturas", new { id = (int)@curso.ID })'"><span></span></a>
-                    
-                    @curso.prioridade.
+                    <div class="row"><a class="fa fa-chevron-up badge badge-light p-2" onclick="location.href='@Url.Action("MoverParaCima", "Candidaturas", new { id = (int)@curso.ID })'"><span></span></a></div>
+
+                    <div class="row">&nbsp;&nbsp;@curso.prioridade&ordm;</div>
 
 
-                        <a class="fa fa-chevron-down badge badge-light p-2" onclick="location.href='@Url.Action("MoverParaBaixo", "Candidaturas", new { id = (int)@curso.ID })'"><span></span></a>
-                   
+                    <div class="row"><a class="fa fa-chevron-down badge badge-light p-2" onclick="location.href='@Url.Action("MoverParaBaixo", "Candidaturas", new { id = (int)@curso.ID })'"><span></span></a></div>
+
                 </td>
 
                 <td>@curso.nome</td>
