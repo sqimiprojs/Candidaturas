@@ -18,14 +18,14 @@ namespace Candidaturas.Controllers
                 if (Session["userID"] != null)
                 {
                     int userId = (int)Session["userID"];
-
-                    Candidato candidato = db.Candidatoes.Where(u => u.UserID == userId).FirstOrDefault();
+                    int candidaturaId = db.Candidaturas.Where(c => c.UserId == userId).FirstOrDefault().id;
+                    Certificado certificado = db.Certificadoes.Where(c => c.CandidaturaID == candidaturaId).FirstOrDefault();
                     ViewBag.Candidato = false;
 
-                if (candidato != null)
+                if (certificado != null)
                 {
                     ViewBag.Candidato = true;
-                    ViewBag.NumeroCandidato = candidato.Numero;
+                    ViewBag.NumeroCandidato = candidaturaId;
                 }
                     return View("~/Views/Declaracao/Index.cshtml");
                 
@@ -39,7 +39,8 @@ namespace Candidaturas.Controllers
 
             CandidaturaDBEntities1 db = new CandidaturaDBEntities1();
             int userId = (int)Session["userID"];
-            byte[] dForm = db.Forms.Where(dp => dp.UserID == userId).Select(dp => dp.FormBin).FirstOrDefault();
+            int candidaturaId = db.Candidaturas.Where(c => c.UserId == userId).FirstOrDefault().id;
+            byte[] dForm = db.Certificadoes.Where(dp => dp.CandidaturaID == candidaturaId).Select(dp => dp.FormBin).FirstOrDefault();
 
             Response.Clear();
             Response.Buffer = true;
@@ -64,11 +65,10 @@ namespace Candidaturas.Controllers
                 {
                     try
                     {
-                        Form ud = dbModel.Forms.Where(dp => dp.UserID == userId).FirstOrDefault();
-                        dbModel.Forms.Remove(ud);
+                        int candidaturaId = dbModel.Candidaturas.Where(c => c.UserId == userId).FirstOrDefault().id;
+                        Certificado ud = dbModel.Certificadoes.Where(dp => dp.CandidaturaID == candidaturaId).FirstOrDefault();
+                        dbModel.Certificadoes.Remove(ud);
 
-                        Candidato candidato = dbModel.Candidatoes.Where(dp => dp.UserID == userId).FirstOrDefault();
-                        dbModel.Candidatoes.Remove(candidato);
 
                         dbModel.SaveChanges();
                     }

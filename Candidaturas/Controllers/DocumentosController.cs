@@ -39,6 +39,8 @@ namespace Candidaturas.Controllers
                 {
                     try
                     {
+                        int candidaturaId = dbModel.Candidaturas.Where(c => c.UserId == userId).FirstOrDefault().id;
+
                         if (file != null && file.ContentLength > 0 && file.ContentLength < Constants.MaxFile*1024*1024)
                         {
                             if (DocumentValidator.IsJpeg(file) || DocumentValidator.IsPdf(file))
@@ -60,7 +62,7 @@ namespace Candidaturas.Controllers
                                     Descricao = docMod.DocumentoInfo.Descricao,
                                     Nome = fileName,
                                     Tipo = fileType,
-                                    UserID = userId,
+                                    CandidaturaID = candidaturaId,
                                     UploadTime = System.DateTime.Now
                                 };
 
@@ -120,8 +122,9 @@ namespace Candidaturas.Controllers
 
         public List<DocModel> getSelectedDocumentos(CandidaturaDBEntities1 db, int userId)
         {
+            int candidaturaId = db.Candidaturas.Where(c => c.UserId == userId).FirstOrDefault().id;
             List<int> documentosUploaded = db.Documentoes
-                                        .Where(dp => dp.UserID == userId)
+                                        .Where(dp => dp.CandidaturaID == candidaturaId)
                                         .Select(dp => dp.ID).ToList();
             List<DocModel> dm = new List<DocModel>();
             foreach (int documento in documentosUploaded)

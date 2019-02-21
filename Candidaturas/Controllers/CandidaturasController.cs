@@ -49,7 +49,8 @@ namespace Candidaturas.Controllers
         //obtém os exames seleccionados pelo utilizador
         public void getSelectedExames(CandidaturaDBEntities1 db, int userId)
         {
-            List<int> examesEscolhidos = db.UserExames.Where(dp => dp.UserId == userId).Select(dp => dp.ExameId).ToList();
+            int candidaturaId = db.Candidaturas.Where(c => c.UserId == userId).FirstOrDefault().id;
+            List<int> examesEscolhidos = db.UserExames.Where(dp => dp.CandidaturaId == candidaturaId).Select(dp => dp.ExameId).ToList();
 
             foreach (int exame in examesEscolhidos)
             {
@@ -61,27 +62,24 @@ namespace Candidaturas.Controllers
         //obtém os cursos seleccionados pelo utilizador
         public void getSelectedCursos(CandidaturaDBEntities1 db, int userId)
         {
-            List<int> cursosEscolhidos = db.UserCursoes.Where(dp => dp.UserId == userId).OrderBy(dp => dp.Prioridade).Select(dp => dp.CursoId).ToList();
+            int candidaturaId = db.Candidaturas.Where(c => c.UserId == userId).FirstOrDefault().id;
+            List<int> cursosEscolhidos = db.Opcoes.Where(dp => dp.CandidaturaId == candidaturaId).OrderBy(dp => dp.Prioridade).Select(dp => dp.CursoId).ToList();
 
             foreach (int curso in cursosEscolhidos)
             {
                 CursoDisplay cd = new CursoDisplay();
 
                 cd.nome = db.Cursoes.Where(dp => dp.ID == curso).Select(dp => dp.Nome).First();
-                cd.prioridade = db.UserCursoes.Where(dp => dp.CursoId == curso && dp.UserId == userId).Select(dp => dp.Prioridade).FirstOrDefault();
+                cd.prioridade = db.Opcoes.Where(dp => dp.CursoId == curso && dp.CandidaturaId == candidaturaId).Select(dp => dp.Prioridade).FirstOrDefault();
                 cd.ID = db.Cursoes.Where(dp => dp.ID == curso).Select(dp => dp.ID).First();
-                cd.Exames = (db.Cursoes.Where(dp => dp.ID == curso).FirstOrDefault()).Exames.Select(dp => dp.Nome).ToList();
-                cursos.Add(cd);
-
-                Curso cursoSel = db.Cursoes.Where(dp => dp.ID == curso).FirstOrDefault();
-                List<String> exames = cursoSel.Exames.Select(dp => dp.Nome).ToList();
-                foreach(String exame in exames)
+                List<int> ExamesId = db.CursoExames.Where(ce => ce.CursoID == cd.ID).Select(ce => ce.ExameID).ToList();
+                foreach(int id in ExamesId)
                 {
-                    if(!examesNecessarios.Exists(x => x == exame))
-                    {
-                        examesNecessarios.Add(exame);
-                    }                    
-                }                
+                    String nome = db.Exames.Where(e => e.ID == id).Select(e => e.Nome).First();
+                    cd.ExamesNecessarios.Add(nome);
+                }
+                cursos.Add(cd);
+          
             }
         }
 
@@ -121,14 +119,15 @@ namespace Candidaturas.Controllers
 
                         try
                         {
-                            UserExame exameRegistado = dbModel.UserExames.Where(dp => dp.ExameId == exameEscolhido).Where(dp => dp.UserId == userId).FirstOrDefault();
+                            int candidaturaId = dbModel.Candidaturas.Where(c => c.UserId == userId).FirstOrDefault().id;
+                            UserExame exameRegistado = dbModel.UserExames.Where(dp => dp.ExameId == exameEscolhido).Where(dp => dp.CandidaturaId == candidaturaId).FirstOrDefault();
 
                             if (exameRegistado == null)
                             {
                                 UserExame userExame = new UserExame();
 
                                 userExame.ExameId = dbModel.Exames.Where(dp => dp.ID == exameEscolhido).FirstOrDefault().ID;
-                                userExame.UserId = userId;
+                                userExame.CandidaturaId = candidaturaId;
 
                                 dbModel.UserExames.Add(userExame);
 
@@ -182,19 +181,20 @@ namespace Candidaturas.Controllers
 
                         try
                         {
-                            UserCurso cursoRegistado = dbModel.UserCursoes.Where(dp => dp.CursoId == cursoEscolhido).Where(dp => dp.UserId == userId).FirstOrDefault();
+                            int candidaturaId = dbModel.Candidaturas.Where(c => c.UserId == userId).FirstOrDefault().id;
+                            Opco cursoRegistado = dbModel.Opcoes.Where(dp => dp.CursoId == cursoEscolhido).Where(dp => dp.CandidaturaId == candidaturaId).FirstOrDefault();
 
                             //ver se já escolheu o curso
                             if (cursoRegistado == null)
                             {
-                                UserCurso userCurso = new UserCurso();
+                                Opco userCurso = new Opco();
 
                                 userCurso.CursoId = dbModel.Cursoes.Where(dp => dp.ID == cursoEscolhido).FirstOrDefault().ID;
-                                userCurso.UserId = userId;
+                                userCurso.CandidaturaId = candidaturaId;
 
 
                                 //actualizar prioridade
-                                UserCurso ultimoEscolhido = dbModel.UserCursoes.Where(dp => dp.UserId == userId).OrderByDescending(dp => dp.Prioridade).FirstOrDefault();
+                                Opco ultimoEscolhido = dbModel.Opcoes.Where(dp => dp.CandidaturaId == candidaturaId).OrderByDescending(dp => dp.Prioridade).FirstOrDefault();
 
                                 if (ultimoEscolhido == null)
                                 {
@@ -205,7 +205,7 @@ namespace Candidaturas.Controllers
                                     userCurso.Prioridade = ultimoEscolhido.Prioridade + 1;
                                 }
 
-                                dbModel.UserCursoes.Add(userCurso);
+                                dbModel.Opcoes.Add(userCurso);
 
                                 dbModel.SaveChanges();
                             }
@@ -253,8 +253,9 @@ namespace Candidaturas.Controllers
                 {
                     try
                     {
+                        int candidaturaId = dbModel.Candidaturas.Where(c => c.UserId == userId).FirstOrDefault().id;
                         //remover exame
-                        UserExame ue = dbModel.UserExames.Where(dp => dp.ExameId == id).Where(dp => dp.UserId == userId).FirstOrDefault();
+                        UserExame ue = dbModel.UserExames.Where(dp => dp.ExameId == id).Where(dp => dp.CandidaturaId == candidaturaId).FirstOrDefault();
                         dbModel.UserExames.Remove(ue);
                         dbModel.SaveChanges();
                     }
@@ -294,14 +295,15 @@ namespace Candidaturas.Controllers
                 {
                     try
                     {
+                        int candidaturaId = dbModel.Candidaturas.Where(c => c.UserId == userId).FirstOrDefault().id;
                         //remover curso
-                        UserCurso uc = dbModel.UserCursoes.Where(dp => dp.CursoId == id).Where(dp => dp.UserId == userId).FirstOrDefault();
-                        dbModel.UserCursoes.Remove(uc);
+                        Opco uc = dbModel.Opcoes.Where(dp => dp.CursoId == id).Where(dp => dp.CandidaturaId == candidaturaId).FirstOrDefault();
+                        dbModel.Opcoes.Remove(uc);
 
                         dbModel.SaveChanges();
 
                         //actualizar prioridade dos restantes cursos
-                        var cursosRestantes = dbModel.UserCursoes.Where(dp => dp.UserId == userId).OrderBy(dp => dp.ID).ToList();
+                        var cursosRestantes = dbModel.Opcoes.Where(dp => dp.CandidaturaId == candidaturaId).OrderBy(dp => dp.ID).ToList();
 
                         int prioridadeNova = 1;
 
@@ -348,11 +350,13 @@ namespace Candidaturas.Controllers
                 {
                     try
                     {
-                        UserCurso corrente = dbModel.UserCursoes.Where(dp => dp.CursoId == id).Where(dp => dp.UserId == userId).FirstOrDefault();
+                        int candidaturaId = dbModel.Candidaturas.Where(c => c.UserId == userId).FirstOrDefault().id;
+
+                        Opco corrente = dbModel.Opcoes.Where(dp => dp.CursoId == id).Where(dp => dp.CandidaturaId == candidaturaId).FirstOrDefault();
 
                         int prioridadeCursoCorrente = corrente.Prioridade;
 
-                        UserCurso anterior = dbModel.UserCursoes.Where(dp => dp.Prioridade == (prioridadeCursoCorrente - 1)).Where(dp => dp.UserId == userId).FirstOrDefault();
+                        Opco anterior = dbModel.Opcoes.Where(dp => dp.Prioridade == (prioridadeCursoCorrente - 1)).Where(dp => dp.CandidaturaId == candidaturaId).FirstOrDefault();
 
                         //verificar se existe um curso anterior
                         if (anterior == null)
@@ -404,11 +408,13 @@ namespace Candidaturas.Controllers
                 {
                     try
                     {
-                        UserCurso corrente = dbModel.UserCursoes.Where(dp => dp.CursoId == id).Where(dp => dp.UserId == userId).FirstOrDefault();
+                        int candidaturaId = dbModel.Candidaturas.Where(c => c.UserId == userId).FirstOrDefault().id;
+
+                        Opco corrente = dbModel.Opcoes.Where(dp => dp.CursoId == id).Where(dp => dp.CandidaturaId == candidaturaId).FirstOrDefault();
 
                         int prioridadeCursoCorrente = corrente.Prioridade;
 
-                        UserCurso seguinte = dbModel.UserCursoes.Where(dp => dp.Prioridade == (prioridadeCursoCorrente + 1)).Where(dp => dp.UserId == userId).FirstOrDefault();
+                        Opco seguinte = dbModel.Opcoes.Where(dp => dp.Prioridade == (prioridadeCursoCorrente + 1)).Where(dp => dp.CandidaturaId == candidaturaId).FirstOrDefault();
 
                         //verificar se existe um curso seguinte
                         if (seguinte == null)
@@ -456,46 +462,8 @@ namespace Candidaturas.Controllers
                 CandidaturaDBEntities1 dbModel = new CandidaturaDBEntities1();
 
                 int userID = (int)Session["userID"];
+                int candidaturaId = dbModel.Candidaturas.Where(c => c.UserId == userID).FirstOrDefault().id;
 
-                if (!dbModel.Candidatoes.Any(u => u.UserID == userID))
-                {
-                    try
-                    {
-                        Candidato candidato = new Candidato();
-                        candidato.UserID = userID;
-                        candidato.Sincronizado = false;
-
-                        DateTime now = System.DateTime.Now;
-
-                        string edicao = dbModel.Edicaos.Where(dp => now >= dp.DataInicio && now <= dp.DataFim).Select(dp => dp.Sigla).FirstOrDefault();
-
-                        candidato.Edicao = edicao;
-
-                        dbModel.Candidatoes.Add(candidato);
-                        dbModel.SaveChanges();
-                    }
-                    catch (System.Data.Entity.Validation.DbEntityValidationException dbEx)
-                    {
-                        Exception raise = dbEx;
-                        foreach (var validationErrors in dbEx.EntityValidationErrors)
-                        {
-                            foreach (var validationError in validationErrors.ValidationErrors)
-                            {
-                                string message = string.Format("{0}:{1}", validationErrors.Entry.Entity.ToString(), validationError.ErrorMessage);
-                                raise = new InvalidOperationException(message, raise);
-                            }
-                        }
-                        throw raise;
-                    }
-                }
-                else
-                {
-                    Candidato candidato = dbModel.Candidatoes.Where(u => u.UserID == userID).FirstOrDefault();
-                    candidato.Sincronizado = false;
-
-                    dbModel.Candidatoes.Add(candidato);
-                    dbModel.SaveChanges();
-                }
 
                 // Create a MigraDoc document
 
@@ -512,16 +480,16 @@ namespace Candidaturas.Controllers
 
                 string filename = document.Info.Title + ".pdf";
 
-                Form formTable = new Form();
+                Certificado formTable = new Certificado();
 
                 MemoryStream PDFStream = new MemoryStream();
                 PDFRenderer.PdfDocument.Save(PDFStream, true);
 
-                formTable.UserID = userID;
+                formTable.CandidaturaID = candidaturaId;
                 formTable.FormBin = PDFStream.ToArray();
                 formTable.DataCriação = System.DateTime.Now;
 
-                dbModel.Forms.Add(formTable);
+                dbModel.Certificadoes.Add(formTable);
                 dbModel.SaveChanges();
 
                 ModelState.Clear();
@@ -530,7 +498,7 @@ namespace Candidaturas.Controllers
 
                 string subject = "Portal de Candidaturas à Escola Naval - Formulario ";
 
-                int numeroCandidato = dbModel.Candidatoes.Where(u => u.UserID == userID).Select(dp => dp.Numero).FirstOrDefault();
+                int numeroCandidato = candidaturaId;
 
                 string body = "O utilizador com email " + utilizador + ", e número de candidato " + numeroCandidato + " submeteu um novo formulário com sucesso.";
 

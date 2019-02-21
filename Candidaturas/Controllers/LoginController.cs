@@ -38,6 +38,16 @@ namespace Candidaturas.Controllers
                 }
                 else
                 {
+                    Candidatura candidatura = db.Candidaturas.Where(c => c.UserId == userDetails.ID).FirstOrDefault();
+                    if(candidatura == null)
+                    {
+                        Candidatura novaCandidatura = new Candidatura();
+                        novaCandidatura.Edicao = "EN2019";
+                        novaCandidatura.UserId = userDetails.ID;
+                        novaCandidatura.DataAlteracao = System.DateTime.Now;
+                        db.Candidaturas.Add(novaCandidatura);
+                        db.SaveChanges();
+                    }
                     Session["userID"] = userDetails.ID;
                     return RedirectToAction("Index", "Home");
                 }

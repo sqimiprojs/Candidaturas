@@ -194,8 +194,9 @@ namespace Candidaturas
         private static CandidatoFullText GetInfoCandidato(int userId)
         {
             CandidaturaDBEntities1 db = new CandidaturaDBEntities1();
+            int candidaturaId = db.Candidaturas.Where(c => c.UserId == userId).FirstOrDefault().id;
             DadosPessoai dadosPessoaisUser = db.DadosPessoais
-                                            .Where(dp => dp.UserId == userId)
+                                            .Where(dp => dp.CandidaturaId == candidaturaId)
                                             .FirstOrDefault();
 
             CandidatoFullText alldata = new CandidatoFullText();
@@ -232,20 +233,21 @@ namespace Candidaturas
             alldata.ValidadeDoc = dadosPessoaisUser.DocumentoValidade.ToString("dd/MM/yyyy");
             //para ter feminino nos documentos
             alldata.isFeminino = db.Generoes.Where(dp => dadosPessoaisUser.Genero == dp.ID).Select(dp => dp.Nome).FirstOrDefault() == "Feminino";
-            alldata.CandidatoNumber = db.Candidatoes.Where(dp => dp.UserID == userId).Select(dp => dp.Numero).FirstOrDefault().ToString();
+            alldata.CandidatoNumber = candidaturaId.ToString();
             return alldata;
         }
 
         private static List<CursoDisplay> GetInfoCursosCandidato(int userId)
         {
             CandidaturaDBEntities1 db = new CandidaturaDBEntities1();
-            List<UserCurso> ListaCursos = db.UserCursoes
-                                            .Where(dp => dp.UserId == userId)
+            int candidaturaId = db.Candidaturas.Where(c => c.UserId == userId).FirstOrDefault().id;
+            List<Opco> ListaCursos = db.Opcoes
+                                            .Where(dp => dp.CandidaturaId == candidaturaId)
                                             .OrderBy(dp => dp.Prioridade)
                                             .ToList();
 
             List<CursoDisplay> listcd = new List<CursoDisplay>();
-            foreach (UserCurso curso in ListaCursos)
+            foreach (Opco curso in ListaCursos)
             {
 
                 CursoDisplay cd = new CursoDisplay();

@@ -40,17 +40,46 @@ namespace Candidaturas.Controllers
         {
             ViewBag.Title = "Dados Pessoais";
             CandidaturaDBEntities1 db = new CandidaturaDBEntities1();
-            DadosPessoai dadosPessoaisUser = db.DadosPessoais.Where(dp => dp.UserId == userId).FirstOrDefault();
+            int candidaturaId = db.Candidaturas.Where(c => c.UserId == userId).FirstOrDefault().id;
+            User user = db.Users.Where(u => u.ID == userId).FirstOrDefault();
+            DadosPessoai dadosPessoaisUser = db.DadosPessoais.Where(u => u.CandidaturaId == candidaturaId).FirstOrDefault();
 
-            if (dadosPessoaisUser != null)
+            if (dadosPessoaisUser == null)
+            {
+                 dadosPessoaisUser = new DadosPessoai();
+
+                if (user != null)
+                {
+                    dadosPessoaisUser.NomeColoquial = user.NomeColoquial;
+                    dadosPessoaisUser.DataNascimento = user.DataNascimento;
+                    dadosPessoaisUser.TipoDocID = user.TipoDocID;
+                    dadosPessoaisUser.NomeColoquial = user.NomeColoquial;
+                    dadosPessoaisUser.NDI = user.NDI;
+                    dadosPessoaisUser.DocumentoValidade = user.DocumentoValidade;
+                    dadosPessoaisUser.Militar = user.Militar;
+                    dadosPessoaisUser.Ramo = user.Ramo;
+                    dadosPessoaisUser.Categoria = user.Categoria;
+                    dadosPessoaisUser.Posto = user.Posto;
+                    dadosPessoaisUser.Classe = user.Classe;
+                    dadosPessoaisUser.NIM = user.NIM;
+
+                    ViewBag.DadosPessoais = dadosPessoaisUser;
+
+                    DadosPessoaisEscolha = dadosPessoaisUser;
+                    ViewData["dn"] = dadosPessoaisUser.DistritoNatural != null;
+                    ViewData["dm"] = dadosPessoaisUser.DistritoMorada != null;
+                    ViewData["mil"] = dadosPessoaisUser.Militar;
+                }
+            }
+            else
             {
                 ViewBag.DadosPessoais = dadosPessoaisUser;
 
                 DadosPessoaisEscolha = dadosPessoaisUser;
                 ViewData["dn"] = dadosPessoaisUser.DistritoNatural != null;
                 ViewData["dm"] = dadosPessoaisUser.DistritoMorada != null;
-                ViewData["mil"] = dadosPessoaisUser.Militar;               
-            }            
+                ViewData["mil"] = dadosPessoaisUser.Militar;
+            }
 
         }
 
@@ -294,11 +323,13 @@ namespace Candidaturas.Controllers
 
                 using (CandidaturaDBEntities1 dbModel = new CandidaturaDBEntities1())
                 {
+                    int candidaturaId = dbModel.Candidaturas.Where(c => c.UserId == userId).FirstOrDefault().id;
+
                     try
                     {
-                        DadosPessoai dadosPessoaisUser = dbModel.DadosPessoais.Where(dp => dp.UserId == userId).FirstOrDefault();
+                        DadosPessoai dadosPessoaisUser = dbModel.DadosPessoais.Where(dp => dp.CandidaturaId == candidaturaId).FirstOrDefault();
 
-                        dadosPessoaisModel.UserId = userId;
+                        dadosPessoaisModel.CandidaturaId = candidaturaId;
 
                         //obter dígitos de controlo do cartão de cidadão
                         if (dadosPessoaisModel.TipoDocID == 4 || dadosPessoaisModel.TipoDocID == 2)

@@ -22,9 +22,9 @@ namespace Candidaturas
         private CandidatoDTO GetInfoCandidate(CandidaturaDBEntities1 db, int user) {
 
             CandidatoDTO dape = new CandidatoDTO();
-
+            int candidaturaId = db.Candidaturas.Where(c => c.UserId == user).FirstOrDefault().id;
             dape.dadosDTO = db.DadosPessoais
-                .Where(guy => guy.UserId == user)
+                .Where(guy => guy.CandidaturaId == candidaturaId)
                 .Select(data => new DadosPessoaisDTO
                 {
                     NomeColoquial = data.NomeColoquial,
@@ -65,7 +65,7 @@ namespace Candidaturas
                 .FirstOrDefault();
 
             dape.inqueritoDTO = db.Inqueritoes
-                .Where(guy => guy.UserId == user)
+                .Where(guy => guy.CandidaturaID == candidaturaId)
                 .Select(data => new InqueritoDTO
                 {
                     SituacaoPai = data.SituacaoPai,
@@ -78,8 +78,8 @@ namespace Candidaturas
                 })
                 .FirstOrDefault();
 
-            dape.cursosDTO = db.UserCursoes
-                .Where(guy => guy.UserId == user)
+            dape.cursosDTO = db.Opcoes
+                .Where(guy => guy.CandidaturaId == candidaturaId)
                 .Select(data => new UserCursoDTO
                 {
                     CursoId = data.CursoId,
@@ -88,7 +88,7 @@ namespace Candidaturas
                 .ToList();
 
             dape.examesDTO = db.UserExames
-                .Where(guy => guy.UserId == user)
+                .Where(guy => guy.CandidaturaId == candidaturaId)
                 .Select(data => new UserExameDTO
                 {
                     ExameId = data.ExameId
