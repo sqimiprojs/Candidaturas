@@ -150,14 +150,15 @@
     </div>
 }
 <script>
+
     window.onload = toogleMilitar(false);
-    $('#dadosPessoais_Militar').click(function () {
+    $('#Militar').click(function () {
         changeLabel();
     });
 
     //muda a label do switch
     function changeLabel() {
-        if (!$("#dadosPessoais_Militar").is(':checked')) {
+        if (!$("#Militar").is(':checked')) {
             $("#switchLabel").text("Não");
             toogleMilitar(false);
         }
@@ -168,28 +169,28 @@
     }
 
     function toogleMilitar(bool) {
-        var nim = $('#dadosPessoais_NIM');
+        var nim = $('#NIM');
         if (bool) {
             $("#militar").show();
         } else {
             $("#militar").hide();
         }
         nim.prop('required', bool);
-        var ramo = $('#dadosPessoais_Ramo');
+        var ramo = $('#Ramo');
         ramo.prop('required', bool);
-        var categoria = $('#dadosPessoais_Categoria');
+        var categoria = $('#Categoria');
         categoria.prop('required', bool);
-        var posto = $('#dadosPessoais_Posto');
+        var posto = $('#Posto');
         posto.prop('required', bool);
 
     }
 
     //altera os postos consoante o ramo e categoria escolhido
     function changePostos() {
-        var ramoEscolhido = $('#dadosPessoais_Ramo').val();
-        var categoriaEscolhida = $('#dadosPessoais_Categoria').val();
+        var ramoEscolhido = $('#Ramo').val();
+        var categoriaEscolhida = $('#Categoria').val();
         if (categoriaEscolhida == "" || ramoEscolhido == "" || ramoEscolhido == "MIL") {
-            var $posto = $('#dadosPessoais_Posto');
+            var $posto = $('#Posto');
             $posto.empty();
             $posto.append('<option value="">Escolha uma opção...</option>');
             $posto.prop('disabled', true);
@@ -203,7 +204,7 @@
             },
             type: "POST",
             success: function (postos) {
-                var $select = $('#dadosPessoais_Posto');
+                var $select = $('#Posto');
                 $select.empty();
                 $select.append('<option value="">Escolha uma opção...</option>');
                 $select.prop('disabled', false);
@@ -220,7 +221,7 @@
     }
 
     function resetPostos() {
-        var $posto = $('#dadosPessoais_Posto');
+        var $posto = $('#Posto');
         $posto.empty();
         $posto.append('<option value="">Escolha uma opção...</option>');
         $posto.prop('disabled', true);

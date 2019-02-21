@@ -29,6 +29,7 @@ namespace Candidaturas.Controllers
             {
                 CandidaturaDBEntities1 db = new CandidaturaDBEntities1();
                 int userId = (int)Session["userID"];
+                int candidaturaId = db.Candidaturas.Where(c => c.UserId == userId).FirstOrDefault().id;
 
                 getDataForDropdownLists(db);
                 getSelectedExames(db, userId);
@@ -39,6 +40,27 @@ namespace Candidaturas.Controllers
                 mymodel.CursosEscolhidos = cursos;
                 ViewBag.CountCursosEscolhidos = cursos.Count;
                 mymodel.ExamesNecessários = examesNecessarios;
+                DadosPessoai dados = db.DadosPessoais.Where(dp => dp.CandidaturaId == candidaturaId).FirstOrDefault();
+                Inquerito inquerito = db.Inqueritoes.Where(dp => dp.CandidaturaID == candidaturaId).FirstOrDefault();
+                
+                if(dados != null)
+                {
+                    ViewBag.dadosPreenchidos = true;
+                }
+                else
+                {
+                    ViewBag.dadosPreenchidos = false;
+                }
+
+                if (inquerito != null)
+                {
+                    ViewBag.inqueritoPreenchido = true;
+                }
+                else
+                {
+                    ViewBag.inqueritoPreenchido = false;
+                }
+
 
                 return View(mymodel);
             }
@@ -71,13 +93,15 @@ namespace Candidaturas.Controllers
 
                 cd.nome = db.Cursoes.Where(dp => dp.ID == curso).Select(dp => dp.Nome).First();
                 cd.prioridade = db.Opcoes.Where(dp => dp.CursoId == curso && dp.CandidaturaId == candidaturaId).Select(dp => dp.Prioridade).FirstOrDefault();
-                cd.ID = db.Cursoes.Where(dp => dp.ID == curso).Select(dp => dp.ID).First();
-                List<int> ExamesId = db.CursoExames.Where(ce => ce.CursoID == cd.ID).Select(ce => ce.ExameID).ToList();
+                cd.ID = curso;
+                List<int> ExamesId = db.CursoExames.Where(ce => ce.CursoID == curso).Select(ce => ce.ExameID).ToList();
+                List<String> auxiliar = new List<string>();
                 foreach(int id in ExamesId)
                 {
-                    String nome = db.Exames.Where(e => e.ID == id).Select(e => e.Nome).First();
-                    cd.ExamesNecessarios.Add(nome);
+                    String nome = db.Exames.Where(e => e.ID == id).Select(e => e.Nome).FirstOrDefault();
+                    auxiliar.Add(nome);
                 }
+                cd.ExamesNecessarios = auxiliar;
                 cursos.Add(cd);
           
             }

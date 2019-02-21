@@ -104,17 +104,16 @@
 {
     <body>
         <div class="header">
-            <img src="~/Content/img/marinha.png" alt="Logo Marinha" />
-            <h1>Formulário de Candidatura</h1>
+            <h1 style="text-align: center">Formulário de Candidatura</h1>
         </div>
 
         <div id="tabs" style="margin-top:40px;">
             <ul>
-                <li><a href="#tabs-1">Dados Pessoais</a></li>
+                <li style="margin-left: 17.5%"><a href="#tabs-1">Dados Pessoais</a></li>
                 <li><a href="#tabs-2">Inquérito</a></li>
                 <li><a href="#tabs-3">Candidatura</a></li>
                 <li><a href="#tabs-4">Documentos</a></li>
-                <li><a href="#tabs-5">Declaração</a></li>
+                <li style="margin-right: 17.5%"><a href="#tabs-5">Declaração</a></li>
             </ul>
             <div id="tabs-1">
                 @Html.Action("Index", "DadosPessoais")

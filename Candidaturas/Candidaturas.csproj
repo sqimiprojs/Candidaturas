@@ -332,7 +332,6 @@
     <Compile Include="Models\User.cs">
       <DependentUpon>CandidaturaModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\UserDados.cs" />
     <Compile Include="Models\UserExame.cs">
       <DependentUpon>CandidaturaModel.tt</DependentUpon>
     </Compile>

@@ -104,7 +104,7 @@
 
 
     function disableButton() {
-        if (@ViewBag.CountCursosEscolhidos < 1) {
+        if (@ViewBag.CountCursosEscolhidos < 1 || @ViewBag.dadosPreenchidos == false || @ViewBag.inqueritoPreenchido == false) {
             var $button = $('#BotaoFinalizar');
             $button.prop('disabled', true);
         }
