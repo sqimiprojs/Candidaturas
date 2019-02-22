@@ -38,11 +38,12 @@ namespace Candidaturas.Controllers
                 }
                 else
                 {
-                    Candidatura candidatura = db.Candidaturas.Where(c => c.UserId == userDetails.ID).FirstOrDefault();
+                    string sigla = db.Edicaos.Where(e => e.DataInicio < System.DateTime.Now && e.DataFim > System.DateTime.Now).Select(e => e.Sigla).First();
+                    Candidatura candidatura = db.Candidaturas.Where(c => c.UserId == userDetails.ID && c.Edicao == sigla).FirstOrDefault();
                     if(candidatura == null)
                     {
                         Candidatura novaCandidatura = new Candidatura();
-                        novaCandidatura.Edicao = "EN2019";
+                        novaCandidatura.Edicao = sigla;
                         novaCandidatura.UserId = userDetails.ID;
                         novaCandidatura.DataAlteracao = System.DateTime.Now;
                         db.Candidaturas.Add(novaCandidatura);

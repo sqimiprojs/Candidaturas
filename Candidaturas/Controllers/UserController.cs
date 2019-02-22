@@ -72,10 +72,10 @@ namespace Candidaturas.Controllers
                             string newPassword = Password.GeneratePassword().ToString();
                             using (SHA256 mySHA256 = SHA256.Create())
                             {
-
+                                string sigla = dbModel.Edicaos.Where(e => e.DataInicio < System.DateTime.Now && e.DataFim > System.DateTime.Now).Select(e => e.Sigla).First();
                                 model.Password = mySHA256.ComputeHash(Encoding.UTF8.GetBytes(newPassword));
                                 model.DataCriacao = System.DateTime.Now;
-                                model.Edicao = "EN2019";
+                                model.Edicao = sigla;
 
                                dbModel.Users.Add(model);
 
