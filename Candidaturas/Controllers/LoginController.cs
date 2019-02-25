@@ -28,8 +28,8 @@ namespace Candidaturas.Controllers
                 {
                     hashedUserPassword = mySHA256.ComputeHash(Encoding.UTF8.GetBytes(model.passwordInput));
                 }
-
-                var userDetails = db.Users.Where(x => x.Email == model.user.Email && x.Password == hashedUserPassword).FirstOrDefault();
+                Edicao edicao = db.Edicaos.Where(e => e.DataInicio < System.DateTime.Now && e.DataFim > System.DateTime.Now).First();
+                var userDetails = db.Users.Where(x => x.Email == model.user.Email && x.Password == hashedUserPassword && x.Edicao == edicao.Sigla).FirstOrDefault();
 
                 if (userDetails == null)
                 {
@@ -38,12 +38,11 @@ namespace Candidaturas.Controllers
                 }
                 else
                 {
-                    string sigla = db.Edicaos.Where(e => e.DataInicio < System.DateTime.Now && e.DataFim > System.DateTime.Now).Select(e => e.Sigla).First();
-                    Candidatura candidatura = db.Candidaturas.Where(c => c.UserId == userDetails.ID && c.Edicao == sigla).FirstOrDefault();
+                    Candidatura candidatura = db.Candidaturas.Where(c => c.UserId == userDetails.ID && c.Edicao == edicao.Sigla).FirstOrDefault();
                     if(candidatura == null)
                     {
                         Candidatura novaCandidatura = new Candidatura();
-                        novaCandidatura.Edicao = sigla;
+                        novaCandidatura.Edicao = edicao.Sigla;
                         novaCandidatura.UserId = userDetails.ID;
                         novaCandidatura.DataAlteracao = System.DateTime.Now;
                         db.Candidaturas.Add(novaCandidatura);
