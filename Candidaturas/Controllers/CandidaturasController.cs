@@ -145,6 +145,7 @@ namespace Candidaturas.Controllers
                         {
                             int candidaturaId = dbModel.Candidaturas.Where(c => c.UserId == userId).FirstOrDefault().id;
                             UserExame exameRegistado = dbModel.UserExames.Where(dp => dp.ExameId == exameEscolhido).Where(dp => dp.CandidaturaId == candidaturaId).FirstOrDefault();
+                            Historico novoHistorico = new Historico();
 
                             if (exameRegistado == null)
                             {
@@ -154,7 +155,10 @@ namespace Candidaturas.Controllers
                                 userExame.CandidaturaId = candidaturaId;
 
                                 dbModel.UserExames.Add(userExame);
-
+                                novoHistorico.timestamp = System.DateTime.Now;
+                                novoHistorico.mensagem = "Exame: " + dbModel.Exames.Where(dp => dp.ID == exameEscolhido).FirstOrDefault().Nome + " adicionado.";
+                                novoHistorico.CandidaturaID = candidaturaId;
+                                dbModel.Historicoes.Add(novoHistorico);
                                 dbModel.SaveChanges();
                             }
                             else
@@ -207,7 +211,7 @@ namespace Candidaturas.Controllers
                         {
                             int candidaturaId = dbModel.Candidaturas.Where(c => c.UserId == userId).FirstOrDefault().id;
                             Opco cursoRegistado = dbModel.Opcoes.Where(dp => dp.CursoId == cursoEscolhido).Where(dp => dp.CandidaturaId == candidaturaId).FirstOrDefault();
-
+                            Historico novoHistorico = new Historico();
                             //ver se já escolheu o curso
                             if (cursoRegistado == null)
                             {
@@ -230,6 +234,10 @@ namespace Candidaturas.Controllers
                                 }
 
                                 dbModel.Opcoes.Add(userCurso);
+                                novoHistorico.timestamp = System.DateTime.Now;
+                                novoHistorico.mensagem = "Curso: " + dbModel.Cursoes.Where(dp => dp.ID == cursoEscolhido).FirstOrDefault().Nome + " escolhido.";
+                                novoHistorico.CandidaturaID = candidaturaId;
+                                dbModel.Historicoes.Add(novoHistorico);
 
                                 dbModel.SaveChanges();
                             }
@@ -278,9 +286,14 @@ namespace Candidaturas.Controllers
                     try
                     {
                         int candidaturaId = dbModel.Candidaturas.Where(c => c.UserId == userId).FirstOrDefault().id;
+                        Historico novoHistorico = new Historico();
                         //remover exame
                         UserExame ue = dbModel.UserExames.Where(dp => dp.ExameId == id).Where(dp => dp.CandidaturaId == candidaturaId).FirstOrDefault();
                         dbModel.UserExames.Remove(ue);
+                        novoHistorico.timestamp = System.DateTime.Now;
+                        novoHistorico.mensagem = "Exame: " + dbModel.Exames.Where(dp => dp.ID == id).FirstOrDefault().Nome + " removido.";
+                        novoHistorico.CandidaturaID = candidaturaId;
+                        dbModel.Historicoes.Add(novoHistorico);
                         dbModel.SaveChanges();
                     }
                     catch (System.Data.Entity.Validation.DbEntityValidationException dbEx)
@@ -320,6 +333,7 @@ namespace Candidaturas.Controllers
                     try
                     {
                         int candidaturaId = dbModel.Candidaturas.Where(c => c.UserId == userId).FirstOrDefault().id;
+                        Historico novoHistorico = new Historico();
                         //remover curso
                         Opco uc = dbModel.Opcoes.Where(dp => dp.CursoId == id).Where(dp => dp.CandidaturaId == candidaturaId).FirstOrDefault();
                         dbModel.Opcoes.Remove(uc);
@@ -336,6 +350,10 @@ namespace Candidaturas.Controllers
                             a.Prioridade = prioridadeNova;
                             prioridadeNova++;
                         });
+                        novoHistorico.timestamp = System.DateTime.Now;
+                        novoHistorico.mensagem = "Curso: " + dbModel.Exames.Where(dp => dp.ID == id).FirstOrDefault().Nome + " removido.";
+                        novoHistorico.CandidaturaID = candidaturaId;
+                        dbModel.Historicoes.Add(novoHistorico);
 
                         dbModel.SaveChanges();
                     }
@@ -505,7 +523,7 @@ namespace Candidaturas.Controllers
                 string filename = document.Info.Title + ".pdf";
 
                 Certificado formTable = new Certificado();
-
+                Historico novoHistorico = new Historico();
                 MemoryStream PDFStream = new MemoryStream();
                 PDFRenderer.PdfDocument.Save(PDFStream, true);
 
@@ -514,6 +532,10 @@ namespace Candidaturas.Controllers
                 formTable.DataCriação = System.DateTime.Now;
 
                 dbModel.Certificadoes.Add(formTable);
+                novoHistorico.timestamp = System.DateTime.Now;
+                novoHistorico.mensagem = "Candidatura: " + candidaturaId + " finalizada e Certificado gerado.";
+                novoHistorico.CandidaturaID = candidaturaId;
+                dbModel.Historicoes.Add(novoHistorico);
                 dbModel.SaveChanges();
 
                 ModelState.Clear();

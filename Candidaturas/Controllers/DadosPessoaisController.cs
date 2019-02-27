@@ -345,11 +345,17 @@ namespace Candidaturas.Controllers
                         }
 
                         //adicionar ou atualizar
+                        Historico novoHistorico = new Historico();
+
                         if (dadosPessoaisUser == null)
                         {
                             dadosPessoaisModel.DataCriacao = System.DateTime.Now;
                             dadosPessoaisModel.DataUltimaAtualizacao = System.DateTime.Now;
                             dbModel.DadosPessoais.Add(dadosPessoaisModel);
+                            novoHistorico.timestamp = System.DateTime.Now;
+                            novoHistorico.mensagem = "Dados pessoais inseridos.";
+                            novoHistorico.CandidaturaID = candidaturaId;
+                            dbModel.Historicoes.Add(novoHistorico);
                         }
                         else
                         {
@@ -363,6 +369,10 @@ namespace Candidaturas.Controllers
                             dadosPessoaisUser.DataCriacao = dataCriacao;
                             dadosPessoaisUser.DataUltimaAtualizacao = System.DateTime.Now;
                             dbModel.DadosPessoais.Add(dadosPessoaisUser);
+                            novoHistorico.timestamp = System.DateTime.Now;
+                            novoHistorico.mensagem = "Dados pessoais alterados.";
+                            novoHistorico.CandidaturaID = candidaturaId;
+                            dbModel.Historicoes.Add(novoHistorico);
                         }
 
                         dbModel.SaveChanges();

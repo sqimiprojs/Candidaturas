@@ -41,6 +41,12 @@ namespace Candidaturas.Controllers
             int userId = (int)Session["userID"];
             int candidaturaId = db.Candidaturas.Where(c => c.UserId == userId).FirstOrDefault().id;
             byte[] dForm = db.Certificadoes.Where(dp => dp.CandidaturaID == candidaturaId).Select(dp => dp.FormBin).FirstOrDefault();
+            Historico novoHistorico = new Historico();
+            novoHistorico.timestamp = System.DateTime.Now;
+            novoHistorico.mensagem = "Download de certificado efectuado.";
+            novoHistorico.CandidaturaID = candidaturaId;
+            db.Historicoes.Add(novoHistorico);
+            db.SaveChanges();
 
             Response.Clear();
             Response.Buffer = true;

@@ -74,8 +74,13 @@ namespace Candidaturas.Controllers
                                     DocID = doc.ID,
                                     DocBinario = data
                                 };
+                                    Historico novoHistorico = new Historico();
                                 dbModel.DocumentoBinarios.Add(DocBin);
-                                dbModel.SaveChanges();
+                                    novoHistorico.timestamp = System.DateTime.Now;
+                                    novoHistorico.mensagem = "Documento: " + fileName + " adicionado.";
+                                    novoHistorico.CandidaturaID = candidaturaId;
+                                    dbModel.Historicoes.Add(novoHistorico);
+                                    dbModel.SaveChanges();
                                 }
                                 else
                                 {
@@ -161,9 +166,14 @@ namespace Candidaturas.Controllers
                 {
                     try
                     {
+                        int candidaturaId = dbModel.Candidaturas.Where(c => c.UserId == userId).FirstOrDefault().id;
                         Documento ud = dbModel.Documentoes.Where(dp => dp.ID == id).FirstOrDefault();
+                        Historico novoHistorico = new Historico();
                         dbModel.Documentoes.Remove(ud);
-
+                        novoHistorico.timestamp = System.DateTime.Now;
+                        novoHistorico.mensagem = "Documento: " + ud.Nome + " removido.";
+                        novoHistorico.CandidaturaID = candidaturaId;
+                        dbModel.Historicoes.Add(novoHistorico);
                         dbModel.SaveChanges();
                     }
                     catch (System.Data.Entity.Validation.DbEntityValidationException dbEx)

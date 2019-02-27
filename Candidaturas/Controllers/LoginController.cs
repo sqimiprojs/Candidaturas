@@ -47,6 +47,15 @@ namespace Candidaturas.Controllers
                         novaCandidatura.DataAlteracao = System.DateTime.Now;
                         db.Candidaturas.Add(novaCandidatura);
                         db.SaveChanges();
+
+                        Historico novoHistorico = new Historico();
+                        novoHistorico.timestamp = System.DateTime.Now;
+                        novoHistorico.mensagem = "Candidatura criada para o user: " + userDetails.Email;
+                        int candidaturaAux = db.Candidaturas.Where(c => c.UserId == userDetails.ID && c.Edicao == edicao.Sigla).Select(c => c.id).First();
+                        novoHistorico.CandidaturaID = candidaturaAux;
+                        db.Historicoes.Add(novoHistorico);
+                        db.SaveChanges();
+
                     }
                     Session["userID"] = userDetails.ID;
                     return RedirectToAction("Index", "Home");

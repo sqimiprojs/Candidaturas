@@ -94,13 +94,18 @@ namespace Candidaturas.Controllers
                             Inquerito inqueritoUser = dbModel.Inqueritoes.Where(dp => dp.CandidaturaID == candidaturaId).FirstOrDefault();
 
                         inqueritoModel.CandidaturaID = candidaturaId;
+                            Historico novoHistorico = new Historico();
 
-                        if (inqueritoUser == null)
+                            if (inqueritoUser == null)
                         {
                             inqueritoModel.DataCriacao = System.DateTime.Now;
                             inqueritoModel.DataAtualizacao = System.DateTime.Now;
                             dbModel.Inqueritoes.Add(inqueritoModel);
-                        }
+                                novoHistorico.timestamp = System.DateTime.Now;
+                                novoHistorico.mensagem = "Inquerito respondido.";
+                                novoHistorico.CandidaturaID = candidaturaId;
+                                dbModel.Historicoes.Add(novoHistorico);
+                            }
                         else
                         {
                             DateTime? dataCriacao = inqueritoUser.DataCriacao;
@@ -109,7 +114,11 @@ namespace Candidaturas.Controllers
                             inqueritoUser.DataCriacao = dataCriacao;
                             inqueritoUser.DataAtualizacao = System.DateTime.Now;
                             dbModel.Inqueritoes.Add(inqueritoUser);
-                        }
+                                novoHistorico.timestamp = System.DateTime.Now;
+                                novoHistorico.mensagem = "Inquerito alterado.";
+                                novoHistorico.CandidaturaID = candidaturaId;
+                                dbModel.Historicoes.Add(novoHistorico);
+                            }
 
                         dbModel.SaveChanges();
 
