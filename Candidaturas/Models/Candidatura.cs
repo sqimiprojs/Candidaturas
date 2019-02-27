@@ -33,7 +33,6 @@ namespace Candidaturas.Models
         public virtual Certificado Certificado { get; set; }
         public virtual DadosPessoai DadosPessoai { get; set; }
         public virtual Edicao Edicao1 { get; set; }
-        public virtual Historico Historico { get; set; }
         public virtual Inquerito Inquerito { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Opco> Opcoes { get; set; }
