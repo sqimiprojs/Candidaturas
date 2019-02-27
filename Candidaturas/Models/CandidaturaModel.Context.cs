@@ -25,7 +25,6 @@ namespace Candidaturas.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Historico> Historicoes { get; set; }
         public virtual DbSet<Candidatura> Candidaturas { get; set; }
         public virtual DbSet<Categoria> Categorias { get; set; }
         public virtual DbSet<Certificado> Certificadoes { get; set; }
@@ -42,6 +41,7 @@ namespace Candidaturas.Models
         public virtual DbSet<Exame> Exames { get; set; }
         public virtual DbSet<Freguesia> Freguesias { get; set; }
         public virtual DbSet<Genero> Generoes { get; set; }
+        public virtual DbSet<Historico> Historicoes { get; set; }
         public virtual DbSet<Inquerito> Inqueritoes { get; set; }
         public virtual DbSet<Localidade> Localidades { get; set; }
         public virtual DbSet<Opco> Opcoes { get; set; }
