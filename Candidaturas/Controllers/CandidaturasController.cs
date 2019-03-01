@@ -530,7 +530,7 @@ namespace Candidaturas.Controllers
                 formTable.CandidaturaID = candidaturaId;
                 formTable.FormBin = PDFStream.ToArray();
                 formTable.DataCriação = System.DateTime.Now;
-
+                formTable.DiaCriação = System.DateTime.Now.Date;
                 dbModel.Certificadoes.Add(formTable);
                 novoHistorico.timestamp = System.DateTime.Now;
                 novoHistorico.mensagem = "Candidatura: " + candidaturaId + " finalizada e Certificado gerado.";
