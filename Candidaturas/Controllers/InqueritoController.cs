@@ -49,8 +49,9 @@ namespace Candidaturas.Controllers
         public void getDataForDropdownListsInquerito()
         {
             CandidaturaDBEntities1 db = new CandidaturaDBEntities1();
+            String siglaEdicao = db.Edicaos.Where(e => e.DataInicio < System.DateTime.Now && e.DataFim > System.DateTime.Now).Select(e => e.Sigla).FirstOrDefault();
 
-            IEnumerable<SelectListItem> situacoesPai = db.Situacaos.Select(c => new SelectListItem
+            IEnumerable<SelectListItem> situacoesPai = db.Situacaos.Where(s => s.Edicao == siglaEdicao ).Select(c => new SelectListItem
             {
                 Value = c.ID.ToString(),
                 Text = c.Nome,
@@ -58,7 +59,7 @@ namespace Candidaturas.Controllers
             });
             ViewBag.SituacaoPai = situacoesPai;
 
-            IEnumerable<SelectListItem> situacoesMae = db.Situacaos.Select(c => new SelectListItem
+            IEnumerable<SelectListItem> situacoesMae = db.Situacaos.Where(s => s.Edicao == siglaEdicao).Select(c => new SelectListItem
             {
                 Value = c.ID.ToString(),
                 Text = c.Nome,
@@ -66,7 +67,7 @@ namespace Candidaturas.Controllers
             });
             ViewBag.SituacaoMae = situacoesMae;
 
-            IEnumerable<SelectListItem> conhecimentosEscola = db.ConhecimentoEscolas.Select(c => new SelectListItem
+            IEnumerable<SelectListItem> conhecimentosEscola = db.ConhecimentoEscolas.Where(ce => ce.Edicao == siglaEdicao).Select(c => new SelectListItem
             {
                 Value = c.ID.ToString(),
                 Text = c.Nome,

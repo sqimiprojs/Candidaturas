@@ -79,8 +79,6 @@ namespace Candidaturas.Controllers
 
                                dbModel.Users.Add(model);
 
-                              
-
                                 dbModel.SaveChanges();
 
                                 ModelState.Clear();

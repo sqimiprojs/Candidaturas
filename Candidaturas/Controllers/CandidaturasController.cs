@@ -92,13 +92,14 @@ namespace Candidaturas.Controllers
                 CursoDisplay cd = new CursoDisplay();
 
                 cd.nome = db.Cursoes.Where(dp => dp.ID == curso).Select(dp => dp.Nome).First();
+                String siglaEdicao = db.Cursoes.Where(dp => dp.ID == curso).Select(dp => dp.Edicao).First();
                 cd.prioridade = db.Opcoes.Where(dp => dp.CursoId == curso && dp.CandidaturaId == candidaturaId).Select(dp => dp.Prioridade).FirstOrDefault();
                 cd.ID = curso;
-                List<int> ExamesId = db.CursoExames.Where(ce => ce.CursoID == curso).Select(ce => ce.ExameID).ToList();
+                List<int> ExamesId = db.CursoExames.Where(ce => ce.CursoID == curso && ce.Edicao == siglaEdicao).Select(ce => ce.ExameID).ToList();
                 List<String> auxiliar = new List<string>();
                 foreach(int id in ExamesId)
                 {
-                    String nome = db.Exames.Where(e => e.ID == id).Select(e => e.Nome).FirstOrDefault();
+                    String nome = db.Exames.Where(e => e.ID == id && e.Edicao == siglaEdicao).Select(e => e.Nome).FirstOrDefault();
                     auxiliar.Add(nome);
                 }
                 cd.ExamesNecessarios = auxiliar;
@@ -111,13 +112,16 @@ namespace Candidaturas.Controllers
         public void getDataForDropdownLists(CandidaturaDBEntities1 db)
         {
 
-            IEnumerable<SelectListItem> exames = db.Exames.Select(c => new SelectListItem
+            String siglaEdicao = db.Edicaos.Where(e => e.DataInicio < System.DateTime.Now && e.DataFim > System.DateTime.Now).Select(e => e.Sigla).FirstOrDefault();
+
+
+            IEnumerable<SelectListItem> exames = db.Exames.Where(e => e.Edicao == siglaEdicao).Select(c => new SelectListItem
             {
                 Value = c.ID.ToString(),
                 Text = c.Nome
             });
 
-            IEnumerable<SelectListItem> cursos = db.Cursoes.Select(c => new SelectListItem
+            IEnumerable<SelectListItem> cursos = db.Cursoes.Where(c => c.Edicao == siglaEdicao).Select(c => new SelectListItem
             {
                 Value = c.ID.ToString(),
                 Text = c.Nome
