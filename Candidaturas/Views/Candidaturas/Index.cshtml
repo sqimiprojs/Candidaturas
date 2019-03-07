@@ -49,9 +49,18 @@
                 <td>@curso.nome</td>
                 
                 <td>
-                    @foreach (String exame in curso.ExamesNecessarios)
+                    @foreach (ExameObrigatorioDisplay exame in curso.ExamesNecessarios)
                     {
-                        <div>@exame </div>
+                        if (exame.obrigatorio)
+                        {
+                            <div>@exame.exame.Nome - (Obrigatório)</div>
+
+                        }
+                        else
+                        {
+                            <div>@exame.exame.Nome </div>
+
+                        }
                     }
                 </td>
                 

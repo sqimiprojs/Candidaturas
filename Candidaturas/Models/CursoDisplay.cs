@@ -8,6 +8,6 @@ namespace Candidaturas.Models
         public int prioridade { get; set; }
         public string nome { get; set; }
         public int ID { get; set; }
-        public List<String> ExamesNecessarios { get; set; }
+        public List<ExameObrigatorioDisplay> ExamesNecessarios { get; set; }
     }
 }

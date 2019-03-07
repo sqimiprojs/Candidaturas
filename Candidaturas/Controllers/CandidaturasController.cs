@@ -96,10 +96,14 @@ namespace Candidaturas.Controllers
                 cd.prioridade = db.Opcoes.Where(dp => dp.CursoId == curso && dp.CandidaturaId == candidaturaId).Select(dp => dp.Prioridade).FirstOrDefault();
                 cd.ID = curso;
                 List<int> ExamesId = db.CursoExames.Where(ce => ce.CursoID == curso && ce.Edicao == siglaEdicao).Select(ce => ce.ExameID).ToList();
-                List<String> auxiliar = new List<string>();
+                List<ExameObrigatorioDisplay> auxiliar = new List<ExameObrigatorioDisplay>();
                 foreach(int id in ExamesId)
                 {
-                    String nome = db.Exames.Where(e => e.ID == id && e.Edicao == siglaEdicao).Select(e => e.Nome).FirstOrDefault();
+                    ExameObrigatorioDisplay nome = new ExameObrigatorioDisplay();
+                    Exame exame = db.Exames.Where(e => e.ID == id && e.Edicao == siglaEdicao).FirstOrDefault();
+                    bool obrigatorio = (bool) db.CursoExames.Where(ce => ce.CursoID == curso && ce.Edicao == siglaEdicao && ce.ExameID == id).Select(ce => ce.Obrigatorio).FirstOrDefault();
+                    nome.exame = exame;
+                    nome.obrigatorio = obrigatorio;
                     auxiliar.Add(nome);
                 }
                 cd.ExamesNecessarios = auxiliar;
