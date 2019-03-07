@@ -19,13 +19,26 @@ namespace Candidaturas.Controllers
         public ActionResult Index()
         {
             ViewBag.Title = "Inquerito";
+            CandidaturaDBEntities1 db = new CandidaturaDBEntities1();
+
             if (Session["userID"] != null)
             {
                 int userId = (int)Session["userID"];
 
                 this.getDadosPessoaisInquerito(userId);
-            }
 
+                int candidaturaId = db.Candidaturas.Where(c => c.UserId == userId).FirstOrDefault().id;
+                DadosPessoai dados = db.DadosPessoais.Where(dp => dp.CandidaturaId == candidaturaId).FirstOrDefault();
+                if (dados != null)
+                {
+                    ViewBag.dadosPreenchidos = true;
+                }
+                else
+                {
+                    ViewBag.dadosPreenchidos = false;
+                }
+            }
+            
             this.getDataForDropdownListsInquerito();
 
             return View("~/Views/Inquerito/AddOrEdit.cshtml");

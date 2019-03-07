@@ -85,7 +85,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col">
-                <input type="submit" value="Continuar" class="btn btn-primary" />
+                <input id="AddInquerito" type="submit" value="Continuar" class="btn btn-primary" />
                 
             </div>
         </div>
@@ -152,6 +152,18 @@
         checkPai();
         checkMae();
         checkEscola();
+
+         if (@ViewBag.dadosPreenchidos == false) {
+            var $button = $('#AddInquerito');
+             $button.prop('disabled', true);
+             var $form1 = $('#situacaoPai');
+             $form1.prop('disabled', true);
+             var $form2 = $('#situacaoMae');
+             $form2.prop('disabled', true);
+             var $form3 = $('#conhecimentoEscola');
+             $form3.prop('disabled', true);
+        }
+
     }
     $('.slider').click(function () {
 

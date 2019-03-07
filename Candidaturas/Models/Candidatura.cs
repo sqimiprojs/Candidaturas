@@ -28,12 +28,14 @@ namespace Candidaturas.Models
         public string Edicao { get; set; }
         public Nullable<System.DateTime> DataAlteracao { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Documento> Documentoes { get; set; }
+        public virtual Candidatura Candidatura1 { get; set; }
+        public virtual Candidatura Candidatura2 { get; set; }
+        public virtual Edicao Edicao1 { get; set; }
         public virtual User User { get; set; }
         public virtual Certificado Certificado { get; set; }
         public virtual DadosPessoai DadosPessoai { get; set; }
-        public virtual Edicao Edicao1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Documento> Documentoes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Historico> Historicoes { get; set; }
         public virtual Inquerito Inquerito { get; set; }

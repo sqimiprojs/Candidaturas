@@ -19,12 +19,20 @@
         <div class="col">
             @if (ViewBag.Candidato != null && ViewBag.Candidato)
             {
-                @Html.ActionLink("Descarregar Comprovativo", "DownloadFormulario", "Declaracao", new { @class = "btn btn-primary" });
+                <input id="BotaoFinalizar"
+                       type="button"
+                       value="Descarregar Comprovativo"
+                       class="btn btn-primary"
+                       onclick="location.href='@Url.Action("DownloadFormulario", "Declaracao" )'" />
                 @Html.ActionLink("Alterar Candidatura", "RepeatFormulario", "Declaracao", new { @class = "btn btn-outline-primary mx-2" });
             }
-            else
+            else if (ViewBag.opcoesEscolhidas == true && ViewBag.dadosPreenchidos == true && ViewBag.inqueritoPreenchido == true)
             {
-                @Html.ActionLink("Preencher Cadidatura", "DadosPessoais", "Formulario", null, new { @class = "btn btn-primary" });
+                <input id="BotaoFinalizar"
+                       type="button"
+                       value="Finalizar Candidatura"
+                       class="btn btn-primary"
+                       onclick="location.href='@Url.Action("SubmeterCandidatura", "Declaracao" )'" />
             }
 
         </div>
@@ -32,7 +40,7 @@
 </div>
 
 <script type="text/javascript">
-
+   
     $(document).ready(function () {
         $("#FicheiroInput").change(function () {
             //gets file size in bytes

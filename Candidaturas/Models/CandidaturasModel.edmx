@@ -301,15 +301,27 @@
           <Property Name="CandidaturaId" Type="int" Nullable="false" />
           <Property Name="ExameId" Type="int" Nullable="false" />
         </EntityType>
-        <Association Name="FK_Candidatura_Documento">
+        <Association Name="FK_Candidatura_Candidatura">
           <End Role="Candidatura" Type="Self.Candidatura" Multiplicity="1" />
-          <End Role="Documento" Type="Self.Documento" Multiplicity="*" />
+          <End Role="Candidatura1" Type="Self.Candidatura" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="Candidatura">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="Documento">
-              <PropertyRef Name="CandidaturaID" />
+            <Dependent Role="Candidatura1">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Candidatura_Edicao">
+          <End Role="Edicao" Type="Self.Edicao" Multiplicity="1" />
+          <End Role="Candidatura" Type="Self.Candidatura" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Edicao">
+              <PropertyRef Name="Sigla" />
+            </Principal>
+            <Dependent Role="Candidatura">
+              <PropertyRef Name="Edicao" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -555,6 +567,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Documento_Candidatura">
+          <End Role="Candidatura" Type="Self.Candidatura" Multiplicity="1" />
+          <End Role="Documento" Type="Self.Documento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Candidatura">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Documento">
+              <PropertyRef Name="CandidaturaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_DocumentoBinario_Documento">
           <End Role="Documento" Type="Self.Documento" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -566,18 +590,6 @@
             </Principal>
             <Dependent Role="DocumentoBinario">
               <PropertyRef Name="DocID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Edicao_Candidatura">
-          <End Role="Edicao" Type="Self.Edicao" Multiplicity="1" />
-          <End Role="Candidatura" Type="Self.Candidatura" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Edicao">
-              <PropertyRef Name="Sigla" />
-            </Principal>
-            <Dependent Role="Candidatura">
-              <PropertyRef Name="Edicao" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -681,6 +693,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Opcoes_Candidatura">
+          <End Role="Candidatura" Type="Self.Candidatura" Multiplicity="1" />
+          <End Role="Opcoes" Type="Self.Opcoes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Candidatura">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Opcoes">
+              <PropertyRef Name="CandidaturaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Opcoes_Curso">
           <End Role="Curso" Type="Self.Curso" Multiplicity="1" />
           <End Role="Opcoes" Type="Self.Opcoes" Multiplicity="*" />
@@ -767,18 +791,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_UserCurso_Candidatura">
-          <End Role="Candidatura" Type="Self.Candidatura" Multiplicity="1" />
-          <End Role="Opcoes" Type="Self.Opcoes" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Candidatura">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Opcoes">
-              <PropertyRef Name="CandidaturaId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_UserExame_Candidatura">
           <End Role="Candidatura" Type="Self.Candidatura" Multiplicity="1" />
           <End Role="UserExame" Type="Self.UserExame" Multiplicity="*" />
@@ -832,9 +844,13 @@
           <EntitySet Name="TipoDocumentoID" EntityType="Self.TipoDocumentoID" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserExame" EntityType="Self.UserExame" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK_Candidatura_Documento" Association="Self.FK_Candidatura_Documento">
+          <AssociationSet Name="FK_Candidatura_Candidatura" Association="Self.FK_Candidatura_Candidatura">
             <End Role="Candidatura" EntitySet="Candidatura" />
-            <End Role="Documento" EntitySet="Documento" />
+            <End Role="Candidatura1" EntitySet="Candidatura" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Candidatura_Edicao" Association="Self.FK_Candidatura_Edicao">
+            <End Role="Edicao" EntitySet="Edicao" />
+            <End Role="Candidatura" EntitySet="Candidatura" />
           </AssociationSet>
           <AssociationSet Name="FK_Candidatura_User" Association="Self.FK_Candidatura_User">
             <End Role="User" EntitySet="User" />
@@ -912,13 +928,13 @@
             <End Role="TipoDocumentoID" EntitySet="TipoDocumentoID" />
             <End Role="DadosPessoais" EntitySet="DadosPessoais" />
           </AssociationSet>
+          <AssociationSet Name="FK_Documento_Candidatura" Association="Self.FK_Documento_Candidatura">
+            <End Role="Candidatura" EntitySet="Candidatura" />
+            <End Role="Documento" EntitySet="Documento" />
+          </AssociationSet>
           <AssociationSet Name="FK_DocumentoBinario_Documento" Association="Self.FK_DocumentoBinario_Documento">
             <End Role="Documento" EntitySet="Documento" />
             <End Role="DocumentoBinario" EntitySet="DocumentoBinario" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Edicao_Candidatura" Association="Self.FK_Edicao_Candidatura">
-            <End Role="Edicao" EntitySet="Edicao" />
-            <End Role="Candidatura" EntitySet="Candidatura" />
           </AssociationSet>
           <AssociationSet Name="FK_Exame_Edicao" Association="Self.FK_Exame_Edicao">
             <End Role="Edicao" EntitySet="Edicao" />
@@ -952,6 +968,10 @@
             <End Role="Concelho" EntitySet="Concelho" />
             <End Role="Localidade" EntitySet="Localidade" />
           </AssociationSet>
+          <AssociationSet Name="FK_Opcoes_Candidatura" Association="Self.FK_Opcoes_Candidatura">
+            <End Role="Candidatura" EntitySet="Candidatura" />
+            <End Role="Opcoes" EntitySet="Opcoes" />
+          </AssociationSet>
           <AssociationSet Name="FK_Opcoes_Curso" Association="Self.FK_Opcoes_Curso">
             <End Role="Curso" EntitySet="Curso" />
             <End Role="Opcoes" EntitySet="Opcoes" />
@@ -979,10 +999,6 @@
           <AssociationSet Name="FK_User_Edicao" Association="Self.FK_User_Edicao">
             <End Role="Edicao" EntitySet="Edicao" />
             <End Role="User" EntitySet="User" />
-          </AssociationSet>
-          <AssociationSet Name="FK_UserCurso_Candidatura" Association="Self.FK_UserCurso_Candidatura">
-            <End Role="Candidatura" EntitySet="Candidatura" />
-            <End Role="Opcoes" EntitySet="Opcoes" />
           </AssociationSet>
           <AssociationSet Name="FK_UserExame_Candidatura" Association="Self.FK_UserExame_Candidatura">
             <End Role="Candidatura" EntitySet="Candidatura" />
@@ -1026,9 +1042,13 @@
           <EntitySet Name="TipoDocumentoIDs" EntityType="CandidaturaDBModel.TipoDocumentoID" />
           <EntitySet Name="Users" EntityType="CandidaturaDBModel.User" />
           <EntitySet Name="UserExames" EntityType="CandidaturaDBModel.UserExame" />
-          <AssociationSet Name="FK_Candidatura_Documento" Association="CandidaturaDBModel.FK_Candidatura_Documento">
+          <AssociationSet Name="FK_Candidatura_Candidatura" Association="CandidaturaDBModel.FK_Candidatura_Candidatura">
             <End Role="Candidatura" EntitySet="Candidaturas" />
-            <End Role="Documento" EntitySet="Documentoes" />
+            <End Role="Candidatura1" EntitySet="Candidaturas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Candidatura_Edicao" Association="CandidaturaDBModel.FK_Candidatura_Edicao">
+            <End Role="Edicao" EntitySet="Edicaos" />
+            <End Role="Candidatura" EntitySet="Candidaturas" />
           </AssociationSet>
           <AssociationSet Name="FK_Candidatura_User" Association="CandidaturaDBModel.FK_Candidatura_User">
             <End Role="User" EntitySet="Users" />
@@ -1042,9 +1062,9 @@
             <End Role="Candidatura" EntitySet="Candidaturas" />
             <End Role="DadosPessoai" EntitySet="DadosPessoais" />
           </AssociationSet>
-          <AssociationSet Name="FK_Edicao_Candidatura" Association="CandidaturaDBModel.FK_Edicao_Candidatura">
-            <End Role="Edicao" EntitySet="Edicaos" />
+          <AssociationSet Name="FK_Documento_Candidatura" Association="CandidaturaDBModel.FK_Documento_Candidatura">
             <End Role="Candidatura" EntitySet="Candidaturas" />
+            <End Role="Documento" EntitySet="Documentoes" />
           </AssociationSet>
           <AssociationSet Name="FK_Historico_Candidatura" Association="CandidaturaDBModel.FK_Historico_Candidatura">
             <End Role="Candidatura" EntitySet="Candidaturas" />
@@ -1054,7 +1074,7 @@
             <End Role="Candidatura" EntitySet="Candidaturas" />
             <End Role="Inquerito" EntitySet="Inqueritoes" />
           </AssociationSet>
-          <AssociationSet Name="FK_UserCurso_Candidatura" Association="CandidaturaDBModel.FK_UserCurso_Candidatura">
+          <AssociationSet Name="FK_Opcoes_Candidatura" Association="CandidaturaDBModel.FK_Opcoes_Candidatura">
             <End Role="Candidatura" EntitySet="Candidaturas" />
             <End Role="Opco" EntitySet="Opcoes" />
           </AssociationSet>
@@ -1195,14 +1215,16 @@
           <Property Name="UserId" Type="Int32" Nullable="false" />
           <Property Name="Edicao" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="DataAlteracao" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Documentoes" Relationship="CandidaturaDBModel.FK_Candidatura_Documento" FromRole="Candidatura" ToRole="Documento" />
+          <NavigationProperty Name="Candidatura1" Relationship="CandidaturaDBModel.FK_Candidatura_Candidatura" FromRole="Candidatura" ToRole="Candidatura1" />
+          <NavigationProperty Name="Candidatura2" Relationship="CandidaturaDBModel.FK_Candidatura_Candidatura" FromRole="Candidatura1" ToRole="Candidatura" />
+          <NavigationProperty Name="Edicao1" Relationship="CandidaturaDBModel.FK_Candidatura_Edicao" FromRole="Candidatura" ToRole="Edicao" />
           <NavigationProperty Name="User" Relationship="CandidaturaDBModel.FK_Candidatura_User" FromRole="Candidatura" ToRole="User" />
           <NavigationProperty Name="Certificado" Relationship="CandidaturaDBModel.FK_Certificado_Candidatura" FromRole="Candidatura" ToRole="Certificado" />
           <NavigationProperty Name="DadosPessoai" Relationship="CandidaturaDBModel.FK_DadosPessoais_Candidatura" FromRole="Candidatura" ToRole="DadosPessoai" />
-          <NavigationProperty Name="Edicao1" Relationship="CandidaturaDBModel.FK_Edicao_Candidatura" FromRole="Candidatura" ToRole="Edicao" />
+          <NavigationProperty Name="Documentoes" Relationship="CandidaturaDBModel.FK_Documento_Candidatura" FromRole="Candidatura" ToRole="Documento" />
           <NavigationProperty Name="Historicoes" Relationship="CandidaturaDBModel.FK_Historico_Candidatura" FromRole="Candidatura" ToRole="Historico" />
           <NavigationProperty Name="Inquerito" Relationship="CandidaturaDBModel.FK_Inquerito_Candidatura" FromRole="Candidatura" ToRole="Inquerito" />
-          <NavigationProperty Name="Opcoes" Relationship="CandidaturaDBModel.FK_UserCurso_Candidatura" FromRole="Candidatura" ToRole="Opco" />
+          <NavigationProperty Name="Opcoes" Relationship="CandidaturaDBModel.FK_Opcoes_Candidatura" FromRole="Candidatura" ToRole="Opco" />
           <NavigationProperty Name="UserExames" Relationship="CandidaturaDBModel.FK_UserExame_Candidatura" FromRole="Candidatura" ToRole="UserExame" />
         </EntityType>
         <EntityType Name="Categoria">
@@ -1343,7 +1365,7 @@
           <Property Name="Descricao" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Tipo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="UploadTime" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="Candidatura" Relationship="CandidaturaDBModel.FK_Candidatura_Documento" FromRole="Documento" ToRole="Candidatura" />
+          <NavigationProperty Name="Candidatura" Relationship="CandidaturaDBModel.FK_Documento_Candidatura" FromRole="Documento" ToRole="Candidatura" />
           <NavigationProperty Name="DocumentoBinario" Relationship="CandidaturaDBModel.FK_DocumentoBinario_Documento" FromRole="Documento" ToRole="DocumentoBinario" />
         </EntityType>
         <EntityType Name="DocumentoBinario">
@@ -1362,7 +1384,7 @@
           <Property Name="AnoLectivo" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="DataInicio" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="DataFim" Type="DateTime" Nullable="false" Precision="0" />
-          <NavigationProperty Name="Candidaturas" Relationship="CandidaturaDBModel.FK_Edicao_Candidatura" FromRole="Edicao" ToRole="Candidatura" />
+          <NavigationProperty Name="Candidaturas" Relationship="CandidaturaDBModel.FK_Candidatura_Edicao" FromRole="Edicao" ToRole="Candidatura" />
           <NavigationProperty Name="ConhecimentoEscolas" Relationship="CandidaturaDBModel.FK_ConhecimentoEscola_Edicao" FromRole="Edicao" ToRole="ConhecimentoEscola" />
           <NavigationProperty Name="Cursoes" Relationship="CandidaturaDBModel.FK_Curso_Edicao" FromRole="Edicao" ToRole="Curso" />
           <NavigationProperty Name="CursoExames" Relationship="CandidaturaDBModel.FK_CursoExame_Edicao" FromRole="Edicao" ToRole="CursoExame" />
@@ -1461,7 +1483,7 @@
           <Property Name="CandidaturaId" Type="Int32" Nullable="false" />
           <Property Name="CursoId" Type="Int32" Nullable="false" />
           <Property Name="Prioridade" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Candidatura" Relationship="CandidaturaDBModel.FK_UserCurso_Candidatura" FromRole="Opco" ToRole="Candidatura" />
+          <NavigationProperty Name="Candidatura" Relationship="CandidaturaDBModel.FK_Opcoes_Candidatura" FromRole="Opco" ToRole="Candidatura" />
           <NavigationProperty Name="Curso" Relationship="CandidaturaDBModel.FK_Opcoes_Curso" FromRole="Opco" ToRole="Curso" />
         </EntityType>
         <EntityType Name="Pai">
@@ -1563,15 +1585,27 @@
           <NavigationProperty Name="Candidatura" Relationship="CandidaturaDBModel.FK_UserExame_Candidatura" FromRole="UserExame" ToRole="Candidatura" />
           <NavigationProperty Name="Exame" Relationship="CandidaturaDBModel.FK_UserExame_Exame" FromRole="UserExame" ToRole="Exame" />
         </EntityType>
-        <Association Name="FK_Candidatura_Documento">
+        <Association Name="FK_Candidatura_Candidatura">
           <End Type="CandidaturaDBModel.Candidatura" Role="Candidatura" Multiplicity="1" />
-          <End Type="CandidaturaDBModel.Documento" Role="Documento" Multiplicity="*" />
+          <End Type="CandidaturaDBModel.Candidatura" Role="Candidatura1" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="Candidatura">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="Documento">
-              <PropertyRef Name="CandidaturaID" />
+            <Dependent Role="Candidatura1">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Candidatura_Edicao">
+          <End Type="CandidaturaDBModel.Edicao" Role="Edicao" Multiplicity="1" />
+          <End Type="CandidaturaDBModel.Candidatura" Role="Candidatura" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Edicao">
+              <PropertyRef Name="Sigla" />
+            </Principal>
+            <Dependent Role="Candidatura">
+              <PropertyRef Name="Edicao" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1611,15 +1645,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Edicao_Candidatura">
-          <End Type="CandidaturaDBModel.Edicao" Role="Edicao" Multiplicity="1" />
-          <End Type="CandidaturaDBModel.Candidatura" Role="Candidatura" Multiplicity="*" />
+        <Association Name="FK_Documento_Candidatura">
+          <End Type="CandidaturaDBModel.Candidatura" Role="Candidatura" Multiplicity="1" />
+          <End Type="CandidaturaDBModel.Documento" Role="Documento" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Edicao">
-              <PropertyRef Name="Sigla" />
+            <Principal Role="Candidatura">
+              <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="Candidatura">
-              <PropertyRef Name="Edicao" />
+            <Dependent Role="Documento">
+              <PropertyRef Name="CandidaturaID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1647,7 +1681,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_UserCurso_Candidatura">
+        <Association Name="FK_Opcoes_Candidatura">
           <End Type="CandidaturaDBModel.Candidatura" Role="Candidatura" Multiplicity="1" />
           <End Type="CandidaturaDBModel.Opco" Role="Opco" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2406,43 +2440,44 @@
     </Options>
     <!-- Diagram content (shape and connector positions) -->
     <Diagrams>
-      <Diagram DiagramId="ee9d11bbaf314255ab195e0d0c4a9b87" Name="Diagram1" ZoomLevel="67">
-        <EntityTypeShape EntityType="CandidaturaDBModel.Candidatura" Width="1.5" PointX="5.25" PointY="31.875" />
-        <EntityTypeShape EntityType="CandidaturaDBModel.Categoria" Width="1.5" PointX="11.25" PointY="25.375" />
-        <EntityTypeShape EntityType="CandidaturaDBModel.Certificado" Width="1.5" PointX="7.5" PointY="32.375" />
-        <EntityTypeShape EntityType="CandidaturaDBModel.Concelho" Width="1.5" PointX="9" PointY="19.125" />
-        <EntityTypeShape EntityType="CandidaturaDBModel.ConhecimentoEscola" Width="1.5" PointX="3" PointY="29.875" />
-        <EntityTypeShape EntityType="CandidaturaDBModel.Curso" Width="1.5" PointX="3" PointY="32.625" />
-        <EntityTypeShape EntityType="CandidaturaDBModel.CursoExame" Width="1.5" PointX="5.25" PointY="25.25" />
-        <EntityTypeShape EntityType="CandidaturaDBModel.DadosPessoai" Width="1.5" PointX="13.5" PointY="28.625" />
-        <EntityTypeShape EntityType="CandidaturaDBModel.Distrito" Width="1.5" PointX="6.75" PointY="19.375" />
-        <EntityTypeShape EntityType="CandidaturaDBModel.Documento" Width="1.5" PointX="7.5" PointY="53.375" />
-        <EntityTypeShape EntityType="CandidaturaDBModel.DocumentoBinario" Width="1.5" PointX="9.75" PointY="53.875" />
+      <Diagram DiagramId="ee9d11bbaf314255ab195e0d0c4a9b87" Name="Diagram1" ZoomLevel="12">
+        <EntityTypeShape EntityType="CandidaturaDBModel.Candidatura" Width="1.5" PointX="5.25" PointY="31.75" />
+        <EntityTypeShape EntityType="CandidaturaDBModel.Categoria" Width="1.5" PointX="10.25" PointY="35.5" />
+        <EntityTypeShape EntityType="CandidaturaDBModel.Certificado" Width="1.5" PointX="7.5" PointY="56.625" />
+        <EntityTypeShape EntityType="CandidaturaDBModel.Concelho" Width="1.5" PointX="8" PointY="19" />
+        <EntityTypeShape EntityType="CandidaturaDBModel.ConhecimentoEscola" Width="1.5" PointX="3" PointY="24" />
+        <EntityTypeShape EntityType="CandidaturaDBModel.Curso" Width="1.5" PointX="3" PointY="26.75" />
+        <EntityTypeShape EntityType="CandidaturaDBModel.CursoExame" Width="1.5" PointX="5.25" PointY="22.375" />
+        <EntityTypeShape EntityType="CandidaturaDBModel.DadosPessoai" Width="1.5" PointX="12.5" PointY="28.625" />
+        <EntityTypeShape EntityType="CandidaturaDBModel.Distrito" Width="1.5" PointX="5.75" PointY="19.375" />
+        <EntityTypeShape EntityType="CandidaturaDBModel.Documento" Width="1.5" PointX="7.5" PointY="32.625" />
+        <EntityTypeShape EntityType="CandidaturaDBModel.DocumentoBinario" Width="1.5" PointX="9.75" PointY="33.125" />
         <EntityTypeShape EntityType="CandidaturaDBModel.Edicao" Width="1.5" PointX="0.75" PointY="24.5" />
-        <EntityTypeShape EntityType="CandidaturaDBModel.EstadoCivil" Width="1.5" PointX="11.25" PointY="43.125" />
+        <EntityTypeShape EntityType="CandidaturaDBModel.EstadoCivil" Width="1.5" PointX="10.25" PointY="46.375" />
         <EntityTypeShape EntityType="CandidaturaDBModel.Exame" Width="1.5" PointX="3" PointY="18" />
-        <EntityTypeShape EntityType="CandidaturaDBModel.Freguesia" Width="1.5" PointX="11.25" PointY="19.125" />
-        <EntityTypeShape EntityType="CandidaturaDBModel.Genero" Width="1.5" PointX="11.25" PointY="23" />
-        <EntityTypeShape EntityType="CandidaturaDBModel.Historico" Width="1.5" PointX="7.5" PointY="56.625" />
-        <EntityTypeShape EntityType="CandidaturaDBModel.Inquerito" Width="1.5" PointX="10.5" PointY="31.875" />
-        <EntityTypeShape EntityType="CandidaturaDBModel.Localidade" Width="1.5" PointX="11.25" PointY="16.375" />
-        <EntityTypeShape EntityType="CandidaturaDBModel.Opco" Width="1.5" PointX="7.5" PointY="35.625" />
-        <EntityTypeShape EntityType="CandidaturaDBModel.Pai" Width="1.5" PointX="11.25" PointY="45.375" />
-        <EntityTypeShape EntityType="CandidaturaDBModel.Posto" Width="1.5" PointX="11.25" PointY="39.25" />
-        <EntityTypeShape EntityType="CandidaturaDBModel.Ramo" Width="1.5" PointX="9" PointY="39.75" />
-        <EntityTypeShape EntityType="CandidaturaDBModel.Repartico" Width="1.5" PointX="11.25" PointY="47.75" />
-        <EntityTypeShape EntityType="CandidaturaDBModel.Situacao" Width="1.5" PointX="3" PointY="35.5" />
-        <EntityTypeShape EntityType="CandidaturaDBModel.TipoDocumentoID" Width="1.5" PointX="11.25" PointY="36.75" />
+        <EntityTypeShape EntityType="CandidaturaDBModel.Freguesia" Width="1.5" PointX="10.25" PointY="19" />
+        <EntityTypeShape EntityType="CandidaturaDBModel.Genero" Width="1.5" PointX="10.25" PointY="38.25" />
+        <EntityTypeShape EntityType="CandidaturaDBModel.Historico" Width="1.5" PointX="7.5" PointY="35.875" />
+        <EntityTypeShape EntityType="CandidaturaDBModel.Inquerito" Width="1.5" PointX="10.5" PointY="23.5" />
+        <EntityTypeShape EntityType="CandidaturaDBModel.Localidade" Width="1.5" PointX="10.25" PointY="16.25" />
+        <EntityTypeShape EntityType="CandidaturaDBModel.Opco" Width="1.5" PointX="7.5" PointY="29.125" />
+        <EntityTypeShape EntityType="CandidaturaDBModel.Pai" Width="1.5" PointX="10.25" PointY="40.5" />
+        <EntityTypeShape EntityType="CandidaturaDBModel.Posto" Width="1.5" PointX="10.25" PointY="42.875" />
+        <EntityTypeShape EntityType="CandidaturaDBModel.Ramo" Width="1.5" PointX="8" PointY="43.375" />
+        <EntityTypeShape EntityType="CandidaturaDBModel.Repartico" Width="1.5" PointX="10.25" PointY="28.125" />
+        <EntityTypeShape EntityType="CandidaturaDBModel.Situacao" Width="1.5" PointX="3" PointY="21.125" />
+        <EntityTypeShape EntityType="CandidaturaDBModel.TipoDocumentoID" Width="1.5" PointX="10.25" PointY="48.75" />
         <EntityTypeShape EntityType="CandidaturaDBModel.User" Width="1.5" PointX="3" PointY="38.375" />
         <EntityTypeShape EntityType="CandidaturaDBModel.UserExame" Width="1.5" PointX="7.5" PointY="25.75" />
-        <AssociationConnector Association="CandidaturaDBModel.FK_Candidatura_Documento" />
+        <AssociationConnector Association="CandidaturaDBModel.FK_Candidatura_Candidatura" />
+        <AssociationConnector Association="CandidaturaDBModel.FK_Candidatura_Edicao" />
         <AssociationConnector Association="CandidaturaDBModel.FK_Candidatura_User" />
         <AssociationConnector Association="CandidaturaDBModel.FK_Certificado_Candidatura" />
         <AssociationConnector Association="CandidaturaDBModel.FK_DadosPessoais_Candidatura" />
-        <AssociationConnector Association="CandidaturaDBModel.FK_Edicao_Candidatura" />
+        <AssociationConnector Association="CandidaturaDBModel.FK_Documento_Candidatura" />
         <AssociationConnector Association="CandidaturaDBModel.FK_Historico_Candidatura" />
         <AssociationConnector Association="CandidaturaDBModel.FK_Inquerito_Candidatura" />
-        <AssociationConnector Association="CandidaturaDBModel.FK_UserCurso_Candidatura" />
+        <AssociationConnector Association="CandidaturaDBModel.FK_Opcoes_Candidatura" />
         <AssociationConnector Association="CandidaturaDBModel.FK_UserExame_Candidatura" />
         <AssociationConnector Association="CandidaturaDBModel.FK_DadosPessoais_Categoria" />
         <AssociationConnector Association="CandidaturaDBModel.FK_Posto_Categoria" />

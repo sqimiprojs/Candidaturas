@@ -1,4 +1,6 @@
 ﻿using Candidaturas.Models;
+using MigraDoc.DocumentObjectModel;
+using MigraDoc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -21,6 +23,35 @@ namespace Candidaturas.Controllers
                     int candidaturaId = db.Candidaturas.Where(c => c.UserId == userId).FirstOrDefault().id;
                     Certificado certificado = db.Certificadoes.Where(c => c.CandidaturaID == candidaturaId).FirstOrDefault();
                     ViewBag.Candidato = false;
+                DadosPessoai dados = db.DadosPessoais.Where(dp => dp.CandidaturaId == candidaturaId).FirstOrDefault();
+                Inquerito inquerito = db.Inqueritoes.Where(dp => dp.CandidaturaID == candidaturaId).FirstOrDefault();
+                int opcoes = db.Opcoes.Where(dp => dp.CandidaturaId == candidaturaId).Count();
+
+                if (dados != null)
+                {
+                    ViewBag.dadosPreenchidos = true;
+                }
+                else
+                {
+                    ViewBag.dadosPreenchidos = false;
+                }
+
+                if (inquerito != null)
+                {
+                    ViewBag.inqueritoPreenchido = true;
+                }
+                else
+                {
+                    ViewBag.inqueritoPreenchido = false;
+                }
+                if (opcoes > 0)
+                {
+                    ViewBag.opcoesEscolhidas = true;
+                }
+                else
+                {
+                    ViewBag.opcoesEscolhidas = false;
+                }
 
                 if (certificado != null)
                 {
@@ -94,17 +125,86 @@ namespace Candidaturas.Controllers
                 }
 
 
-                return RedirectToAction("DadosPessoais", "Formulario");
+                Session["SelectedTab"] = 1;
+
+                return RedirectToAction("Index", "Home");
             }
             else
             {
                 return RedirectToAction("LogOut", "Login");
             }
         }
-    
-        
 
-  
+        public ActionResult SubmeterCandidatura()
+        {
+            if (Session["userID"] != null)
+            {
+                CandidaturaDBEntities1 dbModel = new CandidaturaDBEntities1();
+
+                int userID = (int)Session["userID"];
+                int candidaturaId = dbModel.Candidaturas.Where(c => c.UserId == userID).FirstOrDefault().id;
+
+
+                // Create a MigraDoc document
+
+                Document document = MigraDocument.CreateDocument("ComprovativoCandidatura", "Comprovativo de Candidatura", "Fábio Lourenço", 1, (int)Session["userID"]);
+
+                MigraDoc.Rendering.DocumentRenderer renderer = new DocumentRenderer(document);
+                PdfDocumentRenderer PDFRenderer = new PdfDocumentRenderer(true, PdfSharp.Pdf.PdfFontEmbedding.Always)
+                {
+                    Document = document
+                };
+
+                PDFRenderer.RenderDocument();
+                PDFRenderer.DocumentRenderer = renderer;
+
+                string filename = document.Info.Title + ".pdf";
+
+                Certificado formTable = new Certificado();
+                Historico novoHistorico = new Historico();
+                MemoryStream PDFStream = new MemoryStream();
+                PDFRenderer.PdfDocument.Save(PDFStream, true);
+
+                formTable.CandidaturaID = candidaturaId;
+                formTable.FormBin = PDFStream.ToArray();
+                formTable.DataCriação = System.DateTime.Now;
+                formTable.DiaCriação = System.DateTime.Now.Date;
+                dbModel.Certificadoes.Add(formTable);
+                novoHistorico.timestamp = System.DateTime.Now;
+                novoHistorico.mensagem = "Candidatura: " + candidaturaId + " finalizada e Certificado gerado.";
+                novoHistorico.CandidaturaID = candidaturaId;
+                dbModel.Historicoes.Add(novoHistorico);
+                dbModel.SaveChanges();
+
+                ModelState.Clear();
+
+                string utilizador = dbModel.Users.Where(dp => userID == dp.ID).Select(dp => dp.Email).FirstOrDefault();
+
+                string subject = "Portal de Candidaturas à Escola Naval - Formulario ";
+
+                int numeroCandidato = candidaturaId;
+
+                string body = "O utilizador com email " + utilizador + ", e número de candidato " + numeroCandidato + " submeteu um novo formulário com sucesso.";
+
+                Email.SendEmail("sqimi.test@gmail.com", subject, body);
+
+                ViewBag.Subtitle = "Novo Formulário submetido - ";
+                ViewBag.Goto = "Welcome";
+                ViewBag.ConfirmationMessage = "O formulário foi submetido com sucesso.\nPoderá agora aceder ao comprovativo de candidatura.";
+
+                Session["SelectedTab"] = 5;
+
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                return RedirectToAction("LogOut", "Login");
+            }
+        }
+
+
+
+
 
     }
 }

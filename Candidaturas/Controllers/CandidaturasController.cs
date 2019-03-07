@@ -505,59 +505,6 @@ namespace Candidaturas.Controllers
         {
             if (Session["userID"] != null)
             {
-                CandidaturaDBEntities1 dbModel = new CandidaturaDBEntities1();
-
-                int userID = (int)Session["userID"];
-                int candidaturaId = dbModel.Candidaturas.Where(c => c.UserId == userID).FirstOrDefault().id;
-
-
-                // Create a MigraDoc document
-
-                Document document = MigraDocument.CreateDocument("ComprovativoCandidatura", "Comprovativo de Candidatura", "Fábio Lourenço", 1, (int)Session["userID"]);
-
-                MigraDoc.Rendering.DocumentRenderer renderer = new DocumentRenderer(document);
-                PdfDocumentRenderer PDFRenderer = new PdfDocumentRenderer(true, PdfSharp.Pdf.PdfFontEmbedding.Always)
-                {
-                    Document = document
-                };
-
-                PDFRenderer.RenderDocument();
-                PDFRenderer.DocumentRenderer = renderer;
-
-                string filename = document.Info.Title + ".pdf";
-
-                Certificado formTable = new Certificado();
-                Historico novoHistorico = new Historico();
-                MemoryStream PDFStream = new MemoryStream();
-                PDFRenderer.PdfDocument.Save(PDFStream, true);
-
-                formTable.CandidaturaID = candidaturaId;
-                formTable.FormBin = PDFStream.ToArray();
-                formTable.DataCriação = System.DateTime.Now;
-                formTable.DiaCriação = System.DateTime.Now.Date;
-                dbModel.Certificadoes.Add(formTable);
-                novoHistorico.timestamp = System.DateTime.Now;
-                novoHistorico.mensagem = "Candidatura: " + candidaturaId + " finalizada e Certificado gerado.";
-                novoHistorico.CandidaturaID = candidaturaId;
-                dbModel.Historicoes.Add(novoHistorico);
-                dbModel.SaveChanges();
-
-                ModelState.Clear();
-
-                string utilizador = dbModel.Users.Where(dp => userID == dp.ID).Select(dp => dp.Email).FirstOrDefault();
-
-                string subject = "Portal de Candidaturas à Escola Naval - Formulario ";
-
-                int numeroCandidato = candidaturaId;
-
-                string body = "O utilizador com email " + utilizador + ", e número de candidato " + numeroCandidato + " submeteu um novo formulário com sucesso.";
-
-                Email.SendEmail("sqimi.test@gmail.com", subject, body);
-
-                ViewBag.Subtitle = "Novo Formulário submetido - ";
-                ViewBag.Goto = "Welcome";
-                ViewBag.ConfirmationMessage = "O formulário foi submetido com sucesso.\nPoderá agora aceder ao comprovativo de candidatura.";
-
                 Session["SelectedTab"] = 4;
 
                 return RedirectToAction("Index", "Home");

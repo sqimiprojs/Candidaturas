@@ -42,6 +42,16 @@ namespace Candidaturas.Controllers
                     if(candidatura == null)
                     {
                         Candidatura novaCandidatura = new Candidatura();
+
+                        Candidatura ultimaCandidatura = db.Candidaturas.Where(c => c.Edicao == edicao.Sigla).OrderByDescending(c => c.id).FirstOrDefault();
+                        if(ultimaCandidatura == null)
+                        {
+                            novaCandidatura.id = 1;
+                        }
+                        else
+                        {
+                            novaCandidatura.id = ultimaCandidatura.id + 1;
+                        }
                         novaCandidatura.Edicao = edicao.Sigla;
                         novaCandidatura.UserId = userDetails.ID;
                         novaCandidatura.DataAlteracao = System.DateTime.Now;

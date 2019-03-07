@@ -93,7 +93,7 @@
 <div class="row">
         <input id="BotaoFinalizar"
                type="button"
-               value="Finalizar Candidatura"
+               value="Continuar"
                class="btn btn-primary"
                onclick="location.href='@Url.Action("SubmeterCandidatura", "Candidaturas" )'"
                />
@@ -108,6 +108,19 @@
             var $button = $('#BotaoFinalizar');
             $button.prop('disabled', true);
         }
+
+         if (@ViewBag.dadosPreenchidos == false || @ViewBag.inqueritoPreenchido == false) {
+            var $button2 = $('#AddCurso');
+             $button2.prop('disabled', true);
+             var $button3 = $('#AddExame');
+             $button3.prop('disabled', true);
+             var $button4 = $('#Curso');
+             $button4.prop('disabled', true);
+             var $button5 = $('#Exame');
+             $button5.prop('disabled', true);
+        }
+
+
     }
 
     $('#Exame').bind('change', function () {
