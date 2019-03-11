@@ -22,7 +22,7 @@ namespace Candidaturas
         private CandidatoDTO GetInfoCandidate(CandidaturaDBEntities1 db, int user) {
 
             CandidatoDTO dape = new CandidatoDTO();
-            int candidaturaId = db.Candidaturas.Where(c => c.UserId == user).FirstOrDefault().id;
+            int candidaturaId = db.Candidaturas.Where(c => c.UserId == user).Select(c => c.id).FirstOrDefault();
             dape.dadosDTO = db.DadosPessoais
                 .Where(guy => guy.CandidaturaId == candidaturaId)
                 .Select(data => new DadosPessoaisDTO

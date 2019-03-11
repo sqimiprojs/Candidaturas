@@ -21,6 +21,16 @@ namespace Candidaturas.Controllers
 
                 DocumentosUser = getSelectedDocumentos(db, userId);
                 ViewBag.DocumentosUser = DocumentosUser;
+                int candidaturaId = db.Candidaturas.Where(c => c.UserId == userId).Select(c => c.id).FirstOrDefault();
+                DadosPessoai dados = db.DadosPessoais.Where(dp => dp.CandidaturaId == candidaturaId).FirstOrDefault();
+                if (dados != null)
+                {
+                    ViewBag.dadosPreenchidos = true;
+                }
+                else
+                {
+                    ViewBag.dadosPreenchidos = false;
+                }
 
                 return View("~/Views/Documentos/Index.cshtml");
             }
@@ -39,7 +49,7 @@ namespace Candidaturas.Controllers
                 {
                     try
                     {
-                        int candidaturaId = dbModel.Candidaturas.Where(c => c.UserId == userId).FirstOrDefault().id;
+                        int candidaturaId = dbModel.Candidaturas.Where(c => c.UserId == userId).Select(c => c.id).FirstOrDefault();
 
                         if (file != null && file.ContentLength > 0 && file.ContentLength < Constants.MaxFile*1024*1024)
                         {
@@ -127,7 +137,7 @@ namespace Candidaturas.Controllers
 
         public List<DocModel> getSelectedDocumentos(CandidaturaDBEntities1 db, int userId)
         {
-            int candidaturaId = db.Candidaturas.Where(c => c.UserId == userId).FirstOrDefault().id;
+            int candidaturaId = db.Candidaturas.Where(c => c.UserId == userId).Select(c => c.id).FirstOrDefault();
             List<int> documentosUploaded = db.Documentoes
                                         .Where(dp => dp.CandidaturaID == candidaturaId)
                                         .Select(dp => dp.ID).ToList();
@@ -166,7 +176,7 @@ namespace Candidaturas.Controllers
                 {
                     try
                     {
-                        int candidaturaId = dbModel.Candidaturas.Where(c => c.UserId == userId).FirstOrDefault().id;
+                        int candidaturaId = dbModel.Candidaturas.Where(c => c.UserId == userId).Select(c => c.id).FirstOrDefault();
                         Documento ud = dbModel.Documentoes.Where(dp => dp.ID == id).FirstOrDefault();
                         Historico novoHistorico = new Historico();
                         dbModel.Documentoes.Remove(ud);

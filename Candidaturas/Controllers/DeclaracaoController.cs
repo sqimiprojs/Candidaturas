@@ -20,7 +20,7 @@ namespace Candidaturas.Controllers
                 if (Session["userID"] != null)
                 {
                     int userId = (int)Session["userID"];
-                    int candidaturaId = db.Candidaturas.Where(c => c.UserId == userId).FirstOrDefault().id;
+                    int candidaturaId = db.Candidaturas.Where(c => c.UserId == userId).Select(c => c.id).FirstOrDefault();
                     Certificado certificado = db.Certificadoes.Where(c => c.CandidaturaID == candidaturaId).FirstOrDefault();
                     ViewBag.Candidato = false;
                 DadosPessoai dados = db.DadosPessoais.Where(dp => dp.CandidaturaId == candidaturaId).FirstOrDefault();
@@ -70,7 +70,7 @@ namespace Candidaturas.Controllers
 
             CandidaturaDBEntities1 db = new CandidaturaDBEntities1();
             int userId = (int)Session["userID"];
-            int candidaturaId = db.Candidaturas.Where(c => c.UserId == userId).FirstOrDefault().id;
+            int candidaturaId = db.Candidaturas.Where(c => c.UserId == userId).Select(c => c.id).FirstOrDefault();
             byte[] dForm = db.Certificadoes.Where(dp => dp.CandidaturaID == candidaturaId).Select(dp => dp.FormBin).FirstOrDefault();
             Historico novoHistorico = new Historico();
             novoHistorico.timestamp = System.DateTime.Now;
@@ -102,7 +102,7 @@ namespace Candidaturas.Controllers
                 {
                     try
                     {
-                        int candidaturaId = dbModel.Candidaturas.Where(c => c.UserId == userId).FirstOrDefault().id;
+                        int candidaturaId = dbModel.Candidaturas.Where(c => c.UserId == userId).Select(c => c.id).FirstOrDefault();
                         Certificado ud = dbModel.Certificadoes.Where(dp => dp.CandidaturaID == candidaturaId).FirstOrDefault();
                         dbModel.Certificadoes.Remove(ud);
 
@@ -142,7 +142,7 @@ namespace Candidaturas.Controllers
                 CandidaturaDBEntities1 dbModel = new CandidaturaDBEntities1();
 
                 int userID = (int)Session["userID"];
-                int candidaturaId = dbModel.Candidaturas.Where(c => c.UserId == userID).FirstOrDefault().id;
+                int candidaturaId = dbModel.Candidaturas.Where(c => c.UserId == userID).Select(c => c.id).FirstOrDefault();
 
 
                 // Create a MigraDoc document

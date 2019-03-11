@@ -29,7 +29,7 @@ namespace Candidaturas.Controllers
             {
                 CandidaturaDBEntities1 db = new CandidaturaDBEntities1();
                 int userId = (int)Session["userID"];
-                int candidaturaId = db.Candidaturas.Where(c => c.UserId == userId).FirstOrDefault().id;
+                int candidaturaId = db.Candidaturas.Where(c => c.UserId == userId).Select(c => c.id).FirstOrDefault();
 
                 getDataForDropdownLists(db);
                 getSelectedExames(db, userId);
@@ -71,7 +71,7 @@ namespace Candidaturas.Controllers
         //obtém os exames seleccionados pelo utilizador
         public void getSelectedExames(CandidaturaDBEntities1 db, int userId)
         {
-            int candidaturaId = db.Candidaturas.Where(c => c.UserId == userId).FirstOrDefault().id;
+            int candidaturaId = db.Candidaturas.Where(c => c.UserId == userId).Select(c => c.id).FirstOrDefault();
             List<int> examesEscolhidos = db.UserExames.Where(dp => dp.CandidaturaId == candidaturaId).Select(dp => dp.ExameId).ToList();
 
             foreach (int exame in examesEscolhidos)
@@ -84,7 +84,7 @@ namespace Candidaturas.Controllers
         //obtém os cursos seleccionados pelo utilizador
         public void getSelectedCursos(CandidaturaDBEntities1 db, int userId)
         {
-            int candidaturaId = db.Candidaturas.Where(c => c.UserId == userId).FirstOrDefault().id;
+            int candidaturaId = db.Candidaturas.Where(c => c.UserId == userId).Select(c => c.id).FirstOrDefault();
             List<int> cursosEscolhidos = db.Opcoes.Where(dp => dp.CandidaturaId == candidaturaId).OrderBy(dp => dp.Prioridade).Select(dp => dp.CursoId).ToList();
 
             foreach (int curso in cursosEscolhidos)
@@ -151,7 +151,7 @@ namespace Candidaturas.Controllers
 
                         try
                         {
-                            int candidaturaId = dbModel.Candidaturas.Where(c => c.UserId == userId).FirstOrDefault().id;
+                            int candidaturaId = dbModel.Candidaturas.Where(c => c.UserId == userId).Select(c => c.id).FirstOrDefault();
                             UserExame exameRegistado = dbModel.UserExames.Where(dp => dp.ExameId == exameEscolhido).Where(dp => dp.CandidaturaId == candidaturaId).FirstOrDefault();
                             Historico novoHistorico = new Historico();
 
@@ -217,7 +217,7 @@ namespace Candidaturas.Controllers
 
                         try
                         {
-                            int candidaturaId = dbModel.Candidaturas.Where(c => c.UserId == userId).FirstOrDefault().id;
+                            int candidaturaId = dbModel.Candidaturas.Where(c => c.UserId == userId).Select(c => c.id).FirstOrDefault();
                             Opco cursoRegistado = dbModel.Opcoes.Where(dp => dp.CursoId == cursoEscolhido).Where(dp => dp.CandidaturaId == candidaturaId).FirstOrDefault();
                             Historico novoHistorico = new Historico();
                             //ver se já escolheu o curso
@@ -293,7 +293,7 @@ namespace Candidaturas.Controllers
                 {
                     try
                     {
-                        int candidaturaId = dbModel.Candidaturas.Where(c => c.UserId == userId).FirstOrDefault().id;
+                        int candidaturaId = dbModel.Candidaturas.Where(c => c.UserId == userId).Select(c => c.id).FirstOrDefault();
                         Historico novoHistorico = new Historico();
                         //remover exame
                         UserExame ue = dbModel.UserExames.Where(dp => dp.ExameId == id).Where(dp => dp.CandidaturaId == candidaturaId).FirstOrDefault();
@@ -340,7 +340,7 @@ namespace Candidaturas.Controllers
                 {
                     try
                     {
-                        int candidaturaId = dbModel.Candidaturas.Where(c => c.UserId == userId).FirstOrDefault().id;
+                        int candidaturaId = dbModel.Candidaturas.Where(c => c.UserId == userId).Select(c => c.id).FirstOrDefault();
                         Historico novoHistorico = new Historico();
                         //remover curso
                         Opco uc = dbModel.Opcoes.Where(dp => dp.CursoId == id).Where(dp => dp.CandidaturaId == candidaturaId).FirstOrDefault();
@@ -400,7 +400,7 @@ namespace Candidaturas.Controllers
                 {
                     try
                     {
-                        int candidaturaId = dbModel.Candidaturas.Where(c => c.UserId == userId).FirstOrDefault().id;
+                        int candidaturaId = dbModel.Candidaturas.Where(c => c.UserId == userId).Select(c => c.id).FirstOrDefault();
 
                         Opco corrente = dbModel.Opcoes.Where(dp => dp.CursoId == id).Where(dp => dp.CandidaturaId == candidaturaId).FirstOrDefault();
 
@@ -458,7 +458,7 @@ namespace Candidaturas.Controllers
                 {
                     try
                     {
-                        int candidaturaId = dbModel.Candidaturas.Where(c => c.UserId == userId).FirstOrDefault().id;
+                        int candidaturaId = dbModel.Candidaturas.Where(c => c.UserId == userId).Select(c => c.id).FirstOrDefault();
 
                         Opco corrente = dbModel.Opcoes.Where(dp => dp.CursoId == id).Where(dp => dp.CandidaturaId == candidaturaId).FirstOrDefault();
 

@@ -194,7 +194,7 @@ namespace Candidaturas
         private static CandidatoFullText GetInfoCandidato(int userId)
         {
             CandidaturaDBEntities1 db = new CandidaturaDBEntities1();
-            int candidaturaId = db.Candidaturas.Where(c => c.UserId == userId).FirstOrDefault().id;
+            int candidaturaId = db.Candidaturas.Where(c => c.UserId == userId).Select(c => c.id).FirstOrDefault();
             DadosPessoai dadosPessoaisUser = db.DadosPessoais
                                             .Where(dp => dp.CandidaturaId == candidaturaId)
                                             .FirstOrDefault();
@@ -240,7 +240,7 @@ namespace Candidaturas
         private static List<CursoDisplay> GetInfoCursosCandidato(int userId)
         {
             CandidaturaDBEntities1 db = new CandidaturaDBEntities1();
-            int candidaturaId = db.Candidaturas.Where(c => c.UserId == userId).FirstOrDefault().id;
+            int candidaturaId = db.Candidaturas.Where(c => c.UserId == userId).Select(c => c.id).FirstOrDefault();
             List<Opco> ListaCursos = db.Opcoes
                                             .Where(dp => dp.CandidaturaId == candidaturaId)
                                             .OrderBy(dp => dp.Prioridade)

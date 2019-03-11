@@ -14,7 +14,7 @@
 
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     <div class="form-group">
-        <label for="FicheiroInput" class="btn btn-outline-primary p-3">Seleccionar Documento</label>
+        <label id="labelInput" for="FicheiroInput" class="btn btn-outline-primary p-3">Seleccionar Documento</label>
         <input type="file" name="file" id="FicheiroInput" hidden />
     </div>
     <span id="myfilename"></span>
@@ -95,6 +95,23 @@
     </style>
 
 <script type="text/javascript">
+      window.onload = disableButton();
+
+
+    function disableButton() {
+
+         if (@ViewBag.dadosPreenchidos == false) {
+             var $button2 = $('#FicheiroInput');
+             $button2.prop('disabled', true);
+             $button2.css('display', 'none');
+             var $button3 = $('#labelInput');
+             $button3.prop('disabled', true);
+             $button3.css('display', 'none');
+            
+        }
+
+
+    }
     $(document).ready(function () {
         $("#FicheiroInput").change(function () {
             //gets file size in bytes

@@ -27,7 +27,7 @@ namespace Candidaturas.Controllers
 
                 this.getDadosPessoaisInquerito(userId);
 
-                int candidaturaId = db.Candidaturas.Where(c => c.UserId == userId).FirstOrDefault().id;
+                int candidaturaId = db.Candidaturas.Where(c => c.UserId == userId).Select(c => c.id).FirstOrDefault();
                 DadosPessoai dados = db.DadosPessoais.Where(dp => dp.CandidaturaId == candidaturaId).FirstOrDefault();
                 if (dados != null)
                 {
@@ -48,7 +48,7 @@ namespace Candidaturas.Controllers
         public void getDadosPessoaisInquerito(int userId)
         {
             CandidaturaDBEntities1 db = new CandidaturaDBEntities1();
-            int candidaturaId = db.Candidaturas.Where(c => c.UserId == userId).FirstOrDefault().id;
+            int candidaturaId = db.Candidaturas.Where(c => c.UserId == userId).Select(c => c.id).FirstOrDefault();
             Inquerito inqueritoUser = db.Inqueritoes.Where(dp => dp.CandidaturaID == candidaturaId).FirstOrDefault();
 
             if (inqueritoUser != null)
@@ -104,7 +104,7 @@ namespace Candidaturas.Controllers
 
                     try
                     {
-                            int candidaturaId = dbModel.Candidaturas.Where(c => c.UserId == userId).FirstOrDefault().id;
+                            int candidaturaId = dbModel.Candidaturas.Where(c => c.UserId == userId).Select(c => c.id).FirstOrDefault();
                             Inquerito inqueritoUser = dbModel.Inqueritoes.Where(dp => dp.CandidaturaID == candidaturaId).FirstOrDefault();
 
                         inqueritoModel.CandidaturaID = candidaturaId;

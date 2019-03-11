@@ -40,7 +40,7 @@ namespace Candidaturas.Controllers
         {
             ViewBag.Title = "Dados Pessoais";
             CandidaturaDBEntities1 db = new CandidaturaDBEntities1();
-            int candidaturaId = db.Candidaturas.Where(c => c.UserId == userId).FirstOrDefault().id;
+            int candidaturaId = db.Candidaturas.Where(c => c.UserId == userId).Select(c => c.id).FirstOrDefault();
             User user = db.Users.Where(u => u.ID == userId).FirstOrDefault();
             DadosPessoai dadosPessoaisUser = db.DadosPessoais.Where(u => u.CandidaturaId == candidaturaId).FirstOrDefault();
 
@@ -323,7 +323,38 @@ namespace Candidaturas.Controllers
 
                 using (CandidaturaDBEntities1 dbModel = new CandidaturaDBEntities1())
                 {
-                    int candidaturaId = dbModel.Candidaturas.Where(c => c.UserId == userId).FirstOrDefault().id;
+                    Edicao edicao = dbModel.Edicaos.Where(e => e.DataInicio < System.DateTime.Now && e.DataFim > System.DateTime.Now).First();
+                    var userDetails = dbModel.Users.Where(x => x.ID == userId).FirstOrDefault();
+                    Candidatura candidatura = dbModel.Candidaturas.Where(c => c.UserId == userDetails.ID && c.Edicao == edicao.Sigla).FirstOrDefault();
+                    if (candidatura == null)
+                    {
+                        Candidatura novaCandidatura = new Candidatura();
+
+                        Candidatura ultimaCandidatura = dbModel.Candidaturas.Where(c => c.Edicao == edicao.Sigla).OrderByDescending(c => c.id).FirstOrDefault();
+                        if (ultimaCandidatura == null)
+                        {
+                            novaCandidatura.id = 1;
+                        }
+                        else
+                        {
+                            novaCandidatura.id = ultimaCandidatura.id + 1;
+                        }
+                        novaCandidatura.Edicao = edicao.Sigla;
+                        novaCandidatura.UserId = userDetails.ID;
+                        novaCandidatura.DataAlteracao = System.DateTime.Now;
+                        dbModel.Candidaturas.Add(novaCandidatura);
+                        dbModel.SaveChanges();
+
+                        Historico novoHistorico = new Historico();
+                        novoHistorico.timestamp = System.DateTime.Now;
+                        novoHistorico.mensagem = "Candidatura criada para o user: " + userDetails.Email;
+                        int candidaturaAux = dbModel.Candidaturas.Where(c => c.UserId == userDetails.ID && c.Edicao == edicao.Sigla).Select(c => c.id).First();
+                        novoHistorico.CandidaturaID = candidaturaAux;
+                        dbModel.Historicoes.Add(novoHistorico);
+                        dbModel.SaveChanges();
+
+                    }
+                    int candidaturaId = dbModel.Candidaturas.Where(c => c.UserId == userId).Select(c => c.id).FirstOrDefault();
 
                     try
                     {

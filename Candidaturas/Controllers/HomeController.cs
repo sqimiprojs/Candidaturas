@@ -20,7 +20,7 @@ namespace Candidaturas.Controllers
                 if (Session["userID"] != null)
                 {
                     int userId = (int)Session["userID"];
-                    int candidaturaId = db.Candidaturas.Where(c => c.UserId == userId).FirstOrDefault().id;
+                    int candidaturaId = db.Candidaturas.Where(c => c.UserId == userId).Select(c => c.id).FirstOrDefault();
                     Certificado candidato = db.Certificadoes.Where(u => u.CandidaturaID == candidaturaId).FirstOrDefault();
                     ViewBag.Candidato = false;
 
@@ -61,7 +61,7 @@ namespace Candidaturas.Controllers
                 DocumentosUser = getSelectedDocumentos(db, userId);
                 ViewBag.DocumentosUser = DocumentosUser;
                 ViewBag.Formulario = FormIsCreated(db, userId);
-                int candidaturaId = db.Candidaturas.Where(c => c.UserId == userId).FirstOrDefault().id;
+                int candidaturaId = db.Candidaturas.Where(c => c.UserId == userId).Select(c => c.id).FirstOrDefault();
                 Certificado candidato = db.Certificadoes.Where(u => u.CandidaturaID == candidaturaId).FirstOrDefault();
                 ViewBag.Candidato = false;
 
@@ -88,7 +88,7 @@ namespace Candidaturas.Controllers
                 {
                     try
                     {
-                        int candidaturaId = dbModel.Candidaturas.Where(c => c.UserId == userId).FirstOrDefault().id;
+                        int candidaturaId = dbModel.Candidaturas.Where(c => c.UserId == userId).Select(c => c.id).FirstOrDefault();
 
                         if (file != null && file.ContentLength > 0 && file.ContentLength < Constants.MaxFile*1024*1024)
                         {
@@ -169,7 +169,7 @@ namespace Candidaturas.Controllers
 
         public List<DocModel> getSelectedDocumentos(CandidaturaDBEntities1 db, int userId)
         {
-            int candidaturaId = db.Candidaturas.Where(c => c.UserId == userId).FirstOrDefault().id;
+            int candidaturaId = db.Candidaturas.Where(c => c.UserId == userId).Select(c => c.id).FirstOrDefault();
             List<int> documentosUploaded = db.Documentoes
                                         .Where(dp => dp.CandidaturaID == candidaturaId)
                                         .Select(dp => dp.ID).ToList();
@@ -185,7 +185,7 @@ namespace Candidaturas.Controllers
 
         public bool FormIsCreated(CandidaturaDBEntities1 db, int userId)
         {
-            int candidaturaId = db.Candidaturas.Where(c => c.UserId == userId).FirstOrDefault().id;
+            int candidaturaId = db.Candidaturas.Where(c => c.UserId == userId).Select(c => c.id).FirstOrDefault();
             return db.Certificadoes.Where(dp => dp.CandidaturaID == candidaturaId).Any();
 
         }
@@ -194,7 +194,7 @@ namespace Candidaturas.Controllers
 
             CandidaturaDBEntities1 db = new CandidaturaDBEntities1();
             int userId = (int)Session["userID"];
-            int candidaturaId = db.Candidaturas.Where(c => c.UserId == userId).FirstOrDefault().id;
+            int candidaturaId = db.Candidaturas.Where(c => c.UserId == userId).Select(c => c.id).FirstOrDefault();
             byte[] dForm = db.Certificadoes.Where(dp => dp.CandidaturaID == candidaturaId).Select(dp => dp.FormBin).FirstOrDefault();
 
             Response.Clear();
@@ -220,7 +220,7 @@ namespace Candidaturas.Controllers
                 {
                     try
                     {
-                        int candidaturaId = dbModel.Candidaturas.Where(c => c.UserId == userId).FirstOrDefault().id;
+                        int candidaturaId = dbModel.Candidaturas.Where(c => c.UserId == userId).Select(c => c.id).FirstOrDefault();
 
                         Certificado ud = dbModel.Certificadoes.Where(dp => dp.CandidaturaID == candidaturaId).FirstOrDefault();
                         dbModel.Certificadoes.Remove(ud);
