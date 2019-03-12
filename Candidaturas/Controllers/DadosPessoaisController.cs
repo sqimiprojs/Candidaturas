@@ -347,7 +347,7 @@ namespace Candidaturas.Controllers
 
                         Historico novoHistorico = new Historico();
                         novoHistorico.timestamp = System.DateTime.Now;
-                        novoHistorico.mensagem = "Candidatura criada para o user: " + userDetails.Email;
+                        novoHistorico.mensagem = "Candidatura criada para o utilizador: " + userDetails.NomeColoquial;
                         int candidaturaAux = dbModel.Candidaturas.Where(c => c.UserId == userDetails.ID && c.Edicao == edicao.Sigla).Select(c => c.id).First();
                         novoHistorico.CandidaturaID = candidaturaAux;
                         dbModel.Historicoes.Add(novoHistorico);
