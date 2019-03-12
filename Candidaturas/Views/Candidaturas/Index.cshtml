@@ -113,12 +113,12 @@
 
 
     function disableButton() {
-        if (@ViewBag.CountCursosEscolhidos < 1 || @ViewBag.dadosPreenchidos == false || @ViewBag.inqueritoPreenchido == false) {
+        if (@ViewBag.CountCursosEscolhidos < 1 || @ViewBag.dadosPreenchidos == false || @ViewBag.inqueritoPreenchido == false || @ViewBag.finalizado == true) {
             var $button = $('#BotaoFinalizar');
             $button.prop('disabled', true);
         }
 
-         if (@ViewBag.dadosPreenchidos == false || @ViewBag.inqueritoPreenchido == false) {
+         if (@ViewBag.dadosPreenchidos == false || @ViewBag.inqueritoPreenchido == false || @ViewBag.finalizado == true) {
             var $button2 = $('#AddCurso');
              $button2.prop('disabled', true);
              var $button3 = $('#AddExame');

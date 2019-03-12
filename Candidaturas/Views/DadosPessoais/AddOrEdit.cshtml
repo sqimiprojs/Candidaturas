@@ -308,6 +308,13 @@
     }
 
     function disabledCampos() {
+        if (@ViewBag.finalizado == true) {
+            $('#formDadosPessoais :input').attr("disabled", true);
+            $('#formDadosPessoais :select').attr("disabled", true);
+            $('#militar :input').attr("disabled", true);
+            $('#militar :select').attr("disabled", true);
+        }
+
         if (@ViewData["dm"]) {
             console.log(@ViewData["dm"]);
             $('#ConcelhoMorada').prop('disabled', false);

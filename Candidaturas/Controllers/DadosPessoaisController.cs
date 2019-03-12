@@ -43,6 +43,15 @@ namespace Candidaturas.Controllers
             int candidaturaId = db.Candidaturas.Where(c => c.UserId == userId).Select(c => c.id).FirstOrDefault();
             User user = db.Users.Where(u => u.ID == userId).FirstOrDefault();
             DadosPessoai dadosPessoaisUser = db.DadosPessoais.Where(u => u.CandidaturaId == candidaturaId).FirstOrDefault();
+            Certificado certificado = db.Certificadoes.Where(c => c.CandidaturaID == candidaturaId).FirstOrDefault();
+            if(certificado == null)
+            {
+                ViewBag.finalizado = false;
+            }
+            else
+            {
+                ViewBag.finalizado = true;
+            }
 
             if (dadosPessoaisUser == null)
             {

@@ -42,8 +42,17 @@ namespace Candidaturas.Controllers
                 mymodel.ExamesNecessários = examesNecessarios;
                 DadosPessoai dados = db.DadosPessoais.Where(dp => dp.CandidaturaId == candidaturaId).FirstOrDefault();
                 Inquerito inquerito = db.Inqueritoes.Where(dp => dp.CandidaturaID == candidaturaId).FirstOrDefault();
-                
-                if(dados != null)
+                Certificado certificado = db.Certificadoes.Where(c => c.CandidaturaID == candidaturaId).FirstOrDefault();
+                if (certificado != null)
+                {
+                    ViewBag.finalizado = true;
+                }
+                else
+                {
+                    ViewBag.finalizado = false;
+                }
+
+                if (dados != null)
                 {
                     ViewBag.dadosPreenchidos = true;
                 }

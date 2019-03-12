@@ -153,7 +153,7 @@
         checkMae();
         checkEscola();
 
-         if (@ViewBag.dadosPreenchidos == false) {
+         if (@ViewBag.dadosPreenchidos == false || @ViewBag.finalizado == true) {
             var $button = $('#AddInquerito');
              $button.prop('disabled', true);
              var $form1 = $('#situacaoPai');
