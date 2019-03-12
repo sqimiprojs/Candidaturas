@@ -11,6 +11,10 @@
 
 <div class="form-horizontal" style="margin-top: 20px;">
 
+    @if(ViewBag.dadosPreenchidos == false)
+    {
+        <h6>O candidato deve primeiro preencher o formulário sobre dados pessoais antes de submeter documentos.</h6>
+    }
 
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     <div class="form-group">
