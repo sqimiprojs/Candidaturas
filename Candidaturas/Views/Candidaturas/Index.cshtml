@@ -36,15 +36,19 @@
                 {
             <tr>
                 <td>
+                    @if (ViewBag.finalizado == false)
+                    {
+                        <div class="row"><a id="maisPrioridade" class="fa fa-chevron-up badge badge-light p-2" onclick="location.href='@Url.Action("MoverParaCima", "Candidaturas", new { id = (int)@curso.ID })'"><span></span></a></div>
+                    }
 
-                    <div class="row"><a id="maisPrioridade" class="fa fa-chevron-up badge badge-light p-2" onclick="location.href='@Url.Action("MoverParaCima", "Candidaturas", new { id = (int)@curso.ID })'"><span></span></a></div>
 
                     <div class="row">&nbsp;&nbsp;@curso.prioridade&ordm;</div>
 
-
-                    <div class="row"><a id="menosPrioridade" class="fa fa-chevron-down badge badge-light p-2" onclick="location.href='@Url.Action("MoverParaBaixo", "Candidaturas", new { id = (int)@curso.ID })'"><span></span></a></div>
-
-                </td>
+                    @if (ViewBag.finalizado == false)
+                    {
+                        <div class="row"><a id="menosPrioridade" class="fa fa-chevron-down badge badge-light p-2" onclick="location.href='@Url.Action("MoverParaBaixo", "Candidaturas", new { id = (int)@curso.ID })'"><span></span></a></div>
+                    }
+                    </td>
 
                 <td>@curso.nome</td>
                 
@@ -65,7 +69,10 @@
                 </td>
                 
                 <td>
-                    <a id="removerCurso" class="fa fa-times-circle badge badge-danger text-light p-2 " onclick="location.href='@Url.Action("RemoverCurso", "Candidaturas", new { id = (int)@curso.ID })'"><span> Remover</span></a>
+                    @if (ViewBag.finalizado == false)
+                    {
+                        <a id="removerCurso" class="fa fa-times-circle badge badge-danger text-light p-2 " onclick="location.href='@Url.Action("RemoverCurso", "Candidaturas", new { id = (int)@curso.ID })'"><span> Remover</span></a>
+                    }
                 </td>
             </tr>
                 }
@@ -73,7 +80,7 @@
         </table>
     </div>
 
-    <div class="row">
+    <div style="display:none;" class="row">
         <h2 class="candidaturasHeader">Exames</h2><hr />
         <div class="form-inline">
             <div class="col">
@@ -127,15 +134,6 @@
              $button4.prop('disabled', true);
              var $button5 = $('#Exame');
              $button5.prop('disabled', true);
-             var $button6 = $('#maisPrioridade');
-             $button6.hide();
-             var $button7 = $('#menosPrioridade');
-             $button7.hide();
-             var $button8 = $('#removerCurso');
-             console.log("Button 8");
-             $button8.hide();
-             var $button9 = $('#removerExame');
-             $button9.hide();
         }
 
 
