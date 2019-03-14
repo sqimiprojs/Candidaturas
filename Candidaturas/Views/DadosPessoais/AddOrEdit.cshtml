@@ -137,7 +137,7 @@
                 @Html.LabelFor(model => model.CodigoPostal4Dig, "Código Postal", htmlAttributes: new { @class = "control-label required" })
                 <div class="col">
                     <div class="form-inline">
-                        @Html.EditorFor(model => model.CodigoPostal4Dig, new { htmlAttributes = new { @type = "number", @class = "form-control", @required = "required", @style = "width:40%", @placeholder = "NNNN", maxlength = "10", min = "0", max = "9999", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.CodigoPostal4Dig) } })
+                        @Html.EditorFor(model => model.CodigoPostal4Dig, new { htmlAttributes = new { @type = "number", @class = "form-control", @required = "required", @style = "width:40%", @placeholder = "NNNN", maxlength = "4", min = "0", max = "9999", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.CodigoPostal4Dig) } })
                         -
                         @Html.EditorFor(model => model.CodigoPostal3Dig, new { htmlAttributes = new { @type = "number", @class = "form-control", @required = "required", @style = "width:20%", @placeholder = "NNN", maxlength = "3", min = "0", max = "999", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.CodigoPostal3Dig) } })
                     </div>
@@ -211,7 +211,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.NIF, "Número", htmlAttributes: new { @class = "control-label" })
                     <div class="col">
-                        @Html.EditorFor(model => model.NIF, new { htmlAttributes = new { @class = "form-control", @id = "NIF", @required = "required", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.NIF) } })
+                        @Html.EditorFor(model => model.NIF, new { htmlAttributes = new { @class = "form-control", @id = "NIF", maxlength = "9", @required = "required", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.NIF) } })
                         @Html.ValidationMessageFor(model => model.NIF, "", new { @class = "text-danger", @id = "NIFWarning" })
                     </div>
                 </div>
