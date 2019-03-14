@@ -21,7 +21,6 @@
         var docType = $("#TipoDoc").val();
         if (docType !== "") {
             validarDoc(docType);
-            console.log("Validar");
         }
     });
 
@@ -30,7 +29,6 @@
         if (docType !== "") {
             validarDoc(docType);
 
-            console.log("Validar");
         }
     });
 
@@ -93,6 +91,10 @@
         }
         else if (docType == 4) {
             return HideShowCCWarning(number);
+        } else {
+            $("#NDIWarning").text("");
+            $("#NDIWarning").hide();
+            return true;
         }
     }
 

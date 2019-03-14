@@ -193,7 +193,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.NDI, "Número", htmlAttributes: new { @class = "control-label required" })
                     <div class="col">
-                        @Html.EditorFor(model => model.NDI, new { htmlAttributes = new { @class = "form-control", @id = "NDI", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.NDI) } })
+                        @Html.EditorFor(model => model.NDI, new { htmlAttributes = new { @class = "form-control", @id = "NDI", @required = "required", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.NDI) } })
                         @Html.ValidationMessageFor(model => model.NDI, "", new { @class = "text-danger", @id = "NDIWarning" })
                     </div>
                 </div>
@@ -211,7 +211,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.NIF, "Número", htmlAttributes: new { @class = "control-label" })
                     <div class="col">
-                        @Html.EditorFor(model => model.NIF, new { htmlAttributes = new { @class = "form-control", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.NIF) } })
+                        @Html.EditorFor(model => model.NIF, new { htmlAttributes = new { @class = "form-control", @id = "NIF", @required = "required", @Value = (ViewBag.DadosPessoais == null ? "" : ViewBag.DadosPessoais.NIF) } })
                         @Html.ValidationMessageFor(model => model.NIF, "", new { @class = "text-danger", @id = "NIFWarning" })
                     </div>
                 </div>
