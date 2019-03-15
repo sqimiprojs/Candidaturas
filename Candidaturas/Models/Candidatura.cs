@@ -27,6 +27,7 @@ namespace Candidaturas.Models
         public int UserId { get; set; }
         public string Edicao { get; set; }
         public Nullable<System.DateTime> DataAlteracao { get; set; }
+        public Nullable<System.DateTime> DataFinalizacao { get; set; }
     
         public virtual Candidatura Candidatura1 { get; set; }
         public virtual Candidatura Candidatura2 { get; set; }

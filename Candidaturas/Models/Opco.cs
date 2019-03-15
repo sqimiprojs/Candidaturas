@@ -18,6 +18,7 @@ namespace Candidaturas.Models
         public int CandidaturaId { get; set; }
         public int CursoId { get; set; }
         public int Prioridade { get; set; }
+        public Nullable<System.DateTime> Data { get; set; }
     
         public virtual Candidatura Candidatura { get; set; }
         public virtual Curso Curso { get; set; }

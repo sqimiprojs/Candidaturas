@@ -143,6 +143,10 @@ namespace Candidaturas.Controllers
 
                 int userID = (int)Session["userID"];
                 int candidaturaId = dbModel.Candidaturas.Where(c => c.UserId == userID).Select(c => c.id).FirstOrDefault();
+                Candidatura candidaturaAux = dbModel.Candidaturas.Find(candidaturaId);
+                DadosPessoai dadosAux = dbModel.DadosPessoais.Where(d => d.CandidaturaId == candidaturaId).FirstOrDefault();
+                List<Opco> opcoesAux = dbModel.Opcoes.Where(o => o.CandidaturaId == candidaturaId).ToList();
+
 
 
                 // Create a MigraDoc document
@@ -183,14 +187,28 @@ namespace Candidaturas.Controllers
                 string subject = "Portal de Candidaturas à Escola Naval - Formulario ";
 
                 int numeroCandidato = candidaturaId;
+                bool opcaoDesatualizada = false;
 
                 string body = "O utilizador com email " + utilizador + ", e número de candidato " + numeroCandidato + " submeteu um novo formulário com sucesso.";
+                foreach (Opco opcao in opcoesAux)
+                {
+                    if (candidaturaAux.DataFinalizacao < opcao.Data)
+                    {
+                        opcaoDesatualizada = true;
+                    }
+                }
 
-                Email.SendEmail("sqimi.test@gmail.com", subject, body);
+                if (candidaturaAux.DataFinalizacao == null || candidaturaAux.DataFinalizacao < dadosAux.DataUltimaAtualizacao || opcaoDesatualizada)
+                {
+                    Email.SendEmail("tiago.castanho@sqimi.com", subject, body);
+                }
 
                 ViewBag.Subtitle = "Novo Formulário submetido - ";
                 ViewBag.Goto = "Welcome";
                 ViewBag.ConfirmationMessage = "O formulário foi submetido com sucesso.\nPoderá agora aceder ao comprovativo de candidatura.";
+
+                candidaturaAux.DataFinalizacao = System.DateTime.Now;
+                dbModel.SaveChanges();
 
                 Session["SelectedTab"] = 5;
 

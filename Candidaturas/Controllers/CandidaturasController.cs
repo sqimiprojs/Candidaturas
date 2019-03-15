@@ -236,6 +236,7 @@ namespace Candidaturas.Controllers
 
                                 userCurso.CursoId = dbModel.Cursoes.Where(dp => dp.ID == cursoEscolhido).FirstOrDefault().ID;
                                 userCurso.CandidaturaId = candidaturaId;
+                                userCurso.Data = System.DateTime.Now;
 
 
                                 //actualizar prioridade
@@ -427,7 +428,10 @@ namespace Candidaturas.Controllers
                         else
                         {
                             corrente.Prioridade = corrente.Prioridade - 1;
+                            corrente.Data = System.DateTime.Now;
                             anterior.Prioridade = anterior.Prioridade + 1;
+                            anterior.Data = System.DateTime.Now;
+
                         }
 
                         dbModel.SaveChanges();
@@ -485,7 +489,9 @@ namespace Candidaturas.Controllers
                         else
                         {
                             corrente.Prioridade = corrente.Prioridade + 1;
+                            corrente.Data = System.DateTime.Now;
                             seguinte.Prioridade = seguinte.Prioridade - 1;
+                            seguinte.Data = System.DateTime.Now;
                         }
 
                         dbModel.SaveChanges();
