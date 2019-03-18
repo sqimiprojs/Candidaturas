@@ -162,18 +162,21 @@
              $form2.prop('disabled', true);
              var $form3 = $('#conhecimentoEscola');
              $form3.prop('disabled', true);
-        }
+             var $form4 = $('#TickOutros');
+             $form4.prop('disabled', true);
+         }
 
     }
     $('.slider').click(function () {
-
-        if ($('#TickOutros').is(':checked')) {
-            $("#switchLabel").text("Não");
-            $("#CandidatarOutros").prop('checked', false);
-        }
-        else {
-            $("#switchLabel").text("Sim");
-            $("#CandidatarOutros").prop('checked', true);
+        if (@ViewBag.dadosPreenchidos == true && @ViewBag.finalizado == false) {
+            if ($('#TickOutros').is(':checked')) {
+                $("#switchLabel").text("Não");
+                $("#CandidatarOutros").prop('checked', false);
+            }
+            else {
+                $("#switchLabel").text("Sim");
+                $("#CandidatarOutros").prop('checked', true);
+            }
         }
     });
     
