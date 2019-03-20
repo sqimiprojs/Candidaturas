@@ -109,6 +109,8 @@ namespace Candidaturas.Controllers
                             throw raise;
                         }
                     }
+                    ViewBag.ErrorMessage = "Email já registado no sistema.";
+
                     getDataForDropdownLists();
 
                     return View(model);

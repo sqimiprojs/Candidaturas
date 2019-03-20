@@ -189,7 +189,6 @@ namespace Candidaturas.Controllers
                 int numeroCandidato = candidaturaId;
                 bool opcaoDesatualizada = false;
 
-                string body = "O utilizador com email " + utilizador + ", e número de candidato " + numeroCandidato + " submeteu um novo formulário com sucesso.";
                 foreach (Opco opcao in opcoesAux)
                 {
                     if (candidaturaAux.DataFinalizacao < opcao.Data)
@@ -197,11 +196,28 @@ namespace Candidaturas.Controllers
                         opcaoDesatualizada = true;
                     }
                 }
-
-                if (candidaturaAux.DataFinalizacao == null || candidaturaAux.DataFinalizacao < dadosAux.DataUltimaAtualizacao || opcaoDesatualizada)
+                string body = "";
+                if (candidaturaAux.DataFinalizacao == null)
                 {
+                    body = "O utilizador com email " + utilizador + "e número de candidato " + numeroCandidato + ", submeteu um novo formulário com sucesso.";
                     Email.SendEmail("tiago.castanho@sqimi.com", subject, body);
                 }
+                else if(candidaturaAux.DataFinalizacao < dadosAux.DataUltimaAtualizacao && opcaoDesatualizada)
+                {
+                    body = "O utilizador com email " + utilizador + " e número de candidato " + numeroCandidato + ", atualizou os dados pessoais, as suas opções e submeteu um novo formulário com sucesso.";
+                    Email.SendEmail("tiago.castanho@sqimi.com", subject, body);
+                }
+                else if (candidaturaAux.DataFinalizacao < dadosAux.DataUltimaAtualizacao)
+                {
+                    body = "O utilizador com email " + utilizador + " e número de candidato " + numeroCandidato + ", atualizou os dados pessoais e submeteu um novo formulário com sucesso.";
+                    Email.SendEmail("tiago.castanho@sqimi.com", subject, body);
+                }
+                else if (opcaoDesatualizada)
+                {
+                    body = "O utilizador com email " + utilizador + " e número de candidato " + numeroCandidato + ", atualizou as suas opções e submeteu um novo formulário com sucesso.";
+                    Email.SendEmail("tiago.castanho@sqimi.com", subject, body);
+                }
+
 
                 ViewBag.Subtitle = "Novo Formulário submetido - ";
                 ViewBag.Goto = "Welcome";

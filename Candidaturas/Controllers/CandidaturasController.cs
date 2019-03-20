@@ -359,17 +359,18 @@ namespace Candidaturas.Controllers
                         dbModel.SaveChanges();
 
                         //actualizar prioridade dos restantes cursos
-                        var cursosRestantes = dbModel.Opcoes.Where(dp => dp.CandidaturaId == candidaturaId).OrderBy(dp => dp.ID).ToList();
+                        var cursosRestantes = dbModel.Opcoes.Where(dp => dp.CandidaturaId == candidaturaId).OrderBy(dp => dp.Prioridade).ToList();
 
                         int prioridadeNova = 1;
 
                         cursosRestantes.ForEach(a =>
                         {
                             a.Prioridade = prioridadeNova;
+                            a.Data = System.DateTime.Now;
                             prioridadeNova++;
                         });
                         novoHistorico.timestamp = System.DateTime.Now;
-                        novoHistorico.mensagem = "Curso: " + dbModel.Exames.Where(dp => dp.ID == id).FirstOrDefault().Nome + " removido.";
+                        novoHistorico.mensagem = "Curso: " + dbModel.Cursoes.Where(dp => dp.ID == id).FirstOrDefault().Nome + " removido.";
                         novoHistorico.CandidaturaID = candidaturaId;
                         dbModel.Historicoes.Add(novoHistorico);
 
