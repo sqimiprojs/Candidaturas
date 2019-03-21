@@ -78,7 +78,7 @@ namespace Candidaturas.Controllers
                                 model.Edicao = sigla;
 
                                dbModel.Users.Add(model);
-
+                                dbModel.Militars.Add(model.Militar1);
                                 dbModel.SaveChanges();
 
                                 ModelState.Clear();

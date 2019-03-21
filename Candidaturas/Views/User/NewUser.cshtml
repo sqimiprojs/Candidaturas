@@ -95,42 +95,42 @@
         <div class="row">
             <div class="col">
                 <div class="form-group">
-                    @Html.LabelFor(model => model.Ramo, "Ramo", htmlAttributes: new { @class = "control-label required" })
+                    @Html.LabelFor(model => model.Militar1.Ramo, "Ramo", htmlAttributes: new { @class = "control-label required" })
                     <div class="col">
-                        @Html.DropDownListFor(model => model.Ramo, ViewBag.Ramo as IEnumerable<SelectListItem>, "Escolha uma opção...", new { @class = "form-control", @required = "required", @onchange = "changePostos()" })
-                        @Html.ValidationMessageFor(model => model.Ramo, "", new { @class = "text-danger" })
+                        @Html.DropDownListFor(model => model.Militar1.Ramo, ViewBag.Ramo as IEnumerable<SelectListItem>, "Escolha uma opção...", new { @id = "Ramo", @class = "form-control", @required = "required", @onchange = "changePostos()" })
+                        @Html.ValidationMessageFor(model => model.Militar1.Ramo, "", new { @class = "text-danger" })
                     </div>
                 </div>
                 <div class="form-group">
-                    @Html.LabelFor(model => model.Classe, "Classe", htmlAttributes: new { @class = "control-label " })
+                    @Html.LabelFor(model => model.Militar1.Classe, "Classe", htmlAttributes: new { @class = "control-label " })
                     <div class="col">
-                        @Html.EditorFor(model => model.Classe, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.Classe, "", new { @class = "text-danger" })
+                        @Html.EditorFor(model => model.Militar1.Classe, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Militar1.Classe, "", new { @class = "text-danger" })
                     </div>
                 </div>
                 </div>
             <div class="col">
                 <div class="form-group">
-                    @Html.LabelFor(model => model.Categoria, "Categoria", htmlAttributes: new { @class = "control-label required" })
+                    @Html.LabelFor(model => model.Militar1.Categoria, "Categoria", htmlAttributes: new { @class = "control-label required" })
                     <div class="col">
-                        @Html.DropDownListFor(model => model.Categoria, ViewBag.Categoria as IEnumerable<SelectListItem>, "Escolha uma opção...", new { @class = "form-control", @required = "required", @onchange = "changePostos()" })
-                        @Html.ValidationMessageFor(model => model.Categoria, "", new { @class = "text-danger" })
+                        @Html.DropDownListFor(model => model.Militar1.Categoria, ViewBag.Categoria as IEnumerable<SelectListItem>, "Escolha uma opção...", new { @id = "Categoria", @class = "form-control", @required = "required", @onchange = "changePostos()" })
+                        @Html.ValidationMessageFor(model => model.Militar1.Categoria, "", new { @class = "text-danger" })
                     </div>
                 </div>
                 <div class="form-group">
-                    @Html.LabelFor(model => model.NIM, "Número de Identificação Militar", htmlAttributes: new { @class = "control-label required" })
+                    @Html.LabelFor(model => model.Militar1.NIM, "Número de Identificação Militar", htmlAttributes: new { @class = "control-label required" })
                     <div class="col">
-                        @Html.EditorFor(model => model.NIM, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
-                        @Html.ValidationMessageFor(model => model.NIM, "", new { @class = "text-danger" })
+                        @Html.EditorFor(model => model.Militar1.NIM, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                        @Html.ValidationMessageFor(model => model.Militar1.NIM, "", new { @class = "text-danger" })
                     </div>
                 </div>
             </div>
             <div class="col">
                 <div class="form-group">
-                    @Html.LabelFor(model => model.Posto, "Posto", htmlAttributes: new { @class = "control-label required disabled" })
+                    @Html.LabelFor(model => model.Militar1.Posto, "Posto", htmlAttributes: new { @class = "control-label required disabled" })
                     <div class="col">
-                        @Html.DropDownListFor(model => model.Posto, ViewBag.Posto as IEnumerable<SelectListItem>, "Escolha uma opção...", new { @class = "form-control", @required = "required", disabled = "disabled" })
-                        @Html.ValidationMessageFor(model => model.Posto, "", new { @class = "text-danger" })
+                        @Html.DropDownListFor(model => model.Militar1.Posto, ViewBag.Posto as IEnumerable<SelectListItem>, "Escolha uma opção...", new { @id = "Posto", @class = "form-control", @required = "required", disabled = "disabled" })
+                        @Html.ValidationMessageFor(model => model.Militar1.Posto, "", new { @class = "text-danger" })
                     </div>
                 </div>
             </div>

@@ -51,13 +51,14 @@ namespace Candidaturas.Controllers
                         novoUser.NDI = userDetails.NDI;
                         novoUser.DocumentoValidade = userDetails.DocumentoValidade;
                         novoUser.Militar = userDetails.Militar;
-                        novoUser.Ramo = userDetails.Ramo;
-                        novoUser.Categoria = userDetails.Categoria;
-                        novoUser.Posto = userDetails.Posto;
-                        novoUser.Classe = userDetails.Classe;
-                        novoUser.NIM = userDetails.NIM;
+                        novoUser.Militar1.Ramo = userDetails.Militar1.Ramo;
+                        novoUser.Militar1.Categoria = userDetails.Militar1.Categoria;
+                        novoUser.Militar1.Posto = userDetails.Militar1.Posto;
+                        novoUser.Militar1.Classe = userDetails.Militar1.Classe;
+                        novoUser.Militar1.NIM = userDetails.Militar1.NIM;
                         novoUser.Edicao = edicao.Sigla;
                         db.Users.Add(novoUser);
+                        db.Militars.Add(novoUser.Militar1);
                         db.SaveChanges();
 
                         var loginNovoUser = db.Users.Where(x => x.Email == model.user.Email && x.Password == hashedUserPassword && x.Edicao == edicao.Sigla).FirstOrDefault();

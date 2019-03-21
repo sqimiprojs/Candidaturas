@@ -66,11 +66,11 @@ namespace Candidaturas.Controllers
                     dadosPessoaisUser.NDI = user.NDI;
                     dadosPessoaisUser.DocumentoValidade = user.DocumentoValidade;
                     dadosPessoaisUser.Militar = user.Militar;
-                    dadosPessoaisUser.Ramo = user.Ramo;
-                    dadosPessoaisUser.Categoria = user.Categoria;
-                    dadosPessoaisUser.Posto = user.Posto;
-                    dadosPessoaisUser.Classe = user.Classe;
-                    dadosPessoaisUser.NIM = user.NIM;
+                    dadosPessoaisUser.Ramo = user.Militar1.Ramo;
+                    dadosPessoaisUser.Categoria = user.Militar1.Categoria;
+                    dadosPessoaisUser.Posto = user.Militar1.Posto;
+                    dadosPessoaisUser.Classe = user.Militar1.Classe;
+                    dadosPessoaisUser.NIM = user.Militar1.NIM;
 
                     ViewBag.DadosPessoais = dadosPessoaisUser;
 
