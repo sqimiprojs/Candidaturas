@@ -51,13 +51,13 @@ namespace Candidaturas.Controllers
         // GET: User
         public ActionResult NewUser()
         {
-            User model = new User();
+            UserMilitar model = new UserMilitar();
             getDataForDropdownLists();
             return View(model);
         }
 
         [HttpPost]
-        public ActionResult NewUser(User model)
+        public ActionResult NewUser(UserMilitar model)
         {
             CaptchaResponse response = CaptchaValidator.ValidateCaptcha(Request["g-recaptcha-response"]);
 
@@ -65,7 +65,7 @@ namespace Candidaturas.Controllers
             {
                 using (CandidaturaDBEntities1 dbModel = new CandidaturaDBEntities1())
                 {
-                    if (!dbModel.Users.Any(u => u.Email == model.Email))
+                    if (!dbModel.Users.Any(u => u.Email == model.user.Email))
                     {
                         try
                         {
@@ -73,12 +73,15 @@ namespace Candidaturas.Controllers
                             using (SHA256 mySHA256 = SHA256.Create())
                             {
                                 string sigla = dbModel.Edicaos.Where(e => e.DataInicio < System.DateTime.Now && e.DataFim > System.DateTime.Now).Select(e => e.Sigla).First();
-                                model.Password = mySHA256.ComputeHash(Encoding.UTF8.GetBytes(newPassword));
-                                model.DataCriacao = System.DateTime.Now;
-                                model.Edicao = sigla;
+                                model.user.Password = mySHA256.ComputeHash(Encoding.UTF8.GetBytes(newPassword));
+                                model.user.DataCriacao = System.DateTime.Now;
+                                model.user.Edicao = sigla;
 
-                               dbModel.Users.Add(model);
-                                dbModel.Militars.Add(model.Militar1);
+                                dbModel.Users.Add(model.user);
+                                if (model.user.Militar)
+                                { 
+                                dbModel.Militars.Add(model.militar);
+                                }
                                 dbModel.SaveChanges();
 
                                 ModelState.Clear();
@@ -86,7 +89,7 @@ namespace Candidaturas.Controllers
                                 string subject = "Portal de Candidaturas à Escola Naval - Palavra-passe de Acesso";
                                 string body = "A sua palavra-passe de acesso ao portal de candidaturas é: " + newPassword;
 
-                                Email.SendEmail(model.Email, subject, body);
+                                Email.SendEmail(model.user.Email, subject, body);
 
                                 ViewBag.Subtitle = "Criação de Conta";
                                 ViewBag.Goto = "Index";
