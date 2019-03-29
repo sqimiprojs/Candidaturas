@@ -1,8 +1,72 @@
 ﻿$(document).ready(function () {
-    $("#NIF").change(function () {
-        var nif = $("#NIF").val();
-        validarNIF(nif);
+    $("#newuserform").submit(function () {
+        var valid = true;
 
+        if (!validarDoc($("#TipoDoc").val())) {
+            valid = false;
+        }
+
+        if (!validarDocValidade()) {
+            valid = false;
+        }
+
+        if (!validarEmail()) {
+            valid = false;
+        }
+
+        if (!verificarEmail()) {
+            valid = false;
+        }
+        if (!validarIdd()) {
+            valid = false;
+        }
+
+        if (!valid) {
+            return false;
+        } else {
+            return true;
+        }
+    })    
+
+    $("#formDadosPessoais").submit(function () {
+        var valid = true;
+
+        if (!validarDoc($("#TipoDoc").val())) {
+            valid = false;
+        }
+
+        if (!validarDocValidade()) {
+            valid = false;
+        }
+
+        if (!validarIdd()) {
+            valid = false;
+        }
+
+        if (!validarNIF($("#NIF").val())) {
+            valid = false;
+        }
+
+        if (!limitarCodPostal3Dig()) {
+            valid = false;
+        }
+
+        if (!limitarCodPostal4Dig()) {
+            valid = false;
+        }
+
+        if (!valid) {
+            return false;
+        } else {
+            return true;
+        }
+    }) 
+
+    $("#NIF").change(function () {
+        if ($("#Nacionalidade").val() === "PT") {
+            var nif = $("#NIF").val();
+            validarNIF(nif);
+        }
     });
 
     $("#Email").blur(function () {
@@ -34,14 +98,20 @@
     });
 
     $("#CodigoPostal4Dig").change(function () {
-        var cp4 = $("#CodigoPostal4Dig").val();
-        limitarCodPostal4Dig(cp4);
+
+        if (limitarCodPostal4Dig() && limitarCodPostal3Dig()) {
+            return true;
+        } else {
+            return false;
+        }
     });
 
     $("#CodigoPostal3Dig").change(function () {
-        var cp3 = $("#CodigoPostal3Dig").val();
-        limitarCodPostal3Dig(cp3);
-    });
+        if (limitarCodPostal4Dig() && limitarCodPostal3Dig()) {
+            return true;
+        } else {
+            return false;
+        }    });
 
     $("#Nacionalidade").change(function () {
         checkNational();
@@ -120,8 +190,16 @@
     }
 
     function validarCC(value) {
-        var re = new RegExp("^[0-9]{8}[ -]*[0-9][A-Za-z]{2}[0-9]$");
-        return re.test(value);
+        if (value.length == 13) {
+            var re = new RegExp("^[0-9]{8}[ -]*[0-9][A-Za-z]{2}[0-9]$");
+            return re.test(value);
+        } else if (value.length == 12) {
+            var re = new RegExp("^[0-9]{7}[ -]*[0-9][A-Za-z]{2}[0-9]$");
+            return re.test(value);
+        } else {
+            var re = new RegExp("^[0-9]{6}[ -]*[0-9][A-Za-z]{2}[0-9]$");
+            return re.test(value);
+        }
     }
 
     function validarDigitosCC(value) {
@@ -310,8 +388,8 @@
 
         if (!['1', '2', '3', '5', '6', '8'].includes(nif.substr(0, 1)) && !['45', '70', '71', '72', '77', '79', '90', '91', '98', '99'].includes(nif.substr(0, 2)))
         {
-            $("#AvisoNIF").text("NIF INVALIDO");
-            $("#AvisoNIF").show();
+            $("#NIFWarning").text("Número de Identificação Fiscal inválido.");
+            $("#NIFWarning").show();
             return false;
         }
    
@@ -320,40 +398,40 @@
         let modulo11 = total - parseInt(total / 11) * 11;
         let comparador = modulo11 == 1 || modulo11 == 0 ? 0 : 11 - modulo11;
         if (nif[8] == comparador) {
-            $("#AvisoNIF").text("");
-            $("#AvisoNIF").hide();
+            $("#NIFWarning").text("");
+            $("#NIFWarning").hide();
             return true;
         }
         else {
-            $("#AvisoNIF").text("NIF INVALIDO");
-            $("#AvisoNIF").show();
+            $("#NIFWarning").text("Número de Identificação Fiscal inválido.");
+            $("#NIFWarning").show();
             return false;
         }
     }
 
     //limita 4 digitos
-    function limitarCodPostal4Dig(cp4) {
+    function limitarCodPostal4Dig() {
+        var cp4 = $("#CodigoPostal4Dig").val();
         if (cp4.length <= "4") {
             $("#CPWarning").hide();
             return true;
         }
         else {
             $("#CPWarning").text("Código postal inválido");
-            $("#CodigoPostal4Dig").val($("#CodigoPostal4Dig").val().substr(0, 4));
             $("#CPWarning").show();
             return false;
         }
     }
 
     //limita 3 digitos
-    function limitarCodPostal3Dig(cp3) {
+    function limitarCodPostal3Dig() {
+        var cp3 = $("#CodigoPostal3Dig").val();
         if (cp3.length <= "3") {
             $("#CPWarning").hide();
             return true;
         }
         else {
             $("#CPWarning").text("Código postal inválido");
-            $("#CodigoPostal3Dig").val($("#CodigoPostal3Dig").val().substr(0, 3));
             $("#CPWarning").show();
             return false;
         }
@@ -367,6 +445,7 @@
             $("#RepFinNIF").prop('required', true);
             $("label[for='RepFinNIF']").addClass('required');
             $('#DistritoNatural').prop('disabled', false);
+            validarNIF($("#NIF").val());
         }
         else {
             $("#NIF").prop('required', false);
@@ -374,6 +453,8 @@
             $("#RepFinNIF").prop('required', false);
             $("label[for='RepFinNIF']").removeClass('required');
             $('#DistritoNatural').prop('disabled', true);
+            $("#NIFWarning").text("");
+            $("#NIFWarning").hide();
         }
     }
 

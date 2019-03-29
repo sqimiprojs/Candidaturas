@@ -66,12 +66,14 @@ namespace Candidaturas.Controllers
                     dadosPessoaisUser.NDI = user.NDI;
                     dadosPessoaisUser.DocumentoValidade = user.DocumentoValidade;
                     dadosPessoaisUser.Militar = user.Militar;
-                    dadosPessoaisUser.Ramo = user.Militar1.Ramo;
-                    dadosPessoaisUser.Categoria = user.Militar1.Categoria;
-                    dadosPessoaisUser.Posto = user.Militar1.Posto;
-                    dadosPessoaisUser.Classe = user.Militar1.Classe;
-                    dadosPessoaisUser.NIM = user.Militar1.NIM;
-
+                    if (user.Militar1 != null)
+                    {
+                        dadosPessoaisUser.Ramo = user.Militar1.Ramo;
+                        dadosPessoaisUser.Categoria = user.Militar1.Categoria;
+                        dadosPessoaisUser.Posto = user.Militar1.Posto;
+                        dadosPessoaisUser.Classe = user.Militar1.Classe;
+                        dadosPessoaisUser.NIM = user.Militar1.NIM;
+                    }
                     ViewBag.DadosPessoais = dadosPessoaisUser;
 
                     DadosPessoaisEscolha = dadosPessoaisUser;
@@ -418,19 +420,18 @@ namespace Candidaturas.Controllers
                         dbModel.SaveChanges();
 
                     }
-                    catch (System.Data.Entity.Validation.DbEntityValidationException e)
+                    catch (System.Data.Entity.Validation.DbEntityValidationException dbEx)
                     {
-                        foreach (var eve in e.EntityValidationErrors)
+                        Exception raise = dbEx;
+                        foreach (var validationErrors in dbEx.EntityValidationErrors)
                         {
-                            System.Diagnostics.Debug.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-                                eve.Entry.Entity.GetType().Name, eve.Entry.State);
-                            foreach (var ve in eve.ValidationErrors)
+                            foreach (var validationError in validationErrors.ValidationErrors)
                             {
-                                System.Diagnostics.Debug.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
-                                    ve.PropertyName, ve.ErrorMessage);
+                                string message = string.Format("{0}:{1}", validationErrors.Entry.Entity.ToString(), validationError.ErrorMessage);
+                                raise = new InvalidOperationException(message, raise);
                             }
                         }
-                        throw;
+                        throw raise;
                     }
                 }
                 ModelState.Clear();

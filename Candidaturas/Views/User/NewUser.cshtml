@@ -8,7 +8,7 @@
     ViewBag.Title = "Criar Nova Conta";
 }
 
-@using (Html.BeginForm("NewUser", "User", FormMethod.Post, new { onsubmit = "validacaoFinal()" }))
+@using (@Html.BeginForm("NewUser", "User", FormMethod.Post, new { @id="newuserform" }))
 {
     @Html.AntiForgeryToken()
 
