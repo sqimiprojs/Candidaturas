@@ -275,6 +275,9 @@
     <Compile Include="Models\Distrito.cs">
       <DependentUpon>CandidaturaModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DocumentosNecessario.cs">
+      <DependentUpon>CandidaturaModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ExameObrigatorioDisplay.cs" />
     <Compile Include="Models\DocModel.cs" />
     <Compile Include="Models\CandidatoFullText.cs" />

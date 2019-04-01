@@ -18,7 +18,9 @@ namespace Candidaturas.Controllers
             if (Session["userID"] != null)
             {
                 int userId = (int)Session["userID"];
-
+                Edicao edicao = db.Edicaos.Where(e => e.DataInicio < System.DateTime.Now && e.DataFim > System.DateTime.Now).First();
+                List<DocumentosNecessario> documentosNecessarios = db.DocumentosNecessarios.Where(dn => dn.Edicao == edicao.Sigla).ToList();
+                ViewBag.DocumentosNecessarios = documentosNecessarios;
                 DocumentosUser = getSelectedDocumentos(db, userId);
                 ViewBag.DocumentosUser = DocumentosUser;
                 int candidaturaId = db.Candidaturas.Where(c => c.UserId == userId).Select(c => c.id).FirstOrDefault();
