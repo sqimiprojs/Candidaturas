@@ -373,65 +373,80 @@
         if (isNatural) {
             var distritoNaturalEscolhido = $('#DistritoNatural').val();
             var codigoDistrito = parseInt(distritoNaturalEscolhido);
-            $.ajax({
-                url: '@Url.Action("UpdateConcelhos", "DadosPessoais")',
-                data: {
-                    distrito: codigoDistrito
-                },
-                type: "POST",
-                success: function (concelhos) {
-                    var $select = $('#ConcelhoNatural');
-                    $select.empty();
-                    $select.append('<option value="">Escolha uma opção...</option>');
-                    $select.prop('disabled', false);
-                    var $select2 = $('#FreguesiaNatural');
-                    $select2.empty();
-                    $select2.append('<option value="">Escolha uma opção...</option>');
-                    $select2.prop('disabled', true);
-                    $.each(concelhos, function (i, concelho) {
-                        $('<option>', {
-                            value: concelho.ID
-                        }).html(concelho.Name).appendTo($select);
-                    });
+            if (distritoNaturalEscolhido != "") {
+                $.ajax({
+                    url: '@Url.Action("UpdateConcelhos", "DadosPessoais")',
+                    data: {
+                        distrito: codigoDistrito
+                    },
+                    type: "POST",
+                    success: function (concelhos) {
+                        var $select = $('#ConcelhoNatural');
+                        $select.empty();
+                        $select.append('<option value="">Escolha uma opção...</option>');
+                        $select.prop('disabled', false);
+                        var $select2 = $('#FreguesiaNatural');
+                        $select2.empty();
+                        $select2.append('<option value="">Escolha uma opção...</option>');
+                        $select2.prop('disabled', true);
+                        $.each(concelhos, function (i, concelho) {
+                            $('<option>', {
+                                value: concelho.ID
+                            }).html(concelho.Name).appendTo($select);
+                        });
 
-                },
-                error: function (e) { console.log(e); }
-            })
+                    },
+                    error: function (e) { console.log(e); }
+                })
+            } else {
+                var $select = $('#ConcelhoNatural');
+                $select.empty();
+                $select.append('<option value="">Escolha uma opção...</option>');
+                $select.prop('disabled', true);
+                var $select2 = $('#FreguesiaNatural');
+                $select2.empty();
+                $select2.append('<option value="">Escolha uma opção...</option>');
+                $select2.prop('disabled', true);
+
+            }
+           
         }
         else {
             var distritoMoradaEscolhido = $('#DistritoMorada').val();
             var codigoDistrito = parseInt(distritoMoradaEscolhido);
-            $.ajax({
-                url: '@Url.Action("UpdateConcelhos", "DadosPessoais")',
-                data: {
-                    distrito: codigoDistrito
-                },
-                type: "POST",
-                success: function (concelhos) {
-                    var $select = $('#ConcelhoMorada');
-                    $select.empty();
-                    $select.append('<option value="">Escolha uma opção...</option>');
-                    $select.prop('disabled', false);
-                    var $select2 = $('#FreguesiaMorada');
-                    $select2.empty();
-                    $select2.append('<option value="">Escolha uma opção...</option>');
-                    $select2.prop('disabled', true);
-                    var $select3 = $('#Localidade');
-                    $select3.empty();
-                    $select3.append('<option value="">Escolha uma opção...</option>');
-                    $select3.prop('disabled', true);
-                    var $select4 = $('#RepFinNIF');
-                    $select4.empty();
-                    $select4.append('<option value="">Escolha uma opção...</option>');
-                    $select4.prop('disabled', true);
-                    $.each(concelhos, function (i, concelho) {
-                        $('<option>', {
-                            value: concelho.ID
-                        }).html(concelho.Name).appendTo($select);
-                    });
-                },
-                error: function (e) { console.log(e); }
-            })
+            if (distritoMoradaEscolhido != "") {
+                $.ajax({
+                    url: '@Url.Action("UpdateConcelhos", "DadosPessoais")',
+                    data: {
+                        distrito: codigoDistrito
+                    },
+                    type: "POST",
+                    success: function (concelhos) {
+                        var $select = $('#ConcelhoMorada');
+                        $select.empty();
+                        $select.append('<option value="">Escolha uma opção...</option>');
+                        $select.prop('disabled', false);
+                        var $select2 = $('#FreguesiaMorada');
+                        $select2.empty();
+                        $select2.append('<option value="">Escolha uma opção...</option>');
+                        $select2.prop('disabled', true);
+                        var $select3 = $('#Localidade');
+                        $select3.empty();
+                        $select3.append('<option value="">Escolha uma opção...</option>');
+                        $select3.prop('disabled', true);
+                        var $select4 = $('#RepFinNIF');
+                        $select4.empty();
+                        $select4.append('<option value="">Escolha uma opção...</option>');
+                        $select4.prop('disabled', true);
+                        $.each(concelhos, function (i, concelho) {
+                            $('<option>', {
+                                value: concelho.ID
+                            }).html(concelho.Name).appendTo($select);
+                        });
+                    },
+                    error: function (e) { console.log(e); }
+                })
+           
 
             if (codigoDistrito > 18) {
                 var $select3 = $('#Localidade');
@@ -443,6 +458,24 @@
                 $select3.prop('disabled', false);
                 $select3.prop('required', true);
                 $("label[for='Localidade']").addClass('required');
+                }
+            } else {
+                var $select = $('#ConcelhoMorada');
+                $select.empty();
+                $select.append('<option value="">Escolha uma opção...</option>');
+                $select.prop('disabled', true);
+                var $select2 = $('#FreguesiaMorada');
+                $select2.empty();
+                $select2.append('<option value="">Escolha uma opção...</option>');
+                $select2.prop('disabled', true);
+                var $select3 = $('#Localidade');
+                $select3.empty();
+                $select3.append('<option value="">Escolha uma opção...</option>');
+                $select3.prop('disabled', true);
+                var $select4 = $('#RepFinNIF');
+                $select4.empty();
+                $select4.append('<option value="">Escolha uma opção...</option>');
+                $select4.prop('disabled', true);
             }
         }
     }
@@ -453,63 +486,85 @@
             var codigoDistrito = parseInt(distritoNaturalEscolhido);
             var concelhoNaturalEscolhido = $('#ConcelhoNatural').val();
             var codigoConcelho = parseInt(concelhoNaturalEscolhido);
-            $.ajax({
-                url: '@Url.Action("UpdateFreguesias", "DadosPessoais")',
-                data: {
-                    distrito: codigoDistrito,
-                    concelho: codigoConcelho
-                },
-                type: "POST",
-                success: function (freguesias) {
-                    var $select = $('#FreguesiaNatural');
-                    $select.empty();
-                    $select.append('<option value="">Escolha uma opção...</option>');
-                    $select.prop('disabled', false);
-                    $.each(freguesias, function (i, freguesia) {
-                        $('<option>', {
-                            value: freguesia.ID
-                        }).html(freguesia.Name).appendTo($select);
-                    });
-                },
-                error: function (e) { console.log(e); }
-            })
+            if (distritoNaturalEscolhido != "" && concelhoNaturalEscolhido != "") {
+                $.ajax({
+                    url: '@Url.Action("UpdateFreguesias", "DadosPessoais")',
+                    data: {
+                        distrito: codigoDistrito,
+                        concelho: codigoConcelho
+                    },
+                    type: "POST",
+                    success: function (freguesias) {
+                        var $select = $('#FreguesiaNatural');
+                        $select.empty();
+                        $select.append('<option value="">Escolha uma opção...</option>');
+                        $select.prop('disabled', false);
+                        $.each(freguesias, function (i, freguesia) {
+                            $('<option>', {
+                                value: freguesia.ID
+                            }).html(freguesia.Name).appendTo($select);
+                        });
+                    },
+                    error: function (e) { console.log(e); }
+                })
+            } else {
+                var $select = $('#FreguesiaNatural');
+                $select.empty();
+                $select.append('<option value="">Escolha uma opção...</option>');
+                $select.prop('disabled', true);
+            }
         }
         else {
             var distritoMoradaEscolhido = $('#DistritoMorada').val();
             var codigoDistrito = parseInt(distritoMoradaEscolhido);
             var concelhoMoradaEscolhido = $('#ConcelhoMorada').val();
             var codigoConcelho = parseInt(concelhoMoradaEscolhido);
-            $.ajax({
-                url: '@Url.Action("UpdateFreguesias", "DadosPessoais")',
-                data: {
-                    distrito: codigoDistrito,
-                    concelho: codigoConcelho
-                },
-                type: "POST",
-                success: function (freguesias) {
-                    var $select = $('#FreguesiaMorada');
-                    $select.empty();
-                    $select.append('<option value="">Escolha uma opção...</option>');
-                    $select.prop('disabled', false);
-                    var $select2 = $('#Localidade');
-                    $select2.empty();
-                    $select2.append('<option value="">Escolha uma opção...</option>');
-                    $select2.prop('disabled', true);
-                    var $select3 = $('#RepFinNIF');
-                    $select3.empty();
-                    $select3.append('<option value="">Escolha uma opção...</option>');
-                    $select3.prop('disabled', true);
+            if (distritoMoradaEscolhido != "" && concelhoMoradaEscolhido != "") {
+                $.ajax({
+                    url: '@Url.Action("UpdateFreguesias", "DadosPessoais")',
+                    data: {
+                        distrito: codigoDistrito,
+                        concelho: codigoConcelho
+                    },
+                    type: "POST",
+                    success: function (freguesias) {
+                        var $select = $('#FreguesiaMorada');
+                        $select.empty();
+                        $select.append('<option value="">Escolha uma opção...</option>');
+                        $select.prop('disabled', false);
+                        var $select2 = $('#Localidade');
+                        $select2.empty();
+                        $select2.append('<option value="">Escolha uma opção...</option>');
+                        $select2.prop('disabled', true);
+                        var $select3 = $('#RepFinNIF');
+                        $select3.empty();
+                        $select3.append('<option value="">Escolha uma opção...</option>');
+                        $select3.prop('disabled', true);
 
-                    $.each(freguesias, function (i, freguesia) {
-                        $('<option>', {
-                            value: freguesia.ID
-                        }).html(freguesia.Name).appendTo($select);
-                    });
+                        $.each(freguesias, function (i, freguesia) {
+                            $('<option>', {
+                                value: freguesia.ID
+                            }).html(freguesia.Name).appendTo($select);
+                        });
 
-                },
-                error: function (e) { console.log(e); }
-            })
-            changeLocalidades();
+                    },
+                    error: function (e) { console.log(e); }
+                })
+                changeLocalidades();
+            } else {
+                var $select = $('#FreguesiaMorada');
+                $select.empty();
+                $select.append('<option value="">Escolha uma opção...</option>');
+                $select.prop('disabled', true);
+                var $select2 = $('#Localidade');
+                $select2.empty();
+                $select2.append('<option value="">Escolha uma opção...</option>');
+                $select2.prop('disabled', true);
+                var $select3 = $('#RepFinNIF');
+                $select3.empty();
+                $select3.append('<option value="">Escolha uma opção...</option>');
+                $select3.prop('disabled', true);
+            }
         }
     }
     //altera as localidades consoante o distrito escolhido
@@ -518,29 +573,35 @@
         var codigoDistrito = parseInt(distritoMoradaEscolhido);
         var concelhoMoradaEscolhido = $('#ConcelhoMorada').val();
         var codigoConcelho = parseInt(concelhoMoradaEscolhido);
+        if (distritoMoradaEscolhido != "" && concelhoMoradaEscolhido != "") {
+            if (codigoDistrito <= 18) {
+                $.ajax({
+                    url: '@Url.Action("UpdateLocalidades", "DadosPessoais")',
+                    data: {
+                        distrito: codigoDistrito,
+                        concelho: codigoConcelho
+                    },
+                    type: "POST",
+                    success: function (localidades) {
+                        var $select = $('#Localidade');
+                        $select.empty();
+                        $select.append('<option value="">Escolha uma opção...</option>');
+                        $select.prop('disabled', false);
+                        $.each(localidades, function (i, localidade) {
+                            $('<option>', {
+                                value: localidade.ID
+                            }).html(localidade.Name).appendTo($select);
+                        });
 
-        if (codigoDistrito <= 18) {
-               $.ajax({
-            url: '@Url.Action("UpdateLocalidades", "DadosPessoais")',
-            data: {
-                distrito: codigoDistrito,
-                concelho: codigoConcelho
-            },
-            type: "POST",
-            success: function (localidades) {
-                var $select = $('#Localidade');
-                $select.empty();
-                $select.append('<option value="">Escolha uma opção...</option>');
-                $select.prop('disabled', false);
-                $.each(localidades, function (i, localidade) {
-                    $('<option>', {
-                        value: localidade.ID
-                    }).html(localidade.Name).appendTo($select);
-                });
-
-            },
-            error: function (e) { console.log(e); }
-        })
+                    },
+                    error: function (e) { console.log(e); }
+                })
+            }
+        } else {
+            var $select = $('#Localidade');
+            $select.empty();
+            $select.append('<option value="">Escolha uma opção...</option>');
+            $select.prop('disabled', true);
         }
     }
 
@@ -551,55 +612,68 @@
         var codigoConcelho = parseInt(concelhoMoradaEscolhido);
         var freguesiaMoradaEscolhido = $('#FreguesiaMorada').val();
         var codigoFreguesia = parseInt(freguesiaMoradaEscolhido);
+        if (distritoMoradaEscolhido != "" && concelhoMoradaEscolhido != "" && freguesiaMoradaEscolhido != "") {
+            $.ajax({
+                url: '@Url.Action("UpdateReparticoes", "DadosPessoais")',
+                data: {
+                    distrito: codigoDistrito,
+                    concelho: codigoConcelho,
+                    freguesia: codigoFreguesia
+                },
+                type: "POST",
+                success: function (reparticoes) {
+                    var $select = $('#RepFinNIF');
+                    $select.empty();
+                    $select.append('<option value="">Escolha uma opção...</option>');
+                    $select.prop('disabled', false);
+                    $.each(reparticoes, function (i, reparticao) {
+                        $('<option>', {
+                            value: reparticao.ID
+                        }).html(reparticao.Name).appendTo($select);
+                    });
 
-        $.ajax({
-            url: '@Url.Action("UpdateReparticoes", "DadosPessoais")',
-            data: {
-                distrito: codigoDistrito,
-                concelho: codigoConcelho,
-                freguesia: codigoFreguesia
-            },
-            type: "POST",
-            success: function (reparticoes) {
-                var $select = $('#RepFinNIF');
-                $select.empty();
-                $select.append('<option value="">Escolha uma opção...</option>');
-                $select.prop('disabled', false);
-                $.each(reparticoes, function (i, reparticao) {
-                    $('<option>', {
-                        value: reparticao.ID
-                    }).html(reparticao.Name).appendTo($select);
-                });
-
-            },
-            error: function (e) { console.log(e); }
-        })
+                },
+                error: function (e) { console.log(e); }
+            })
+        } else {
+            var $select = $('#RepFinNIF');
+            $select.empty();
+            $select.append('<option value="">Escolha uma opção...</option>');
+            $select.prop('disabled', true);
+        }
     }
 
     //altera os postos consoante o ramo e categoria escolhido
     function changePostos() {
         var ramoEscolhido = $('#Ramo').val();
         var categoriaEscolhida = $('#Categoria').val();
-        $.ajax({
-            url: '@Url.Action("UpdatePostos", "User")',
-            data: {
-                ramo: ramoEscolhido,
-                categoria: categoriaEscolhida
-            },
-            type: "POST",
-            success: function (postos) {
-                var $select = $('#Posto');
-                $select.empty();
-                $select.append('<option value="">Escolha uma opção...</option>');
-                $select.prop('disabled', false);
-                $.each(postos, function (i, posto) {
-                    $('<option>', {
-                        value: posto.ID
-                    }).html(posto.Name).appendTo($select);
-                });
-            },
-            error: function (e) { console.log(e); }
-        })
+        if (ramoEscolhido != "" && categoriaEscolhida != "") {
+            $.ajax({
+                url: '@Url.Action("UpdatePostos", "User")',
+                data: {
+                    ramo: ramoEscolhido,
+                    categoria: categoriaEscolhida
+                },
+                type: "POST",
+                success: function (postos) {
+                    var $select = $('#Posto');
+                    $select.empty();
+                    $select.append('<option value="">Escolha uma opção...</option>');
+                    $select.prop('disabled', false);
+                    $.each(postos, function (i, posto) {
+                        $('<option>', {
+                            value: posto.ID
+                        }).html(posto.Name).appendTo($select);
+                    });
+                },
+                error: function (e) { console.log(e); }
+            })
+        } else {
+            var $select = $('#Posto');
+            $select.empty();
+            $select.append('<option value="">Escolha uma opção...</option>');
+            $select.prop('disabled', true);
+        }
     }
 
     function resetPostos() {

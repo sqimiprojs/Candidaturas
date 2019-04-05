@@ -48,6 +48,8 @@
             <table class="table">
                 @foreach (var documento in @ViewBag.DocumentosUser)
                 {
+                    if (documento.DocumentoInfo.Nome != "" && documento.DocumentoInfo.Tipo != "")
+                    {
                     <tr>
                         <td>
                             <div class="row">
@@ -64,6 +66,7 @@
 
                         </td>
                     </tr>
+                    }
                 }
             </table>
         </div>
@@ -110,7 +113,7 @@
 
     function disableButton() {
 
-         if (@ViewBag.dadosPreenchidos == false) {
+         if (@ViewBag.dadosPreenchidos == false || @ViewBag.finalizado == true) {
              var $button2 = $('#FicheiroInput');
              $button2.prop('disabled', true);
              $button2.css('display', 'none');

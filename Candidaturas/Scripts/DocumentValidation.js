@@ -89,11 +89,15 @@
         }
     });
 
-    $("#DocVali").change(function () {
+    $("#DocVali").focusout(function () {
         validarDocValidade();
     });
-    
-    $("#DtNasc").change(function () {
+
+    $("#DtNasc").focusout(function () {
+        validarIdd();
+    });
+
+    $("#user_Militar").change(function () {
         validarIdd();
     });
 
@@ -342,7 +346,7 @@
     }
 
     function validarIdd() {
-        var isMil = $('#Militar').is(':checked');
+        var isMil = $('#user_Militar').is(':checked');
         var dtNasc = new Date($('#DtNasc').val());
         var idd = new Date().getFullYear() - dtNasc.getFullYear();
         
@@ -352,12 +356,12 @@
             return false;
         }
         else if (!isMil && idd >= 22) {
-            $("#DtNascWarning").text("Tem de ter 22 anos para fazer a candidatura");
+            $("#DtNascWarning").text("Tem de ter, no máximo, 22 anos para fazer a candidatura");
             $("#DtNascWarning").show();
             return false;
         }
         else if (isMil && idd >= 24) {
-            $("#DtNascWarning").text("Tem de ter 24 anos para fazer a candidatura");
+            $("#DtNascWarning").text("Tem de ter, no máximo, 24 anos para fazer a candidatura");
             $("#DtNascWarning").show();
             return false;
         }

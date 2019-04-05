@@ -110,7 +110,7 @@ namespace Candidaturas.Controllers
                 {
                     ExameObrigatorioDisplay nome = new ExameObrigatorioDisplay();
                     Exame exame = db.Exames.Where(e => e.ID == id && e.Edicao == siglaEdicao).FirstOrDefault();
-                    bool obrigatorio = (bool) db.CursoExames.Where(ce => ce.CursoID == curso && ce.Edicao == siglaEdicao && ce.ExameID == id).Select(ce => ce.Obrigatorio).FirstOrDefault();
+                    bool obrigatorio = db.CursoExames.Where(ce => ce.CursoID == curso && ce.Edicao == siglaEdicao && ce.ExameID == id).Select(ce => ce.Obrigatorio).FirstOrDefault();
                     nome.exame = exame;
                     nome.obrigatorio = obrigatorio;
                     auxiliar.Add(nome);

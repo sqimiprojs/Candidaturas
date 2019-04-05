@@ -102,10 +102,14 @@ namespace Candidaturas.Controllers
                 {
                     try
                     {
+                        Historico novoHistorico = new Historico();
                         int candidaturaId = dbModel.Candidaturas.Where(c => c.UserId == userId).Select(c => c.id).FirstOrDefault();
                         Certificado ud = dbModel.Certificadoes.Where(dp => dp.CandidaturaID == candidaturaId).FirstOrDefault();
                         dbModel.Certificadoes.Remove(ud);
-
+                        novoHistorico.timestamp = System.DateTime.Now;
+                        novoHistorico.mensagem = "Candidatura: " + candidaturaId + " e Certificado removidos.";
+                        novoHistorico.CandidaturaID = candidaturaId;
+                        dbModel.Historicoes.Add(novoHistorico);
 
                         dbModel.SaveChanges();
                     }
@@ -146,6 +150,8 @@ namespace Candidaturas.Controllers
                 Candidatura candidaturaAux = dbModel.Candidaturas.Find(candidaturaId);
                 DadosPessoai dadosAux = dbModel.DadosPessoais.Where(d => d.CandidaturaId == candidaturaId).FirstOrDefault();
                 List<Opco> opcoesAux = dbModel.Opcoes.Where(o => o.CandidaturaId == candidaturaId).ToList();
+                Inquerito inqueritoAux = dbModel.Inqueritoes.Where(i => i.CandidaturaID == candidaturaId).FirstOrDefault();
+                List<Documento> documentosAux = dbModel.Documentoes.Where(d => d.CandidaturaID == candidaturaId).ToList();
 
 
 
@@ -188,7 +194,7 @@ namespace Candidaturas.Controllers
 
                 int numeroCandidato = candidaturaId;
                 bool opcaoDesatualizada = false;
-
+                bool docDesatualizado = false;
                 foreach (Opco opcao in opcoesAux)
                 {
                     if (candidaturaAux.DataFinalizacao < opcao.Data)
@@ -196,28 +202,31 @@ namespace Candidaturas.Controllers
                         opcaoDesatualizada = true;
                     }
                 }
+
+                foreach (Documento doc in documentosAux)
+                {
+                    if (candidaturaAux.DataFinalizacao < doc.DataAualizacao)
+                    {
+                        docDesatualizado = true;
+                    }
+                }
+
                 string body = "";
                 if (candidaturaAux.DataFinalizacao == null)
                 {
                     body = "O utilizador com email " + utilizador + "e número de candidato " + numeroCandidato + ", submeteu um novo formulário com sucesso.";
                     Email.SendEmail("tiago.castanho@sqimi.com", subject, body);
                 }
-                else if(candidaturaAux.DataFinalizacao < dadosAux.DataUltimaAtualizacao && opcaoDesatualizada)
+                else
                 {
-                    body = "O utilizador com email " + utilizador + " e número de candidato " + numeroCandidato + ", atualizou os dados pessoais, as suas opções e submeteu um novo formulário com sucesso.";
-                    Email.SendEmail("tiago.castanho@sqimi.com", subject, body);
-                }
-                else if (candidaturaAux.DataFinalizacao < dadosAux.DataUltimaAtualizacao)
-                {
-                    body = "O utilizador com email " + utilizador + " e número de candidato " + numeroCandidato + ", atualizou os dados pessoais e submeteu um novo formulário com sucesso.";
-                    Email.SendEmail("tiago.castanho@sqimi.com", subject, body);
-                }
-                else if (opcaoDesatualizada)
-                {
-                    body = "O utilizador com email " + utilizador + " e número de candidato " + numeroCandidato + ", atualizou as suas opções e submeteu um novo formulário com sucesso.";
-                    Email.SendEmail("tiago.castanho@sqimi.com", subject, body);
-                }
+                    body = "O utilizador com email " + utilizador + "e número de candidato " + numeroCandidato + ", editou a sua candidatura e alterou os seguintes parametros: \n";
+                    if (candidaturaAux.DataFinalizacao < dadosAux.DataUltimaAtualizacao) body = body + "Dados Pessoais; \n";
+                    if (candidaturaAux.DataFinalizacao < inqueritoAux.DataAtualizacao) body = body + "Inquérito; \n";
+                    if (opcaoDesatualizada) body = body + "Opções; \n";
+                    if (docDesatualizado) body = body + "Documentos; \n";
 
+                    Email.SendEmail("tiago.castanho@sqimi.com", subject, body);
+                }
 
                 ViewBag.Subtitle = "Novo Formulário submetido - ";
                 ViewBag.Goto = "Welcome";

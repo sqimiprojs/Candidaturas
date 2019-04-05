@@ -25,6 +25,15 @@ namespace Candidaturas.Controllers
                 ViewBag.DocumentosUser = DocumentosUser;
                 int candidaturaId = db.Candidaturas.Where(c => c.UserId == userId).Select(c => c.id).FirstOrDefault();
                 DadosPessoai dados = db.DadosPessoais.Where(dp => dp.CandidaturaId == candidaturaId).FirstOrDefault();
+                Certificado certificado = db.Certificadoes.Where(c => c.CandidaturaID == candidaturaId).FirstOrDefault();
+                if (certificado != null)
+                {
+                    ViewBag.finalizado = true;
+                }
+                else
+                {
+                    ViewBag.finalizado = false;
+                }
                 if (dados != null)
                 {
                     ViewBag.dadosPreenchidos = true;
@@ -75,7 +84,8 @@ namespace Candidaturas.Controllers
                                     Nome = fileName,
                                     Tipo = fileType,
                                     CandidaturaID = candidaturaId,
-                                    UploadTime = System.DateTime.Now
+                                    UploadTime = System.DateTime.Now,
+                                    DataAualizacao = System.DateTime.Now
                                 };
 
                                 dbModel.Documentoes.Add(doc);
@@ -186,6 +196,25 @@ namespace Candidaturas.Controllers
                         novoHistorico.mensagem = "Documento: " + ud.Nome + " removido.";
                         novoHistorico.CandidaturaID = candidaturaId;
                         dbModel.Historicoes.Add(novoHistorico);
+                        dbModel.SaveChanges();
+
+
+                        List<Documento> restantes = dbModel.Documentoes.Where(d => d.CandidaturaID == candidaturaId).ToList();
+                        if(restantes.FirstOrDefault() == null)
+                        {
+                            Documento dummy = new Documento();
+                            dummy.CandidaturaID = candidaturaId;
+                            dummy.Nome = "";
+                            dummy.Descricao = "";
+                            dummy.Tipo = "";
+                            dummy.UploadTime = System.DateTime.Now;
+                            dummy.DataAualizacao = System.DateTime.Now;
+                            restantes.Add(dummy);
+                        }
+                        restantes.ForEach(r =>
+                        {
+                            r.DataAualizacao = System.DateTime.Now;
+                        });
                         dbModel.SaveChanges();
                     }
                     catch (System.Data.Entity.Validation.DbEntityValidationException dbEx)
