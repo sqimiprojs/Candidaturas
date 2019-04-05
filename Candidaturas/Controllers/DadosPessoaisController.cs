@@ -355,11 +355,21 @@ namespace Candidaturas.Controllers
                         novaCandidatura.DataAlteracao = System.DateTime.Now;
                         dbModel.Candidaturas.Add(novaCandidatura);
                         dbModel.SaveChanges();
+                        int candidaturaAux = dbModel.Candidaturas.Where(c => c.UserId == userDetails.ID && c.Edicao == edicao.Sigla).Select(c => c.id).First();
+
+                        Documento dummy = new Documento();
+                        dummy.CandidaturaID = candidaturaAux;
+                        dummy.Nome = "";
+                        dummy.Descricao = "";
+                        dummy.Tipo = "";
+                        dummy.UploadTime = System.DateTime.Now;
+                        dummy.DataAualizacao = System.DateTime.Now;
+                        dbModel.Documentoes.Add(dummy);
+                        dbModel.SaveChanges();
 
                         Historico novoHistorico = new Historico();
                         novoHistorico.timestamp = System.DateTime.Now;
                         novoHistorico.mensagem = "Candidatura criada para o utilizador: " + userDetails.NomeColoquial;
-                        int candidaturaAux = dbModel.Candidaturas.Where(c => c.UserId == userDetails.ID && c.Edicao == edicao.Sigla).Select(c => c.id).First();
                         novoHistorico.CandidaturaID = candidaturaAux;
                         dbModel.Historicoes.Add(novoHistorico);
                         dbModel.SaveChanges();

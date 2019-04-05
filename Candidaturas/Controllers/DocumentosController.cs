@@ -200,17 +200,6 @@ namespace Candidaturas.Controllers
 
 
                         List<Documento> restantes = dbModel.Documentoes.Where(d => d.CandidaturaID == candidaturaId).ToList();
-                        if(restantes.FirstOrDefault() == null)
-                        {
-                            Documento dummy = new Documento();
-                            dummy.CandidaturaID = candidaturaId;
-                            dummy.Nome = "";
-                            dummy.Descricao = "";
-                            dummy.Tipo = "";
-                            dummy.UploadTime = System.DateTime.Now;
-                            dummy.DataAualizacao = System.DateTime.Now;
-                            restantes.Add(dummy);
-                        }
                         restantes.ForEach(r =>
                         {
                             r.DataAualizacao = System.DateTime.Now;

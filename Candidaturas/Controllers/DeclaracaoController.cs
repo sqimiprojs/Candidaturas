@@ -214,18 +214,30 @@ namespace Candidaturas.Controllers
                 string body = "";
                 if (candidaturaAux.DataFinalizacao == null)
                 {
-                    body = "O utilizador com email " + utilizador + "e número de candidato " + numeroCandidato + ", submeteu um novo formulário com sucesso.";
+                    body = "O utilizador com email " + utilizador + " e número de candidato " + numeroCandidato + ", submeteu um novo formulário com sucesso.";
                     Email.SendEmail("tiago.castanho@sqimi.com", subject, body);
                 }
                 else
                 {
-                    body = "O utilizador com email " + utilizador + "e número de candidato " + numeroCandidato + ", editou a sua candidatura e alterou os seguintes parametros: \n";
-                    if (candidaturaAux.DataFinalizacao < dadosAux.DataUltimaAtualizacao) body = body + "Dados Pessoais; \n";
-                    if (candidaturaAux.DataFinalizacao < inqueritoAux.DataAtualizacao) body = body + "Inquérito; \n";
-                    if (opcaoDesatualizada) body = body + "Opções; \n";
-                    if (docDesatualizado) body = body + "Documentos; \n";
-
-                    Email.SendEmail("tiago.castanho@sqimi.com", subject, body);
+                    var send = false;
+                    body = "O utilizador com email " + utilizador + " e número de candidato " + numeroCandidato + ", editou a sua candidatura e alterou os seguintes parametros: \n";
+                    if (candidaturaAux.DataFinalizacao < dadosAux.DataUltimaAtualizacao) {
+                        body = body + "Dados Pessoais; \n";
+                        send = true;
+                    }
+                    if (candidaturaAux.DataFinalizacao < inqueritoAux.DataAtualizacao) {
+                        body = body + "Inquérito; \n";
+                        send = true;
+                    }
+                    if (opcaoDesatualizada) {
+                        body = body + "Opções; \n";
+                        send = true;
+                    }
+                    if (docDesatualizado) {
+                        body = body + "Documentos; \n";
+                        send = true;
+                    }
+                    if (send) Email.SendEmail("tiago.castanho@sqimi.com", subject, body);
                 }
 
                 ViewBag.Subtitle = "Novo Formulário submetido - ";
