@@ -61,7 +61,7 @@ namespace Candidaturas.Controllers
                     try
                     {
                         int candidaturaId = dbModel.Candidaturas.Where(c => c.UserId == userId).Select(c => c.id).FirstOrDefault();
-
+                        Candidatura aux = dbModel.Candidaturas.Where(c => c.UserId == userId).FirstOrDefault();
                         if (file != null && file.ContentLength > 0 && file.ContentLength < Constants.MaxFile*1024*1024)
                         {
                             if (DocumentValidator.IsJpeg(file) || DocumentValidator.IsPdf(file))
@@ -102,6 +102,7 @@ namespace Candidaturas.Controllers
                                     novoHistorico.mensagem = "Documento: " + fileName + " adicionado.";
                                     novoHistorico.CandidaturaID = candidaturaId;
                                     dbModel.Historicoes.Add(novoHistorico);
+                                    aux.DataAlteracao = System.DateTime.Now;
                                     dbModel.SaveChanges();
                                 }
                                 else
@@ -190,12 +191,14 @@ namespace Candidaturas.Controllers
                     {
                         int candidaturaId = dbModel.Candidaturas.Where(c => c.UserId == userId).Select(c => c.id).FirstOrDefault();
                         Documento ud = dbModel.Documentoes.Where(dp => dp.ID == id).FirstOrDefault();
+                        Candidatura aux = dbModel.Candidaturas.Where(c => c.UserId == userId).FirstOrDefault();
                         Historico novoHistorico = new Historico();
                         dbModel.Documentoes.Remove(ud);
                         novoHistorico.timestamp = System.DateTime.Now;
                         novoHistorico.mensagem = "Documento: " + ud.Nome + " removido.";
                         novoHistorico.CandidaturaID = candidaturaId;
                         dbModel.Historicoes.Add(novoHistorico);
+                        aux.DataAlteracao = System.DateTime.Now;
                         dbModel.SaveChanges();
 
 

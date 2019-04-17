@@ -116,8 +116,9 @@ namespace Candidaturas.Controllers
                     {
                             int candidaturaId = dbModel.Candidaturas.Where(c => c.UserId == userId).Select(c => c.id).FirstOrDefault();
                             Inquerito inqueritoUser = dbModel.Inqueritoes.Where(dp => dp.CandidaturaID == candidaturaId).FirstOrDefault();
+                            Candidatura aux = dbModel.Candidaturas.Where(c => c.UserId == userId).FirstOrDefault();
 
-                        inqueritoModel.CandidaturaID = candidaturaId;
+                            inqueritoModel.CandidaturaID = candidaturaId;
                             Historico novoHistorico = new Historico();
 
                             if (inqueritoUser == null)
@@ -143,7 +144,7 @@ namespace Candidaturas.Controllers
                                 novoHistorico.CandidaturaID = candidaturaId;
                                 dbModel.Historicoes.Add(novoHistorico);
                             }
-
+                            aux.DataAlteracao = System.DateTime.Now;
                         dbModel.SaveChanges();
 
                     }

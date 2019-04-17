@@ -228,6 +228,7 @@ namespace Candidaturas.Controllers
                         {
                             int candidaturaId = dbModel.Candidaturas.Where(c => c.UserId == userId).Select(c => c.id).FirstOrDefault();
                             Opco cursoRegistado = dbModel.Opcoes.Where(dp => dp.CursoId == cursoEscolhido).Where(dp => dp.CandidaturaId == candidaturaId).FirstOrDefault();
+                            Candidatura aux = dbModel.Candidaturas.Where(c => c.UserId == userId).FirstOrDefault();
                             Historico novoHistorico = new Historico();
                             //ver se já escolheu o curso
                             if (cursoRegistado == null)
@@ -256,7 +257,7 @@ namespace Candidaturas.Controllers
                                 novoHistorico.mensagem = "Curso: " + dbModel.Cursoes.Where(dp => dp.ID == cursoEscolhido).FirstOrDefault().Nome + " escolhido.";
                                 novoHistorico.CandidaturaID = candidaturaId;
                                 dbModel.Historicoes.Add(novoHistorico);
-
+                                aux.DataAlteracao = System.DateTime.Now;
                                 dbModel.SaveChanges();
                             }
                             else
@@ -351,6 +352,7 @@ namespace Candidaturas.Controllers
                     try
                     {
                         int candidaturaId = dbModel.Candidaturas.Where(c => c.UserId == userId).Select(c => c.id).FirstOrDefault();
+                        Candidatura aux = dbModel.Candidaturas.Where(c => c.UserId == userId).FirstOrDefault();
                         Historico novoHistorico = new Historico();
                         //remover curso
                         Opco uc = dbModel.Opcoes.Where(dp => dp.CursoId == id).Where(dp => dp.CandidaturaId == candidaturaId).FirstOrDefault();
@@ -373,7 +375,7 @@ namespace Candidaturas.Controllers
                         novoHistorico.mensagem = "Curso: " + dbModel.Cursoes.Where(dp => dp.ID == id).FirstOrDefault().Nome + " removido.";
                         novoHistorico.CandidaturaID = candidaturaId;
                         dbModel.Historicoes.Add(novoHistorico);
-
+                        aux.DataAlteracao = System.DateTime.Now;
                         dbModel.SaveChanges();
                     }
                     catch (System.Data.Entity.Validation.DbEntityValidationException dbEx)

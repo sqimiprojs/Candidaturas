@@ -376,7 +376,7 @@ namespace Candidaturas.Controllers
 
                     }
                     int candidaturaId = dbModel.Candidaturas.Where(c => c.UserId == userId).Select(c => c.id).FirstOrDefault();
-
+                    Candidatura aux = dbModel.Candidaturas.Where(c => c.UserId == userId).FirstOrDefault();
                     try
                     {
                         DadosPessoai dadosPessoaisUser = dbModel.DadosPessoais.Where(dp => dp.CandidaturaId == candidaturaId).FirstOrDefault();
@@ -426,7 +426,7 @@ namespace Candidaturas.Controllers
                             novoHistorico.CandidaturaID = candidaturaId;
                             dbModel.Historicoes.Add(novoHistorico);
                         }
-
+                        aux.DataAlteracao = System.DateTime.Now;
                         dbModel.SaveChanges();
 
                     }
